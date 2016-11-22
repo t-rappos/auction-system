@@ -8,11 +8,7 @@ An auction listing system
 4. Technical Outline
 
 # 1. Introduction
-The purpose of this project is to gain experience using multiple different software
-technologies to create a software system. An auction listing system would provide
-opportunities to develop user interfaces, server back-ends and database functionality.
-This project will be set up for multiple collaborators but will most likely be a
-single developer effort.
+The purpose of this project is to gain experience using and integrating multiple different software technologies. An auction listing system would be an appropriate candidate as it requires development of user interfaces, server back-ends and database functionality. This project will be set up for multiple collaborators but will most likely be a single developer effort.
 
 ## 1.1 What is auction-system
 Basic overview of user features
@@ -55,6 +51,7 @@ The following are features of the intended development workflow
         90%+ should be a requirement for successful build
       Static analysis tests
       Tests should be tiered
+      User Functionality tests should be targeted to different platforms (firefox, chrome)
 
     -Continuous Integration
       All code must always compile and past tests
