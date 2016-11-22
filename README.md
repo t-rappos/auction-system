@@ -80,19 +80,19 @@ The following are features of the intended development workflow
     -How to deal with changing user requirements?
 
 ###Phase 2: Prototype workflow
-  *2.1 Research and Design are being worked on
-  *2.2 Development workflow is ready and development tools are setup
+  -2.1 Research and Design are being worked on
+  -2.2 Development workflow is ready and development tools are setup
 
 ###Phase 3: Finalised workflow + Development
-  *2.1 (Completed) Research and Design are completed
-  *2.2 (Completed) Development workflow/tools are automated and can be setup simply for collaborators
-  *3. Development is being conducted using proper tools and workflow
-  *3.x.. Devlopment subtasks here
+  -2.1 (Completed) Research and Design are completed
+  -2.2 (Completed) Development workflow/tools are automated and can be setup simply for collaborators
+  -3. Development is being conducted using proper tools and workflow
+  -3.x.. Devlopment subtasks here
 
 ###Phase 4: Release
-  *3.  All user requirements are satisfied, keep developing whilst following tickets.
-  *3.x Wait for tickets / feature requests
-  *4.2 Triage currently existing tickets
+  -3.  All user requirements are satisfied, keep developing whilst following tickets.
+  -3.x Wait for tickets / feature requests
+  -4.2 Triage currently existing tickets
 
 # 3. User Requirements
 
