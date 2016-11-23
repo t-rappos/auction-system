@@ -13,85 +13,88 @@ The purpose of this project is to gain experience using and integrating multiple
 ## 1.1 What is auction-system
 Basic overview of user features
 
-## 1.2 How does is work
+## 1.2 How does it work
 Basic overview of structure and functionality
 
 # 2. Development Plan
-###Phase 1: Research into what development workflow is needed
+### Phase 1:
+Research into what development workflow is needed
 The following are features of the intended development workflow
-####Setup
-    -Planning - (Trello?)
-      Outline the scope and define user requirements
-      Research what technologies will be used
-        React/NodeJS (UI)
-        PostgreSql (DB)
-        Java/Spring (Server)
 
-     -Design - (LucidCharts?)
-      Define system structure by documenting all classes, thier roles, responsibilities
-      and collaborators.
-        List of classes/Components w/ specs
-        UML diagrams
+#### Setup
+##### Planning (Trello?)
 
-####Development
-    -Issues/Features/Tickets - (Trac?, Github)
-      Development will be conducted by completing tickets
-      Design specicification will be broken down into issues
-        Ensure that tickets are linked to specs
-      Tests will be specified as issues as well
-      Are github pull requests overkill for single person projects?
-      If this becomes a multi-developer project, use Trello + Slack to delegate
-      issues as tasks?
-      New features will be designed as tickets, where they will serve as documentation
-      explaining the features
+ - Outline the scope and define user requirements
+ - Research what technologies will be used
+   - React/NodeJS (UI)
+   - PostgreSql (DB)
+   - Java/Spring (Server)
 
-    -Testing
-      Tests should be written before actual code
-      Aiming for high test coverage
-        90%+ should be a requirement for successful build
-      Static analysis tests
-      Tests should be tiered
-      User Functionality tests should be targeted to different platforms (firefox, chrome)
+##### Design (LucidCharts?)
+ - Define system structure by documenting all classes, thier roles, responsibilities and collaborators.
+ - List of classes/Components w/ specs
+ - UML diagrams
 
-    -Continuous Integration
-      All code must always compile and past tests
-        Should this be just master branch, release branch or all branches?
-      Automate to remove 'Works on my machine' issues, allowing for simple collaboration
+#### Development
+##### Issues/Features/Tickets - (Trac?, Github)
+ - Development will be conducted by completing tickets
+ - Design specicification will be broken down into issues
+   - Ensure that tickets are linked to specs
+  - Tests will be specified as issues as well
+  - Are github pull requests overkill for single person projects?
+  - If this becomes a multi-developer project, use Trello + Slack tdelegate
+  issues as tasks?
+  - New features will be designed as tickets, where they will serve as documentation explaining the features
 
-    -Continuous Deployment
-      No/Minimal System downtime
-      Deployed (Release/Staging?) version always reflects the current state of the
-      code base (master branch)
+##### Testing
+  - Tests should be written before actual code
+  - Aiming for high test coverage
+    90%+ should be a requirement for successful build
+  - Static analysis tests
+  - Tests should be tiered
+  - User Functionality tests should be targeted to different platform(firefox, chrome)
 
-    -Documentation
-      Documentation should be completed prior to work being conducted,
-      as a Plan or design specification (tickets). There should be minimal after
-      the fact documenting.
+##### Continuous Integration
+  - All code must always compile and past tests
+    Should this be just master branch, release branch or all branches?
+  - Automate to remove 'Works on my machine' issues, allowing for simple collaboration
 
-    -Work Transparently
-      All work performed and current state of working should be available to other
-      collaborators to view
-        Research information
-        Current task list
+##### Continuous Deployment
+  - No/Minimal System downtime
+  - Deployed (Release/Staging?) version always reflects the currenstate of the code base (master branch)
 
-    -How to deal with changing user requirements?
+##### Documentation
+  - Documentation should be completed prior to work being conducted,
+  as a Plan or design specification (tickets). There should be minimal after
+  the fact documenting.
 
-###Phase 2: Prototype workflow
-  -2.1 Research and Design are being worked on
-  -2.2 Development workflow is ready and development tools are setup
+##### Work Transparently
+  - All work performed and current state of working should be available to other collaborators to view
+    - Research information
+    - Current task list
 
-###Phase 3: Finalised workflow + Development
-  -2.1 (Completed) Research and Design are completed
-  -2.2 (Completed) Development workflow/tools are automated and can be setup simply for collaborators
-  -3. Development is being conducted using proper tools and workflow
-  -3.x.. Devlopment subtasks here
+##### Changing user requirements
 
-###Phase 4: Release
-  -3.  All user requirements are satisfied, keep developing whilst following tickets.
-  -3.x Wait for tickets / feature requests
-  -4.2 Triage currently existing tickets
+### Phase 2: Prototype workflow
+  - 2.1 Research and Design are being worked on
+  - 2.2 Development workflow is ready and development tools are setup
+
+### Phase 3: Finalised workflow + Development
+  - 2.1 (Completed) Research and Design are completed
+  - 2.2 (Completed) Development workflow/tools are automated and can be setup simply for collaborators
+  - 3. Development is being conducted using proper tools and workflow
+  - 3.x.. Devlopment subtasks here
+
+### Phase 4: Release
+  - 3.  All user requirements are satisfied, keep developing whilst following tickets.
+  - 3.x Wait for tickets / feature requests
+  - 4.2 Triage currently existing tickets
 
 # 3. User Requirements
+using template from http://www.csse.monash.edu.au/~sitar/CSE4002/Lectures/srs_template-1.doc
+
+## 3.1 Introduction
+### 3.1.1 Purpose
 
 
 # 4. Technical Outline
