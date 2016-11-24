@@ -136,7 +136,7 @@ The following is a list intended user functionality, users can:
 
 ### 3.2.3 Operating Environment
 
-Users will be able to use this software from a website GUI. It should work identically on ?Internet Explorer?, Firefox and Chrome.
+Users will be able to use this software from a website GUI. It should work identically on ?Internet Explorer?, Firefox and Chrome on PC's and mobiles.
 
 ### 3.2.4 Design and Implementation Constraints
 
@@ -144,6 +144,7 @@ Users will be able to use this software from a website GUI. It should work ident
 
 ### 3.2.5 Assumptions
 
+- Security issues can be ignored due to trival nature of software, user account should be designed to be replaced by a secure system after this project is complete.
 
 
 
