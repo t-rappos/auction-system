@@ -17,11 +17,11 @@ Basic overview of user features
 Basic overview of structure and functionality
 
 # 2. Development Plan
-### Phase 1:
+## Phase 1:
 Research into what development workflow is needed
 The following are features of the intended development workflow
 
-#### Setup
+### Setup and Design
 ##### Planning (Trello?)
 
  - Outline the scope and define user requirements
@@ -35,7 +35,10 @@ The following are features of the intended development workflow
  - List of classes/Components w/ specs
  - UML diagrams
 
-#### Development
+### Development
+
+- Follow scrum / agile
+
 ##### Issues/Features/Tickets - (Trac?, Github)
  - Development will be conducted by completing tickets
  - Design specicification will be broken down into issues
@@ -45,6 +48,7 @@ The following are features of the intended development workflow
   - If this becomes a multi-developer project, use Trello + Slack tdelegate
   issues as tasks?
   - New features will be designed as tickets, where they will serve as documentation explaining the features
+  - Traceability - Discuss this
 
 ##### Testing
   - Tests should be written before actual code
@@ -75,26 +79,72 @@ The following are features of the intended development workflow
 
 ##### Changing user requirements
 
-### Phase 2: Prototype workflow
+## Phase 2: Prototype workflow
   - 2.1 Research and Design are being worked on
   - 2.2 Development workflow is ready and development tools are setup
 
-### Phase 3: Finalised workflow + Development
+## Phase 3: Finalised workflow + Development
   - 2.1 (Completed) Research and Design are completed
   - 2.2 (Completed) Development workflow/tools are automated and can be setup simply for collaborators
   - 3. Development is being conducted using proper tools and workflow
   - 3.x.. Devlopment subtasks here
 
-### Phase 4: Release
+## Phase 4: Release
   - 3.  All user requirements are satisfied, keep developing whilst following tickets.
   - 3.x Wait for tickets / feature requests
   - 4.2 Triage currently existing tickets
 
-# 3. User Requirements
+# 3. User Requirements - SRS
 using template from http://www.csse.monash.edu.au/~sitar/CSE4002/Lectures/srs_template-1.doc
 
 ## 3.1 Introduction
 ### 3.1.1 Purpose
+
+This document is intended to describe the user requirements for an auction listing system and will outline the users desired functionality.
+
+### 3.1.2 Scope
+
+This is a personal hobby project designed to provide experience working with multiple integrated systems. The goal of this project is to deliver a software solution that meets all of the user requirements product using an effective, scaleable and collaborative development workflow. The software developed and technologies/workflows used are planned to be adapted for use in later projects.
+
+## 3.2 Description
+### 3.2.1 Perspective
+
+This product will consist of a user-facing GUI with data processed and stored online.
+
+### 3.2.2 Functions
+
+The following is a list intended user functionality, users can:
+- Accounts
+ - create an account
+ - edit thier account
+ - message other accounts
+ - see recieved messages
+ - have associated currency amount for use
+- Items
+ - create items
+ - view store items
+ - sort stored items
+ - see what items look like
+ - can be catorgorised/tagged
+- Listings
+ - sell and buy items
+ - auction and bid on items
+- Searching
+ - search for items to buy
+ - sort list of searched for items
+
+
+### 3.2.3 Operating Environment
+
+Users will be able to use this software from a website GUI. It should work identically on ?Internet Explorer?, Firefox and Chrome.
+
+### 3.2.4 Design and Implementation Constraints
+
+
+
+### 3.2.5 Assumptions
+
+
 
 
 # 4. Technical Outline
