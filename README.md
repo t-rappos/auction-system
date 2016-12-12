@@ -17,8 +17,7 @@ Basic overview of user features
 Basic overview of structure and functionality
 
 # 2. Development Plan
-## Phase 1:
-Research into what development workflow is needed
+## Phase 1: Research development workflow
 The following are features of the intended development workflow
 
 ### Setup and Design
@@ -71,6 +70,7 @@ The following are features of the intended development workflow
   - Documentation should be completed prior to work being conducted,
   as a Plan or design specification (tickets). There should be minimal after
   the fact documenting.
+  - Changelog...
 
 ##### Work Transparently
   - All work performed and current state of working should be available to other collaborators to view
