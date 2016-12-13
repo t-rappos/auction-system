@@ -48,3 +48,8 @@ https://github.com/dwyl/learn-tdd
 
 ## Front-end
  - React
+ - Express
+
+## User authentication
+- nodejs Passport
+  - https://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619
