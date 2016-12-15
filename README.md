@@ -15,106 +15,61 @@ The purpose of this project is to gain experience using and integrating multiple
 
 ## 1.1 What is auction-system
 
-Basic overview of user features
+Users can list items (user created) on an online auction website for sale for other users to either buyout or bid on. Items listed can be filtered to highlight interesting items. Once an item is successfully purchased, it is placed in the buyers personal inventory. The user can view their own inventory and inspect each item.
+
+See the SRS (Section 3) for more information.
 
 ## 1.2 How does it work
 
 Basic overview of structure and functionality
 
+See the TDD (Section 4) or [Technologies research](#technologies-research.md) for more information.
+
 # 2\. Development Plan
 
-## Phase 1: Research development workflow
+## Phase 1: Setup
 
-The following are features of the intended development workflow
+#### Upfront Research & Design
 
-### Setup and Design
-
-#### Planning (Trello?)
-
-- Outline the scope and define user requirements
+- Outline the scope and define user requirements (SRS)
 - Research what technologies will be used
-
-  - React/NodeJS (UI)
-  - PostgreSql (DB)
-  - Java/Spring (Server)
-
-#### Design (LucidCharts?)
-
-- Define system structure by documenting all classes, their roles, responsibilities and collaborators.
+- Define system structure by documenting all classes, their roles, responsibilities and collaborators. (TDD)
 - List of classes/Components w/ specs
 - UML diagrams
 
-### Development
+#### Research Development workflow
+- Scrum or Agile workflows
+- Issues/Features/Tickets Driven Development
+- Test Driven Development
+- Continuous Integration
+- Continuous Deployment
+- Documentation
+- Working Transparently
+- Changing user requirements
 
-- Follow scrum / agile
+See the [workflow.md](#workflow.md) for detailed workflow research and planning
 
-#### Issues/Features/Tickets - (Trac?, Github)
+#### Phase Completion
+- SRS and TDD are drafted
+- Then intended development workflow is outlined and development tools are setup
 
-- Development will be conducted by completing tickets
-- Design speciification will be broken down into issues
+## Phase 2: Development
 
-  - Ensure that tickets are linked to specs
-  - Tests will be specified as issues as well
-  - Are github pull requests overkill for single person projects?
-  - If this becomes a multi-developer project, use Trello + Slack to delegate issues as tasks?
-  - New features will be designed as tickets, where they will serve as documentation explaining the features
-  - Traceability - Discuss this
+#### Workflow Automation
+- Development workflow/tools are automated as much as possible and can be setup simply for collaborators.
+- Standardise (development/testing/production) environments to remove all 'works of my machine' issues.
+- Development commences.
 
-#### Testing
+#### Phase Completion
+- SRS requirements are met
 
-- Tests should be written before actual code
-- Aiming for high test coverage 90%+ should be a requirement for successful build
-- Static analysis tests
-- Tests should be tiered
-- User Functionality tests should be targeted to different platform(firefox, chrome)
+## Phase 3: Release
 
-#### Continuous Integration
+- Continue developing by completing outstanding tickets as they arrive.
+- Triage tickets frequently.
 
-- All code must always compile and past tests Should this be just master branch, release branch or all branches?
-- Automate to remove 'Works on my machine' issues, allowing for simple collaboration
 
-#### Continuous Deployment
-
-- No/Minimal System downtime
-- Deployed (Release/Staging?) version always reflects the current state of the code base (master branch)
-
-#### Documentation
-
-- Documentation should be completed prior to work being conducted, as a Plan or design specification (tickets). There should be minimal after the fact documenting.
-- Changelog...
-
-#### Work Transparently
-
-- All work performed and current state of working should be available to other collaborators to view
-
-  - Research information
-  - Current task list
-
-#### Changing user requirements
-
-## Phase 2: Prototype workflow
-
-- 2.1 Research and Design are being worked on
-- 2.2 Development workflow is ready and development tools are setup
-
-## Phase 3: Finalised workflow + Development
-
-- 2.1 (Completed) Research and Design are completed
-- 2.2 (Completed) Development workflow/tools are automated and can be setup simply for collaborators
-- 1. Development is being conducted using proper tools and workflow
-
-- 3.x.. Development subtasks here
-
-## Phase 4: Release
-
-- 1. All user requirements are satisfied, keep developing whilst following tickets.
-
-- 3.x Wait for tickets / feature requests
-- 4.2 Triage currently existing tickets
-
-# 3\. User Requirements - SRS
-
-using template from <http://www.csse.monash.edu.au/~sitar/CSE4002/Lectures/srs_template-1.doc>
+# 3. SRS
 
 ## 3.1 Introduction
 
@@ -137,31 +92,31 @@ This product will consist of a user-facing GUI with data processed and stored on
 The following is a list intended user functionality, users can:
 
 - Accounts
-
   - create an account
-  - edit thier account
+  - edit their account
   - message other accounts
-  - see recieved messages
+  - see received messages
   - have associated currency amount for use
   - login
   - logout
 
-- Items
 
+- Items
   - create items
   - view store items
   - sort stored items
   - see what items look like
   - can be of a type/category/tag
 
-- Listings
 
+- Listings
   - sell and buy items
   - auction and bid on items
   - sold items trigger a 'item sold' message to be sent to the seller
+  - cancel listing
+
 
 - Searching
-
   - search for items to buy
   - wait for item to appear that matches search criteria
   - sort list of searched for items
@@ -177,23 +132,33 @@ The following is a list intended user functionality, users can:
 What was painful about using regular item auction websites
 
 ### 3.x.x Domain Entities
+- Account
+- User
+- Message
+- Item
+  - Image?
+  - Tag?
+  - Category?
+- Currency
+- Inventory
+- Listing
+- Bid
+- Search
+- Search result
 
 ### 3.2.3 Actors
 
 The following are the types of users that may use this software.
 
 - Admin / Developer
-
   - Will require debug or extra observational functionality.
   - R1\. View history of all sales
   - R2\. Sort history of all sales by criteria
 
 - Frequent user
-
   - Knows how to use the system, wants quick and effective functionality.
 
 - Casual user
-
   - Needs extra information to describe the system for usage
 
 TODO: Expand these actors into extra requirements

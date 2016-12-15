@@ -50,6 +50,13 @@ https://github.com/dwyl/learn-tdd
  - React
  - Express
 
+## Back-end
+- Java/Spring?
+
 ## User authentication
 - nodejs Passport
   - https://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619
+
+## Database
+tutorial about handling multiple users
+https://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
