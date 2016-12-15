@@ -63,7 +63,7 @@ The following are features of the intended development workflow
   - Current task list
 
 #### Changing user requirements
-
+#### Throwaway prototyping
 
 ## Phases
 ### Phase 1 - Setup

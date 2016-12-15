@@ -17,13 +17,13 @@ The purpose of this project is to gain experience using and integrating multiple
 
 Users can list items (user created) on an online auction website for sale for other users to either buyout or bid on. Items listed can be filtered to highlight interesting items. Once an item is successfully purchased, it is placed in the buyers personal inventory. The user can view their own inventory and inspect each item.
 
-See the SRS (Section 3) for more information.
+See the [SRS (Section 3)](#3-srs) for more information.
 
 ## 1.2 How does it work
 
 Basic overview of structure and functionality
 
-See the TDD (Section 4) or [Technologies research](#technologies-research.md) for more information.
+See the [TDD (Section 4)](#4-technical-outline) or [Technologies research](technologies-research.md) for more information.
 
 # 2\. Development Plan
 
@@ -47,7 +47,7 @@ See the TDD (Section 4) or [Technologies research](#technologies-research.md) fo
 - Working Transparently
 - Changing user requirements
 
-See the [workflow.md](#workflow.md) for detailed workflow research and planning
+See the [workflow.md](workflow.md) for detailed workflow research and planning
 
 #### Phase Completion
 - SRS and TDD are drafted
@@ -127,24 +127,21 @@ The following is a list intended user functionality, users can:
 - Users will be able to use this software from a website GUI. It should work identically on ?Internet Explorer?, Firefox and Chrome on PC's and mobiles.
 - Multiple users can use the software at any time
 
-### 3.x.x Pain Points
-
-What was painful about using regular item auction websites
-
 ### 3.x.x Domain Entities
-- Account
-- User
+- User-Account
 - Message
 - Item
-  - Image?
-  - Tag?
-  - Category?
+  - Image
+  - Tag
+  - Category/Type
 - Currency
 - Inventory
+- Inventory View
 - Listing
 - Bid
 - Search
 - Search result
+- Transaction
 
 ### 3.2.3 Actors
 
@@ -165,7 +162,30 @@ TODO: Expand these actors into extra requirements
 
 ### 3.x.x List of tasks
 
+1. Create account
+2. Login
+3. Logout
+4. Modify account
+5. View account
+6. View message
+7. Create message
+8. Create item
+9. Remove item
+10. View item
+11. Sort inventory
+12. Search inventory
+13. Sell item
+14. Buy item
+15. Bid on item
+16. View owned listings
+17. Cancel listing
+18. Wait for search
+19. Sort search result list
+20. View price of item-type over time
+
 ### 3.x.x CRUD Check
+
+[CRUD spreadsheet ](https://docs.google.com/spreadsheets/d/1MRDU_9CzYix6REQ6JA-69m1cYBdSQDAedr_KkLhzpeI/edit?usp=sharing)
 
 ### 3.x.x Tasks & Support
 
