@@ -7,12 +7,13 @@ The following are features of the intended development workflow
 
 #### Planning (Trello?)
 
-- Outline the scope and define user requirements
+- Outline the scope and define user requirements (SRS)
 - Research what technologies will be used
 
 #### Design (LucidCharts?)
 
-- Define system structure by documenting all classes, their roles, responsibilities and collaborators.
+- User guide (user UI)
+- Define system structure by documenting all classes, their roles, responsibilities and collaborators.  (TDD)
 - List of classes/Components w/ specs
 - UML diagrams
 

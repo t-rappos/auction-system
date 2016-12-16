@@ -313,7 +313,7 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 
 #### 3.3.9 Remove item
 - Purpose: Remove an unwanted item
-- Trigger/Precondition: User is logged in, The item exists, the item isn't listed, (User clicks on item and selects remove item)
+- Trigger/Precondition: User is logged in, The item exists, the item isn't listed, user owns item, (User clicks on item and selects remove item)
 - Frequency: 0-20x per session per user
 - Critical: 500x per session per user
 - Subtasks | Solution
@@ -352,11 +352,11 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
   2. collect attribute to sort by |
   3. display sorted list of items |
 - Variants:
-  - 1a. |
+  - 2a. attribute is the same as last sort | toggle asc <-> desc
 
 #### 3.3.12 Search inventory
 - Purpose: highlight items of interest in inventory
-- Trigger/Precondition: User is logged in, User enters text in the inventory search bar
+- Trigger/Precondition: User is logged in, User enters (alpha/numeric) text in the inventory search bar
 - Frequency: 1-10 times per session per user
 - Critical: 100+ times per session per user
 - Subtasks | Solution
@@ -371,7 +371,7 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 
 #### 3.3.13 Sell item
 - Purpose: Allow user to sell item for profit
-- Trigger/Precondition: User is logged in, user has item to be sold
+- Trigger/Precondition: User is logged in, user has item to be sold, item exists, item is owned by seller
 - Frequency: 0 - 50 times per session per user
 - Critical: 300+ times per session per user
 - Subtasks | Solution
@@ -395,88 +395,98 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 
 #### 3.3.14 Buy item
 - Purpose: To purchase an item for use
-- Trigger/Precondition: User is logged in, User has enough currency to buyout/bid on item
+- Trigger/Precondition: User is logged in, User has enough currency to buyout/bid on item, Item exists, Item isn't owned by buyer, (navigates menu->buy items)
 - Frequency: 0 - 50 times per session per user
 - Critical: 300+ times per session per user
 - Subtasks | Solution
   1. display listings |
   2. collect search criteria (TODO: ref subtask) |
   3. display results
-  4. collect item to purchase
+  4. collect item
   5. display item
-  6. confirm purchasing item
+  6. confirm purchasing item + price
   7. display purchase confirmation
   8. transfer goods
 
 - Variants:
+  - 6a. for bidding a bid amount is collected |
   - 8a. transfer goods after successful bid |
   - 8b. return currency after unsuccessful bid |
 
 #### 3.3.15 Bid on item
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
-- Subtasks | Solution
-  1. |
 
-- Variants:
-  - 1a. |
+TODO: this is covered by 13.3.14 Buy Item
 
 #### 3.3.16 View owned listings
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Display a list of items that the user is currently listed for auction
+- Trigger/Precondition: User is logged in, user navigates (inventory -> see listed items)
+- Frequency: 0-20 times per session per user
+- Critical: 100+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display inventory |
+  2. user selects "see listed items" |
+  3. displays listed items |
 
 - Variants:
   - 1a. |
 
 #### 3.3.17 Cancel listing
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Stop an item from being sold after it has been listed for sale
+- Trigger/Precondition: User is logged in, Item exists, Item is listed by user
+- Frequency: 0-10 times per session per user
+- Critical: 100+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display listed items |
+  2. collect item to cancel listing |
+  3. confirm cancellation |
+  4. display confirmation of cancellation |
+  5. return item to inventory |
 
 - Variants:
   - 1a. |
 
 #### 3.3.18 Wait for search
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Perform a live-search of listings for items that match criteria
+- Trigger/Precondition: User is logged in,
+- Frequency: 0-10 times per session per user
+- Critical: 20+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display listings |
+  2. user selects 'live search' |
+  3. collect search criteria |
+  4. update and display search results over time |
 
 - Variants:
   - 1a. |
+
+TODO: do we need a 'search listings' task?
 
 #### 3.3.19 Sort search result list
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: To organise the results of a search
+- Trigger/Precondition: User is logged in, User has conducted a search and search results are displayed
+- Frequency: 0-50 times per session per user
+- Critical: 100+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display search results |
+  2. collect attribute to sort by |
+  3. display sorted list
 
 - Variants:
-  - 1a. |
+  - 1a. search results are from a live search
+  - 2a. attribute is the same as last sort | toggle asc <-> desc
 
 #### 3.3.20 View price of item-type over time
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: display the price of an item-type over time as a graph
+- Trigger/Precondition: User is logged in, item exists, (navigates menu->buy items->see price over time)
+- Frequency: 0-10 times per session per user
+- Critical: 50+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display item listings |
+  2. collect item-type |
+  3. display graph of price over time |
 
 - Variants:
-  - 1a. |
+  - 3a. item hasn't been sold before
 
 ### 3.4 Domain Model
 
