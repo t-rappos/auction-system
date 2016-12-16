@@ -103,7 +103,7 @@ The following is a list estimated user functionality, users can:
 
 - Items
   - create items
-  - view store items
+  - view stored items
   - sort stored items
   - see what items look like
   - can be of a type/category/tag
@@ -237,84 +237,100 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 
 #### 3.3.4 Modify account
 - Purpose: Change details or descriptions pertaining to the users account
-- Trigger/Precondition: User has an account, User is logged in.
+- Trigger/Precondition: User is logged in. User clicks 'edit account'
 - Frequency: Less than 10 times per user.
 - Critical: Greater than 10 times per user.
 - Subtasks | Solution
   1. User selects edit profile | Clicks Menu->Account->Edit Account
-  2. User selects profile attribute to edit | Selects text box
-  3. User edits the selected attribute | Edits text where appropriate
-  4. User confirms updating profile | Clicks "confirm changes"
+  2. collect profile attribute to edit | Selects text box
+  3. collect changes to the selected attribute | Edits text where appropriate
+  4. confirm updating profile | Clicks "confirm changes"
   5. Displays profile page
 - Variants:
   - 3a. User makes no changes | no changes are made to the account
   - 3b. User makes changes but returns to previous page instead of confirming | no changes are made to the account
 
 #### 3.3.5 View account
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Display the details or descriptions pertaining to the users account
+- Trigger/Precondition: User is logged in. User logs in or clicks 'view account'
+- Frequency: 1-10 times per session per user
+- Critical: 10+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. User details are displayed | all of the users account attributes are displayed
 
-- Variants:
-  - 1a. |
+
+- TODO: This may be too simple of a task -- and may be a subtask instead
 
 #### 3.3.6 View message
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: The user can view a message that has been sent
+- Trigger/Precondition: User is logged in, user gets message notification
+- Frequency: twice per session per user
+- Critical: 10 times per session
 - Subtasks | Solution
-  1. |
-
+  1. user views messages | user navigates to message log
+  2. collect message to view | clicks on message to view
+  3. displays content of message | message is displayed
 - Variants:
-  - 1a. |
+  - 1a. clicks on message notification | opens message log page
+  - 1b. clicks on messages from menu | opens message log page
+- TODO: Change this to reply to message?
 
 #### 3.3.7 Create message
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Send a message to another user
+- Trigger/Precondition: User is logged in, recipient account exists
+- Frequency: less than once per session per user
+- Critical: 10 or more times per session per user
 - Subtasks | Solution
-  1. |
-
+  1. user selects compose message | user navigates menu -> messages -> compose message
+  2. collect recipient account name | user enters recipients account name
+  3. collect message content | user enters message
+  4. confirm sending and send to recipient | user clicks on send message
+  5. display confirmation | message is displayed showing "message sent"
 - Variants:
-  - 1a. |
+  - 2a. no account exists | display 'no such account exists' after username is entered, grey-out send message button
+  - 3a. no message content is entered | grey out send-message button
+  - 3b. too much message content is entered | grey out send-message button and display error message "too much text has been entered (500 char limit)"
 
 #### 3.3.8 Create item
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Populate the system with an item that can be used for selling.
+- Trigger/Precondition: The user is logged in, Users inventory isn't full, User selects "compose item"
+- Frequency: 1-10x per session per user
+- Critical: >10x per session per user
 - Subtasks | Solution
-  1. |
-
+  1. collect item name
+  2. collect item attributes
+  3. collect item tags
+  4. collect item category
+  5. collect item-type
+  6. collect item image
+  7. confirm item
+  8. display item
 - Variants:
   - 1a. |
 
 #### 3.3.9 Remove item
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Remove an unwanted item
+- Trigger/Precondition: User is logged in, The item exists, the item isn't listed, User clicks on item and selects remove item
+- Frequency: 0-20x per session per user
+- Critical: 500x per session per user
 - Subtasks | Solution
-  1. |
-
+  1. display item to be deleted |
+  2. confirm item to be deleted |
+  3. display confirmation that item was deleted |
 - Variants:
-  - 1a. |
+  - 0a. Item is listed |
 
 #### 3.3.10 View item
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Display details of a specific item
+- Trigger/Precondition: User is logged in, The item exists, user clicks on the item and selects display information,
+- Frequency: 30x per user per session
+- Critical: 300x per user per session
 - Subtasks | Solution
   1. |
 
 - Variants:
-  - 1a. |
+  - 0a. item is from inventory |
+  - 0b. item is from listing |
 
 #### 3.3.11 Sort inventory
 - Purpose:
@@ -432,6 +448,7 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 
 - Security issues can be ignored due to trivial nature of software, user account should be designed to be replaced by a secure system after this project is complete.
 - User account verification can be ignored since this is a prototypical live website
+- The items used in this system are trivial, allowing items to be created by any user. In a video game system the items would have been obtained via the game before hand, or in a real-life bidding system a sold item would have to be verified as recieved (by the recipient) otherwise the sellers credibility would be devalued etc...
 
 ## 3.5 Non-functional Requirements
 
