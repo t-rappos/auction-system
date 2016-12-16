@@ -267,9 +267,10 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 - Frequency: twice per session per user
 - Critical: 10 times per session
 - Subtasks | Solution
-  1. user views messages | user navigates to message log
-  2. collect message to view | clicks on message to view
-  3. displays content of message | message is displayed
+  1. displays message notification
+  2. user views messages | user navigates to message log
+  3. collect message to view | clicks on message to view
+  4. displays content of message | message is displayed
 - Variants:
   - 1a. clicks on message notification | opens message log page
   - 1b. clicks on messages from menu | opens message log page
@@ -293,88 +294,123 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 
 #### 3.3.8 Create item
 - Purpose: Populate the system with an item that can be used for selling.
-- Trigger/Precondition: The user is logged in, Users inventory isn't full, User selects "compose item"
+- Trigger/Precondition: The user is logged in, Users inventory isn't full, (User selects "compose item")
 - Frequency: 1-10x per session per user
 - Critical: >10x per session per user
 - Subtasks | Solution
-  1. collect item name
-  2. collect item attributes
-  3. collect item tags
-  4. collect item category
-  5. collect item-type
-  6. collect item image
-  7. confirm item
-  8. display item
+  1. display inventory
+  2. user selects compose item
+  3. collect item name
+  4. collect item attributes
+  5. collect item tags
+  6. collect item category
+  7. collect item-type
+  8. collect item image
+  9. confirm item
+  10. display item
 - Variants:
   - 1a. |
 
 #### 3.3.9 Remove item
 - Purpose: Remove an unwanted item
-- Trigger/Precondition: User is logged in, The item exists, the item isn't listed, User clicks on item and selects remove item
+- Trigger/Precondition: User is logged in, The item exists, the item isn't listed, (User clicks on item and selects remove item)
 - Frequency: 0-20x per session per user
 - Critical: 500x per session per user
 - Subtasks | Solution
-  1. display item to be deleted |
-  2. confirm item to be deleted |
-  3. display confirmation that item was deleted |
+  1. display inventory list |
+  2. collect item to be deleted |
+  3. display item to be deleted |
+  4. confirm item to be deleted |
+  5. display confirmation that item was deleted |
 - Variants:
   - 0a. Item is listed |
 
 #### 3.3.10 View item
 - Purpose: Display details of a specific item
-- Trigger/Precondition: User is logged in, The item exists, user clicks on the item and selects display information,
+- Trigger/Precondition: User is logged in, The item exists, (user clicks on the item and selects display) information,
 - Frequency: 30x per user per session
 - Critical: 300x per user per session
 - Subtasks | Solution
-  1. |
+  1. display 'item list'
+  2. collect item to be displayed
+  3. display item | display item description and attributes
 
 - Variants:
   - 0a. item is from inventory |
   - 0b. item is from listing |
 
-#### 3.3.11 Sort inventory
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
-- Subtasks | Solution
-  1. |
 
+- TODO: Is this a task?
+
+#### 3.3.11 Sort inventory
+- Purpose: To organise the users inventory
+- Trigger/Precondition: User is logged in, (user is in inventory and clicks on attribute to sort by)
+- Frequency: 0-10 times per session per user
+- Critical: 10+ times per session per user
+- Subtasks | Solution
+  1. view inventory |
+  2. collect attribute to sort by |
+  3. display sorted list of items |
 - Variants:
   - 1a. |
 
 #### 3.3.12 Search inventory
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: highlight items of interest in inventory
+- Trigger/Precondition: User is logged in, User enters text in the inventory search bar
+- Frequency: 1-10 times per session per user
+- Critical: 100+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display inventory |
+  2. collect search text |
+  3. highlight items that match |
 
 - Variants:
   - 1a. |
+
+- TODO: do we want to provide the same search functionality as in the listing searching?
 
 #### 3.3.13 Sell item
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: Allow user to sell item for profit
+- Trigger/Precondition: User is logged in, user has item to be sold
+- Frequency: 0 - 50 times per session per user
+- Critical: 300+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display inventory list |
+  2. collect item to be sold |
+  3. collect buyout/starting price of item |
+  4. collect method of selling |
+  5. collect duration (if auction) |
+  6. confirm listing |
+  7. display listing confirmation |
+  8. item is 'sold' | TODO: this is a trigger mid task....?
+  9. transfer goods |
+  10. return unsuccessful bid currency to bidders
+  11. message seller and buyer and bidders |
 
 - Variants:
-  - 1a. |
+  - 3a. buyout price set to 0 |
+  - 3b. bid price set to 0 |
+  - 4a. buyout enabled |
+  - 4b. bidding enabled |
 
 #### 3.3.14 Buy item
-- Purpose:
-- Trigger/Precondition:
-- Frequency:
-- Critical:
+- Purpose: To purchase an item for use
+- Trigger/Precondition: User is logged in, User has enough currency to buyout/bid on item
+- Frequency: 0 - 50 times per session per user
+- Critical: 300+ times per session per user
 - Subtasks | Solution
-  1. |
+  1. display listings |
+  2. collect search criteria (TODO: ref subtask) |
+  3. display results
+  4. collect item to purchase
+  5. display item
+  6. confirm purchasing item
+  7. display purchase confirmation
+  8. transfer goods
 
 - Variants:
-  - 1a. |
+  - 8a. transfer goods after successful bid |
+  - 8b. return currency after unsuccessful bid |
 
 #### 3.3.15 Bid on item
 - Purpose:

@@ -34,7 +34,8 @@ The following are features of the intended development workflow
 
 #### Testing
 
-- Tests should be written before actual code
+- Tests should be written before actual code (unit tests)
+- User tasks should be tested as well (Acceptance testing? Integration testing?)
 - Aiming for high test coverage 90%+ should be a requirement for successful build
 - Static analysis tests
 - Tests should be tiered
