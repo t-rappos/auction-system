@@ -21,11 +21,12 @@ The following are features of the intended development workflow
 
 - Follow scrum / agile
 
+
+The folowing sections will be refined after Phase 1.
 #### Issues/Features/Tickets - (Trac?, Github)
 
 - Development will be conducted by completing tickets
 - Design speciification will be broken down into issues
-
   - Ensure that tickets are linked to specs
   - Tests will be specified as issues as well
   - Are github pull requests overkill for single person projects?

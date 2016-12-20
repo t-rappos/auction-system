@@ -47,7 +47,7 @@ See the [TDD (Section 4)](#4-technical-outline) or [Technologies research](techn
 - Working Transparently
 - Changing user requirements
 
-See the [workflow.md](workflow.md) for detailed workflow research and planning
+See the [workflow.md](workflow.md) for detailed workflow research and [Trello](https://trello.com/b/R9DxZCFG/auction-system) for current development plans.
 
 #### Phase Completion
 - SRS and TDD are drafted

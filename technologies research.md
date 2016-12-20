@@ -1,4 +1,7 @@
 # Technologies Research
+
+
+https://medium.com/reactspeed/react-speed-coding-technology-stack-d0e824f2d954#.iy6qyed9b
 ## Tracking Software
 ### Trello
 
@@ -47,11 +50,14 @@ https://github.com/dwyl/learn-tdd
   - https://www.wlangiewicz.com/2016/03/30/setup-ci-build-pipeline-travis-ci-heroku-sbt/
 
 ## Front-end
- - React
- - Express
+ - **React**
+ - and Express?
 
 ## Back-end
-- Java/Spring?
+- Java/Spring or Node.JS
+- Redux?
+
+https://spring.io/guides/tutorials/react-and-spring-data-rest/
 
 ## User authentication
 - nodejs Passport
