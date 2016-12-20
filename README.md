@@ -92,35 +92,35 @@ This product will consist of a user-facing GUI with data processed and stored on
 The following is a list estimated user functionality, users can:
 
 - Accounts
-  - create an account
-  - edit their account
-  - message other accounts
-  - see received messages
-  - have associated currency amount for use
-  - login
-  - logout
+  - Create an account
+  - Edit their account
+  - Message other accounts
+  - See received messages
+  - Have associated currency amount for use
+  - Login
+  - Logout
 
 
 - Items
-  - create items
-  - view stored items
-  - sort stored items
-  - see what items look like
-  - can be of a type/category/tag
+  - Create items
+  - View stored items
+  - Sort stored items
+  - See what items look like
+  - Can be of a type/category/tag
 
 
 - Listings
-  - sell and buy items
-  - auction and bid on items
-  - sold items trigger a 'item sold' message to be sent to the seller
-  - cancel listing
+  - Sell and buy items
+  - Auction and bid on items
+  - Sold items trigger a 'item sold' message to be sent to the seller
+  - Cancel listing
 
 
 - Searching
-  - search for items to buy
-  - wait for item to appear that matches search criteria
-  - sort list of searched for items
-  - view price of item type over time
+  - Search for items to buy
+  - Wait for item to appear that matches search criteria
+  - Sort list of searched for items
+  - View price of item type over time
 
 ### 3.2.3 Operating Environment
 
@@ -128,18 +128,18 @@ The following is a list estimated user functionality, users can:
 - Multiple users can use the software at any time
 
 ### 3.2.4 Domain Entities
-- User-Account
+- User
+- Account
 - Message
 - Item
-  - Image
-  - Tag
-  - Category/Type
-- Currency
+- Image
+- Item Attribute
 - Inventory
 - Inventory View
 - Listing
-- Bid
-- Search
+- Listing list
+- Bid/Buyout
+- Search criteria
 - Search result
 - Transaction
 
@@ -187,7 +187,32 @@ These are the tasks that are required to be supported by the software solution.
 
 ### 3.2.7 CRUD Check
 
-[CRUD spreadsheet ](https://docs.google.com/spreadsheets/d/1MRDU_9CzYix6REQ6JA-69m1cYBdSQDAedr_KkLhzpeI/edit?usp=sharing)
+#### CRUD Table
+![Crud Table](crud.PNG)
+
+[Link to CRUD spreadsheet ](https://docs.google.com/spreadsheets/d/1MRDU_9CzYix6REQ6JA-69m1cYBdSQDAedr_KkLhzpeI/edit?usp=sharing)
+
+#### Notes from CRUD analysis:
+  - Accounts can't be deleted
+  - Images can't be deleted
+  - Messages cant be modified after creation
+  - Item Attributes can't be deleted or updated
+  - Inventory views can't deleted (But will be temporary objects, e.g. aren't stored)
+  - Inventories aren't deleted
+  - Nothing reads any bids/buyouts
+  - Search criteria can't be deleted (...they are temporary)
+  - Search results can't be deleted ("")
+  - Transactions can't be deleted
+
+
+#### Recommended action:
+  - Create task to delete or disable account
+  - Create task to delete images
+  - Create task to delete item attributes
+  - Update Bidding and Buyout tasks to read bid/buyouts
+
+TODO: ^^
+
 
 ### 3.3 Tasks & Support
 The following are descriptions of the supported user tasks. They don't explicitly outline an intended technical solution but provide a rough suggestion for the reader, as the aim is to outline the problem domain of the system (rather than the solution domain). Inspired from the whitepaper
@@ -397,16 +422,17 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 - **Frequency:** 0 - 50 times per session per user
 - **Critical:** 300+ times per session per user
 - **Subtasks | Solution**
-  1. display listings |
-  2. collect search criteria (TODO: ref subtask) |
-  3. display results
-  4. collect item
-  5. display item
-  6. confirm purchasing item + price
-  7. display purchase confirmation
+  1. display listings | A list of all listings is displayed
+  2. collect search criteria (TODO: ref subtask) | User enters search criteria and clicks search
+  3. display results | A list is displayed of items matching criteria
+  4. collect item | user clicks on item
+  5. display item | item details are displayed
+  6. confirm purchasing item + price | user clicks on purchase/bid
+  7. display purchase confirmation | displays message "you have bought/bid on X"
   8. transfer goods
 - **Variants:**
-  - 6a. for bidding a bid amount is collected |
+  - 6a. for bidding a bid amount is collected | Enters amount into textbox
+  - 6b. amount is less than previsously bidded | Rejects input with message "must bid higher"
   - 8a. transfer goods after successful bid |
   - 8b. return currency after unsuccessful bid |
 
@@ -485,7 +511,7 @@ TODO: do we need a 'search listings' task?
 
 Outlined using [LucidCharts.](https://www.lucidchart.com/invitations/accept/a035fe7f-694f-43ff-b87d-d69750269dca)
 
-TODO: update domain entity list
+![Domain Model](domain_model.PNG)
 
 ### 3.5 Design and Implementation Constraints / Assumptions
 
@@ -496,8 +522,16 @@ TODO: update domain entity list
 ## 3.5 Non-functional Requirements
 
 ### 3.5.1 Performance
+(at max concurrent users)
+- Less than 3s delay for all interface interactions except searching
+- Less than 10s delay for searching
 
-- Less than 500ms delay for all interface interactions except searching
+
+### 3.5.2 Reliability
+
+- Less than 15 mins downtime for updates / maintenance
+- UI Must work on firefox, chrome and internet explorer and mobile
+- Must support up to 100 concurrent users
 
 ### 3.5.2 Safety
 
