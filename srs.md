@@ -50,6 +50,7 @@ The following is a list estimated user functionality, users can:
   - Wait for item to appear that matches search criteria
   - Sort list of searched for items
   - View price of item type over time
+  - TODO: ?idea? search criteria price over time?
 
 ### 3.2.3 Operating Environment
 
