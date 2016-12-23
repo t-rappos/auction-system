@@ -28,6 +28,7 @@ This document is aiming to explain the static and dynamic structure of the syste
 
 ## Back-End
 ### Data Model
+https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
 ### Candidate Classes
 #### List
 #### Diagram
