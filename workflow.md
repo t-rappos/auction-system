@@ -33,6 +33,7 @@ The folowing sections will be refined after Phase 1.
   - If this becomes a multi-developer project, use Trello + Slack to delegate issues as tasks?
   - New features will be designed as tickets, where they will serve as documentation explaining the features
   - Traceability - Discuss this
+  - In a multi-developer project, any work conducted must be from a ticket, users can make tickets, but can't work on tickets they make
 
 #### Testing
 
