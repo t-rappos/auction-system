@@ -34,6 +34,7 @@ https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
 #### List
 #### Diagram
 https://www.lucidchart.com/documents/edit/ad45e7f3-f42b-44d3-a656-9027cd0a5a33
+V2 https://www.lucidchart.com/documents/edit/0e3063df-d456-42d1-9bae-fdfd764d3fb5#
 #### Justification
 #### CRC cards
 #### Quality, Extension, Design Patterns
