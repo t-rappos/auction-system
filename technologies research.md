@@ -1,29 +1,45 @@
 # Technologies Research
+This document researches different web technologies and provides a justified selection of technologies that will be used for this system.
 
+## In Brief
 
 https://medium.com/reactspeed/react-speed-coding-technology-stack-d0e824f2d954#.iy6qyed9b
-## Tracking Software
-### Trello
 
-### Github Issues
+What software can be used for specific purposes?
 
+### Tracking Software
+#### Trello
+- *How do people usually use trello in development workflows?*
+- *Can it be used to create issues or tickets?*
+- *Does it have integration with other issue / ticketing webservices?*
+  - *What benefit would it add?*
+
+#### Github
+
+- *Why use github?*
+- *What is the main workflow*
+
+##### Issues
 - Is integrated with trello
 - Integration with travis-ci
 
-### Github Pull requests
+##### Pull requests
 
 - Can run tests before commit to master
+- *What is the usually workflow?*
 
-### Jira
-### Bugzilla
-## Continuous Integration / Deployment
+#### Jira
+#### Bugzilla
+
+
+### Continuous Integration / Deployment
 
 - needs test driven development
 
-### Jenkins-CI
+#### Jenkins-CI
 - steep learning curve
 
-### Travis-CI
+#### Travis-CI
 - simpler
 - nodeJS - NPM for dependancy management
 - make sure code coverage is tested as well
@@ -33,7 +49,7 @@ https://medium.com/reactspeed/react-speed-coding-technology-stack-d0e824f2d954#.
 https://github.com/dwyl/learn-travis
 https://github.com/dwyl/learn-tdd
 
-## Testing
+### Testing
 - write tests
 - only write code to ensure that the current tests pass
 - code coverage - write tests to run program through all branches
@@ -44,25 +60,81 @@ https://github.com/dwyl/learn-tdd
 - QUnit - javascript unit testing framework
 - nodeJS - uses Gulp?
 
-## Hosting
+### Hosting
 - Heroku
 - Travis-CI heroku integration
   - https://www.wlangiewicz.com/2016/03/30/setup-ci-build-pipeline-travis-ci-heroku-sbt/
 
-## Front-end
- - **React**
- - and Express?
+### Front Ends
+A list of technologies used to create websites/UIs
 
-## Back-end
-- Java/Spring or Node.JS
-- Redux?
+### Back Ends
+A  list of technologies used to create server functionality
+
+### Authentication
+
+Passport (NodeJS)
+
+### Database Storage
+
+tutorial about handling multiple users
+https://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
+
+# In Detail
+
+Further explanation about each technology
+
+## Node JS
+
+- *What does it do?*
+- *Where does it fit in the stack?*
+- *What is it usually used for?*
+
+## Java/Spring
+
+- *What does it do?*
+- *Where does it fit in the stack?*
+- *What is it usually used for?*
+
+## React
+
+- *What does it do?*
+- *Where does it fit in the stack?*
+- *What is it usually used for?*
+
+## Express
+
+- *What does it do?*
+- *Where does it fit in the stack?*
+- *What is it usually used for?*
+
+## Redux
+
+- *What does it do?*
+- *Where does it fit in the stack?*
+- *What is it usually used for?*
+
+
 
 https://spring.io/guides/tutorials/react-and-spring-data-rest/
 
-## User authentication
-- nodejs Passport
+## nodejs Passport
   - https://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619
 
-## Database
-tutorial about handling multiple users
-https://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
+## MySql
+
+## PostgreSQL
+
+# Chosen Stack
+
+
+# How to model and design for this stack
+
+**Questions that I want to answer:**
+
+- How to create an OO model design for this system that is applicable with the chosen technology stack.
+- What 'systems' do we  need to model?
+- What technologies will be used, what they do, and where do they fit in the stack?
+- Is modelling the same for each technology, or do some techs not support OO?
+- Is it possible to design the model in a language + tech nonspecific way?
+- How are webservers + front ends usually modelled?
