@@ -141,12 +141,23 @@ Further explanation about each technology
 ## Bootstrap
 
 ## Express
-
+https://code.tutsplus.com/tutorials/introduction-to-express--net-33367
 - **What does it do?**
 - It's a web application (server) framework,
 - Simplifies the construction of a web-server
 - Focus on building site logic and content
-
+- Middleware based (Single pipe dataflow + processing)
+  - Can apply filter to requests before getting processed by router/server (Used to be Connect)
+  - Complicated, see
+  http://expressjs.com/en/guide/using-middleware.html
+  https://www.safaribooksonline.com/blog/2014/03/10/express-js-middleware-demystified/
+  - Unit testing is usually placed here (mocha)
+  - http://www.slideshare.net/morrissinger/unit-testing-express-middleware
+- Used for routing
+  - **Explain more here**
+  - How the server responds to the clients request, URI and Request Method (GET, POST)
+  - app.METHOD(PATH, HANDLER)
+  - https://expressjs.com/en/starter/basic-routing.html
 - **Where does it fit in the stack?**
 - Back-end / Server-side
 - Usually used with AngularJS frontend, and MongoDB (MEAN Stack) https://scotch.io/tutorials/setting-up-a-mean-stack-single-page-application (MVC example here)
@@ -161,6 +172,7 @@ Further explanation about each technology
 - *Where does it fit in the stack?*
 - *What is it usually used for?*
 
+## jQuery
 
 
 https://spring.io/guides/tutorials/react-and-spring-data-rest/
