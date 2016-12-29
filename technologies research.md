@@ -33,8 +33,11 @@ What software can be used for specific purposes?
 
 
 ### Continuous Integration / Deployment
-
+https://nodesource.com/resources/#webinar
 - needs test driven development
+
+#### Docker?
+https://resources.nodesource.com/getting-started-with-node-docker-and-kubernetes
 
 #### Jenkins-CI
 - steep learning curve
@@ -68,17 +71,30 @@ https://github.com/dwyl/learn-tdd
 ### Front Ends
 A list of technologies used to create websites/UIs
 
+### Templating Engines
+Replaces variables with values within a HTML file before it is served to the client.
+
+- Jade
+- EJS
+
 ### Back Ends
 A  list of technologies used to create server functionality
 
 ### Authentication
 
 Passport (NodeJS)
+Express compatible https://github.com/expressjs/express/tree/master/examples/auth
 
 ### Database Storage
 
 tutorial about handling multiple users
 https://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
+
+### RESTful
+https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
+
+### Single page apps
+https://scotch.io/tutorials/single-page-apps-with-angularjs-routing-and-templating
 
 # In Detail
 
@@ -86,9 +102,22 @@ Further explanation about each technology
 
 ## Node JS
 
-- *What does it do?*
-- *Where does it fit in the stack?*
-- *What is it usually used for?*
+- **What does it do?**
+- Runs JavaScript environment without a browser, which can be used to create a web server.
+- Uses NPM for package/dependancy management, allowing other packages (e.g. Express, React) to be downloaded and installed easily.
+- Asyncronous, no threads, no blocking
+    - An event will fire when the blocking resource is released and in the meanwhile other code (in the event loop) will be run.
+- Child processes support multiprocessing or other low level functionality
+- Has an event loop, which runs call-backs and processes events
+
+
+- **Where does it fit in the stack?**
+- Javascript runtime that executes on the server (Server-side)
+- Creates a a webpage to be served to the user which can be interacted with. The webpage served will have HTML and JS functionality. Although it is possible to run NodeJS client-side but it isn't included by default (Browserify, Bower).
+
+
+- **What is it usually used for?**
+- Can be made into a replacement for something like an Apache webserver
 
 ## Java/Spring
 
@@ -102,11 +131,29 @@ Further explanation about each technology
 - *Where does it fit in the stack?*
 - *What is it usually used for?*
 
+## AnglularJS
+
+- Frontend,
+- Controllers
+- Services
+  - API Calls to node backend, retrieve data in JSON format?
+
+## Bootstrap
+
 ## Express
 
-- *What does it do?*
-- *Where does it fit in the stack?*
-- *What is it usually used for?*
+- **What does it do?**
+- It's a web application (server) framework,
+- Simplifies the construction of a web-server
+- Focus on building site logic and content
+
+- **Where does it fit in the stack?**
+- Back-end / Server-side
+- Usually used with AngularJS frontend, and MongoDB (MEAN Stack) https://scotch.io/tutorials/setting-up-a-mean-stack-single-page-application (MVC example here)
+- Can be used with a templating engines
+-
+
+- **What is it usually used for?**
 
 ## Redux
 
@@ -125,6 +172,8 @@ https://spring.io/guides/tutorials/react-and-spring-data-rest/
 
 ## PostgreSQL
 
+## MongoDB
+
 # Chosen Stack
 
 
@@ -138,3 +187,7 @@ https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - Is modelling the same for each technology, or do some techs not support OO?
 - Is it possible to design the model in a language + tech nonspecific way?
 - How are webservers + front ends usually modelled?
+
+
+Express MVC
+https://github.com/expressjs/express/tree/master/examples/mvc
