@@ -1,5 +1,5 @@
 # Technologies Research
-This document researches different web technologies and provides a justified selection of technologies that will be used for this system.
+This document explores different web technologies / ideologies and provides a justified selection that will be used during the development of this system.
 
 ## In Brief
 
@@ -7,17 +7,52 @@ https://medium.com/reactspeed/react-speed-coding-technology-stack-d0e824f2d954#.
 
 What software can be used for specific purposes?
 
+### Agile Development or Alternatives?
+
 ### Tracking Software
 #### Trello
-- *How do people usually use trello in development workflows?*
-- *Can it be used to create issues or tickets?*
-- *Does it have integration with other issue / ticketing webservices?*
-  - *What benefit would it add?*
+- **How do people usually use trello in development workflows?**
+- Can be used to sort and organise tasks in order of priority
+- Tasks can be given due dates
+- Can be utilised to conform to agile principles
+- assign color labels to people to delegate work
+- **Cool workflow** https://gist.github.com/slugbyte/6c1f85eb146364d13d93
+- Collaborative
+- Brainstorming
+- Catorgorising
+- Has addons for SCRUM and Agile workflows (TODO: Check this out)
+- Different boards for
+  - Planning/Development (With columns)
+    - New Tasks
+    - Needs definition
+    - Backlog (Priorities tasks)
+    - Sprint (Focused tasks)
+    - Blocked (Stuff that needs to wait for external forces)
+    - In Progress
+    - For Staging / Testing / Ready for pull (Pull Request)
+    - Completed
+  - Bugs (With columns...)
+    - Triage
+    - Low handing fruit
+    - Next Sprint
+- **Can it be used to create issues or tickets?**
+
+- Good for planning, using tasks
+- **Can tasks be exported to github as issues?** Maybe https://zapier.com/zapbook/github/trello/
+
+- **Does it have integration with other issue / ticketing webservices?**
+
+- Can attach github isssues / commits / pull requests to tasks
+- Can see status of pull requests and commits (passed tests etc...)
+
+  - **What benefit would it add?**
 
 #### Github
 
 - *Why use github?*
 - *What is the main workflow*
+- **TODO: Read This** http://hugogiraudel.com/2015/08/13/github-as-a-workflow/
+- **TODO: Research this (similar to trello) ** https://waffle.io/
 
 ##### Issues
 - Is integrated with trello
