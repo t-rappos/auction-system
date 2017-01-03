@@ -19,7 +19,7 @@ What software can be used for specific purposes?
 - **Cool workflow** https://gist.github.com/slugbyte/6c1f85eb146364d13d93
 - Collaborative
 - Brainstorming
-- Catorgorising
+- Catergorising
 - Has addons for SCRUM and Agile workflows (TODO: Check this out)
 - Different boards for
   - Planning/Development (With columns)
@@ -163,15 +163,49 @@ Further explanation about each technology
 ## React
 
 - *What does it do?*
+- View (from MVC)
+- Library (not framework)
+- Simple
 - *Where does it fit in the stack?*
 - *What is it usually used for?*
 
 ## AnglularJS
 
+- Data Binding Framework (Single Page Applications SPA)
+  - Only URL part after # changes (allows back/forward)
 - Frontend,
 - Controllers
 - Services
   - API Calls to node backend, retrieve data in JSON format?
+
+**React vs Angular TODO: Read This**
+https://www.codementor.io/reactjs/tutorial/react-vs-angularjs
+
+Complex info + testing
+https://medium.com/javascript-scene/angular-2-vs-react-the-ultimate-dance-off-60e7dfbc379c#.vpq6z0ht4
+
+## AngularJS 2
+no controllers, only components
+router wires components together
+typscript language
+  compiles to JS
+components
+  classes
+  decoupled from DOM
+    binding?
+directives
+  interact with DOM
+routers
+  navigation
+services
+  class that encapsulates non ui behaviour
+  comunicates with server
+a node package
+good with unit testing
+dependancy injection for construction?
+
+good intro
+https://www.youtube.com/watch?v=_-CD_5YhJTA
 
 ## Bootstrap
 
