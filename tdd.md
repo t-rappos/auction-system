@@ -24,6 +24,7 @@ This document is aiming to explain the static and dynamic structure of the syste
 ## Systems Overview
 ### Diagram
 ![System Diagram](system.PNG)
+TODO: Update this to reflect technologies research page
 ### Justification
 
 ## Back-End
@@ -45,6 +46,24 @@ V2 https://www.lucidchart.com/documents/edit/0e3063df-d456-42d1-9bae-fdfd764d3fb
 
 ## Front-End
 ### Sitemap / Website structure
-### Page Descriptions
-### Wireframes
+![webpage-layout](page_nav.PNG)
+
+### Wireframes and Descriptions
+TODO: find a website that can do this better than PowerPoint
+
+#### Login Page
+![login page](pg_1.PNG)
+
+#### Landing/Profile Page - Focus on mail and profile view
+![profile page](pg_2.PNG)
+
+#### Landing/Profile Page - Focus on inventory
+![profile page](pg_3.PNG)
+
+#### Landing/Profile Page - Focus on item inspection view
+![profile page](pg_4.PNG)
+
+#### Landing/Profile Page - Focus on item construction view
+![profile page](pg_5.PNG)
+
 ### Use Cases

@@ -343,6 +343,7 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
 - **Variants:**
   - 3a. buyout price set to 0 |
   - 3b. bid price set to 0 |
+  - 3c. TODO: Do we want to add this as a task? - User selects search for similar items in listings | navigates to search page autofilled with similar attributes
   - 4a. buyout enabled | un-grey-out the buyout amount textbox
   - 4b. bidding enabled | un-grey-out the starting bid amount textbox
 
