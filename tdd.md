@@ -55,42 +55,42 @@ V2 https://www.lucidchart.com/documents/edit/0e3063df-d456-42d1-9bae-fdfd764d3fb
 TODO: find a website that can do this better than PowerPoint
 
 #### Login Page
-![login page](wireframes\pg_login.PNG)
+![login page](wireframes/pg_login.PNG)
 
 #### Register Page
-![register page](wireframes\pg_register.PNG)
+![register page](wireframes/pg_register.PNG)
 
 #### Landing/Profile Page - Focus on mail and profile view
-![profile page](wireframes\pg_landing.PNG)
+![profile page](wireframes/pg_landing.PNG)
 
 #### Landing/Profile Page - Focus on message view
-![profile page](wireframes\pg_message_view.PNG)
+![profile page](wireframes/pg_message_view.PNG)
 
 #### Landing/Profile Page - Focus on message view
-![profile page](wireframes\pg_message_send.PNG)
+![profile page](wireframes/pg_message_send.PNG)
 
 #### Landing/Profile Page - Focus on inventory
-![profile page](wireframes\pg_inventory.PNG)
+![profile page](wireframes/pg_inventory.PNG)
 
 #### Landing/Profile Page - Focus on inventory search
-![profile page](wireframes\pg_inventory_search.PNG)
+![profile page](wireframes/pg_inventory_search.PNG)
 
 #### Landing/Profile Page - Focus on item inspection view
-![profile page](wireframes\pg_item_view.PNG)
+![profile page](wireframes/pg_item_view.PNG)
 
 #### Landing/Profile Page - Focus on item sell
-![profile page](wireframes\pg_item_sell.PNG)
+![profile page](wireframes/pg_item_sell.PNG)
 
 #### Listing Page
-![listing page](wireframes\pg_cancel_listing.PNG)
+![listing page](wireframes/pg_cancel_listing.PNG)
 
 #### Landing/Profile Page - Focus on item construction view
-![profile page](wireframes\pg_item_create.PNG)
+![profile page](wireframes/pg_item_create.PNG)
 
 #### Landing/Profile Page - Focus on item image selection
-![profile page](wireframes\pg_item_image_select.PNG)
+![profile page](wireframes/pg_item_image_select.PNG)
 
 #### Search - Buy Item
-![Buy Item page](wireframes\pg_buy_item.PNG)
+![Buy Item page](wireframes/pg_buy_item.PNG)
 
 ### Use Cases
