@@ -32,6 +32,9 @@ TODO: Update this to reflect technologies research page
 
 https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
 ![data model](data_model.PNG)
+TODO:
+- change AttributeValue : amount -> value, also add AttributeValue.type (e.g. enum, int, real etc...)
+- Item aquired date (from buying or constructing)
 
 ### Candidate Classes
 #### List
@@ -57,13 +60,28 @@ TODO: find a website that can do this better than PowerPoint
 #### Landing/Profile Page - Focus on mail and profile view
 ![profile page](pg_2.PNG)
 
+#### Landing/Profile Page - Focus on message view
+![profile page](pg_message_view.PNG)
+
+#### Landing/Profile Page - Focus on message view
+![profile page](pg_message_send.PNG)
+
 #### Landing/Profile Page - Focus on inventory
 ![profile page](pg_3.PNG)
+
+#### Landing/Profile Page - Focus on inventory search
+![profile page](pg_inventory_search.PNG)
 
 #### Landing/Profile Page - Focus on item inspection view
 ![profile page](pg_4.PNG)
 
+#### Landing/Profile Page - Focus on item sell
+![profile page](pg_item_sell.PNG)
+
 #### Landing/Profile Page - Focus on item construction view
 ![profile page](pg_5.PNG)
+
+#### Landing/Profile Page - Focus on item image selection
+![profile page](pg_item_image_selection.PNG)
 
 ### Use Cases

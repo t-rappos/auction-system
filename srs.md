@@ -52,12 +52,22 @@ The following is a list estimated user functionality, users can:
   - View price of item type over time
   - TODO: ?idea? search criteria price over time?
 
-### 3.2.3 Operating Environment
+### 3.2.3 Deferred Functions
+
+The following is a list of functionality deferred for version 2 of the system
+
+ - Items
+  - Upload item image
+
+ - Listings
+  - Sell item (search for similar items to check recommended price)
+
+### 3.2.4 Operating Environment
 
 - Users will be able to use this software from a website GUI. It should work identically on ?Internet Explorer?, Firefox and Chrome on PC's and mobiles.
 - Multiple users can use the software at any time
 
-### 3.2.4 Domain Entities
+### 3.2.5 Domain Entities
 - User
 - Account
 - Message
@@ -73,7 +83,7 @@ The following is a list estimated user functionality, users can:
 - Search result
 - Transaction
 
-### 3.2.5 Actors
+### 3.2.6 Actors
 
 The following are the types of users that may use this software.
 
@@ -90,7 +100,7 @@ The following are the types of users that may use this software.
 
 TODO: Expand these actors into extra requirements
 
-### 3.2.6 List of tasks
+### 3.2.7 List of tasks
 
 These are the tasks that are required to be supported by the software solution.
 
@@ -115,7 +125,7 @@ These are the tasks that are required to be supported by the software solution.
 19. Sort search result list
 20. View price of item-type over time
 
-### 3.2.7 CRUD Check
+### 3.2.8 CRUD Check
 
 #### CRUD Table
 ![Crud Table](crud.PNG)
@@ -225,7 +235,7 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
   1. displays message notification
   2. user views messages | user navigates to message log
   3. collect message to view | clicks on message to view
-  4. displays content of message | message is displayed
+  4. displays content of message - Message is recorded as read | message is displayed
 - **Variants:**
   - 1a. clicks on message notification | opens message log page
   - 1b. clicks on messages from menu | opens message log page
@@ -257,9 +267,6 @@ Functional Requirements](http://www.itu.dk/~slauesen/Papers/IEEEtasks.pdf).
   2. user selects compose item | use clicks on compose item button
   3. collect item name | enters details into text box
   4. collect item attributes | enters details into text boxs
-  5. collect item tags | enters details into text box
-  6. collect item category | enters details into text, it autocompletes whilst the user is typing
-  7. collect item-type | enters details into text, it autocompletes whilst the user is typing
   8. collect item image | a upload dialog opens, allowing the user to select an image to upload
   9. confirm item | user clicks 'create item'
   10. display item | the item is displayed via the view item task
