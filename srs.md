@@ -47,20 +47,24 @@ The following is a list estimated user functionality, users can:
 
 - Searching
   - Search for items to buy
-  - Wait for item to appear that matches search criteria
   - Sort list of searched for items
-  - View price of item type over time
-  - TODO: ?idea? search criteria price over time?
 
 ### 3.2.3 Deferred Functions
 
-The following is a list of functionality deferred for version 2 of the system
+The following is a list of functionality deferred for version 2.0 of the system
 
  - Items
   - Upload item image
 
+
  - Listings
   - Sell item (search for similar items to check recommended price)
+
+
+ - Searching
+  - Wait for item to appear that matches search criteria
+  - View price of item type over time
+  - TODO: ?idea? search criteria price over time?
 
 ### 3.2.4 Operating Environment
 
@@ -92,11 +96,14 @@ The following are the types of users that may use this software.
   - R1\. View history of all sales
   - R2\. Sort history of all sales by criteria
 
+
 - Frequent user
   - Knows how to use the system, wants quick and effective functionality.
 
+
 - Casual user
   - Needs extra information to describe the system for usage
+
 
 TODO: Expand these actors into extra requirements
 
@@ -404,7 +411,7 @@ TODO: this is covered by 13.3.14 Buy Item
 - **Variants:**
   - 1a. |
 
-#### 3.3.18 Wait for search
+#### 3.3.18 Wait for search (Deferred)
 - **Purpose**: Perform a live-search of listings for items that match criteria
 - **Trigger/Precondition:** User is logged in,
 - **Frequency:** 0-10 times per session per user
@@ -433,7 +440,7 @@ TODO: do we need a 'search listings' task?
   - 1a. search results are from a live search
   - 2a. attribute is the same as last sort | toggle asc <-> desc
 
-#### 3.3.20 View price of item-type over time
+#### 3.3.20 View price of item-type over time (Deferred)
 - **Purpose:** display the price of an item-type over time as a graph
 - **Trigger/Precondition:** User is logged in, item exists, (navigates menu->buy items->see price over time)
 - **Frequency:** 0-10 times per session per user
