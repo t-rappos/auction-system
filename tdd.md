@@ -35,7 +35,7 @@ https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
 TODO:
 - change AttributeValue : amount -> value, also add AttributeValue.type (e.g. enum, int, real etc...)
 - Item aquired date (from buying or constructing)
-
+- EAV may be an anti pattern... https://mikesmithers.wordpress.com/2013/12/22/the-anti-pattern-eavil-database-design/
 ### Candidate Classes
 #### List
 #### Diagram
