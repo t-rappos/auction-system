@@ -33,8 +33,6 @@ TODO: Update this to reflect technologies research page
 https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
 ![data model](data_model.PNG)
 TODO:
-- change AttributeValue : amount -> value, also add AttributeValue.type (e.g. enum, int, real etc...)
-- Item aquired date (from buying or constructing)
 - EAV may be an anti pattern... https://mikesmithers.wordpress.com/2013/12/22/the-anti-pattern-eavil-database-design/
 ### Candidate Classes
 #### List
@@ -50,9 +48,13 @@ V2 https://www.lucidchart.com/documents/edit/0e3063df-d456-42d1-9bae-fdfd764d3fb
 ## Front-End
 ### Sitemap / Website structure
 ![webpage-layout](page_nav.PNG)
+TODO: Display components under pages
+
 
 ### Wireframes and Descriptions
 TODO: find a website that can do this better than PowerPoint
+
+Note: These wireframes may have outdated terminology or functionality and serve as a rough guide and motivation for initial design of the front-end.
 
 #### Login Page
 ![login page](wireframes/pg_login.PNG)
@@ -62,6 +64,7 @@ TODO: find a website that can do this better than PowerPoint
 
 #### Landing/Profile Page - Focus on mail and profile view
 ![profile page](wireframes/pg_landing.PNG)
+TODO: change messageComponent -> InboxComponent
 
 #### Landing/Profile Page - Focus on message view
 ![profile page](wireframes/pg_message_view.PNG)
@@ -92,5 +95,119 @@ TODO: find a website that can do this better than PowerPoint
 
 #### Search - Buy Item
 ![Buy Item page](wireframes/pg_buy_item.PNG)
+
+### Component List
+This is a list of all the frontend components, a grouping of functionality for a related tasks. Components can be broken down into classes. Unless explicitly stated otherwise, all data validation is done server-side and likewise, all data that is displayed is generated server-side.
+
+TODO: update collaborators lists
+
+#### LoginComponent
+- **Description:** Where the user logs in
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+  - Collect login information from user
+  - Display login success feedback from server
+  - Navigate to landing page when ok'd by the server
+  - Navigate to the register page
+
+#### RegisterComponent
+- **Description:** Where the user registers a new account
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+  - Collect account information from user
+  - Display account creation feedback from server
+  - Navigate to the login page
+
+#### ProfileComponent
+- **Description:** Displays information about the users profile
+- **Parent:** NavBarComponent
+- **Child:** None
+- **Responsibilities | Collaborators:**
+  - Display a scrollable list of information about the users account
+  - Handle edit button
+  - Handle confirm button
+  - Make attributes editable when edit is pressed
+  - Collect modified attribute values when confirm is pressed
+  - Expand when profile nav-bar tag is pressed | NavBarComponent
+
+#### NavBarComponent
+- **Description:** The navigation bar, present on each page, allows navigation to other pages
+- **Parent:** None
+- **Child:** ProfileComponent, InboxComponent
+- **Responsibilities | Collaborators:**
+  - Allows the user to expand profile and inbox components | ProfileComponent, InboxComponent
+  - Allows the user to navigate to the main app pages
+  - Displays the users current amount of money
+
+#### InboxComponent
+- **Description:** Shows recent messages in a list and unread messages as notifications
+- **Parent:** NavBarComponent
+- **Child:** None
+- **Responsibilities | Collaborators:**
+   - Display number of unread messages as notification
+   - Display scrollable list of messages, and label unread
+   - Update noficiation count and message list when server requires
+   - Expand/Contract when message nav-bar tag is pressed | NavBarComponent
+   - Show message view when clicked | MessageComponent
+   - Bringup compose message window when button pressed | MessageComponent
+
+#### MessageComponent
+- **Description:** A view to read/edit message contents
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+  - 
+
+#### InventoryComponent
+- **Description:**
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+
+
+#### ItemInspectionComponent
+- **Description:**
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+
+
+#### ItemSellComponent
+- **Description:**
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+
+
+#### ItemConstructionComponent
+- **Description:**
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+
+
+#### ItemImageSelectionComponent
+- **Description:**
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+
+
+#### ListingSearchComponent
+- **Description:**
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+
+
+#### ListingSearchResultComponent
+- **Description:**
+- **Parent:** None
+- **Child:** None
+- **Responsibilities | Collaborators:**
+
+
 
 ### Use Cases
