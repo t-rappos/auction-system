@@ -100,6 +100,8 @@ TODO: change messageComponent -> InboxComponent
 This is a list of all the frontend components, a grouping of functionality for a related tasks. Components can be broken down into classes. Unless explicitly stated otherwise, all data validation is done server-side and likewise, all data that is displayed is generated server-side.
 
 TODO: update collaborators lists
+ - Check for feeback of actions (e.g. popup saying message sent...)
+ - Think about server/client functionality split
 
 #### LoginComponent
 - **Description:** Where the user logs in
@@ -119,6 +121,7 @@ TODO: update collaborators lists
   - Collect account information from user
   - Display account creation feedback from server
   - Navigate to the login page
+  - Can cancel
 
 #### ProfileComponent
 - **Description:** Displays information about the users profile
@@ -158,56 +161,99 @@ TODO: update collaborators lists
 - **Parent:** None
 - **Child:** None
 - **Responsibilities | Collaborators:**
-  - 
+  - Display who the message was from
+  - Display the title of the message
+  - Notify the server that the message was read
+  - Allow repling to message
+  - Fields are editable in compose mode
+  - Can send message (in compose mode)
+  - Can delete message
+  - Can cancel / exit view
+  - Displays feedback about sending message
 
 #### InventoryComponent
-- **Description:**
+- **Description:** A sortable and searchable list of the items the user owns
 - **Parent:** None
 - **Child:** None
 - **Responsibilities | Collaborators:**
-
+  - Display a scrollable table of item rows with item attributes as columns
+  - Order list asc/desc when attribute header is clicked, and change attribute label
+  - collect search text from user
+  - collect type of attribute to search by
+  - collect whether to highlight or filer
+  - highlight or selectively show items that match search criteria
+  - open ItemConstructionComponent when compose item button is clicked | ItemConstructionComponent
+  - open to ItemInspectionComponent when item is clicked | ItemInspectionComponent
+  - knows what items to display dependant on page | NavBarComponent
 
 #### ItemInspectionComponent
-- **Description:**
+- **Description:** A widget to show more information about and item and enable actions
 - **Parent:** None
 - **Child:** None
 - **Responsibilities | Collaborators:**
-
+  - Display an image for the item
+  - Updates when an item is clicked | InventoryComponent
+  - Knows which item to display
+  - Displays item name / description
+  - Displays item attributes in scrollable list
+  - Knows what page the user is on and updates content | NavBarComponent
+  - shows sell dialog when 'sell' is clicked | ItemSellComponent
+  - destroys item (after confirmation) when destroy is clicked
+  - removes item from listing when 'cancel listing' is clicked
 
 #### ItemSellComponent
-- **Description:**
+- **Description:** A dialog to list an item for sale
 - **Parent:** None
 - **Child:** None
 - **Responsibilities | Collaborators:**
-
+  - Knows what item is being sold | ItemInspectionComponent
+  - Collects whether user wants to buyout or bid
+  - Collects price
+  - Collects duration if bid selected using dropdown selection
+  - Lists the item after confirmation when list is clicked
+  - Is hidden when cancel is clicked
 
 #### ItemConstructionComponent
-- **Description:**
+- **Description:** Dialog to create new items
 - **Parent:** None
 - **Child:** None
 - **Responsibilities | Collaborators:**
+  - Display an image for the item
+  - Opens the image selection dialog when the image is clicked | ItemImageSelectionComponent
+  - Knows which item to display
+  - Collects item name and description
+  - Displays item attributes in scrollable list
+  - Collects additional attributes and adds to list
+  - Collects modifications to attribute values
+  - Creates the item after confirmation when 'Create Item' is clicked
+  - Is hidden when cancel is clicked
 
+TODO: this is mostly duplicated from ItemInspectionComponent
 
 #### ItemImageSelectionComponent
-- **Description:**
+- **Description:** To select the items display picture
 - **Parent:** None
 - **Child:** None
 - **Responsibilities | Collaborators:**
-
+  - Displays a scrollable list containing all available item images
+  - Collects the image to be used when an image is clicked
+  - Highlights the clicked image
+  - Updates the item image after 'Confirm Selection' is clicked | ItemConstructionComponent
+  - Is hidden when cancel is clicked
 
 #### ListingSearchComponent
-- **Description:**
+- **Description:** Allows the creation of a custom search query to search all of the listed items up for sale
 - **Parent:** None
 - **Child:** None
 - **Responsibilities | Collaborators:**
-
+  - Collects a series of queries whose results are intersected or unioned
+  - Allows attributes to be added to queries
+  - Collects values and ranges for attributes
+  - The list of queries can be scrolled
+  - A search is conducted when 'search' is clicked | ListingSearchResultComponent
+  - Queries can be removed when the 'x' button is clicked
 
 #### ListingSearchResultComponent
-- **Description:**
-- **Parent:** None
-- **Child:** None
-- **Responsibilities | Collaborators:**
-
-
+TODO: Cut this, its the same as InventoryComponent
 
 ### Use Cases
