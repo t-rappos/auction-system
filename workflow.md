@@ -16,6 +16,16 @@ The following are features of the intended development workflow
 - Define system structure by documenting all classes, their roles, responsibilities and collaborators.  (TDD)
 - List of classes/Components w/ specs
 - UML diagrams
+- Throwaway tech demos to explore software
+  - a 'days alive' calculator
+  - following this setup tutorial https://scotch.io/tutorials/react-on-the-server-for-beginners-build-a-universal-react-and-node-app
+    - pages
+      - homepage
+        - links to other pages
+      - calculator
+        - input forms (name, date of birth)
+      - list of entries
+        - table of all inputed data
 
 ## 2. Development
 

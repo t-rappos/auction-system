@@ -33,23 +33,33 @@ TODO: Update this to reflect technologies research page
 https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
 ![data model](data_model.PNG)
 TODO:
-- EAV may be an anti pattern... https://mikesmithers.wordpress.com/2013/12/22/the-anti-pattern-eavil-database-design/
+- EAV may be an anti pattern...
+ https://mikesmithers.wordpress.com/2013/12/22/the-anti-pattern-eavil-database-design/
+
 ### Candidate Classes
+
 #### List
+
 #### Diagram
 https://www.lucidchart.com/documents/edit/ad45e7f3-f42b-44d3-a656-9027cd0a5a33
 V2 https://www.lucidchart.com/documents/edit/0e3063df-d456-42d1-9bae-fdfd764d3fb5#
+
 #### Justification
+
 #### CRC cards
+
 #### Quality, Extension, Design Patterns
+
 ### Sequence Diagrams
+
 #### 1. Bootstrap
 
 ## Front-End
+
 ### Sitemap / Website structure
 ![webpage-layout](page_nav.PNG)
-TODO: Display components under pages
-
+TODO:
+  - Maybe we can extract InventoryComponent, ItemInspectionComponent into a global component (e.g. similar to navbar)
 
 ### Wireframes and Descriptions
 TODO: find a website that can do this better than PowerPoint
