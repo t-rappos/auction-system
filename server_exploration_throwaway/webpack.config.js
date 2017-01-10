@@ -12,10 +12,12 @@ module.exports = {
       ServerInventory: 'app/components/ServerInventory.jsx',
       TabLogin: 'app/components/TabLogin.jsx',
       TabView: 'app/components/TabView.jsx',
-      UserInventory: 'app/components/UserInventory.jsx',
-      UserList: 'app/components/UserList.jsx',
-      UserLoginList: 'app/components/UserLoginList.jsx',
-      UserLogin: 'app/api/UserLogin.jsx'
+      UserInventory:  'app/components/UserInventory.jsx',
+      UserList:       'app/components/UserList.jsx',
+      UserLoginList:  'app/components/UserLoginList.jsx',
+      UserLogin:  'app/api/UserLogin.jsx',
+      ListItem:   'app/components/ListItem.jsx',
+      List:       'app/components/List.jsx'
     },
     extensions: ['','.js','.jsx']
   },
