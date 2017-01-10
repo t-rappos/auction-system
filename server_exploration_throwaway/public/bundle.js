@@ -25538,16 +25538,13 @@
 
 	var React = __webpack_require__(1);
 	var UserLogin = __webpack_require__(226);
-	var List = __webpack_require__(256);
+	var ListItem = __webpack_require__(257);
 
 	//http://stackoverflow.com/questions/28511207/react-js-onclick-event-handler
 
 	function Item(props) {
-	  return React.createElement(
-	    'li',
-	    null,
-	    props.message
-	  );
+	  //return <li>{props.message}</li>;
+	  return React.createElement(ListItem, { content: props.message });
 	}
 
 	function Listify(items) {
@@ -25568,13 +25565,6 @@
 	    );
 	  }
 	}
-
-	//http://stackoverflow.com/questions/38081367/using-react-to-get-data-from-server-and-update-components-state
-	//https://www.quora.com/Is-it-possible-to-consume-a-RESTful-API-with-React-js-alone-i-e-without-any-server-side-language-provided-the-API
-	//TODO: try this next to get data from server
-	/*
-	  maybe see if flux or redux can fetch data from server?
-	*/
 
 	var UserLoginList = function (_React$Component) {
 	  _inherits(UserLoginList, _React$Component);
@@ -25609,13 +25599,7 @@
 	          null,
 	          'UserLoginList'
 	        ),
-	        userListHtml,
-	        React.createElement(
-	          'h4',
-	          null,
-	          'Clickable List'
-	        ),
-	        React.createElement(List, null)
+	        userListHtml
 	      );
 	    }
 	  }]);
@@ -27236,54 +27220,7 @@
 	module.exports = ServerInventory;
 
 /***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(1);
-	var ListItem = __webpack_require__(257);
-
-	var List = function (_React$Component) {
-	  _inherits(List, _React$Component);
-
-	  function List() {
-	    _classCallCheck(this, List);
-
-	    return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).apply(this, arguments));
-	  }
-
-	  _createClass(List, [{
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'ul',
-	          null,
-	          React.createElement(ListItem, { content: 'Component 1' }),
-	          React.createElement(ListItem, { content: 'Component 2' }),
-	          React.createElement(ListItem, { content: 'Component 3' })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return List;
-	}(React.Component);
-
-	module.exports = List;
-
-/***/ },
+/* 256 */,
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 

@@ -1,3 +1,4 @@
+/*
 var React = require('react');
 var ListItem = require('ListItem');
 
@@ -18,3 +19,4 @@ class List extends React.Component
 }
 
 module.exports = List;
+*/

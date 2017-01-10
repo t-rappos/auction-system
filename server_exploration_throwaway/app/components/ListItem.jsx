@@ -6,6 +6,7 @@ class ListItem extends React.Component
     super(props);
     this.state = {isSelected: false};
   }
+
   handleClick = () => {
     console.log('this is:', this);
     this.setState({isSelected: true});
