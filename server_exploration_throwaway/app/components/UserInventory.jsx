@@ -3,7 +3,7 @@ var React = require('react');
 var UserInventory = React.createClass({
   render: function(){
     return (
-      <h3>UserInventory</h3>
+      <h4>UserInventory</h4>
     );
   }
 });

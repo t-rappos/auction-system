@@ -25501,15 +25501,21 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var UserLoginList = __webpack_require__(226);
 
 	var TabLogin = React.createClass({
 	  displayName: 'TabLogin',
 
 	  render: function render() {
 	    return React.createElement(
-	      'h3',
+	      'div',
 	      null,
-	      'TabLogin'
+	      React.createElement(
+	        'h3',
+	        null,
+	        'TabLogin'
+	      ),
+	      React.createElement(UserLoginList, null)
 	    );
 	  }
 	});
@@ -25523,20 +25529,118 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var UserInventory = __webpack_require__(227);
+	var UserList = __webpack_require__(228);
+	var ServerInventory = __webpack_require__(229);
 
 	var TabView = React.createClass({
 	  displayName: 'TabView',
 
 	  render: function render() {
 	    return React.createElement(
-	      'h3',
+	      'div',
 	      null,
-	      'TabView'
+	      React.createElement(
+	        'h3',
+	        null,
+	        'TabView'
+	      ),
+	      React.createElement(UserInventory, null),
+	      React.createElement(UserList, null),
+	      React.createElement(ServerInventory, null)
 	    );
 	  }
 	});
 
 	module.exports = TabView;
+
+/***/ },
+/* 226 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var UserLoginList = React.createClass({
+	  displayName: 'UserLoginList',
+
+	  render: function render() {
+	    return React.createElement(
+	      'h4',
+	      null,
+	      'UserLoginList'
+	    );
+	  }
+	});
+
+	module.exports = UserLoginList;
+
+/***/ },
+/* 227 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var UserInventory = React.createClass({
+	  displayName: 'UserInventory',
+
+	  render: function render() {
+	    return React.createElement(
+	      'h4',
+	      null,
+	      'UserInventory'
+	    );
+	  }
+	});
+
+	module.exports = UserInventory;
+
+/***/ },
+/* 228 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var UserList = React.createClass({
+	  displayName: 'UserList',
+
+	  render: function render() {
+	    return React.createElement(
+	      'h4',
+	      null,
+	      'UserList'
+	    );
+	  }
+	});
+
+	module.exports = UserList;
+
+/***/ },
+/* 229 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var ServerInventory = React.createClass({
+	  displayName: 'ServerInventory',
+
+	  render: function render() {
+	    return React.createElement(
+	      'h4',
+	      null,
+	      'ServerInventory'
+	    );
+	  }
+	});
+
+	module.exports = ServerInventory;
 
 /***/ }
 /******/ ]);
