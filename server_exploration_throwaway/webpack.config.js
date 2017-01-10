@@ -14,7 +14,8 @@ module.exports = {
       TabView: 'app/components/TabView.jsx',
       UserInventory: 'app/components/UserInventory.jsx',
       UserList: 'app/components/UserList.jsx',
-      UserLoginList: 'app/components/UserLoginList.jsx'
+      UserLoginList: 'app/components/UserLoginList.jsx',
+      UserLogin: 'app/api/UserLogin.jsx'
     },
     extensions: ['','.js','.jsx']
   },

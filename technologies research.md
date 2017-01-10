@@ -169,6 +169,9 @@ Further explanation about each technology
 - *Where does it fit in the stack?*
 - *What is it usually used for?*
 
+**Good tutorial TODO: read this **
+https://www.smashingmagazine.com/2016/03/server-side-rendering-react-node-express/
+
 ## AnglularJS
 
 - Data Binding Framework (Single Page Applications SPA)

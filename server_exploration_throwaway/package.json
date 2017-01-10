@@ -9,9 +9,10 @@
   "author": "Thomas Rappos",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.15.3",
+    "express": "^4.14.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
-    "express": "^4.14.0",
     "react-router": "^2.0.0"
   },
   "devDependencies": {
