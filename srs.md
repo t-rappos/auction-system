@@ -24,7 +24,7 @@ The following is a list estimated user functionality, users can:
   - Create an account
   - Edit their account
   - Message other accounts
-  - See received messages
+  - See received messages (loaded on login, and as they are sent)
   - Have associated currency amount for use
   - Login
   - Logout

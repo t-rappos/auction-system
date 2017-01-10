@@ -32,6 +32,7 @@ TODO: Update this to reflect technologies research page
 
 https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
 ![data model](data_model.PNG)
+
 TODO:
 - EAV may be an anti pattern...
  https://mikesmithers.wordpress.com/2013/12/22/the-anti-pattern-eavil-database-design/
@@ -43,6 +44,20 @@ TODO:
 #### Diagram
 https://www.lucidchart.com/documents/edit/ad45e7f3-f42b-44d3-a656-9027cd0a5a33
 V2 https://www.lucidchart.com/documents/edit/0e3063df-d456-42d1-9bae-fdfd764d3fb5#
+
+V3
+![server domain model v1](server_domain_model1.PNG)
+
+Notes:
+- It would be nice to be able to use the same data validators in the front-end and back-end
+- ? Item having a listing (it shouldn't know anything about it...), might work if listing is a blind reference 
+- Does bid/buyout have to be a separate object?
+
+TODO: Think About:
+- Multiple users interacting - concurrency - Database binding to objects
+- Adding new types of item attributes
+- Switching front-ends
+- Switching databases
 
 #### Justification
 
