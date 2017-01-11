@@ -6,6 +6,8 @@ var Main = require('Main');
 var TabLogin = require('TabLogin');
 var TabView = require('TabView');
 
+var redux = require('Redux');
+
 ReactDOM.render(
   <div>
     <h1>app.jsx server exploration App!</h1>

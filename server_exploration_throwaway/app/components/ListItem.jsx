@@ -1,4 +1,5 @@
 var React = require('react');
+//var store = require('Redux').configure();
 
 class ListItem extends React.Component
 {
@@ -8,7 +9,15 @@ class ListItem extends React.Component
   }
 
   handleClick = () => {
-    console.log('this is:', this);
+    console.log('(ListItem) a list item was clicked ', this);
+
+    /*
+    store.dispatch({
+      type : 'LOGIN_USERNAME_CLICKED',
+      username : this.props.content
+    });
+    */
+
     this.setState({isSelected: true});
   }
 

@@ -55,8 +55,8 @@
 	  'Boilerplate App!'
 	), document.getElementById('app'));
 
-	//require('./redux-example.jsx');
-	__webpack_require__(177);
+	__webpack_require__(159);
+	//require('./redux-todo-example.jsx');
 
 /***/ },
 /* 1 */
@@ -19753,7 +19753,54 @@
 
 
 /***/ },
-/* 159 */,
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var redux = __webpack_require__(160);
+
+	console.log('Starting redux example');
+
+	var reducer = function reducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { name: 'Anonymous' };
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'CHANGE_NAME':
+	      return _extends({}, state, {
+	        name: action.name
+	      });
+	    default:
+	      return state;
+	  }
+	};
+
+	var store = redux.createStore(reducer);
+
+	//subscribe to changes
+	store.subscribe(function () {
+	  var state = store.getState();
+	  console.log('name is', state.name);
+	});
+
+	var action = {
+	  type: 'CHANGE_NAME',
+	  name: 'Andrew'
+	};
+
+	store.dispatch(action);
+
+	var action2 = {
+	  type: 'CHANGE_NAME',
+	  name: 'asdfsadf'
+	};
+
+	store.dispatch(action2);
+
+/***/ },
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -20627,48 +20674,6 @@
 	    }, last.apply(undefined, arguments));
 	  };
 	}
-
-/***/ },
-/* 177 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var redux = __webpack_require__(160);
-
-	var stateDefault = {
-	  searchText: '',
-	  showCompleted: false,
-	  todos: []
-	};
-
-	var reducer = function reducer() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : stateDefault;
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'CHANGE_SEARCH_TEXT':
-	      return _extends({}, state, {
-	        searchText: action.searchText
-	      });
-	    default:
-	      return state;
-	  }
-	  return state;
-	};
-
-	var store = redux.createStore(reducer);
-
-	console.log('currentState', store.getState());
-
-	store.dispatch({
-	  type: 'CHANGE_SEARCH_TEXT',
-	  searchText: 'work'
-	});
-
-	console.log('searchText -> work', store.getState());
 
 /***/ }
 /******/ ]);
