@@ -12,7 +12,11 @@ class UserLoginList extends React.Component{
     this.state =
     {
       userList : [],
-      user : 'not-selected'
+      user : '...',
+      userSelected : false,
+      userLoggedIn : false,
+      message : 'Please select a username',
+      status : 'Selected : '
     };
 
     let tempThis = this;
@@ -49,24 +53,56 @@ class UserLoginList extends React.Component{
 
   onItemClick(clickedUserName)
   {
-    this.setState(
-      {
+    if (!this.state.userLoggedIn)
+    {
+      this.setState(
+        {
+          ...this.state,
+          user: clickedUserName,
+          userSelected : true
+        }
+      );
+    }
+  }
+
+  handleSubmit(event)
+  {
+    event.preventDefault();
+    console.log("client Submitting");
+
+    this.setState({
         ...this.state,
-        user: clickedUserName
+        message : 'Processing...'});
+
+    let formData = {user : this.state.user};
+    let tempThis = this;
+
+    UserLogin.sendLoginChoice(formData)
+    .then(function(response){
+        console.log('UserLoginList - post success');
+        tempThis.setState({
+            ...tempThis.state,
+            userLoggedIn : true,
+            status : 'Logged in as : ',
+            message : ''
+          });
+      })
+      .catch(function(errorMessage){
+        console.log('UserLoginList - post fail');
+        alert(errorMessage);
       }
     );
+
   }
 
   render()
   {
-    const userList = this.state.userList;
-    const user = this.state.user;
     let userItemId = 0;
     return (
       <div className = "user-list">
-        <h4>UserLoginList, current user = {user}</h4>
-
-        {userList.map((username) => {
+        <h4>UserLoginList, {this.state.status} {this.state.user}</h4>
+        <form action="" onSubmit = {this.handleSubmit.bind(this)}>
+        {this.state.userList.map((username) => {
           return(
               <ListItem
                 key = {userItemId++}
@@ -76,7 +112,11 @@ class UserLoginList extends React.Component{
                 />
           );
         })}
-
+        <button type="submit" className="btn btn-default" disabled={!this.state.userSelected || this.state.userLoggedIn}>
+            Login
+        </button>
+        </form>
+      <h5>{this.state.message}</h5>
       </div>
     );
   }

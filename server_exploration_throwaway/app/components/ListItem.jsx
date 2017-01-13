@@ -26,10 +26,18 @@ class ListItem extends React.Component
   }
 }
 
+//enforce strict typing
+ListItem.propTypes = {
+  content : React.PropTypes.string.isRequired,
+  isSelected : React.PropTypes.bool.isRequired
+};
+
+
 ListItem.defaultProps = {
   content : 'default text',
   isSelected : false
 };
+
 
 module.exports = ListItem;
 
