@@ -25589,12 +25589,20 @@
 	  }
 
 	  _createClass(UserLoginList, [{
+	    key: 'onItemClick',
+	    value: function onItemClick(clickedUserName) {
+	      this.setState(_extends({}, this.state, {
+	        user: clickedUserName
+	      }));
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      var userList = this.state.userList;
 	      var user = this.state.user;
 	      var userItemId = 0;
-	      console.log('userList', userList);
 	      return React.createElement(
 	        'div',
 	        { className: 'user-list' },
@@ -25605,7 +25613,12 @@
 	          user
 	        ),
 	        userList.map(function (username) {
-	          return React.createElement(ListItem, { content: username, key: userItemId++ });
+	          return React.createElement(ListItem, {
+	            key: userItemId++,
+	            content: username,
+	            onClickParentHandler: _this2.onItemClick.bind(_this2),
+	            isSelected: _this2.state.user === username ? true : false
+	          });
 	        })
 	      );
 	    }
@@ -28434,19 +28447,9 @@
 	    var _this = _possibleConstructorReturn(this, (ListItem.__proto__ || Object.getPrototypeOf(ListItem)).call(this, props));
 
 	    _this.handleClick = function () {
-	      console.log('(ListItem) a list item was clicked ', _this);
-
-	      /*
-	      store.dispatch({
-	        type : 'LOGIN_USERNAME_CLICKED',
-	        username : this.props.content
-	      });
-	      */
-
-	      _this.setState({ isSelected: true });
+	      _this.props.onClickParentHandler(_this.props.content);
 	    };
 
-	    _this.state = { isSelected: false };
 	    return _this;
 	  }
 
@@ -28456,7 +28459,9 @@
 
 	    //https://facebook.github.io/react/docs/handling-events.html
 	    value: function render() {
-	      var isSelected = this.state.isSelected;
+
+	      var isSelected = this.props.isSelected;
+	      console.log("render", isSelected);
 	      var style = { 'backgroundColor': '' };
 	      if (isSelected) {
 	        style = { 'backgroundColor': '#ccc' };
@@ -28472,7 +28477,19 @@
 	  return ListItem;
 	}(React.Component);
 
+	ListItem.defaultProps = {
+	  content: 'default text',
+	  isSelected: false
+	};
+
 	module.exports = ListItem;
+
+	/*
+	store.dispatch({
+	  type : 'LOGIN_USERNAME_CLICKED',
+	  username : this.props.content
+	});
+	*/
 
 /***/ }
 /******/ ]);

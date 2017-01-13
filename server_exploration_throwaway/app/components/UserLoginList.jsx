@@ -15,7 +15,7 @@ class UserLoginList extends React.Component{
       user : 'not-selected'
     };
 
-    var tempThis = this;
+    let tempThis = this;
 
     UserLogin.getUsers().then(
       function(users){
@@ -47,19 +47,33 @@ class UserLoginList extends React.Component{
 */
 }
 
+  onItemClick(clickedUserName)
+  {
+    this.setState(
+      {
+        ...this.state,
+        user: clickedUserName
+      }
+    );
+  }
+
   render()
   {
-    var userList = this.state.userList;
-    var user = this.state.user;
-    var userItemId = 0;
-    console.log('userList', userList);
+    const userList = this.state.userList;
+    const user = this.state.user;
+    let userItemId = 0;
     return (
       <div className = "user-list">
         <h4>UserLoginList, current user = {user}</h4>
 
         {userList.map((username) => {
           return(
-              <ListItem content={username} key = {userItemId++}/>
+              <ListItem
+                key = {userItemId++}
+                content={username}
+                onClickParentHandler = {this.onItemClick.bind(this)}
+                isSelected = {(this.state.user === username) ? true : false}
+                />
           );
         })}
 

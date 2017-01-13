@@ -1,12 +1,12 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+let React = require('react');
+let ReactDOM = require('react-dom');
+let {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
-var Main = require('Main');
-var TabLogin = require('TabLogin');
-var TabView = require('TabView');
+let Main = require('Main');
+let TabLogin = require('TabLogin');
+let TabView = require('TabView');
 
-var redux = require('Redux');
+let redux = require('Redux');
 
 ReactDOM.render(
   <div>

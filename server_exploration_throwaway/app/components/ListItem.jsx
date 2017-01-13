@@ -5,26 +5,18 @@ class ListItem extends React.Component
 {
   constructor(props){
     super(props);
-    this.state = {isSelected: false};
   }
 
   handleClick = () => {
-    console.log('(ListItem) a list item was clicked ', this);
-
-    /*
-    store.dispatch({
-      type : 'LOGIN_USERNAME_CLICKED',
-      username : this.props.content
-    });
-    */
-
-    this.setState({isSelected: true});
+    this.props.onClickParentHandler(this.props.content);
   }
 
   //https://facebook.github.io/react/docs/handling-events.html
   render(){
-    var isSelected = this.state.isSelected;
-    var style = {'backgroundColor' : ''};
+
+    let isSelected = this.props.isSelected;
+    console.log("render",isSelected);
+    let style = {'backgroundColor' : ''};
     if (isSelected){
       style = {'backgroundColor': '#ccc'};
     }
@@ -34,4 +26,17 @@ class ListItem extends React.Component
   }
 }
 
+ListItem.defaultProps = {
+  content : 'default text',
+  isSelected : false
+};
+
 module.exports = ListItem;
+
+
+/*
+store.dispatch({
+  type : 'LOGIN_USERNAME_CLICKED',
+  username : this.props.content
+});
+*/
