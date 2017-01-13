@@ -5,28 +5,6 @@ var ListItem = require('ListItem');
 
 //http://stackoverflow.com/questions/28511207/react-js-onclick-event-handler
 
-function Item(props) {
-  //return <li>{props.message}</li>;
-  return <ListItem content={props.message}/>;
-}
-
-function Listify(items) {
-  //const todos = ['finish doc', 'submit pr', 'nag dan to review'];
-  if (typeof items !== 'undefined') {
-    return (
-      <ul>
-        {items.map((message) => <Item key={message} message={message} />)}
-      </ul>
-    );
-  }
-  else
-  {
-    return (
-      <ul>null</ul>
-    );
-  }
-}
-
 class UserLoginList extends React.Component{
 
   constructor(props){
@@ -72,13 +50,19 @@ class UserLoginList extends React.Component{
   render()
   {
     var userList = this.state.userList;
-    var userListHtml = Listify(userList);
     var user = this.state.user;
-
+    var userItemId = 0;
+    console.log('userList', userList);
     return (
-      <div>
+      <div className = "user-list">
         <h4>UserLoginList, current user = {user}</h4>
-        {userListHtml}
+
+        {userList.map((username) => {
+          return(
+              <ListItem content={username} key = {userItemId++}/>
+          );
+        })}
+
       </div>
     );
   }

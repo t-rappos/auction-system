@@ -25547,30 +25547,6 @@
 
 	//http://stackoverflow.com/questions/28511207/react-js-onclick-event-handler
 
-	function Item(props) {
-	  //return <li>{props.message}</li>;
-	  return React.createElement(ListItem, { content: props.message });
-	}
-
-	function Listify(items) {
-	  //const todos = ['finish doc', 'submit pr', 'nag dan to review'];
-	  if (typeof items !== 'undefined') {
-	    return React.createElement(
-	      'ul',
-	      null,
-	      items.map(function (message) {
-	        return React.createElement(Item, { key: message, message: message });
-	      })
-	    );
-	  } else {
-	    return React.createElement(
-	      'ul',
-	      null,
-	      'null'
-	    );
-	  }
-	}
-
 	var UserLoginList = function (_React$Component) {
 	  _inherits(UserLoginList, _React$Component);
 
@@ -25616,19 +25592,21 @@
 	    key: 'render',
 	    value: function render() {
 	      var userList = this.state.userList;
-	      var userListHtml = Listify(userList);
 	      var user = this.state.user;
-
+	      var userItemId = 0;
+	      console.log('userList', userList);
 	      return React.createElement(
 	        'div',
-	        null,
+	        { className: 'user-list' },
 	        React.createElement(
 	          'h4',
 	          null,
 	          'UserLoginList, current user = ',
 	          user
 	        ),
-	        userListHtml
+	        userList.map(function (username) {
+	          return React.createElement(ListItem, { content: username, key: userItemId++ });
+	        })
 	      );
 	    }
 	  }]);
