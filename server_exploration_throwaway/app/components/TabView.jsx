@@ -5,6 +5,7 @@ var ServerInventory = require('ServerInventory');
 
 var TabView = React.createClass({
   render: function(){
+    console.log('tab view', this.props);
     return (
       <div>
         <h3>TabView</h3>

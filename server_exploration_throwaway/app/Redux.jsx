@@ -1,16 +1,19 @@
 var redux = require('redux');
-
-console.log("Loaded Redux");
+//var users = require('./container/users.jsx');
+var UsersReducer = require('./container/usersReducer.jsx');
 
 //var Redux = redux.createStore(reducer);
 //module.exports = Redux;
 
-var defaultState = {
-  username : 'redux-default-state'
-};
+//var defaultState = {
+//  username : 'redux-default-state',
+//  loggedInUser : '',
+//  loggedInUsers : []
+//};
 
 //var nextMovieId = 0;
 
+/*
 var reducer1 = (state = defaultState, action) => {
   switch(action.type){
     case 'LOGIN_USERNAME_CLICKED':
@@ -19,7 +22,7 @@ var reducer1 = (state = defaultState, action) => {
         ...state,
         username: action.username
       };
-    /*
+
     case 'ADD_MOVIE':
     return{
       ...state,
@@ -40,7 +43,7 @@ var reducer1 = (state = defaultState, action) => {
       ...state,
       movies: state.movies.filter((movie) => movie.id !== action.id);
     };
-    */
+
 
     default:
       return state;
@@ -73,37 +76,79 @@ var hobbiesReducer = (state = [], action) => {
   }
 };
 
+*/
+
+
+
+
+//var store = redux.createStore(reducer,
+//  window.__REDUX_DEVTOOLS_EXTENSION__
+//  && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+console.log("Loaded Redux");
+
 var reducer = redux.combineReducers({
-  name: nameReducer,
-  hobbies: hobbiesReducer
+  //name: nameReducer,
+  //hobbies: hobbiesReducer,
+  usersReducer: UsersReducer.usersReducer
 });
 
 var store = redux.createStore(reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__
   && window.__REDUX_DEVTOOLS_EXTENSION__());
-/*
-export var configure = () => {
-  var defaultState = {
-    username : 'redux-default-state'
-  };
 
-  var reducer = (state = defaultState, action) => {
-    switch(action.type){
-      case 'LOGIN_USERNAME_CLICKED':
-      console.log("redux reducer -> login username clicked");
-        return{
-          ...state,
-          username: action.username
-        };
-      default:
-        return state;
-    }
-  };
-
-  var store = redux.createStore(reducer);
-  return store;
+export function dispatch(action)
+{
+  store.dispatch(action);
 }
-*/
+
+export function getState()
+{
+  return store.getState();
+}
+
+export function subscribe(fn)
+{
+  //Redux.store.subscribe(()=>{
+  //  var state = store.getState();
+  //  console.log("redux state changed", store.getState());
+  //});
+  store.subscribe(fn);
+}
+//export var configure = () => {
+  //var defaultState = {
+  //  username : 'redux-default-state'
+  //};
+
+  //var reducer = (state = defaultState, action) => {
+  //  switch(action.type){
+  //    case 'LOGIN_USERNAME_CLICKED':
+  //    console.log("redux reducer -> login username clicked");
+  //      return{
+  //        ...state,
+  //        username: action.username
+  //      };
+  //    default:
+  //      return state;
+  //  }
+  //};
+
+  //var store = redux.createStore(reducer);
+  //return store;
+
+  //var reducer = redux.combineReducers({
+  //  //name: nameReducer,
+  //  //hobbies: hobbiesReducer,
+  //  users: users.usersReducer
+  //});
+
+  //var store = redux.createStore(reducer,
+  //  window.__REDUX_DEVTOOLS_EXTENSION__
+  //  && window.__REDUX_DEVTOOLS_EXTENSION__());
+  //return store;
+
+//}
+
 
 /*
 class Redux extends React.Component
@@ -114,6 +159,7 @@ class Redux extends React.Component
 
 //subscribe to changes
 
+/*
 store.subscribe(()=>{
   var state = store.getState();
 });
@@ -133,3 +179,4 @@ var action = {
 };
 
 store.dispatch(action);
+*/

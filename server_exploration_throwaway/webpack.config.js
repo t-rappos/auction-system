@@ -18,7 +18,8 @@ module.exports = {
       UserLogin:  'app/api/UserLogin.jsx',
       ListItem:   'app/components/ListItem.jsx',
       List:       'app/components/List.jsx',
-      Redux:      'app/Redux.jsx'
+      Redux:      'app/Redux.jsx',
+      Users:      'app/container/users.jsx'
     },
     extensions: ['','.js','.jsx']
   },
