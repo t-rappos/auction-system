@@ -41,7 +41,14 @@ module.exports =
 
   addUser : function(user)
   {
-    users.push(user);
+    //make sure user isn't already here,
+    var index = users.indexOf(user);
+    var success = index === -1;
+    if (success)
+    {
+      users.push(user);
+    }
+    return success;
   },
 
   removeUser : function(user)
@@ -51,5 +58,6 @@ module.exports =
     {
       users.splice(index,1);
     }
+    return index !== -1;
   }
 };
