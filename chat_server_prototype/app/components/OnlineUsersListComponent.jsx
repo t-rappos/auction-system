@@ -17,10 +17,26 @@ function HelloWorldComponent() {
 
 */
 
+
+const OnlineUsersListComponentListStyle = {
+  overflowY:'scroll',
+  overflowX:'scroll',
+  listStyleType: 'none',
+  backgroundColor: '#DEB272',
+  paddingLeft: '0pt',
+  maxWidth: '200pt',
+  minWidth: '100pt',
+  height: '70vh',
+};
+
+
 const OnlineUsersListComponentStyle = {
 
 }
 
+const OnlineUsersListComponentListItemStype = {
+  backgroundColor: '#AE92A2'
+}
 
 class OnlineUsersListComponent  extends React.Component {
   constructor(props){
@@ -28,7 +44,13 @@ class OnlineUsersListComponent  extends React.Component {
   }
   render(){
     return (
-      <div style={OnlineUsersListComponentStyle}><p>|user list|</p></div>
+      <div style={OnlineUsersListComponentStyle}>
+        <ul style={OnlineUsersListComponentListStyle}>
+          <li style={OnlineUsersListComponentListItemStype}>Alimintor8</li>
+          <li style={OnlineUsersListComponentListItemStype}>Jeb</li>
+          <li style={OnlineUsersListComponentListItemStype}>Duck</li>
+        </ul>
+      </div>
     );
   }
 }

@@ -25439,12 +25439,15 @@
 
 	var mainWindowStyle = {
 	  color: 'blue',
-	  display: 'flex'
+	  display: 'flex',
+	  flexDirection: 'row',
+	  flex: '1'
 	};
 
 	var subWindowStyle = {
 	  color: 'red',
-	  display: 'flex'
+	  display: 'flex',
+	  flexDirection: 'row'
 	};
 
 	var Main = React.createClass({
@@ -25464,8 +25467,8 @@
 	      React.createElement(
 	        'div',
 	        { style: subWindowStyle },
-	        React.createElement(UsernameInputFormComponent, null),
-	        React.createElement(ChatInputFormComponent, null)
+	        React.createElement(ChatInputFormComponent, null),
+	        React.createElement(UsernameInputFormComponent, null)
 	      )
 	    );
 	  }
@@ -25504,10 +25507,25 @@
 	    <div style="margin-left: 620px;"> Right </div>
 	</div>
 
+	nav ul{height:200px; width:18%;}
+	nav ul{overflow:hidden; overflow-y:scroll;}
+
 	*/
 
 	var ChatComponentStyle = {
 	  float: 'right'
+	};
+
+	var ChatComponentListStyle = {
+	  overflow: 'hidden',
+	  overflowY: 'scroll',
+	  overflowX: 'scroll',
+	  listStyleType: 'none',
+	  backgroundColor: '#DEB272',
+	  paddingLeft: '0pt',
+	  width: '80vw',
+	  maxWidth: '400pt',
+	  height: '70vh'
 	};
 
 	var ChatComponent = function (_React$Component) {
@@ -25526,9 +25544,23 @@
 	        'div',
 	        { style: ChatComponentStyle },
 	        React.createElement(
-	          'p',
-	          null,
-	          '|chat list|'
+	          'ul',
+	          { style: ChatComponentListStyle },
+	          React.createElement(
+	            'li',
+	            null,
+	            'Message : this is a message'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Message : this is a message'
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            'Message : this is a message'
+	          )
 	        )
 	      );
 	    }
@@ -25572,7 +25604,22 @@
 
 	*/
 
+	var OnlineUsersListComponentListStyle = {
+	  overflowY: 'scroll',
+	  overflowX: 'scroll',
+	  listStyleType: 'none',
+	  backgroundColor: '#DEB272',
+	  paddingLeft: '0pt',
+	  maxWidth: '200pt',
+	  minWidth: '100pt',
+	  height: '70vh'
+	};
+
 	var OnlineUsersListComponentStyle = {};
+
+	var OnlineUsersListComponentListItemStype = {
+	  backgroundColor: '#AE92A2'
+	};
 
 	var OnlineUsersListComponent = function (_React$Component) {
 	  _inherits(OnlineUsersListComponent, _React$Component);
@@ -25590,9 +25637,23 @@
 	        'div',
 	        { style: OnlineUsersListComponentStyle },
 	        React.createElement(
-	          'p',
-	          null,
-	          '|user list|'
+	          'ul',
+	          { style: OnlineUsersListComponentListStyle },
+	          React.createElement(
+	            'li',
+	            { style: OnlineUsersListComponentListItemStype },
+	            'Alimintor8'
+	          ),
+	          React.createElement(
+	            'li',
+	            { style: OnlineUsersListComponentListItemStype },
+	            'Jeb'
+	          ),
+	          React.createElement(
+	            'li',
+	            { style: OnlineUsersListComponentListItemStype },
+	            'Duck'
+	          )
 	        )
 	      );
 	    }
@@ -25632,9 +25693,13 @@
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
-	        'p',
+	        'div',
 	        null,
-	        '|username|'
+	        React.createElement(
+	          'form',
+	          null,
+	          React.createElement('input', { type: 'text', size: '14', placeholder: 'Enter username' })
+	        )
 	      );
 	    }
 	  }]);
@@ -25660,6 +25725,16 @@
 
 	var React = __webpack_require__(1);
 
+	var ChatInputFormComponentStyle = {
+	  paddingLeft: '0pt',
+	  width: '80vw',
+	  maxWidth: '400pt'
+	};
+
+	var ChatInputFormComponentFormStyle = {
+	  width: '80vw'
+	};
+
 	var ChatInputFormComponent = function (_React$Component) {
 	  _inherits(ChatInputFormComponent, _React$Component);
 
@@ -25673,9 +25748,13 @@
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
-	        'p',
-	        null,
-	        '|chat message|'
+	        'div',
+	        { style: ChatInputFormComponentStyle },
+	        React.createElement(
+	          'form',
+	          { style: ChatInputFormComponentFormStyle },
+	          React.createElement('input', { size: '90', type: 'text', placeholder: 'Enter messages here!' })
+	        )
 	      );
 	    }
 	  }]);

@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var ServerState = require('./serverState.js');
 
 //app.get('/', function(req, res){
 //  res.send('<!doctype html>\
@@ -38,9 +39,54 @@ var io = require('socket.io')(http);
 
 io.on('connection', function(socket){
   console.log('a user connected');
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
+
+// io.emit('this', { will: 'be received by everyone'});
+
+  //callback() -> handleMessageList(messageList)
+  socket.on('get_messages', function(data,callback){
+    var messages = ServerState.getMessages();
+    if (messages){console.log('get_messages:',messages.length);}
+    callback(messages);
   });
+
+  //callback() -> handleUserList(userlist))
+  socket.on('get_users', function(data,callback){
+    var users = ServerState.getUsers();
+    if (users){console.log('get_users:',users.length);}
+    callback(users);
+  });
+
+  //data.username
+  socket.on('login', function(data,callback){
+    var username = data.username;
+    if (!username){throw new Error("error: login needs username");}
+    console.log('login',username);
+    ServerState.addUser(username);
+    console.log("Online users ", serverState.getNumberOfUsers());
+  });
+
+  //data.username
+  socket.on('logout', function(data,callback){
+    var username = data.username;
+    if (!username){throw new Error("error: logout needs username");}
+    console.log('logout',username);
+    ServerState.removeUser(username);
+    console.log("Online users ", serverState.getNumberOfUsers());
+  });
+
+  //data.author
+  //data.message
+  socket.on('message', function(data,callback){
+    var author = data.author;
+    var message = data.message;
+    if (!author){throw new Error("error: message needs author");}
+    if (!message){throw new Error("error: message needs contents");}
+    console.log('author:',author, 'message:',data);
+    var msg = ServerState.addMessage(author,message);
+    if (!msg){throw new Error("error: message not created properly");}
+    socket.emit('message',msg); //send to all clients
+  });
+
 });
 
 http.listen(3000, function(){

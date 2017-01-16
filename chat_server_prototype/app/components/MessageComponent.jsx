@@ -4,7 +4,7 @@ class MessageComponent  extends React.Component {
   constructor(props){
     super(props);
   }
-  
+
   render(){
     return (
         <li>message component msg:{this.props.content}</li>
@@ -14,12 +14,14 @@ class MessageComponent  extends React.Component {
 
 //enforce strict typing
 ListItem.propTypes = {
+  author : React.PropTypes.string.isRequired,
   content : React.PropTypes.string.isRequired
 };
 
 
 ListItem.defaultProps = {
-  content : 'default text',
+  author : 'no author',
+  content : 'default message',
 };
 
 module.exports = MessageComponent;

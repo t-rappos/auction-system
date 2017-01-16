@@ -12,12 +12,15 @@ const appStyle = {
 
 const mainWindowStyle = {
   color: 'blue',
-  display:'flex'
+  display:'flex',
+  flexDirection: 'row',
+  flex:'1',
 };
 
 const subWindowStyle = {
   color: 'red',
-  display:'flex'
+  display:'flex',
+  flexDirection: 'row',
 };
 
 
@@ -26,14 +29,14 @@ var Main = React.createClass({
 
     return (
       <div style={appStyle}>
-      <div style={mainWindowStyle} >
-          <ChatComponent/>
-          <OnlineUsersListComponent/>
-      </div>
-      <div style={subWindowStyle}>
-        <UsernameInputFormComponent/>
-        <ChatInputFormComponent/>
-      </div>
+        <div style={mainWindowStyle} >
+            <ChatComponent/>
+            <OnlineUsersListComponent/>
+        </div>
+        <div style={subWindowStyle}>
+          <ChatInputFormComponent/>
+          <UsernameInputFormComponent/>
+        </div>
       </div>
     );
   }

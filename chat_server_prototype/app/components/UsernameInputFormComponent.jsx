@@ -6,7 +6,11 @@ class UsernameInputFormComponent  extends React.Component {
   }
   render(){
     return (
-      <p>|username|</p>
+      <div>
+        <form>
+          <input type="text" size = '14' placeholder ='Enter username'></input>
+        </form>
+      </div>
     );
   }
 }

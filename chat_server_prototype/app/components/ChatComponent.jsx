@@ -15,11 +15,26 @@ function HelloWorldComponent() {
     <div style="margin-left: 620px;"> Right </div>
 </div>
 
+nav ul{height:200px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
+
 */
 
 const ChatComponentStyle = {
   float: 'right'
-}
+};
+
+const ChatComponentListStyle = {
+  overflow:'hidden',
+  overflowY:'scroll',
+  overflowX:'scroll',
+  listStyleType: 'none',
+  backgroundColor: '#DEB272',
+  paddingLeft: '0pt',
+  width: '80vw',
+  maxWidth: '400pt',
+  height: '70vh',
+};
 
 class ChatComponent extends React.Component {
   constructor(props){
@@ -28,7 +43,13 @@ class ChatComponent extends React.Component {
 
   render(){
     return (
-      <div style={ChatComponentStyle}><p>|chat list|</p></div>
+      <div style={ChatComponentStyle}>
+        <ul style={ChatComponentListStyle}>
+          <li>Message : this is a message</li>
+          <li>Message : this is a message</li>
+          <li>Message : this is a message</li>
+        </ul>
+      </div>
     );
   }
 }
