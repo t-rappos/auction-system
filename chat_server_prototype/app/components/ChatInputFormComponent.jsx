@@ -40,7 +40,8 @@ class ChatInputFormComponent  extends React.Component {
           <input size="90"
             type="text"
             ref={(input) => this.input = input}
-            placeholder="Enter messages here!"></input>
+            placeholder="Enter messages here!"
+            disabled = {this.props.user === ''}></input>
         </form>
       </div>
     );

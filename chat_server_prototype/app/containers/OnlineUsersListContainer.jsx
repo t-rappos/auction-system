@@ -1,6 +1,7 @@
 var React = require('react');
 import {connect} from 'react-redux'
 import {addUser} from '../actions'
+import {removeUser} from '../actions'
 import {setUsers} from '../actions'
 import OnlineUsersListComponent from 'OnlineUsersListComponent'
 
