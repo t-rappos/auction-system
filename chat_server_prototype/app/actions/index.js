@@ -40,6 +40,15 @@ export const addUser = (user) => {
   }
 }
 
+let nextremoveUser = 0;
+export const removeUser = (user) => {
+  return {
+    type: 'REMOVE_USER',
+    user,
+    id: nextremoveUser++,
+  }
+}
+
 let nextsetUsers = 0;
 export const setUsers = (users) => {
   return {

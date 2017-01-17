@@ -3,7 +3,7 @@ const chatReducerDefaultState = [];
 export const chatReducer = (state=chatReducerDefaultState,action) => {
   switch(action.type){
 
-    case 'MESSAGE':
+    case 'MESSAGE': //TODO: rename this to ADD_MESSAGE
       console.log('ChatReducer: Adding message to list:',state.length+1);
       return [
         ...state,
@@ -13,7 +13,7 @@ export const chatReducer = (state=chatReducerDefaultState,action) => {
           date: action.message.date
         }
       ];
-    case 'GET_MESSAGES':
+    case 'GET_MESSAGES': //TODO: rename this to SET_MESSAGES?
       var result = [];
       action.messages.map(function(message){
         result.push(

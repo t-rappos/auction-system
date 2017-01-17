@@ -22347,6 +22347,7 @@
 	  switch (action.type) {
 
 	    case 'MESSAGE':
+	      //TODO: rename this to ADD_MESSAGE
 	      console.log('ChatReducer: Adding message to list:', state.length + 1);
 	      return [].concat(_toConsumableArray(state), [{ //append new item to end of array
 	        author: action.message.author,
@@ -22354,6 +22355,7 @@
 	        date: action.message.date
 	      }]);
 	    case 'GET_MESSAGES':
+	      //TODO: rename this to SET_MESSAGES?
 	      var result = [];
 	      action.messages.map(function (message) {
 	        result.push({
@@ -30183,6 +30185,15 @@
 	  };
 	};
 
+	var nextremoveUser = 0;
+	var removeUser = exports.removeUser = function removeUser(user) {
+	  return {
+	    type: 'REMOVE_USER',
+	    user: user,
+	    id: nextremoveUser++
+	  };
+	};
+
 	var nextsetUsers = 0;
 	var setUsers = exports.setUsers = function setUsers(users) {
 	  return {
@@ -30453,7 +30464,8 @@
 	            ref: function ref(input) {
 	              return _this2.input = input;
 	            },
-	            placeholder: 'Enter messages here!' })
+	            placeholder: 'Enter messages here!',
+	            disabled: this.props.user === '' })
 	        )
 	      );
 	    }
@@ -30586,13 +30598,15 @@
 
 	    case 'REMOVE_USER':
 	      var result = [];
-	      console.log('onlineUsers: Removing user from list:', state.length - 1);
+	      //state.indexOf(action.user);
+	      console.log('onlineUsers: Removing user from list:', state.length);
 	      var filtered_results = state.filter(function (user) {
-	        return user !== 'action.user';
+	        return user !== action.user;
 	      });
 	      filtered_results.map(function (user) {
 	        result.push(user);
 	      });
+	      console.log('onlineUsers: Removing user from list:', state.length);
 	      return result;
 
 	    case 'SET_USERS':
@@ -30642,19 +30656,9 @@
 	      dispatch((0, _actions.addUser)(user)); //define action generator
 	    },
 
-	    removeUser: function (_removeUser) {
-	      function removeUser(_x) {
-	        return _removeUser.apply(this, arguments);
-	      }
-
-	      removeUser.toString = function () {
-	        return _removeUser.toString();
-	      };
-
-	      return removeUser;
-	    }(function (user) {
-	      dispatch(removeUser(user));
-	    }),
+	    removeUser: function removeUser(user) {
+	      dispatch((0, _actions.removeUser)(user));
+	    },
 
 	    //to be called when the message list is gathered at startup
 	    setUsers: function setUsers(messages) {
