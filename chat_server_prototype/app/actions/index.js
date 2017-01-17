@@ -1,3 +1,5 @@
+//TODO: consolidate containers to have dispatch function names that correspond to these action generators
+
 let nextMessage = 0; //TODO: do we need this?
 export const addMessage = (msg) => {
   console.log('actions: addMessage', msg);
@@ -26,5 +28,23 @@ export const setCurrentUser = (user) => {
     type: 'SET_CURRENT_USER',
     user,
     id: nextsetCurrentUser++,
+  }
+}
+
+let nextaddUser = 0;
+export const addUser = (user) => {
+  return {
+    type: 'ADD_USER',
+    user,
+    id: nextaddUser++,
+  }
+}
+
+let nextsetUsers = 0;
+export const setUsers = (users) => {
+  return {
+    type: 'SET_USERS',
+    users,
+    id: nextsetUsers++,
   }
 }

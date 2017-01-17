@@ -1,25 +1,29 @@
 var React = require('react');
 
-class MessageComponent  extends React.Component {
+const UserStyle = {
+  backgroundColor: '#AE92A2'
+};
+
+class UserComponent  extends React.Component {
   constructor(props){
     super(props);
   }
 
   render(){
     return (
-        <li>{this.props.username}</li>
+        <li style = {UserStyle}>{this.props.username}</li>
     );
   }
 }
 
 //enforce strict typing
-ListItem.propTypes = {
+UserComponent.propTypes = {
   username : React.PropTypes.string.isRequired
 };
 
 
-ListItem.defaultProps = {
+UserComponent.defaultProps = {
   username: 'null'
 };
 
-module.exports = MessageComponent;
+module.exports = UserComponent;

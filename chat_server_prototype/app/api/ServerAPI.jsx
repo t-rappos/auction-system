@@ -1,32 +1,62 @@
 var axios = require('axios');
 
+
+/////////////
+// CALLBACKS//
+/////////////
+
+function safeCall(callback, data){
+  if (typeof(callback)==='function'){
+    callback(data);
+  } else {
+    console.log("ServerAPI:safeCall: couldn't call callback", callback);
+  }
+}
+
+var serverApiOnLoginCallback;
 socket.on('login', function(username){
   console.log('login occured: ',username);
+  safeCall(serverApiOnLoginCallback,username);
 });
 
+var serverApiOnLogoutCallback;
 socket.on('logout', function(username){
   console.log('logout occured: ', username);
+  safeCall(serverApiOnLogoutCallback,username);
 });
 
 var serverApiOnMessageCallback;
-
 socket.on('message', function(data){
   console.log('message occured: ',data);
-  if (typeof(serverApiOnMessageCallback)==='function'){
-    serverApiOnMessageCallback(data);
-  }
+  safeCall(serverApiOnMessageCallback,data);
 });
 
 module.exports = {
+
+////////////////////
+//Public CALLBACKS//
+////////////////////
 
 //calls an external function when a new message is sent from the server
 setOnMessageCallback: function(callback){
   serverApiOnMessageCallback = callback;
 },
 
-getUserList: function(){
+setOnLoginCallback: function(callback){
+  serverApiOnLoginCallback = callback;
+},
+
+setOnLogoutCallback: function(callback){
+  serverApiOnLogoutCallback = callback;
+},
+
+/////////////////////
+//Public server API//
+/////////////////////
+getUserList: function(callback){
   socket.emit('get_users', function(users){
       console.log("ServerAPI:getUserList-callback", users);
+      callback(users);
   });
 },
 
@@ -61,50 +91,5 @@ sendMessage : function(_author, _message)
     console.log("ServerAPI:message-callback success:",success);
   });
 }
-/*
-  getUsers: function (){
-    return axios.get('/api')
-    .then(function(res){
-
-      console.log('api getUsers', res.data);
-
-      let users = [];
-      res.data.forEach(function(user){
-        users.push(user.username);
-      });
-
-      return users;
-    },
-    function(res){
-      //throw new Error(res.data.message);
-    });
-  },
-
-
-  sendLoginChoice: function(data){
-    return axios.post('/api/login',data)
-    .then(function(response){
-      console.log('sendLoginChoice success:', response);
-      return response;
-    })
-    .catch(function(error){
-      console.log('sendLoginChoice - post fail ', error);
-      throw(error);
-    });
-  },
-
-  sendLogout : function(username){
-    var data = {username : username};
-    return axios.post('/api/logout',data)
-    .then(function(response){
-      console.log('sendLogout success:', response);
-      return response;
-    })
-    .catch(function(error){
-      console.log('sendLogout - post fail', error);
-      throw(error);
-    });
-  }
-  */
 
 }

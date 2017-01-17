@@ -22309,43 +22309,22 @@
 
 	var _CurrentUserReducer2 = _interopRequireDefault(_CurrentUserReducer);
 
+	var _OnlineUsersReducer = __webpack_require__(311);
+
+	var _OnlineUsersReducer2 = _interopRequireDefault(_OnlineUsersReducer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var redux = __webpack_require__(169);
 
-	//var CurrentUserReducer = require('CurrentUserReducer');
-	//var OnlineUsersReducer = require('OnlineUsersReducer');
-
-	//var UsersReducer = require('./container/usersReducer.jsx');
 
 	console.log("Started loading Redux");
 
 	var combinedReducers = exports.combinedReducers = redux.combineReducers({
 	  chatReducer: _ChatReducer2.default,
-	  currentUserReducer: _CurrentUserReducer2.default
+	  currentUserReducer: _CurrentUserReducer2.default,
+	  onlineUsersReducer: _OnlineUsersReducer2.default
 	});
-
-	//console.log("Loaded Redux",typeof(combinedReducers)==='function');
-	/*
-	var store = redux.createStore(reducer,
-	  window.__REDUX_DEVTOOLS_EXTENSION__
-	  && window.__REDUX_DEVTOOLS_EXTENSION__());
-
-	export function dispatch(action)
-	{
-	  store.dispatch(action);
-	}
-
-	export function getState()
-	{
-	  return store.getState();
-	}
-
-	export function subscribe(fn)
-	{
-	  store.subscribe(fn);
-	}
-	*/
 
 /***/ },
 /* 207 */
@@ -28087,7 +28066,7 @@
 	var React = __webpack_require__(4);
 	var ChatComponent = __webpack_require__(274);
 	var ChatContainer = __webpack_require__(303);
-	var OnlineUsersListComponent = __webpack_require__(305);
+	var OnlineUsersListContainer = __webpack_require__(312);
 	var UsernameInputFormContainer = __webpack_require__(309);
 	var ChatInputFormContainer = __webpack_require__(307);
 	var ServerApi = __webpack_require__(277);
@@ -28122,7 +28101,7 @@
 	        'div',
 	        { style: mainWindowStyle },
 	        React.createElement(ChatContainer, null),
-	        React.createElement(OnlineUsersListComponent, null)
+	        React.createElement(OnlineUsersListContainer, null)
 	      ),
 	      React.createElement(
 	        'div',
@@ -28531,33 +28510,62 @@
 
 	var axios = __webpack_require__(278);
 
+	/////////////
+	// CALLBACKS//
+	/////////////
+
+	function safeCall(callback, data) {
+	  if (typeof callback === 'function') {
+	    callback(data);
+	  } else {
+	    console.log("ServerAPI:safeCall: couldn't call callback", callback);
+	  }
+	}
+
+	var serverApiOnLoginCallback;
 	socket.on('login', function (username) {
 	  console.log('login occured: ', username);
+	  safeCall(serverApiOnLoginCallback, username);
 	});
 
+	var serverApiOnLogoutCallback;
 	socket.on('logout', function (username) {
 	  console.log('logout occured: ', username);
+	  safeCall(serverApiOnLogoutCallback, username);
 	});
 
 	var serverApiOnMessageCallback;
-
 	socket.on('message', function (data) {
 	  console.log('message occured: ', data);
-	  if (typeof serverApiOnMessageCallback === 'function') {
-	    serverApiOnMessageCallback(data);
-	  }
+	  safeCall(serverApiOnMessageCallback, data);
 	});
 
 	module.exports = {
+
+	  ////////////////////
+	  //Public CALLBACKS//
+	  ////////////////////
 
 	  //calls an external function when a new message is sent from the server
 	  setOnMessageCallback: function setOnMessageCallback(callback) {
 	    serverApiOnMessageCallback = callback;
 	  },
 
-	  getUserList: function getUserList() {
+	  setOnLoginCallback: function setOnLoginCallback(callback) {
+	    serverApiOnLoginCallback = callback;
+	  },
+
+	  setOnLogoutCallback: function setOnLogoutCallback(callback) {
+	    serverApiOnLogoutCallback = callback;
+	  },
+
+	  /////////////////////
+	  //Public server API//
+	  /////////////////////
+	  getUserList: function getUserList(callback) {
 	    socket.emit('get_users', function (users) {
 	      console.log("ServerAPI:getUserList-callback", users);
+	      callback(users);
 	    });
 	  },
 
@@ -28589,51 +28597,6 @@
 	      console.log("ServerAPI:message-callback success:", success);
 	    });
 	  }
-	  /*
-	    getUsers: function (){
-	      return axios.get('/api')
-	      .then(function(res){
-	  
-	        console.log('api getUsers', res.data);
-	  
-	        let users = [];
-	        res.data.forEach(function(user){
-	          users.push(user.username);
-	        });
-	  
-	        return users;
-	      },
-	      function(res){
-	        //throw new Error(res.data.message);
-	      });
-	    },
-	  
-	  
-	    sendLoginChoice: function(data){
-	      return axios.post('/api/login',data)
-	      .then(function(response){
-	        console.log('sendLoginChoice success:', response);
-	        return response;
-	      })
-	      .catch(function(error){
-	        console.log('sendLoginChoice - post fail ', error);
-	        throw(error);
-	      });
-	    },
-	  
-	    sendLogout : function(username){
-	      var data = {username : username};
-	      return axios.post('/api/logout',data)
-	      .then(function(response){
-	        console.log('sendLogout success:', response);
-	        return response;
-	      })
-	      .catch(function(error){
-	        console.log('sendLogout - post fail', error);
-	        throw(error);
-	      });
-	    }
-	    */
 
 	};
 
@@ -30179,6 +30142,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	//TODO: consolidate containers to have dispatch function names that correspond to these action generators
+
 	var nextMessage = 0; //TODO: do we need this?
 	var addMessage = exports.addMessage = function addMessage(msg) {
 	  console.log('actions: addMessage', msg);
@@ -30209,6 +30174,24 @@
 	  };
 	};
 
+	var nextaddUser = 0;
+	var addUser = exports.addUser = function addUser(user) {
+	  return {
+	    type: 'ADD_USER',
+	    user: user,
+	    id: nextaddUser++
+	  };
+	};
+
+	var nextsetUsers = 0;
+	var setUsers = exports.setUsers = function setUsers(users) {
+	  return {
+	    type: 'SET_USERS',
+	    users: users,
+	    id: nextsetUsers++
+	  };
+	};
+
 /***/ },
 /* 305 */
 /***/ function(module, exports, __webpack_require__) {
@@ -30224,23 +30207,8 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(4);
-
-	/*
-	const divStyle = {
-	  color: 'blue',
-	  backgroundImage: 'url(' + imgUrl + ')',
-	};
-
-	function HelloWorldComponent() {
-	  return <div style={divStyle}>Hello World!</div>;
-	}
-
-	<div style="width: 100%; overflow: hidden;">
-	    <div style="width: 600px; float: left;"> Left </div>
-	    <div style="margin-left: 620px;"> Right </div>
-	</div>
-
-	*/
+	var UserComponent = __webpack_require__(310);
+	var ServerApi = __webpack_require__(277);
 
 	var OnlineUsersListComponentListStyle = {
 	  overflowY: 'scroll',
@@ -30255,43 +30223,46 @@
 
 	var OnlineUsersListComponentStyle = {};
 
-	var OnlineUsersListComponentListItemStype = {
-	  backgroundColor: '#AE92A2'
-	};
-
 	var OnlineUsersListComponent = function (_React$Component) {
 	  _inherits(OnlineUsersListComponent, _React$Component);
 
 	  function OnlineUsersListComponent(props) {
 	    _classCallCheck(this, OnlineUsersListComponent);
 
-	    return _possibleConstructorReturn(this, (OnlineUsersListComponent.__proto__ || Object.getPrototypeOf(OnlineUsersListComponent)).call(this, props));
+	    //get users
+	    var _this = _possibleConstructorReturn(this, (OnlineUsersListComponent.__proto__ || Object.getPrototypeOf(OnlineUsersListComponent)).call(this, props));
+
+	    ServerApi.getUserList(function (users) {
+	      _this.props.setUsers(users);
+	      console.log('OnlineUserListComponent:getUserList', users);
+	    });
+
+	    //set callbacks
+	    ServerApi.setOnLoginCallback(function (user) {
+	      console.log('ServerApi.setOnLoginCallback', user);
+	      _this.props.addUser(user);
+	    });
+	    ServerApi.setOnLogoutCallback(function (user) {
+	      console.log('ServerApi.setOnLogoutCallback', user);
+	      _this.props.removeUser(user);
+	    });
+	    return _this;
 	  }
 
 	  _createClass(OnlineUsersListComponent, [{
 	    key: 'render',
 	    value: function render() {
+	      var userId = 0;
+
 	      return React.createElement(
 	        'div',
 	        { style: OnlineUsersListComponentStyle },
 	        React.createElement(
 	          'ul',
 	          { style: OnlineUsersListComponentListStyle },
-	          React.createElement(
-	            'li',
-	            { style: OnlineUsersListComponentListItemStype },
-	            'Alimintor8'
-	          ),
-	          React.createElement(
-	            'li',
-	            { style: OnlineUsersListComponentListItemStype },
-	            'Jeb'
-	          ),
-	          React.createElement(
-	            'li',
-	            { style: OnlineUsersListComponentListItemStype },
-	            'Duck'
-	          )
+	          this.props.users.map(function (user) {
+	            return React.createElement(UserComponent, { username: user, key: userId++ });
+	          })
 	        )
 	      );
 	    }
@@ -30532,6 +30503,170 @@
 	var UsernameInputFormContainer = (0, _reactRedux.connect)(mapStateToPropsB, mapDispatchToPropsB)(_UsernameInputFormComponent2.default);
 
 	module.exports = UsernameInputFormContainer;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(4);
+
+	var UserStyle = {
+	  backgroundColor: '#AE92A2'
+	};
+
+	var UserComponent = function (_React$Component) {
+	  _inherits(UserComponent, _React$Component);
+
+	  function UserComponent(props) {
+	    _classCallCheck(this, UserComponent);
+
+	    return _possibleConstructorReturn(this, (UserComponent.__proto__ || Object.getPrototypeOf(UserComponent)).call(this, props));
+	  }
+
+	  _createClass(UserComponent, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'li',
+	        { style: UserStyle },
+	        this.props.username
+	      );
+	    }
+	  }]);
+
+	  return UserComponent;
+	}(React.Component);
+
+	//enforce strict typing
+
+
+	UserComponent.propTypes = {
+	  username: React.PropTypes.string.isRequired
+	};
+
+	UserComponent.defaultProps = {
+	  username: 'null'
+	};
+
+	module.exports = UserComponent;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var onlineUsersDefaultState = [];
+
+	var onlineUsersReducer = exports.onlineUsersReducer = function onlineUsersReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : onlineUsersDefaultState;
+	  var action = arguments[1];
+
+	  switch (action.type) {
+
+	    case 'ADD_USER':
+	      console.log('onlineUsers: Adding user to list:', action.user, state.length + 1);
+	      return [].concat(_toConsumableArray(state), [action.user]);
+
+	    case 'REMOVE_USER':
+	      var result = [];
+	      console.log('onlineUsers: Removing user from list:', state.length - 1);
+	      var filtered_results = state.filter(function (user) {
+	        return user !== 'action.user';
+	      });
+	      filtered_results.map(function (user) {
+	        result.push(user);
+	      });
+	      return result;
+
+	    case 'SET_USERS':
+	      var result = [];
+	      action.users.map(function (user) {
+	        result.push(user);
+	      });
+	      console.log('onlineUsers: setting user list:', result.length);
+	      return result;
+
+	    default:
+	      return state;
+	  }
+	};
+	exports.default = onlineUsersReducer;
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _reactRedux = __webpack_require__(1);
+
+	var _actions = __webpack_require__(304);
+
+	var _OnlineUsersListComponent = __webpack_require__(305);
+
+	var _OnlineUsersListComponent2 = _interopRequireDefault(_OnlineUsersListComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var React = __webpack_require__(4);
+
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    users: state.onlineUsersReducer
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    //to be called when a new message is recieved
+	    addUser: function addUser(user) {
+	      //define prop callback
+	      dispatch((0, _actions.addUser)(user)); //define action generator
+	    },
+
+	    removeUser: function (_removeUser) {
+	      function removeUser(_x) {
+	        return _removeUser.apply(this, arguments);
+	      }
+
+	      removeUser.toString = function () {
+	        return _removeUser.toString();
+	      };
+
+	      return removeUser;
+	    }(function (user) {
+	      dispatch(removeUser(user));
+	    }),
+
+	    //to be called when the message list is gathered at startup
+	    setUsers: function setUsers(messages) {
+	      dispatch((0, _actions.setUsers)(messages));
+	    }
+
+	  };
+	};
+
+	var OnlineUsersListContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_OnlineUsersListComponent2.default);
+
+	module.exports = OnlineUsersListContainer;
 
 /***/ }
 /******/ ]);

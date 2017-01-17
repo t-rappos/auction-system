@@ -1,7 +1,7 @@
 var React = require('react');
 var ChatComponent = require('ChatComponent');
 var ChatContainer = require('ChatContainer');
-var OnlineUsersListComponent = require('OnlineUsersListComponent');
+var OnlineUsersListContainer = require('OnlineUsersListContainer');
 var UsernameInputFormContainer = require('UsernameInputFormContainer');
 var ChatInputFormContainer = require('ChatInputFormContainer');
 var ServerApi = require('ServerAPI');
@@ -31,7 +31,7 @@ var Main = React.createClass({
       <div style={appStyle}>
         <div style={mainWindowStyle} >
             <ChatContainer/>
-            <OnlineUsersListComponent/>
+            <OnlineUsersListContainer/>
         </div>
         <div style={subWindowStyle}>
           <ChatInputFormContainer/>

@@ -1,39 +1,12 @@
 var redux = require('redux');
 import chatReducer from 'ChatReducer';
 import currentUserReducer from 'CurrentUserReducer';
-//var CurrentUserReducer = require('CurrentUserReducer');
-//var OnlineUsersReducer = require('OnlineUsersReducer');
-
-//var UsersReducer = require('./container/usersReducer.jsx');
+import onlineUsersReducer from 'OnlineUsersReducer';
 
 console.log("Started loading Redux");
 
  export var combinedReducers = redux.combineReducers({
   chatReducer,
   currentUserReducer,
-  //currentUser : CurrentUserReducer.currentUserReducer,
-  //onlineUsers : OnlineUsersReducer.onlineUserReducer
-  //usersReducer: UsersReducer.usersReducer
+  onlineUsersReducer
 });
-
-//console.log("Loaded Redux",typeof(combinedReducers)==='function');
-/*
-var store = redux.createStore(reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__
-  && window.__REDUX_DEVTOOLS_EXTENSION__());
-
-export function dispatch(action)
-{
-  store.dispatch(action);
-}
-
-export function getState()
-{
-  return store.getState();
-}
-
-export function subscribe(fn)
-{
-  store.subscribe(fn);
-}
-*/
