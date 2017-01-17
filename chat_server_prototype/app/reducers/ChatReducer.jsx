@@ -1,10 +1,38 @@
+export const chatReducer = (state=[],action) => {
+  switch(action.type){
 
+    case 'MESSAGE':
+      return [
+        ...state,
+        { //append new item to end of array
+          author : action.message.author,
+          message: action.message.message,
+          date: action.message.date
+        }
+      ];
+    case 'GET_MESSAGES':
+      var result = [];
+      action.messages.map(function(message){
+        result.push(
+          {
+            author : message.author,
+            message: message.message,
+            date: message.date
+          })
+      });
+      console.log('ChatReducer:GET_MESSAGES:', result);
+      return result;
+
+    default:
+      return state;
+  }
+}
+export default chatReducer;
 /*
 let usersDefaultState = {
   user : '',
   userList : []
 };
-
 
 module.exports =
 {

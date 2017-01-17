@@ -42,7 +42,11 @@ class ChatComponent extends React.Component {
   }
 
   render(){
+
+  //console.log(this.props);
+  //this.props.onNewMessage({author:'tom', message:'msg'});
     return (
+
       <div style={ChatComponentStyle}>
         <ul style={ChatComponentListStyle}>
           <li>Message : this is a message</li>

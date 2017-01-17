@@ -1,5 +1,6 @@
 var React = require('react');
 var ChatComponent = require('ChatComponent');
+var ChatContainer = require('ChatContainer');
 var OnlineUsersListComponent = require('OnlineUsersListComponent');
 var UsernameInputFormComponent = require('UsernameInputFormComponent');
 var ChatInputFormComponent = require('ChatInputFormComponent');
@@ -57,7 +58,7 @@ var Main = React.createClass({
     return (
       <div style={appStyle}>
         <div style={mainWindowStyle} >
-            <ChatComponent/>
+            <ChatContainer/>
             <OnlineUsersListComponent/>
         </div>
         <div style={subWindowStyle}>
