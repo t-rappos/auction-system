@@ -1,5 +1,6 @@
 var redux = require('redux');
 import chatReducer from 'ChatReducer';
+import currentUserReducer from 'CurrentUserReducer';
 //var CurrentUserReducer = require('CurrentUserReducer');
 //var OnlineUsersReducer = require('OnlineUsersReducer');
 
@@ -8,7 +9,8 @@ import chatReducer from 'ChatReducer';
 console.log("Started loading Redux");
 
  export var combinedReducers = redux.combineReducers({
-  chatReducer
+  chatReducer,
+  currentUserReducer,
   //currentUser : CurrentUserReducer.currentUserReducer,
   //onlineUsers : OnlineUsersReducer.onlineUserReducer
   //usersReducer: UsersReducer.usersReducer

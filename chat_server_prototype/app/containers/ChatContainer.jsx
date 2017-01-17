@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addMessage} from '../actions'
+import {setMessageList} from '../actions'
 import ChatComponent from 'ChatComponent'
 
 const mapStateToProps = (state) => {
-  console.log(mapStateToProps, state.chatReducer);
   return {
     messages: state.chatReducer
   }
@@ -12,8 +12,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onNewMessage : (msg) => {
-      dispatch(addMessage(msg))
+    //to be called when a new message is recieved
+    onNewMessage : (msg)=>{
+      dispatch(addMessage(msg));
+    },
+
+    //to be called when the message list is gathered at startup
+    onMessageListRecieved : (messages)=>{
+      dispatch(setMessageList(messages));
     }
   }
 };

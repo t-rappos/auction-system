@@ -8,13 +8,21 @@ socket.on('logout', function(username){
   console.log('logout occured: ', username);
 });
 
+var serverApiOnMessageCallback;
+
 socket.on('message', function(data){
   console.log('message occured: ',data);
+  if (typeof(serverApiOnMessageCallback)==='function'){
+    serverApiOnMessageCallback(data);
+  }
 });
 
 module.exports = {
 
-//TODO: how can i make sure that the callbacks are called?
+//calls an external function when a new message is sent from the server
+setOnMessageCallback: function(callback){
+  serverApiOnMessageCallback = callback;
+},
 
 getUserList: function(){
   socket.emit('get_users', function(users){
@@ -22,24 +30,28 @@ getUserList: function(){
   });
 },
 
-getMessageList: function(){
+getMessageList: function(callback){
   socket.emit('get_messages', function(messages){
-    console.log("ServerAPI:getMessageList-callback",messages);
+    console.log("ServerAPI:getMessageList-callback : ",messages.length);
+    callback(messages);
   });
 },
 
-sendUserLoginRequest: function(username)
+sendUserLoginRequest: function(username,callback)
 {
   socket.emit('login',username, function(success){
     console.log("ServerAPI:login-callback success:",success);
+    callback(success);
   });
 },
 
 sendUserLogoutNotification : function(username)
 {
+  alert('starting logging out');
   socket.emit('logout',username, function(success){
     console.log("ServerAPI:logout-callback success:",success);
   });
+  alert('logging out');
 },
 
 sendMessage : function(_author, _message)

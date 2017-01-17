@@ -1,4 +1,5 @@
 var React = require('react');
+var DateFormat = require('dateformat');
 
 class MessageComponent  extends React.Component {
   constructor(props){
@@ -6,22 +7,25 @@ class MessageComponent  extends React.Component {
   }
 
   render(){
+    var time = DateFormat(this.props.date,"h:MM:ss TT");
     return (
-        <li>message component msg:{this.props.content}</li>
+        <li>[{time}] {this.props.author} : {this.props.content}</li>
     );
   }
 }
 
 //enforce strict typing
-ListItem.propTypes = {
+MessageComponent.propTypes = {
   author : React.PropTypes.string.isRequired,
-  content : React.PropTypes.string.isRequired
+  content : React.PropTypes.string.isRequired,
+  date: React.PropTypes.string.isRequired
 };
 
 
-ListItem.defaultProps = {
+MessageComponent.defaultProps = {
   author : 'no author',
   content : 'default message',
+  date : new Date()
 };
 
 module.exports = MessageComponent;

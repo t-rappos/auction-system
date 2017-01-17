@@ -6,7 +6,9 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import {combinedReducers} from 'Redux';
 
-let store = createStore(combinedReducers);
+var store = createStore(combinedReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__
+  && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
   <div>

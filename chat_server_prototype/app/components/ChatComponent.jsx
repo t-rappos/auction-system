@@ -1,24 +1,6 @@
 var React = require('react');
-
-/*
-const divStyle = {
-  color: 'blue',
-  backgroundImage: 'url(' + imgUrl + ')',
-};
-
-function HelloWorldComponent() {
-  return <div style={divStyle}>Hello World!</div>;
-}
-
-<div style="width: 100%; overflow: hidden;">
-    <div style="width: 600px; float: left;"> Left </div>
-    <div style="margin-left: 620px;"> Right </div>
-</div>
-
-nav ul{height:200px; width:18%;}
-nav ul{overflow:hidden; overflow-y:scroll;}
-
-*/
+var MessageComponent = require('MessageComponent');
+var ServerApi = require('ServerAPI');
 
 const ChatComponentStyle = {
   float: 'right'
@@ -39,19 +21,33 @@ const ChatComponentListStyle = {
 class ChatComponent extends React.Component {
   constructor(props){
     super(props);
+
+    //fetch all the messages stored on the server
+    ServerApi.getMessageList((messages)=>{
+      console.log("ChatComponent recieved messages from serverAPI");
+      this.props.onMessageListRecieved(messages);
+    });
+
+    //subscribe to new message events from server
+    ServerApi.setOnMessageCallback((message)=>{
+      console.log("ChatComponent heard new message", message);
+      this.props.onNewMessage(message);
+    })
   }
 
   render(){
-
-  //console.log(this.props);
-  //this.props.onNewMessage({author:'tom', message:'msg'});
+    var messageId = 0;
     return (
-
       <div style={ChatComponentStyle}>
-        <ul style={ChatComponentListStyle}>
-          <li>Message : this is a message</li>
-          <li>Message : this is a message</li>
-          <li>Message : this is a message</li>
+        <ul style={ChatComponentListStyle}>{
+            this.props.messages.map(function(message){
+                return(<MessageComponent
+                  author= {message.author}
+                  content={message.message}
+                  date={message.date}
+                  key={messageId++}/>);
+              })
+          }
         </ul>
       </div>
     );
