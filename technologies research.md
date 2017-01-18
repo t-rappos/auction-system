@@ -100,6 +100,7 @@ https://github.com/dwyl/learn-tdd
 
 ### Hosting
 - Heroku
+  - A great tutorial on how to host a react-webpack-nodejs project on heroku http://ditrospecta.com/javascript/react/es6/webpack/heroku/2015/08/08/deploying-react-webpack-heroku.html
 - Travis-CI heroku integration
   - https://www.wlangiewicz.com/2016/03/30/setup-ci-build-pipeline-travis-ci-heroku-sbt/
 
