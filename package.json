@@ -2,7 +2,7 @@
   "name": "boilerplate",
   "version": "1.0.0",
   "description": "this is a throwaway prototype to explore a project structure",
-  "main": "index.js",
+  "main": "server_exploration_throwaway/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
