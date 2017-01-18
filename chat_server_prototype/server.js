@@ -15,36 +15,8 @@ function CheckCallback(cb, message)
   return result;
 }
 
-var numUsers = 0;
-
-var logout = (user, successCallback) => {
-  if (!user){throw new Error("error: logout needs username");}
-  var success = ServerState.removeUser(user);
-  console.log('logout was successful :',success,' for user ',user);
-  console.log("Online users ", ServerState.getNumberOfUsers());
-  if (typeof(successCallback) === 'function' ){
-    successCallback(success);
-  }
-  if (success){
-    io.emit('logout',user);
-  }
-};
-
-
 io.on('connection', function(socket){
-  console.log('user connected', ++numUsers);
-
-  socket.on('disconnect',function(){
-    console.log('user disconnected', --numUsers);
-    ServerState.removeConnection(socket,(user)=>{
-      logout(user);
-      ////TODO: this is copied from logout... can be refactor this?
-      //console.log('logout',user);
-      //var success = ServerState.removeUser(user,socket);
-      //console.log("Online users ", ServerState.getNumberOfUsers());
-      //io.emit('logout',user); //send to all clients
-    });
-  });
+  console.log('io:on: a user connected');
 
   socket.on('get_messages', function(returnMessages){
     CheckCallback(returnMessages,'get_messages');
@@ -68,7 +40,7 @@ io.on('connection', function(socket){
     CheckCallback(wasSuccessful,'login');
     if (!username){throw new Error("error: login needs username");}
     console.log('login',username);
-    var success = ServerState.addUser(username,socket);
+    var success = ServerState.addUser(username);
     console.log("Online users ", ServerState.getNumberOfUsers());
     wasSuccessful(success);
     io.emit('login',username); //send to all clients
@@ -79,13 +51,12 @@ io.on('connection', function(socket){
   //callback = checkSuccess(success)
   socket.on('logout', function(username,wasSuccessful){
     CheckCallback(wasSuccessful,'logout');
-    logout(username,wasSuccessful);
-    //if (!username){throw new Error("error: logout needs username");}
-    //console.log('logout',username);
-    //var success = ServerState.removeUser(username,socket);
-    //console.log("Online users ", ServerState.getNumberOfUsers());
-    //wasSuccessful(success);
-    //io.emit('logout',username); //send to all clients
+    if (!username){throw new Error("error: logout needs username");}
+    console.log('logout',username);
+    var success = ServerState.removeUser(username);
+    console.log("Online users ", ServerState.getNumberOfUsers());
+    wasSuccessful(success);
+    io.emit('logout',username); //send to all clients
   });
 
   //data = {author,message};
@@ -110,6 +81,10 @@ io.on('connection', function(socket){
     console.log('sending message notification to all clients');
     io.emit('message',msg); //send to all clients
   });
+// io.emit('this', { will: 'be received by everyone'});
+
+  //callback() -> handleMessageList(messageList)
+
 
 });
 
@@ -118,4 +93,56 @@ http.listen(3000, function(){
   console.log('listening on *:3000');
 });
 
+
+//app.use( bodyParser.json() );       // to support JSON-encoded bodies
+//app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+//  extended: true
+//}));
+
 app.use(express.static('public'));
+
+/*
+function loginUser(user)
+{
+  serverState.addUser(user);
+  console.log("Online users ", serverState.getNumberOfUsers());
+};
+
+function logoutUser(user)
+{
+  serverState.removeUser(user);
+  console.log("Online users ", serverState.getNumberOfUsers());
+};
+
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
+
+//{user: 'username'}
+app.post('/api/login',function(req,res){
+  console.log(req.body);
+  var loginUser = req.body.user;
+  console.log('user attempting to login : ', loginUser);
+  loginUser(loginUser);
+  res.json([{success : true}]);
+
+});
+
+//{user: 'username'}
+app.post('/api/logout',function(req,res){
+  console.log(req.body);
+  var ll = req.body.user;
+  console.log('user attempting to logout : ', ll);
+  logoutUser(ll);
+  res.json([{success : true}]);
+});
+
+app.listen(3000,function(){
+  console.log("express server is up");
+});
+
+*/

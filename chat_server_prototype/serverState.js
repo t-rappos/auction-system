@@ -1,9 +1,5 @@
-var users = []; //[{user:,socket:}...]
-var sockets = [];
+var users = [];
 var messages = [];
-
-//THIS IS THE SERVER MODEL
-//Note: only model behaviour, e.g. no SOCKET-IO functionality here!
 
 function createMessage(_author,_message)
 {
@@ -33,7 +29,6 @@ module.exports =
     return msg;
   },
 
-
   getNumberOfUsers : function()
   {
     return users.length;
@@ -44,37 +39,25 @@ module.exports =
     return users;
   },
 
-  addUser : function(user,socket)
+  addUser : function(user)
   {
     //make sure user isn't already here,
-    console.log('ServerState:addUser');
     var index = users.indexOf(user);
     var success = index === -1;
-    if (success){
+    if (success)
+    {
       users.push(user);
-      sockets.push(socket);
     }
     return success;
   },
 
   removeUser : function(user)
   {
-    console.log('ServerState:removeUser');
     var index = users.indexOf(user);
-    if (index > -1){
+    if (index > -1)
+    {
       users.splice(index,1);
-      sockets.splice(index,1);
     }
     return index !== -1;
-  },
-
-  removeConnection : function(socket,callback)
-  {
-    console.log('ServerState:removeConnection');
-    var index = sockets.indexOf(socket);
-    if (index != -1){
-      var user = users[index];
-      callback(user);
-    }
   }
 };

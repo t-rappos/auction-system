@@ -9,13 +9,11 @@ export const onlineUsersReducer = (state=onlineUsersDefaultState,action) => {
 
     case 'REMOVE_USER':
       var result = [];
-      //state.indexOf(action.user);
-      console.log('onlineUsers: Removing user from list:',state.length);
-      var filtered_results = state.filter(user=>user!==action.user);
+      console.log('onlineUsers: Removing user from list:',state.length-1);
+      var filtered_results = state.filter(user=>user!=='action.user');
       filtered_results.map(function(user){
         result.push(user);
       });
-      console.log('onlineUsers: Removing user from list:',state.length);
       return result;
 
     case 'SET_USERS':
