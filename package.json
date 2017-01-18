@@ -1,9 +1,11 @@
 {
-  "name": "boilerplate",
+  "name": "chat-server-prototype",
   "version": "1.0.0",
-  "description": "this is a throwaway prototype to explore a project structure",
-  "main": "server_exploration_throwaway/index.js",
+  "description": "this is a prototype to explore a project structure and server functionality",
+  "main": "index.js",
   "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Thomas Rappos",
@@ -15,11 +17,14 @@
     "babel-polyfill": "^6.20.0",
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.2",
+    "dateformat": "^2.0.0",
     "express": "^4.14.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
+    "react-redux": "^5.0.2",
     "react-router": "^2.0.0",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "socket.io": "^1.7.2"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
