@@ -3,14 +3,19 @@ var DateFormat = require('dateformat');
 
 class MessageComponent  extends React.Component {
   constructor(props){
-    if (!props.author){throw new Error("MessageComponent: Author Missing");
-      if (props.author===''){throw new Error("MessageComponent: Author Null");}}
+    if (!props.author){throw new Error("MessageComponent: Author Missing");}
+    else if (props.author===''){throw new Error("MessageComponent: Author Null");}
 
-    if (!props.content){throw new Error("MessageComponent: Message Missing");
-      if (props.content===''){throw new Error("MessageComponent: Message null");}}
+    if (!props.content){throw new Error("MessageComponent: Message Missing");}
+    else if (props.content===''){throw new Error("MessageComponent: Message null");}
 
-    if (!props.date){throw new Error("MessageComponent: Date Missing");
-      if (instanceOf(props.date) !== instanceOf(Date)){throw new Error("MessageComponent: Date wrong type");}}
+    if (!props.date){
+      throw new Error("MessageComponent: Date Missing");
+    }else{
+      if (typeof(props.date) !== 'object'){
+        throw new Error("MessageComponent: Date wrong type");
+      }
+    }
 
     super(props);
   }

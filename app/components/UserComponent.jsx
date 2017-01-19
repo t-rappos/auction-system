@@ -6,6 +6,8 @@ const UserStyle = {
 
 class UserComponent  extends React.Component {
   constructor(props){
+    if (!props.username){throw new Error('UserComponent: Username required as prop');}
+    else if (props.username === ''){throw new Error('UserComponent: Username must not be null');}
     super(props);
   }
 
@@ -19,11 +21,6 @@ class UserComponent  extends React.Component {
 //enforce strict typing
 UserComponent.propTypes = {
   username : React.PropTypes.string.isRequired
-};
-
-
-UserComponent.defaultProps = {
-  username: 'null'
 };
 
 module.exports = UserComponent;

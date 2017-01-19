@@ -10,10 +10,12 @@ describe('Message', () => {
   it('should exist', () => {expect(MessageComponent).toExist();});
 
   it('should fail scoped date', () => {
-    let date = Date(2000,1,2,3,4,5,0);
-    let msg = TestUtils.renderIntoDocument(
-          <MessageComponent author='tom' content='msg' date={date}/>);
-    expect(typeof(msg.getDate())).toNotBe('object');
+    expect(()=>{
+      let date = Date(2000,1,2,3,4,5,0);
+      let msg = TestUtils.renderIntoDocument(
+            <MessageComponent author='tom' content='msg' date={date}/>);
+              expect(typeof(msg.getDate())).toNotBe('object');
+    }).toThrow(/Date/);
   });
 
   it('should complain about not having date', () => {

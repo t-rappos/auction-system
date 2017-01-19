@@ -30306,6 +30306,8 @@
 
 	'use strict';
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30325,21 +30327,20 @@
 
 	    if (!props.author) {
 	      throw new Error("MessageComponent: Author Missing");
-	      if (props.author === '') {
-	        throw new Error("MessageComponent: Author Null");
-	      }
+	    } else if (props.author === '') {
+	      throw new Error("MessageComponent: Author Null");
 	    }
 
 	    if (!props.content) {
 	      throw new Error("MessageComponent: Message Missing");
-	      if (props.content === '') {
-	        throw new Error("MessageComponent: Message null");
-	      }
+	    } else if (props.content === '') {
+	      throw new Error("MessageComponent: Message null");
 	    }
 
 	    if (!props.date) {
 	      throw new Error("MessageComponent: Date Missing");
-	      if (instanceOf(props.date) !== instanceOf(Date)) {
+	    } else {
+	      if (_typeof(props.date) !== 'object') {
 	        throw new Error("MessageComponent: Date wrong type");
 	      }
 	    }
@@ -32242,6 +32243,11 @@
 	  function UserComponent(props) {
 	    _classCallCheck(this, UserComponent);
 
+	    if (!props.username) {
+	      throw new Error('UserComponent: Username required as prop');
+	    } else if (props.username === '') {
+	      throw new Error('UserComponent: Username must not be null');
+	    }
 	    return _possibleConstructorReturn(this, (UserComponent.__proto__ || Object.getPrototypeOf(UserComponent)).call(this, props));
 	  }
 
@@ -32264,10 +32270,6 @@
 
 	UserComponent.propTypes = {
 	  username: React.PropTypes.string.isRequired
-	};
-
-	UserComponent.defaultProps = {
-	  username: 'null'
 	};
 
 	module.exports = UserComponent;
