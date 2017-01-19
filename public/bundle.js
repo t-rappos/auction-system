@@ -30197,7 +30197,7 @@
 	      React.createElement(
 	        'div',
 	        { style: subWindowStyle },
-	        React.createElement(ChatInputFormContainer, null),
+	        React.createElement(ChatInputFormContainer, { sendMessageToServer: ServerApi.sendMessage }),
 	        React.createElement(UsernameInputFormContainer, null)
 	      )
 	    );
@@ -32474,6 +32474,8 @@
 
 	'use strict';
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32483,7 +32485,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(4);
-	var ServerApi = __webpack_require__(301);
 
 	var ChatInputFormComponentStyle = {
 	  paddingLeft: '0pt',
@@ -32501,6 +32502,12 @@
 	  function ChatInputFormComponent(props) {
 	    _classCallCheck(this, ChatInputFormComponent);
 
+	    if (!props.user) {
+	      throw new Error('ChatInputFormComponent : user is unspecified');
+	    }
+	    if (!props.sendMessageToServer || typeof props.sendMessageToServer != 'function') {
+	      throw new Error('ChatInputFormComponent : Required function as prop');
+	    }
 	    return _possibleConstructorReturn(this, (ChatInputFormComponent.__proto__ || Object.getPrototypeOf(ChatInputFormComponent)).call(this, props));
 	  }
 
@@ -32508,9 +32515,11 @@
 	    key: 'onSubmit',
 	    value: function onSubmit(e) {
 	      if (this.props.user !== '') {
-	        console.log('ChatInput: message entered: ', this.input.value);
-	        ServerApi.sendMessage(this.props.user, this.input.value);
-	        this.input.value = '';
+	        if (this.input.value !== '' && this.input.value !== undefined) {
+	          console.log("Called onSubmit, type:" + _typeof(this.input.value) + " value :" + this.input.value);
+	          this.props.sendMessageToServer(this.props.user, this.input.value);
+	          this.input.value = '';
+	        }
 	      } else {
 	        alert('Please select a username before you comment');
 	      }
@@ -32542,6 +32551,11 @@
 
 	  return ChatInputFormComponent;
 	}(React.Component);
+
+	ChatInputFormComponent.propTypes = {
+	  user: React.PropTypes.string.isRequired,
+	  sendMessageToServer: React.PropTypes.func.isRequired
+	};
 
 	module.exports = ChatInputFormComponent;
 

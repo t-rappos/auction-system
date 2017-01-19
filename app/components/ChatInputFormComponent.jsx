@@ -1,5 +1,4 @@
 var React = require('react');
-var ServerApi = require('ServerAPI');
 
 const ChatInputFormComponentStyle =
 {
@@ -15,18 +14,24 @@ const ChatInputFormComponentFormStyle =
 
 class ChatInputFormComponent  extends React.Component {
   constructor(props){
+    if (!props.user){
+      throw new Error('ChatInputFormComponent : user is unspecified');
+    }
+    if (!props.sendMessageToServer || typeof(props.sendMessageToServer)!='function'){
+      throw new Error('ChatInputFormComponent : Required function as prop');
+    }
     super(props);
   }
 
   onSubmit(e){
-    if(this.props.user !== '')
-    {
-      console.log('ChatInput: message entered: ', this.input.value);
-      ServerApi.sendMessage(this.props.user, this.input.value);
-      this.input.value = '';
-    }
-    else
-    {
+    if(this.props.user !== ''){
+      if (this.input.value !== ''
+      && this.input.value !== undefined){
+        console.log("Called onSubmit, type:" + typeof(this.input.value)+ " value :"+this.input.value);
+        this.props.sendMessageToServer(this.props.user, this.input.value);
+        this.input.value = '';
+      }
+    } else {
       alert('Please select a username before you comment');
     }
     e.preventDefault();
@@ -47,5 +52,10 @@ class ChatInputFormComponent  extends React.Component {
     );
   }
 }
+
+ChatInputFormComponent.propTypes = {
+  user : React.PropTypes.string.isRequired,
+  sendMessageToServer : React.PropTypes.func.isRequired
+};
 
 module.exports = ChatInputFormComponent;
