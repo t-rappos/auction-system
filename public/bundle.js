@@ -32502,9 +32502,6 @@
 	  function ChatInputFormComponent(props) {
 	    _classCallCheck(this, ChatInputFormComponent);
 
-	    if (!props.user) {
-	      throw new Error('ChatInputFormComponent : user is unspecified');
-	    }
 	    if (!props.sendMessageToServer || typeof props.sendMessageToServer != 'function') {
 	      throw new Error('ChatInputFormComponent : Required function as prop');
 	    }
@@ -32514,9 +32511,10 @@
 	  _createClass(ChatInputFormComponent, [{
 	    key: 'onSubmit',
 	    value: function onSubmit(e) {
-	      if (this.props.user !== '') {
+	      if (this.props.user) {
 	        if (this.input.value !== '' && this.input.value !== undefined) {
-	          console.log("Called onSubmit, type:" + _typeof(this.input.value) + " value :" + this.input.value);
+	          console.log(_typeof(this.props.user), this.props.user.length, this.props.user);
+	          console.log("Called onSubmit,user:" + this.props.user + "type:" + _typeof(this.input.value) + " value :" + this.input.value);
 	          this.props.sendMessageToServer(this.props.user, this.input.value);
 	          this.input.value = '';
 	        }
