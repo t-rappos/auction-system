@@ -16,7 +16,7 @@ describe("ChatInputFormComponent", ()=>{
   it('should exist', () => {expect(ChatInputFormComponent).toExist();});
 
   it('should render without username', () => {
-    return TestUtils.renderIntoDocument(
+    var chatInput = TestUtils.renderIntoDocument(
       <ChatInputFormComponent sendMessageToServer={()=>{}}/>);
     let $el = $(ReactDOM.findDOMNode(chatInput));
     let input = $el.find('input')[0];

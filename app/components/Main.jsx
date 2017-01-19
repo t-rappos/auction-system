@@ -36,7 +36,7 @@ var Main = React.createClass({
         </div>
         <div style={subWindowStyle}>
           <ChatInputFormContainer sendMessageToServer ={ServerApi.sendMessage}/>
-          <UsernameInputFormContainer/>
+          <UsernameInputFormContainer sendLoginRequestToServer = {ServerApi.sendUserLoginRequest}/>
         </div>
       </div>
     );

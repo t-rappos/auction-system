@@ -1,30 +1,31 @@
 var React = require('react');
-var ServerApi = require('ServerAPI');
 
 class UsernameInputFormComponent  extends React.Component {
   constructor(props){
+    if (!props.dispatchSetCurrentUser
+      || (props.dispatchSetCurrentUser
+        && typeof(props.dispatchSetCurrentUser) != 'function')){
+      throw new Error('UsernameInputFormComponent : Required function as prop\
+       for dispatchSetCurrentUser');
+    }
+    if (!props.sendLoginRequestToServer
+      || (props.sendLoginRequestToServer
+        && typeof(props.sendLoginRequestToServer) != 'function')){
+      throw new Error('UsernameInputFormComponent : Required function as prop\
+       for sendLoginRequestToServer');
+    }
     super(props);
-    //window.onbeforeunload = ()=>{
-    //  var username = this.props.user;
-    //  console.log("UsernameInputFormComponent unmounting, logging out user",username);
-    //  if (username){
-    //    serverApi.sendUserLogoutNotification(username);
-    //    this.props.setCurrentUser('');
-    //  }};
   }
 
   onSubmit(e){
     var username = this.input.value;
-    console.log("User entered username",username);
-    if (username !== '')
-    {
-      ServerApi.sendUserLoginRequest(username,(success)=>{
+    var usernameIsValid = /^[a-z0-9]+$/i.test(username);
+    console.log(username + " : valid : " + usernameIsValid);
+    if (username !== '' && usernameIsValid){
+      this.props.sendLoginRequestToServer(username,(success)=>{
         if (success){
           this.props.dispatchSetCurrentUser(username);
-          console.log("username accepted",username);
-        }
-        else
-        {
+        } else {
           alert('Try a different username please.');
           this.input.value = '';
         }
@@ -47,5 +48,9 @@ class UsernameInputFormComponent  extends React.Component {
     );
   }
 }
-
+UsernameInputFormComponent.propTypes = {
+  user : React.PropTypes.string,
+  dispatchSetCurrentUser : React.PropTypes.func.isRequired,
+  sendLoginRequestToServer : React.PropTypes.func.isRequired
+};
 module.exports = UsernameInputFormComponent;

@@ -30155,11 +30155,11 @@
 
 	var React = __webpack_require__(4);
 	var ChatComponent = __webpack_require__(299);
-	var ChatContainer = __webpack_require__(327);
-	var OnlineUsersListContainer = __webpack_require__(329);
-	var UsernameInputFormContainer = __webpack_require__(332);
-	var ChatInputFormContainer = __webpack_require__(334);
-	var ServerApi = __webpack_require__(301);
+	var ChatContainer = __webpack_require__(302);
+	var OnlineUsersListContainer = __webpack_require__(304);
+	var UsernameInputFormContainer = __webpack_require__(333);
+	var ChatInputFormContainer = __webpack_require__(335);
+	var ServerApi = __webpack_require__(307);
 
 	var appStyle = {
 	  width: '100%',
@@ -30198,7 +30198,7 @@
 	        'div',
 	        { style: subWindowStyle },
 	        React.createElement(ChatInputFormContainer, { sendMessageToServer: ServerApi.sendMessage }),
-	        React.createElement(UsernameInputFormContainer, null)
+	        React.createElement(UsernameInputFormContainer, { sendLoginRequestToServer: ServerApi.sendUserLoginRequest })
 	      )
 	    );
 	  }
@@ -30355,7 +30355,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(4);
-	var DateFormat = __webpack_require__(336);
+	var DateFormat = __webpack_require__(301);
 
 	var MessageComponent = function (_React$Component) {
 	  _inherits(MessageComponent, _React$Component);
@@ -30430,9 +30430,541 @@
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*
+	 * Date Format 1.2.3
+	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+	 * MIT license
+	 *
+	 * Includes enhancements by Scott Trenda <scott.trenda.net>
+	 * and Kris Kowal <cixar.com/~kris.kowal/>
+	 *
+	 * Accepts a date, a mask, or a date and a mask.
+	 * Returns a formatted version of the given date.
+	 * The date defaults to the current date/time.
+	 * The mask defaults to dateFormat.masks.default.
+	 */
+
+	(function(global) {
+	  'use strict';
+
+	  var dateFormat = (function() {
+	      var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZWN]|'[^']*'|'[^']*'/g;
+	      var timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
+	      var timezoneClip = /[^-+\dA-Z]/g;
+	  
+	      // Regexes and supporting functions are cached through closure
+	      return function (date, mask, utc, gmt) {
+	  
+	        // You can't provide utc if you skip other args (use the 'UTC:' mask prefix)
+	        if (arguments.length === 1 && kindOf(date) === 'string' && !/\d/.test(date)) {
+	          mask = date;
+	          date = undefined;
+	        }
+	  
+	        date = date || new Date;
+	  
+	        if(!(date instanceof Date)) {
+	          date = new Date(date);
+	        }
+	  
+	        if (isNaN(date)) {
+	          throw TypeError('Invalid date');
+	        }
+	  
+	        mask = String(dateFormat.masks[mask] || mask || dateFormat.masks['default']);
+	  
+	        // Allow setting the utc/gmt argument via the mask
+	        var maskSlice = mask.slice(0, 4);
+	        if (maskSlice === 'UTC:' || maskSlice === 'GMT:') {
+	          mask = mask.slice(4);
+	          utc = true;
+	          if (maskSlice === 'GMT:') {
+	            gmt = true;
+	          }
+	        }
+	  
+	        var _ = utc ? 'getUTC' : 'get';
+	        var d = date[_ + 'Date']();
+	        var D = date[_ + 'Day']();
+	        var m = date[_ + 'Month']();
+	        var y = date[_ + 'FullYear']();
+	        var H = date[_ + 'Hours']();
+	        var M = date[_ + 'Minutes']();
+	        var s = date[_ + 'Seconds']();
+	        var L = date[_ + 'Milliseconds']();
+	        var o = utc ? 0 : date.getTimezoneOffset();
+	        var W = getWeek(date);
+	        var N = getDayOfWeek(date);
+	        var flags = {
+	          d:    d,
+	          dd:   pad(d),
+	          ddd:  dateFormat.i18n.dayNames[D],
+	          dddd: dateFormat.i18n.dayNames[D + 7],
+	          m:    m + 1,
+	          mm:   pad(m + 1),
+	          mmm:  dateFormat.i18n.monthNames[m],
+	          mmmm: dateFormat.i18n.monthNames[m + 12],
+	          yy:   String(y).slice(2),
+	          yyyy: y,
+	          h:    H % 12 || 12,
+	          hh:   pad(H % 12 || 12),
+	          H:    H,
+	          HH:   pad(H),
+	          M:    M,
+	          MM:   pad(M),
+	          s:    s,
+	          ss:   pad(s),
+	          l:    pad(L, 3),
+	          L:    pad(Math.round(L / 10)),
+	          t:    H < 12 ? 'a'  : 'p',
+	          tt:   H < 12 ? 'am' : 'pm',
+	          T:    H < 12 ? 'A'  : 'P',
+	          TT:   H < 12 ? 'AM' : 'PM',
+	          Z:    gmt ? 'GMT' : utc ? 'UTC' : (String(date).match(timezone) || ['']).pop().replace(timezoneClip, ''),
+	          o:    (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+	          S:    ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
+	          W:    W,
+	          N:    N
+	        };
+	  
+	        return mask.replace(token, function (match) {
+	          if (match in flags) {
+	            return flags[match];
+	          }
+	          return match.slice(1, match.length - 1);
+	        });
+	      };
+	    })();
+
+	  dateFormat.masks = {
+	    'default':               'ddd mmm dd yyyy HH:MM:ss',
+	    'shortDate':             'm/d/yy',
+	    'mediumDate':            'mmm d, yyyy',
+	    'longDate':              'mmmm d, yyyy',
+	    'fullDate':              'dddd, mmmm d, yyyy',
+	    'shortTime':             'h:MM TT',
+	    'mediumTime':            'h:MM:ss TT',
+	    'longTime':              'h:MM:ss TT Z',
+	    'isoDate':               'yyyy-mm-dd',
+	    'isoTime':               'HH:MM:ss',
+	    'isoDateTime':           'yyyy-mm-dd\'T\'HH:MM:sso',
+	    'isoUtcDateTime':        'UTC:yyyy-mm-dd\'T\'HH:MM:ss\'Z\'',
+	    'expiresHeaderFormat':   'ddd, dd mmm yyyy HH:MM:ss Z'
+	  };
+
+	  // Internationalization strings
+	  dateFormat.i18n = {
+	    dayNames: [
+	      'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+	      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+	    ],
+	    monthNames: [
+	      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+	      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+	    ]
+	  };
+
+	function pad(val, len) {
+	  val = String(val);
+	  len = len || 2;
+	  while (val.length < len) {
+	    val = '0' + val;
+	  }
+	  return val;
+	}
+
+	/**
+	 * Get the ISO 8601 week number
+	 * Based on comments from
+	 * http://techblog.procurios.nl/k/n618/news/view/33796/14863/Calculate-ISO-8601-week-and-year-in-javascript.html
+	 *
+	 * @param  {Object} `date`
+	 * @return {Number}
+	 */
+	function getWeek(date) {
+	  // Remove time components of date
+	  var targetThursday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+	  // Change date to Thursday same week
+	  targetThursday.setDate(targetThursday.getDate() - ((targetThursday.getDay() + 6) % 7) + 3);
+
+	  // Take January 4th as it is always in week 1 (see ISO 8601)
+	  var firstThursday = new Date(targetThursday.getFullYear(), 0, 4);
+
+	  // Change date to Thursday same week
+	  firstThursday.setDate(firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3);
+
+	  // Check if daylight-saving-time-switch occured and correct for it
+	  var ds = targetThursday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
+	  targetThursday.setHours(targetThursday.getHours() - ds);
+
+	  // Number of weeks between target Thursday and first Thursday
+	  var weekDiff = (targetThursday - firstThursday) / (86400000*7);
+	  return 1 + Math.floor(weekDiff);
+	}
+
+	/**
+	 * Get ISO-8601 numeric representation of the day of the week
+	 * 1 (for Monday) through 7 (for Sunday)
+	 * 
+	 * @param  {Object} `date`
+	 * @return {Number}
+	 */
+	function getDayOfWeek(date) {
+	  var dow = date.getDay();
+	  if(dow === 0) {
+	    dow = 7;
+	  }
+	  return dow;
+	}
+
+	/**
+	 * kind-of shortcut
+	 * @param  {*} val
+	 * @return {String}
+	 */
+	function kindOf(val) {
+	  if (val === null) {
+	    return 'null';
+	  }
+
+	  if (val === undefined) {
+	    return 'undefined';
+	  }
+
+	  if (typeof val !== 'object') {
+	    return typeof val;
+	  }
+
+	  if (Array.isArray(val)) {
+	    return 'array';
+	  }
+
+	  return {}.toString.call(val)
+	    .slice(8, -1).toLowerCase();
+	};
+
+
+
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	      return dateFormat;
+	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof exports === 'object') {
+	    module.exports = dateFormat;
+	  } else {
+	    global.dateFormat = dateFormat;
+	  }
+	})(this);
+
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
-	var axios = __webpack_require__(302);
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(1);
+
+	var _actions = __webpack_require__(303);
+
+	var _ChatComponent = __webpack_require__(299);
+
+	var _ChatComponent2 = _interopRequireDefault(_ChatComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    messages: state.chatReducer
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    //to be called when a new message is recieved
+	    dispatchAddMessage: function dispatchAddMessage(msg) {
+	      //TODO: maybe call these methods dispatchNewMessage
+	      dispatch((0, _actions.addMessage)(msg));
+	    },
+
+	    //to be called when the message list is gathered at startup
+	    dispatchSetMessageList: function dispatchSetMessageList(messages) {
+	      dispatch((0, _actions.setMessageList)(messages));
+	    }
+	  };
+	};
+
+	var ChatContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_ChatComponent2.default);
+
+	module.exports = ChatContainer;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	//TODO: consolidate containers to have dispatch function names that correspond to these action generators
+
+	var nextMessage = 0; //TODO: do we need this?
+	var addMessage = exports.addMessage = function addMessage(msg) {
+	  console.log('actions: addMessage', msg);
+	  return {
+	    type: 'MESSAGE',
+	    message: { author: msg.author, message: msg.message, date: msg.date },
+	    id: nextMessage++
+	  };
+	};
+
+	var nextMessageList = 0; //TODO: do we need this?
+	var setMessageList = exports.setMessageList = function setMessageList(messages) {
+	  console.log('actions: setMessageList, count=', messages.length);
+	  return {
+	    type: 'GET_MESSAGES',
+	    messages: messages,
+	    id: nextMessageList++
+	  };
+	};
+
+	var nextsetCurrentUser = 0;
+	var setCurrentUser = exports.setCurrentUser = function setCurrentUser(user) {
+	  console.log('actions: setCurrentUser, count=', user);
+	  return {
+	    type: 'SET_CURRENT_USER',
+	    user: user,
+	    id: nextsetCurrentUser++
+	  };
+	};
+
+	var nextaddUser = 0;
+	var addUser = exports.addUser = function addUser(user) {
+	  return {
+	    type: 'ADD_USER',
+	    user: user,
+	    id: nextaddUser++
+	  };
+	};
+
+	var nextremoveUser = 0;
+	var removeUser = exports.removeUser = function removeUser(user) {
+	  return {
+	    type: 'REMOVE_USER',
+	    user: user,
+	    id: nextremoveUser++
+	  };
+	};
+
+	var nextsetUsers = 0;
+	var setUsers = exports.setUsers = function setUsers(users) {
+	  return {
+	    type: 'SET_USERS',
+	    users: users,
+	    id: nextsetUsers++
+	  };
+	};
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _reactRedux = __webpack_require__(1);
+
+	var _actions = __webpack_require__(303);
+
+	var _OnlineUsersListComponent = __webpack_require__(305);
+
+	var _OnlineUsersListComponent2 = _interopRequireDefault(_OnlineUsersListComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var React = __webpack_require__(4);
+
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    users: state.onlineUsersReducer
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    //to be called when a new message is recieved
+	    dispatchAddUser: function dispatchAddUser(user) {
+	      //define prop callback
+	      dispatch((0, _actions.addUser)(user)); //define action generator
+	    },
+
+	    dispatchRemoveUser: function dispatchRemoveUser(user) {
+	      dispatch((0, _actions.removeUser)(user));
+	    },
+
+	    //to be called when the message list is gathered at startup
+	    dispatchSetUsers: function dispatchSetUsers(messages) {
+	      dispatch((0, _actions.setUsers)(messages));
+	    }
+
+	  };
+	};
+
+	var OnlineUsersListContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_OnlineUsersListComponent2.default);
+
+	module.exports = OnlineUsersListContainer;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(4);
+	var UserComponent = __webpack_require__(306);
+	var ServerApi = __webpack_require__(307);
+
+	var OnlineUsersListComponentListStyle = {
+	  overflowY: 'scroll',
+	  overflowX: 'scroll',
+	  listStyleType: 'none',
+	  backgroundColor: '#DEB272',
+	  paddingLeft: '0pt',
+	  maxWidth: '200pt',
+	  minWidth: '100pt',
+	  height: '70vh'
+	};
+
+	var OnlineUsersListComponentStyle = {};
+
+	var OnlineUsersListComponent = function (_React$Component) {
+	  _inherits(OnlineUsersListComponent, _React$Component);
+
+	  function OnlineUsersListComponent(props) {
+	    _classCallCheck(this, OnlineUsersListComponent);
+
+	    //get users
+	    var _this = _possibleConstructorReturn(this, (OnlineUsersListComponent.__proto__ || Object.getPrototypeOf(OnlineUsersListComponent)).call(this, props));
+
+	    ServerApi.getUserList(function (users) {
+	      _this.props.dispatchSetUsers(users);
+	      console.log('OnlineUserListComponent:getUserList', users);
+	    });
+
+	    //set callbacks
+	    ServerApi.setOnLoginCallback(function (user) {
+	      console.log('ServerApi.setOnLoginCallback', user);
+	      _this.props.dispatchAddUser(user);
+	    });
+	    ServerApi.setOnLogoutCallback(function (user) {
+	      console.log('ServerApi.setOnLogoutCallback', user);
+	      _this.props.dispatchRemoveUser(user);
+	    });
+	    return _this;
+	  }
+
+	  _createClass(OnlineUsersListComponent, [{
+	    key: 'render',
+	    value: function render() {
+	      var userId = 0;
+
+	      return React.createElement(
+	        'div',
+	        { style: OnlineUsersListComponentStyle },
+	        React.createElement(
+	          'ul',
+	          { style: OnlineUsersListComponentListStyle },
+	          this.props.users.map(function (user) {
+	            return React.createElement(UserComponent, { username: user, key: userId++ });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return OnlineUsersListComponent;
+	}(React.Component);
+
+	module.exports = OnlineUsersListComponent;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(4);
+
+	var UserStyle = {
+	  backgroundColor: '#AE92A2'
+	};
+
+	var UserComponent = function (_React$Component) {
+	  _inherits(UserComponent, _React$Component);
+
+	  function UserComponent(props) {
+	    _classCallCheck(this, UserComponent);
+
+	    if (!props.username) {
+	      throw new Error('UserComponent: Username required as prop');
+	    } else if (props.username === '') {
+	      throw new Error('UserComponent: Username must not be null');
+	    }
+	    return _possibleConstructorReturn(this, (UserComponent.__proto__ || Object.getPrototypeOf(UserComponent)).call(this, props));
+	  }
+
+	  _createClass(UserComponent, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'li',
+	        { style: UserStyle },
+	        this.props.username
+	      );
+	    }
+	  }]);
+
+	  return UserComponent;
+	}(React.Component);
+
+	//enforce strict typing
+
+
+	UserComponent.propTypes = {
+	  username: React.PropTypes.string.isRequired
+	};
+
+	module.exports = UserComponent;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var axios = __webpack_require__(308);
 
 	/////////////
 	// CALLBACKS//
@@ -30525,21 +31057,21 @@
 	};
 
 /***/ },
-/* 302 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(303);
+	module.exports = __webpack_require__(309);
 
 /***/ },
-/* 303 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
-	var bind = __webpack_require__(305);
-	var Axios = __webpack_require__(306);
-	var defaults = __webpack_require__(307);
+	var utils = __webpack_require__(310);
+	var bind = __webpack_require__(311);
+	var Axios = __webpack_require__(312);
+	var defaults = __webpack_require__(313);
 
 	/**
 	 * Create an instance of Axios
@@ -30572,15 +31104,15 @@
 	};
 
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(324);
-	axios.CancelToken = __webpack_require__(325);
-	axios.isCancel = __webpack_require__(321);
+	axios.Cancel = __webpack_require__(330);
+	axios.CancelToken = __webpack_require__(331);
+	axios.isCancel = __webpack_require__(327);
 
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(326);
+	axios.spread = __webpack_require__(332);
 
 	module.exports = axios;
 
@@ -30589,12 +31121,12 @@
 
 
 /***/ },
-/* 304 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var bind = __webpack_require__(305);
+	var bind = __webpack_require__(311);
 
 	/*global toString:true*/
 
@@ -30894,7 +31426,7 @@
 
 
 /***/ },
-/* 305 */
+/* 311 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30911,17 +31443,17 @@
 
 
 /***/ },
-/* 306 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(307);
-	var utils = __webpack_require__(304);
-	var InterceptorManager = __webpack_require__(318);
-	var dispatchRequest = __webpack_require__(319);
-	var isAbsoluteURL = __webpack_require__(322);
-	var combineURLs = __webpack_require__(323);
+	var defaults = __webpack_require__(313);
+	var utils = __webpack_require__(310);
+	var InterceptorManager = __webpack_require__(324);
+	var dispatchRequest = __webpack_require__(325);
+	var isAbsoluteURL = __webpack_require__(328);
+	var combineURLs = __webpack_require__(329);
 
 	/**
 	 * Create a new instance of Axios
@@ -31002,13 +31534,13 @@
 
 
 /***/ },
-/* 307 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(304);
-	var normalizeHeaderName = __webpack_require__(308);
+	var utils = __webpack_require__(310);
+	var normalizeHeaderName = __webpack_require__(314);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -31025,10 +31557,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(309);
+	    adapter = __webpack_require__(315);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(309);
+	    adapter = __webpack_require__(315);
 	  }
 	  return adapter;
 	}
@@ -31102,12 +31634,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 308 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
+	var utils = __webpack_require__(310);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -31120,18 +31652,18 @@
 
 
 /***/ },
-/* 309 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(304);
-	var settle = __webpack_require__(310);
-	var buildURL = __webpack_require__(313);
-	var parseHeaders = __webpack_require__(314);
-	var isURLSameOrigin = __webpack_require__(315);
-	var createError = __webpack_require__(311);
-	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(316);
+	var utils = __webpack_require__(310);
+	var settle = __webpack_require__(316);
+	var buildURL = __webpack_require__(319);
+	var parseHeaders = __webpack_require__(320);
+	var isURLSameOrigin = __webpack_require__(321);
+	var createError = __webpack_require__(317);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(322);
 
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -31227,7 +31759,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(317);
+	      var cookies = __webpack_require__(323);
 
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -31304,12 +31836,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 310 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var createError = __webpack_require__(311);
+	var createError = __webpack_require__(317);
 
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -31335,12 +31867,12 @@
 
 
 /***/ },
-/* 311 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var enhanceError = __webpack_require__(312);
+	var enhanceError = __webpack_require__(318);
 
 	/**
 	 * Create an Error with the specified message, config, error code, and response.
@@ -31358,7 +31890,7 @@
 
 
 /***/ },
-/* 312 */
+/* 318 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31383,12 +31915,12 @@
 
 
 /***/ },
-/* 313 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
+	var utils = __webpack_require__(310);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -31457,12 +31989,12 @@
 
 
 /***/ },
-/* 314 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
+	var utils = __webpack_require__(310);
 
 	/**
 	 * Parse headers into an object
@@ -31500,12 +32032,12 @@
 
 
 /***/ },
-/* 315 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
+	var utils = __webpack_require__(310);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -31574,7 +32106,7 @@
 
 
 /***/ },
-/* 316 */
+/* 322 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31616,12 +32148,12 @@
 
 
 /***/ },
-/* 317 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
+	var utils = __webpack_require__(310);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -31675,12 +32207,12 @@
 
 
 /***/ },
-/* 318 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
+	var utils = __webpack_require__(310);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -31733,15 +32265,15 @@
 
 
 /***/ },
-/* 319 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
-	var transformData = __webpack_require__(320);
-	var isCancel = __webpack_require__(321);
-	var defaults = __webpack_require__(307);
+	var utils = __webpack_require__(310);
+	var transformData = __webpack_require__(326);
+	var isCancel = __webpack_require__(327);
+	var defaults = __webpack_require__(313);
 
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -31818,12 +32350,12 @@
 
 
 /***/ },
-/* 320 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(304);
+	var utils = __webpack_require__(310);
 
 	/**
 	 * Transform the data for a request or a response
@@ -31844,7 +32376,7 @@
 
 
 /***/ },
-/* 321 */
+/* 327 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31855,7 +32387,7 @@
 
 
 /***/ },
-/* 322 */
+/* 328 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31875,7 +32407,7 @@
 
 
 /***/ },
-/* 323 */
+/* 329 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31893,7 +32425,7 @@
 
 
 /***/ },
-/* 324 */
+/* 330 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31918,12 +32450,12 @@
 
 
 /***/ },
-/* 325 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Cancel = __webpack_require__(324);
+	var Cancel = __webpack_require__(330);
 
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -31981,7 +32513,7 @@
 
 
 /***/ },
-/* 326 */
+/* 332 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32014,7 +32546,7 @@
 
 
 /***/ },
-/* 327 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32025,309 +32557,9 @@
 
 	var _reactRedux = __webpack_require__(1);
 
-	var _actions = __webpack_require__(328);
+	var _actions = __webpack_require__(303);
 
-	var _ChatComponent = __webpack_require__(299);
-
-	var _ChatComponent2 = _interopRequireDefault(_ChatComponent);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    messages: state.chatReducer
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    //to be called when a new message is recieved
-	    dispatchAddMessage: function dispatchAddMessage(msg) {
-	      //TODO: maybe call these methods dispatchNewMessage
-	      dispatch((0, _actions.addMessage)(msg));
-	    },
-
-	    //to be called when the message list is gathered at startup
-	    dispatchSetMessageList: function dispatchSetMessageList(messages) {
-	      dispatch((0, _actions.setMessageList)(messages));
-	    }
-	  };
-	};
-
-	var ChatContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_ChatComponent2.default);
-
-	module.exports = ChatContainer;
-
-/***/ },
-/* 328 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	//TODO: consolidate containers to have dispatch function names that correspond to these action generators
-
-	var nextMessage = 0; //TODO: do we need this?
-	var addMessage = exports.addMessage = function addMessage(msg) {
-	  console.log('actions: addMessage', msg);
-	  return {
-	    type: 'MESSAGE',
-	    message: { author: msg.author, message: msg.message, date: msg.date },
-	    id: nextMessage++
-	  };
-	};
-
-	var nextMessageList = 0; //TODO: do we need this?
-	var setMessageList = exports.setMessageList = function setMessageList(messages) {
-	  console.log('actions: setMessageList, count=', messages.length);
-	  return {
-	    type: 'GET_MESSAGES',
-	    messages: messages,
-	    id: nextMessageList++
-	  };
-	};
-
-	var nextsetCurrentUser = 0;
-	var setCurrentUser = exports.setCurrentUser = function setCurrentUser(user) {
-	  console.log('actions: setCurrentUser, count=', user);
-	  return {
-	    type: 'SET_CURRENT_USER',
-	    user: user,
-	    id: nextsetCurrentUser++
-	  };
-	};
-
-	var nextaddUser = 0;
-	var addUser = exports.addUser = function addUser(user) {
-	  return {
-	    type: 'ADD_USER',
-	    user: user,
-	    id: nextaddUser++
-	  };
-	};
-
-	var nextremoveUser = 0;
-	var removeUser = exports.removeUser = function removeUser(user) {
-	  return {
-	    type: 'REMOVE_USER',
-	    user: user,
-	    id: nextremoveUser++
-	  };
-	};
-
-	var nextsetUsers = 0;
-	var setUsers = exports.setUsers = function setUsers(users) {
-	  return {
-	    type: 'SET_USERS',
-	    users: users,
-	    id: nextsetUsers++
-	  };
-	};
-
-/***/ },
-/* 329 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _reactRedux = __webpack_require__(1);
-
-	var _actions = __webpack_require__(328);
-
-	var _OnlineUsersListComponent = __webpack_require__(330);
-
-	var _OnlineUsersListComponent2 = _interopRequireDefault(_OnlineUsersListComponent);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var React = __webpack_require__(4);
-
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    users: state.onlineUsersReducer
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    //to be called when a new message is recieved
-	    dispatchAddUser: function dispatchAddUser(user) {
-	      //define prop callback
-	      dispatch((0, _actions.addUser)(user)); //define action generator
-	    },
-
-	    dispatchRemoveUser: function dispatchRemoveUser(user) {
-	      dispatch((0, _actions.removeUser)(user));
-	    },
-
-	    //to be called when the message list is gathered at startup
-	    dispatchSetUsers: function dispatchSetUsers(messages) {
-	      dispatch((0, _actions.setUsers)(messages));
-	    }
-
-	  };
-	};
-
-	var OnlineUsersListContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_OnlineUsersListComponent2.default);
-
-	module.exports = OnlineUsersListContainer;
-
-/***/ },
-/* 330 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(4);
-	var UserComponent = __webpack_require__(331);
-	var ServerApi = __webpack_require__(301);
-
-	var OnlineUsersListComponentListStyle = {
-	  overflowY: 'scroll',
-	  overflowX: 'scroll',
-	  listStyleType: 'none',
-	  backgroundColor: '#DEB272',
-	  paddingLeft: '0pt',
-	  maxWidth: '200pt',
-	  minWidth: '100pt',
-	  height: '70vh'
-	};
-
-	var OnlineUsersListComponentStyle = {};
-
-	var OnlineUsersListComponent = function (_React$Component) {
-	  _inherits(OnlineUsersListComponent, _React$Component);
-
-	  function OnlineUsersListComponent(props) {
-	    _classCallCheck(this, OnlineUsersListComponent);
-
-	    //get users
-	    var _this = _possibleConstructorReturn(this, (OnlineUsersListComponent.__proto__ || Object.getPrototypeOf(OnlineUsersListComponent)).call(this, props));
-
-	    ServerApi.getUserList(function (users) {
-	      _this.props.dispatchSetUsers(users);
-	      console.log('OnlineUserListComponent:getUserList', users);
-	    });
-
-	    //set callbacks
-	    ServerApi.setOnLoginCallback(function (user) {
-	      console.log('ServerApi.setOnLoginCallback', user);
-	      _this.props.dispatchAddUser(user);
-	    });
-	    ServerApi.setOnLogoutCallback(function (user) {
-	      console.log('ServerApi.setOnLogoutCallback', user);
-	      _this.props.dispatchRemoveUser(user);
-	    });
-	    return _this;
-	  }
-
-	  _createClass(OnlineUsersListComponent, [{
-	    key: 'render',
-	    value: function render() {
-	      var userId = 0;
-
-	      return React.createElement(
-	        'div',
-	        { style: OnlineUsersListComponentStyle },
-	        React.createElement(
-	          'ul',
-	          { style: OnlineUsersListComponentListStyle },
-	          this.props.users.map(function (user) {
-	            return React.createElement(UserComponent, { username: user, key: userId++ });
-	          })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return OnlineUsersListComponent;
-	}(React.Component);
-
-	module.exports = OnlineUsersListComponent;
-
-/***/ },
-/* 331 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(4);
-
-	var UserStyle = {
-	  backgroundColor: '#AE92A2'
-	};
-
-	var UserComponent = function (_React$Component) {
-	  _inherits(UserComponent, _React$Component);
-
-	  function UserComponent(props) {
-	    _classCallCheck(this, UserComponent);
-
-	    if (!props.username) {
-	      throw new Error('UserComponent: Username required as prop');
-	    } else if (props.username === '') {
-	      throw new Error('UserComponent: Username must not be null');
-	    }
-	    return _possibleConstructorReturn(this, (UserComponent.__proto__ || Object.getPrototypeOf(UserComponent)).call(this, props));
-	  }
-
-	  _createClass(UserComponent, [{
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'li',
-	        { style: UserStyle },
-	        this.props.username
-	      );
-	    }
-	  }]);
-
-	  return UserComponent;
-	}(React.Component);
-
-	//enforce strict typing
-
-
-	UserComponent.propTypes = {
-	  username: React.PropTypes.string.isRequired
-	};
-
-	module.exports = UserComponent;
-
-/***/ },
-/* 332 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(4);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRedux = __webpack_require__(1);
-
-	var _actions = __webpack_require__(328);
-
-	var _UsernameInputFormComponent = __webpack_require__(333);
+	var _UsernameInputFormComponent = __webpack_require__(334);
 
 	var _UsernameInputFormComponent2 = _interopRequireDefault(_UsernameInputFormComponent);
 
@@ -32354,7 +32586,7 @@
 	module.exports = UsernameInputFormContainer;
 
 /***/ },
-/* 333 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32368,7 +32600,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(4);
-	var ServerApi = __webpack_require__(301);
 
 	var UsernameInputFormComponent = function (_React$Component) {
 	  _inherits(UsernameInputFormComponent, _React$Component);
@@ -32376,14 +32607,15 @@
 	  function UsernameInputFormComponent(props) {
 	    _classCallCheck(this, UsernameInputFormComponent);
 
+	    if (!props.dispatchSetCurrentUser || props.dispatchSetCurrentUser && typeof props.dispatchSetCurrentUser != 'function') {
+	      throw new Error('UsernameInputFormComponent : Required function as prop\
+	       for dispatchSetCurrentUser');
+	    }
+	    if (!props.sendLoginRequestToServer || props.sendLoginRequestToServer && typeof props.sendLoginRequestToServer != 'function') {
+	      throw new Error('UsernameInputFormComponent : Required function as prop\
+	       for sendLoginRequestToServer');
+	    }
 	    return _possibleConstructorReturn(this, (UsernameInputFormComponent.__proto__ || Object.getPrototypeOf(UsernameInputFormComponent)).call(this, props));
-	    //window.onbeforeunload = ()=>{
-	    //  var username = this.props.user;
-	    //  console.log("UsernameInputFormComponent unmounting, logging out user",username);
-	    //  if (username){
-	    //    serverApi.sendUserLogoutNotification(username);
-	    //    this.props.setCurrentUser('');
-	    //  }};
 	  }
 
 	  _createClass(UsernameInputFormComponent, [{
@@ -32392,12 +32624,12 @@
 	      var _this2 = this;
 
 	      var username = this.input.value;
-	      console.log("User entered username", username);
-	      if (username !== '') {
-	        ServerApi.sendUserLoginRequest(username, function (success) {
+	      var usernameIsValid = /^[a-z0-9]+$/i.test(username);
+	      console.log(username + " : valid : " + usernameIsValid);
+	      if (username !== '' && usernameIsValid) {
+	        this.props.sendLoginRequestToServer(username, function (success) {
 	          if (success) {
 	            _this2.props.dispatchSetCurrentUser(username);
-	            console.log("username accepted", username);
 	          } else {
 	            alert('Try a different username please.');
 	            _this2.input.value = '';
@@ -32432,10 +32664,15 @@
 	  return UsernameInputFormComponent;
 	}(React.Component);
 
+	UsernameInputFormComponent.propTypes = {
+	  user: React.PropTypes.string,
+	  dispatchSetCurrentUser: React.PropTypes.func.isRequired,
+	  sendLoginRequestToServer: React.PropTypes.func.isRequired
+	};
 	module.exports = UsernameInputFormComponent;
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32446,7 +32683,7 @@
 
 	var _reactRedux = __webpack_require__(1);
 
-	var _ChatInputFormComponent = __webpack_require__(335);
+	var _ChatInputFormComponent = __webpack_require__(336);
 
 	var _ChatInputFormComponent2 = _interopRequireDefault(_ChatInputFormComponent);
 
@@ -32469,7 +32706,7 @@
 	module.exports = ChatInputFormContainer;
 
 /***/ },
-/* 335 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32556,238 +32793,6 @@
 	};
 
 	module.exports = ChatInputFormComponent;
-
-/***/ },
-/* 336 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;/*
-	 * Date Format 1.2.3
-	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
-	 * MIT license
-	 *
-	 * Includes enhancements by Scott Trenda <scott.trenda.net>
-	 * and Kris Kowal <cixar.com/~kris.kowal/>
-	 *
-	 * Accepts a date, a mask, or a date and a mask.
-	 * Returns a formatted version of the given date.
-	 * The date defaults to the current date/time.
-	 * The mask defaults to dateFormat.masks.default.
-	 */
-
-	(function(global) {
-	  'use strict';
-
-	  var dateFormat = (function() {
-	      var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZWN]|'[^']*'|'[^']*'/g;
-	      var timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
-	      var timezoneClip = /[^-+\dA-Z]/g;
-	  
-	      // Regexes and supporting functions are cached through closure
-	      return function (date, mask, utc, gmt) {
-	  
-	        // You can't provide utc if you skip other args (use the 'UTC:' mask prefix)
-	        if (arguments.length === 1 && kindOf(date) === 'string' && !/\d/.test(date)) {
-	          mask = date;
-	          date = undefined;
-	        }
-	  
-	        date = date || new Date;
-	  
-	        if(!(date instanceof Date)) {
-	          date = new Date(date);
-	        }
-	  
-	        if (isNaN(date)) {
-	          throw TypeError('Invalid date');
-	        }
-	  
-	        mask = String(dateFormat.masks[mask] || mask || dateFormat.masks['default']);
-	  
-	        // Allow setting the utc/gmt argument via the mask
-	        var maskSlice = mask.slice(0, 4);
-	        if (maskSlice === 'UTC:' || maskSlice === 'GMT:') {
-	          mask = mask.slice(4);
-	          utc = true;
-	          if (maskSlice === 'GMT:') {
-	            gmt = true;
-	          }
-	        }
-	  
-	        var _ = utc ? 'getUTC' : 'get';
-	        var d = date[_ + 'Date']();
-	        var D = date[_ + 'Day']();
-	        var m = date[_ + 'Month']();
-	        var y = date[_ + 'FullYear']();
-	        var H = date[_ + 'Hours']();
-	        var M = date[_ + 'Minutes']();
-	        var s = date[_ + 'Seconds']();
-	        var L = date[_ + 'Milliseconds']();
-	        var o = utc ? 0 : date.getTimezoneOffset();
-	        var W = getWeek(date);
-	        var N = getDayOfWeek(date);
-	        var flags = {
-	          d:    d,
-	          dd:   pad(d),
-	          ddd:  dateFormat.i18n.dayNames[D],
-	          dddd: dateFormat.i18n.dayNames[D + 7],
-	          m:    m + 1,
-	          mm:   pad(m + 1),
-	          mmm:  dateFormat.i18n.monthNames[m],
-	          mmmm: dateFormat.i18n.monthNames[m + 12],
-	          yy:   String(y).slice(2),
-	          yyyy: y,
-	          h:    H % 12 || 12,
-	          hh:   pad(H % 12 || 12),
-	          H:    H,
-	          HH:   pad(H),
-	          M:    M,
-	          MM:   pad(M),
-	          s:    s,
-	          ss:   pad(s),
-	          l:    pad(L, 3),
-	          L:    pad(Math.round(L / 10)),
-	          t:    H < 12 ? 'a'  : 'p',
-	          tt:   H < 12 ? 'am' : 'pm',
-	          T:    H < 12 ? 'A'  : 'P',
-	          TT:   H < 12 ? 'AM' : 'PM',
-	          Z:    gmt ? 'GMT' : utc ? 'UTC' : (String(date).match(timezone) || ['']).pop().replace(timezoneClip, ''),
-	          o:    (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
-	          S:    ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10],
-	          W:    W,
-	          N:    N
-	        };
-	  
-	        return mask.replace(token, function (match) {
-	          if (match in flags) {
-	            return flags[match];
-	          }
-	          return match.slice(1, match.length - 1);
-	        });
-	      };
-	    })();
-
-	  dateFormat.masks = {
-	    'default':               'ddd mmm dd yyyy HH:MM:ss',
-	    'shortDate':             'm/d/yy',
-	    'mediumDate':            'mmm d, yyyy',
-	    'longDate':              'mmmm d, yyyy',
-	    'fullDate':              'dddd, mmmm d, yyyy',
-	    'shortTime':             'h:MM TT',
-	    'mediumTime':            'h:MM:ss TT',
-	    'longTime':              'h:MM:ss TT Z',
-	    'isoDate':               'yyyy-mm-dd',
-	    'isoTime':               'HH:MM:ss',
-	    'isoDateTime':           'yyyy-mm-dd\'T\'HH:MM:sso',
-	    'isoUtcDateTime':        'UTC:yyyy-mm-dd\'T\'HH:MM:ss\'Z\'',
-	    'expiresHeaderFormat':   'ddd, dd mmm yyyy HH:MM:ss Z'
-	  };
-
-	  // Internationalization strings
-	  dateFormat.i18n = {
-	    dayNames: [
-	      'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
-	      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-	    ],
-	    monthNames: [
-	      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-	      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
-	    ]
-	  };
-
-	function pad(val, len) {
-	  val = String(val);
-	  len = len || 2;
-	  while (val.length < len) {
-	    val = '0' + val;
-	  }
-	  return val;
-	}
-
-	/**
-	 * Get the ISO 8601 week number
-	 * Based on comments from
-	 * http://techblog.procurios.nl/k/n618/news/view/33796/14863/Calculate-ISO-8601-week-and-year-in-javascript.html
-	 *
-	 * @param  {Object} `date`
-	 * @return {Number}
-	 */
-	function getWeek(date) {
-	  // Remove time components of date
-	  var targetThursday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-	  // Change date to Thursday same week
-	  targetThursday.setDate(targetThursday.getDate() - ((targetThursday.getDay() + 6) % 7) + 3);
-
-	  // Take January 4th as it is always in week 1 (see ISO 8601)
-	  var firstThursday = new Date(targetThursday.getFullYear(), 0, 4);
-
-	  // Change date to Thursday same week
-	  firstThursday.setDate(firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3);
-
-	  // Check if daylight-saving-time-switch occured and correct for it
-	  var ds = targetThursday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
-	  targetThursday.setHours(targetThursday.getHours() - ds);
-
-	  // Number of weeks between target Thursday and first Thursday
-	  var weekDiff = (targetThursday - firstThursday) / (86400000*7);
-	  return 1 + Math.floor(weekDiff);
-	}
-
-	/**
-	 * Get ISO-8601 numeric representation of the day of the week
-	 * 1 (for Monday) through 7 (for Sunday)
-	 * 
-	 * @param  {Object} `date`
-	 * @return {Number}
-	 */
-	function getDayOfWeek(date) {
-	  var dow = date.getDay();
-	  if(dow === 0) {
-	    dow = 7;
-	  }
-	  return dow;
-	}
-
-	/**
-	 * kind-of shortcut
-	 * @param  {*} val
-	 * @return {String}
-	 */
-	function kindOf(val) {
-	  if (val === null) {
-	    return 'null';
-	  }
-
-	  if (val === undefined) {
-	    return 'undefined';
-	  }
-
-	  if (typeof val !== 'object') {
-	    return typeof val;
-	  }
-
-	  if (Array.isArray(val)) {
-	    return 'array';
-	  }
-
-	  return {}.toString.call(val)
-	    .slice(8, -1).toLowerCase();
-	};
-
-
-
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-	      return dateFormat;
-	    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if (typeof exports === 'object') {
-	    module.exports = dateFormat;
-	  } else {
-	    global.dateFormat = dateFormat;
-	  }
-	})(this);
-
 
 /***/ }
 /******/ ]);
