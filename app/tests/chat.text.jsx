@@ -5,7 +5,11 @@ var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
 var ChatComponent = require('ChatComponent');
-//var MessageComponent = require('MessageComponent');
+
+
+//NOTE: This component doesn't alter its own state per-se
+// therefor we don't test for changes to state. E.g. adding new messages,
+// loading message lists. This functionality will be tested in ChatContainer
 
 function PrintDom(root, level=0, child = 0){
   if(root){
@@ -23,32 +27,22 @@ function PrintDom(root, level=0, child = 0){
   }
 }
 
+function renderChatComponent(a,b,c,d,msgs=[]){
+  return TestUtils.renderIntoDocument(<ChatComponent
+    getMessageListFromServer={a}
+    setCallbackForNewMessages = {b}
+    dispatchSetMessageList = {c}
+    dispatchAddMessage = {d}
+    messages = {msgs}/>);
+}
+
 describe("ChatComponent", ()=>{
   //exists
   it('should exist', () => {expect(ChatComponent).toExist();});
 
-  //correct amount of messages received from server
-  it('should recieve message list from server', ()=>{
-
-    expect(true).toBe(true);
-  });
-
-  //subsciption to new message events is active
-  it('should recieve new messages',()=>{
-    let chat = TestUtils.renderIntoDocument(<ChatComponent
-      serverApiGetMessageList={()=>{}}
-      serverApiSetOnMessageCallback = {()=>{}}
-      onMessageListRecieved = {()=>{}}
-      onNewMessage = {()=>{}}/>);
-  });
-
   //nothing is rendered
   it('should render nothing when there are no messages', ()=>{
-    let chat = TestUtils.renderIntoDocument(<ChatComponent
-      serverApiGetMessageList={()=>{}}
-      serverApiSetOnMessageCallback = {()=>{}}
-      onMessageListRecieved = {()=>{}}
-      onNewMessage = {()=>{}}/>);
+    let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{});
     var $el = $(ReactDOM.findDOMNode(chat));
     var count = $el.find("#ul").children().length;
     expect(count).toBe(0,"chat messages in list:"+count);
@@ -61,12 +55,7 @@ describe("ChatComponent", ()=>{
     let mc = {author:'tom', content:'data', date};
 
     expect(()=>{
-      let chat = TestUtils.renderIntoDocument(<ChatComponent
-        serverApiGetMessageList={()=>{}}
-        serverApiSetOnMessageCallback = {()=>{}}
-        onMessageListRecieved = {()=>{}}
-        onNewMessage = {()=>{}}
-        messages = {mc}/>);
+      let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{},mc);
     }).toThrow(/TypeError/);
   });
 
@@ -77,12 +66,7 @@ describe("ChatComponent", ()=>{
     {author:'tom', message:'data', date},
     {author:'tom', message:'data', date}];
 
-    let chat = TestUtils.renderIntoDocument(<ChatComponent
-      serverApiGetMessageList={()=>{}}
-      serverApiSetOnMessageCallback = {()=>{}}
-      onMessageListRecieved = {()=>{}}
-      onNewMessage = {()=>{}}
-      messages = {ma}/>);
+    let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{},ma);
 
     var $el = $(ReactDOM.findDOMNode(chat));
     let count = $el.find("ul").children().length;
@@ -91,32 +75,48 @@ describe("ChatComponent", ()=>{
     ////TODO: do we care what the messages look like?
   });
 
-  //a messages is added
-  it('should handle adding a message', ()=>{
-
-  });
 
   //a message list is loaded
   it('a message list is loaded',()=>{
-    var sGetMessageList = ()=>{};
-    var sSetOnMessageCB = ()=>{};
-    var onMessageListRec = ()=>{};
-    var onNewMessage = ()=>{};
-    let chat = TestUtils.renderIntoDocument(<ChatComponent
-      serverApiGetMessageList={sGetMessageList}
-      serverApiSetOnMessageCallback = {sSetOnMessageCB}
-      onMessageListRecieved = {onMessageListRec}
-      onNewMessage = {onNewMessage}/>);
-    sSetOnMessageCB('message');
+
+    let cb;
+    var msg = {author:'tom', message:'msg', date: new Date()}
+    var messagelist = [{author:'tom', message:'msg', date: new Date()},
+                      {author:'tom', message:'msg', date: new Date()}];
+
+    var getMessageListFromServer = (callback)=>{callback(messagelist)};  //this should return message list};
+    var setCallbackForNewMessages = (callback)=>{cb = callback;}; //this should set some other function
+                                            //up to call this function when a new message arrives};
+    var dispatchSetMessageList = expect.createSpy();    //this should be called when after the messagelist is recieved
+    var dispatchAddMessage = expect.createSpy();        //this should be called when a message is sent from server
+    var chat = renderChatComponent(getMessageListFromServer,
+                                  setCallbackForNewMessages,
+                                  dispatchSetMessageList,
+                                  dispatchAddMessage);
+    expect(dispatchSetMessageList).toHaveBeenCalled();
+    cb(msg);
+    expect(dispatchAddMessage).toHaveBeenCalled();
 
   });
 
   //complain when on-message-list-recieved callback is missing
+  it('should complain when getMessageListFromServer callback is missing',()=>{
+      expect(()=>{renderChatComponent(null,()=>{},()=>{},()=>{});}).toThrow(/function/);
+  });
 
   //complain when on-new-message-recieved callback is missing
+  it('should complain when setCallbackForNewMessages callback is missing',()=>{
+      expect(()=>{renderChatComponent(()=>{},null,()=>{},()=>{});}).toThrow(/function/);
+  });
 
   //complain when server get message list callback is missing
+  it('should complain when dispatchSetMessageList is missing',()=>{
+      expect(()=>{renderChatComponent(()=>{},()=>{},null,()=>{});}).toThrow(/function/);
+  });
 
   //complain when server set on new message callback is missing
+  it('should complain when dispatchAddMessage callback is missing',()=>{
+      expect(()=>{renderChatComponent(()=>{},()=>{},()=>{},null);}).toThrow(/function/);
+  });
 
 });

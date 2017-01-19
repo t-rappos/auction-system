@@ -30,8 +30,8 @@ var Main = React.createClass({
     return (
       <div style={appStyle}>
         <div style={mainWindowStyle} >
-            <ChatContainer serverApiGetMessageList = {ServerApi.getMessageList}
-            serverApiSetOnMessageCallback = {ServerApi.setOnMessageCallback}/>
+            <ChatContainer getMessageListFromServer = {ServerApi.getMessageList}
+            setCallbackForNewMessages = {ServerApi.setOnMessageCallback}/>
             <OnlineUsersListContainer/>
         </div>
         <div style={subWindowStyle}>

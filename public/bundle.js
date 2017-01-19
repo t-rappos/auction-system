@@ -30190,8 +30190,8 @@
 	      React.createElement(
 	        'div',
 	        { style: mainWindowStyle },
-	        React.createElement(ChatContainer, { serverApiGetMessageList: ServerApi.getMessageList,
-	          serverApiSetOnMessageCallback: ServerApi.setOnMessageCallback }),
+	        React.createElement(ChatContainer, { getMessageListFromServer: ServerApi.getMessageList,
+	          setCallbackForNewMessages: ServerApi.setOnMessageCallback }),
 	        React.createElement(OnlineUsersListContainer, null)
 	      ),
 	      React.createElement(
@@ -30259,8 +30259,7 @@
 	      var _this2 = this;
 
 	      //fetch all the messages stored on the server
-	      this.props.serverApiGetMessageList(function (messages) {
-	        console.log("ChatComponent recieved messages from serverAPI");
+	      this.props.getMessageListFromServer(function (messages) {
 	        _this2.props.dispatchSetMessageList(messages);
 	      });
 	    }
@@ -30270,8 +30269,7 @@
 	      var _this3 = this;
 
 	      //subscribe to new message events from server
-	      this.props.serverApiSetOnMessageCallback(function (message) {
-	        console.log("ChatComponent heard new message", message);
+	      this.props.setCallbackForNewMessages(function (message) {
 	        _this3.props.dispatchAddMessage(message);
 	      });
 	    }
@@ -30282,6 +30280,18 @@
 
 	    if (props.messages && props.messages.constructor != Array) {
 	      throw new Error('ChatComponent : TypeError : expected "messages" to be array, recieved :' + (typeof messages === 'undefined' ? 'undefined' : _typeof(messages)));
+	    }
+	    if (!props.dispatchSetMessageList || typeof props.dispatchSetMessageList != 'function') {
+	      throw new Error('ChatComponent : Required function as prop');
+	    }
+	    if (!props.dispatchAddMessage || typeof props.dispatchAddMessage != 'function') {
+	      throw new Error('ChatComponent : Required function as prop');
+	    }
+	    if (!props.getMessageListFromServer || typeof props.getMessageListFromServer != 'function') {
+	      throw new Error('ChatComponent : Required function as prop');
+	    }
+	    if (!props.setCallbackForNewMessages || typeof props.setCallbackForNewMessages != 'function') {
+	      throw new Error('ChatComponent : Required function as prop');
 	    }
 
 	    var _this = _possibleConstructorReturn(this, (ChatComponent.__proto__ || Object.getPrototypeOf(ChatComponent)).call(this, props));
@@ -30322,8 +30332,8 @@
 	  dispatchSetMessageList: React.PropTypes.func.isRequired,
 	  dispatchAddMessage: React.PropTypes.func.isRequired,
 	  messages: React.PropTypes.arrayOf(React.PropTypes.object),
-	  serverApiGetMessageList: React.PropTypes.func.isRequired, //called by the server sending messages, after making a request for it
-	  serverApiSetOnMessageCallback: React.PropTypes.func.isRequired //called by the server sending message
+	  getMessageListFromServer: React.PropTypes.func.isRequired, //called by the server sending messages, after making a request for it
+	  setCallbackForNewMessages: React.PropTypes.func.isRequired //called by the server sending message
 	};
 
 	module.exports = ChatComponent;
