@@ -41,6 +41,7 @@ class ChatComponent extends React.Component {
       <div style={ChatComponentStyle}>
         <ul style={ChatComponentListStyle}>{
             this.props.messages.map(function(message){
+              console.log('Date check', typeof(message.date));
                 return(<MessageComponent
                   author= {message.author}
                   content={message.message}

@@ -10,7 +10,7 @@ export const chatReducer = (state=chatReducerDefaultState,action) => {
         { //append new item to end of array
           author : action.message.author,
           message: action.message.message,
-          date: action.message.date
+          date: new Date(action.message.date)
         }
       ];
     case 'GET_MESSAGES': //TODO: rename this to SET_MESSAGES?
@@ -20,7 +20,7 @@ export const chatReducer = (state=chatReducerDefaultState,action) => {
           {
             author : message.author,
             message: message.message,
-            date: message.date
+            date: new Date(message.date)
           })
       });
       console.log('ChatReducer: Setting message list:', result.length);
