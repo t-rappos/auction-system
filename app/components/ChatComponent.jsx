@@ -25,7 +25,7 @@ class ChatComponent extends React.Component {
     //fetch all the messages stored on the server
     this.props.serverApiGetMessageList((messages)=>{
       console.log("ChatComponent recieved messages from serverAPI");
-      this.props.onMessageListRecieved(messages);
+      this.props.dispatchSetMessageList(messages);
     });
   }
 
@@ -33,7 +33,7 @@ class ChatComponent extends React.Component {
     //subscribe to new message events from server
     this.props.serverApiSetOnMessageCallback((message)=>{
       console.log("ChatComponent heard new message", message);
-      this.props.onNewMessage(message);
+      this.props.dispatchAddMessage(message);
     })
   }
 
@@ -64,8 +64,8 @@ class ChatComponent extends React.Component {
 }
 
 ChatComponent.propTypes = {
-  onMessageListRecieved : React.PropTypes.func.isRequired, 
-  onNewMessage : React.PropTypes.func.isRequired,
+  dispatchSetMessageList : React.PropTypes.func.isRequired,
+  dispatchAddMessage : React.PropTypes.func.isRequired,
   messages : React.PropTypes.arrayOf(React.PropTypes.object),
   serverApiGetMessageList : React.PropTypes.func.isRequired, //called by the server sending messages, after making a request for it
   serverApiSetOnMessageCallback : React.PropTypes.func.isRequired //called by the server sending message

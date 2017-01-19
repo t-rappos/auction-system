@@ -12,7 +12,7 @@ const mapStateToPropsB = (state) => {
 const mapDispatchToPropsB = (dispatch) => {
   return {
     //to be called when a username is submitted
-    setCurrentUser : (username)=>{
+    dispatchSetCurrentUser : (username)=>{
       dispatch(setCurrentUser(username));
     },
 

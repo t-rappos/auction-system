@@ -23,18 +23,18 @@ class OnlineUsersListComponent  extends React.Component {
 
     //get users
     ServerApi.getUserList((users) => {
-      this.props.setUsers(users);
+      this.props.dispatchSetUsers(users);
       console.log('OnlineUserListComponent:getUserList', users);
     });
 
     //set callbacks
     ServerApi.setOnLoginCallback((user)=>{
       console.log('ServerApi.setOnLoginCallback',user);
-      this.props.addUser(user);
+      this.props.dispatchAddUser(user);
     })
     ServerApi.setOnLogoutCallback((user)=>{
       console.log('ServerApi.setOnLogoutCallback',user);
-      this.props.removeUser(user);
+      this.props.dispatchRemoveUser(user);
     });
   }
   render(){

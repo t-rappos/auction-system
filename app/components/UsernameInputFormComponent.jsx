@@ -20,7 +20,7 @@ class UsernameInputFormComponent  extends React.Component {
     {
       ServerApi.sendUserLoginRequest(username,(success)=>{
         if (success){
-          this.props.setCurrentUser(username);
+          this.props.dispatchSetCurrentUser(username);
           console.log("username accepted",username);
         }
         else

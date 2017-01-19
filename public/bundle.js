@@ -30261,7 +30261,7 @@
 	      //fetch all the messages stored on the server
 	      this.props.serverApiGetMessageList(function (messages) {
 	        console.log("ChatComponent recieved messages from serverAPI");
-	        _this2.props.onMessageListRecieved(messages);
+	        _this2.props.dispatchSetMessageList(messages);
 	      });
 	    }
 	  }, {
@@ -30272,7 +30272,7 @@
 	      //subscribe to new message events from server
 	      this.props.serverApiSetOnMessageCallback(function (message) {
 	        console.log("ChatComponent heard new message", message);
-	        _this3.props.onNewMessage(message);
+	        _this3.props.dispatchAddMessage(message);
 	      });
 	    }
 	  }]);
@@ -30319,8 +30319,8 @@
 	}(React.Component);
 
 	ChatComponent.propTypes = {
-	  onMessageListRecieved: React.PropTypes.func.isRequired,
-	  onNewMessage: React.PropTypes.func.isRequired,
+	  dispatchSetMessageList: React.PropTypes.func.isRequired,
+	  dispatchAddMessage: React.PropTypes.func.isRequired,
 	  messages: React.PropTypes.arrayOf(React.PropTypes.object),
 	  serverApiGetMessageList: React.PropTypes.func.isRequired, //called by the server sending messages, after making a request for it
 	  serverApiSetOnMessageCallback: React.PropTypes.func.isRequired //called by the server sending message
@@ -32032,13 +32032,13 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
 	    //to be called when a new message is recieved
-	    onNewMessage: function onNewMessage(msg) {
+	    dispatchAddMessage: function dispatchAddMessage(msg) {
 	      //TODO: maybe call these methods dispatchNewMessage
 	      dispatch((0, _actions.addMessage)(msg));
 	    },
 
 	    //to be called when the message list is gathered at startup
-	    onMessageListRecieved: function onMessageListRecieved(messages) {
+	    dispatchSetMessageList: function dispatchSetMessageList(messages) {
 	      dispatch((0, _actions.setMessageList)(messages));
 	    }
 	  };
@@ -32144,17 +32144,17 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
 	    //to be called when a new message is recieved
-	    addUser: function addUser(user) {
+	    dispatchAddUser: function dispatchAddUser(user) {
 	      //define prop callback
 	      dispatch((0, _actions.addUser)(user)); //define action generator
 	    },
 
-	    removeUser: function removeUser(user) {
+	    dispatchRemoveUser: function dispatchRemoveUser(user) {
 	      dispatch((0, _actions.removeUser)(user));
 	    },
 
 	    //to be called when the message list is gathered at startup
-	    setUsers: function setUsers(messages) {
+	    dispatchSetUsers: function dispatchSetUsers(messages) {
 	      dispatch((0, _actions.setUsers)(messages));
 	    }
 
@@ -32206,18 +32206,18 @@
 	    var _this = _possibleConstructorReturn(this, (OnlineUsersListComponent.__proto__ || Object.getPrototypeOf(OnlineUsersListComponent)).call(this, props));
 
 	    ServerApi.getUserList(function (users) {
-	      _this.props.setUsers(users);
+	      _this.props.dispatchSetUsers(users);
 	      console.log('OnlineUserListComponent:getUserList', users);
 	    });
 
 	    //set callbacks
 	    ServerApi.setOnLoginCallback(function (user) {
 	      console.log('ServerApi.setOnLoginCallback', user);
-	      _this.props.addUser(user);
+	      _this.props.dispatchAddUser(user);
 	    });
 	    ServerApi.setOnLogoutCallback(function (user) {
 	      console.log('ServerApi.setOnLogoutCallback', user);
-	      _this.props.removeUser(user);
+	      _this.props.dispatchRemoveUser(user);
 	    });
 	    return _this;
 	  }
@@ -32332,7 +32332,7 @@
 	var mapDispatchToPropsB = function mapDispatchToPropsB(dispatch) {
 	  return {
 	    //to be called when a username is submitted
-	    setCurrentUser: function setCurrentUser(username) {
+	    dispatchSetCurrentUser: function dispatchSetCurrentUser(username) {
 	      dispatch((0, _actions.setCurrentUser)(username));
 	    }
 
@@ -32386,7 +32386,7 @@
 	      if (username !== '') {
 	        ServerApi.sendUserLoginRequest(username, function (success) {
 	          if (success) {
-	            _this2.props.setCurrentUser(username);
+	            _this2.props.dispatchSetCurrentUser(username);
 	            console.log("username accepted", username);
 	          } else {
 	            alert('Try a different username please.');

@@ -14,16 +14,16 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     //to be called when a new message is recieved
-    addUser : (user)=>{         //define prop callback
+    dispatchAddUser : (user)=>{         //define prop callback
       dispatch(addUser(user));  //define action generator
     },
 
-    removeUser : (user)=>{
+    dispatchRemoveUser : (user)=>{
       dispatch(removeUser(user));
     },
 
     //to be called when the message list is gathered at startup
-    setUsers : (messages)=>{
+    dispatchSetUsers : (messages)=>{
       dispatch(setUsers(messages));
     }
 
