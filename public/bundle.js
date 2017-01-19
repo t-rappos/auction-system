@@ -30190,7 +30190,8 @@
 	      React.createElement(
 	        'div',
 	        { style: mainWindowStyle },
-	        React.createElement(ChatContainer, null),
+	        React.createElement(ChatContainer, { serverApiGetMessageList: ServerApi.getMessageList,
+	          serverApiSetOnMessageCallback: ServerApi.setOnMessageCallback }),
 	        React.createElement(OnlineUsersListContainer, null)
 	      ),
 	      React.createElement(
@@ -30232,7 +30233,6 @@
 
 	var React = __webpack_require__(4);
 	var MessageComponent = __webpack_require__(300);
-	var ServerApi = __webpack_require__(301);
 
 	var ChatComponentStyle = {
 	  float: 'right'
@@ -30253,22 +30253,41 @@
 	var ChatComponent = function (_React$Component) {
 	  _inherits(ChatComponent, _React$Component);
 
+	  _createClass(ChatComponent, [{
+	    key: 'getServerMessages',
+	    value: function getServerMessages() {
+	      var _this2 = this;
+
+	      //fetch all the messages stored on the server
+	      this.props.serverApiGetMessageList(function (messages) {
+	        console.log("ChatComponent recieved messages from serverAPI");
+	        _this2.props.onMessageListRecieved(messages);
+	      });
+	    }
+	  }, {
+	    key: 'subscribeToNewServerMessages',
+	    value: function subscribeToNewServerMessages() {
+	      var _this3 = this;
+
+	      //subscribe to new message events from server
+	      this.props.serverApiSetOnMessageCallback(function (message) {
+	        console.log("ChatComponent heard new message", message);
+	        _this3.props.onNewMessage(message);
+	      });
+	    }
+	  }]);
+
 	  function ChatComponent(props) {
 	    _classCallCheck(this, ChatComponent);
 
-	    //fetch all the messages stored on the server
+	    if (props.messages && props.messages.constructor != Array) {
+	      throw new Error('ChatComponent : TypeError : expected "messages" to be array, recieved :' + (typeof messages === 'undefined' ? 'undefined' : _typeof(messages)));
+	    }
+
 	    var _this = _possibleConstructorReturn(this, (ChatComponent.__proto__ || Object.getPrototypeOf(ChatComponent)).call(this, props));
 
-	    ServerApi.getMessageList(function (messages) {
-	      console.log("ChatComponent recieved messages from serverAPI");
-	      _this.props.onMessageListRecieved(messages);
-	    });
-
-	    //subscribe to new message events from server
-	    ServerApi.setOnMessageCallback(function (message) {
-	      console.log("ChatComponent heard new message", message);
-	      _this.props.onNewMessage(message);
-	    });
+	    _this.getServerMessages();
+	    _this.subscribeToNewServerMessages();
 	    return _this;
 	  }
 
@@ -30276,20 +30295,21 @@
 	    key: 'render',
 	    value: function render() {
 	      var messageId = 0;
+	      var items = this.props.messages ? this.props.messages.map(function (message) {
+	        return React.createElement(MessageComponent, {
+	          author: message.author,
+	          content: message.message,
+	          date: message.date,
+	          key: messageId++ });
+	      }) : '';
+
 	      return React.createElement(
 	        'div',
 	        { style: ChatComponentStyle },
 	        React.createElement(
 	          'ul',
 	          { style: ChatComponentListStyle },
-	          this.props.messages.map(function (message) {
-	            console.log('Date check', _typeof(message.date));
-	            return React.createElement(MessageComponent, {
-	              author: message.author,
-	              content: message.message,
-	              date: message.date,
-	              key: messageId++ });
-	          })
+	          items
 	        )
 	      );
 	    }
@@ -30297,6 +30317,14 @@
 
 	  return ChatComponent;
 	}(React.Component);
+
+	ChatComponent.propTypes = {
+	  onMessageListRecieved: React.PropTypes.func.isRequired,
+	  onNewMessage: React.PropTypes.func.isRequired,
+	  messages: React.PropTypes.arrayOf(React.PropTypes.object),
+	  serverApiGetMessageList: React.PropTypes.func.isRequired, //called by the server sending messages, after making a request for it
+	  serverApiSetOnMessageCallback: React.PropTypes.func.isRequired //called by the server sending message
+	};
 
 	module.exports = ChatComponent;
 
@@ -30382,7 +30410,7 @@
 
 	MessageComponent.propTypes = {
 	  author: React.PropTypes.string.isRequired,
-	  content: React.PropTypes.string.isRequired,
+	  content: React.PropTypes.string.isRequired, //TODO: rename this to message
 	  date: React.PropTypes.instanceOf(Date).isRequired
 	};
 
@@ -32005,6 +32033,7 @@
 	  return {
 	    //to be called when a new message is recieved
 	    onNewMessage: function onNewMessage(msg) {
+	      //TODO: maybe call these methods dispatchNewMessage
 	      dispatch((0, _actions.addMessage)(msg));
 	    },
 

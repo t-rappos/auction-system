@@ -42,7 +42,7 @@ class MessageComponent  extends React.Component {
 //enforce strict typing
 MessageComponent.propTypes = {
   author : React.PropTypes.string.isRequired,
-  content : React.PropTypes.string.isRequired,
+  content : React.PropTypes.string.isRequired, //TODO: rename this to message
   date: React.PropTypes.instanceOf(Date).isRequired
 };
 

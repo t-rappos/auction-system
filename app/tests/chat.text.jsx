@@ -4,86 +4,119 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-var MessageComponent = require('MessageComponent');
+var ChatComponent = require('ChatComponent');
+//var MessageComponent = require('MessageComponent');
 
-describe('Message', () => {
-  it('should exist', () => {expect(MessageComponent).toExist();});
+function PrintDom(root, level=0, child = 0){
+  if(root){
+  var type = $(root)[0].tagName;
+  if (!type){type=root;}
+    var res = "";
+    if ($(root).children() && $(root).children().length > 0){
+      for (var i = 0; i < $(root).children().length; i++){
+        res+=PrintDom($(root).children()[i],level+1,i);
+      }
+    }
+    return "["+type+":" +level+":"+child+"]"+res;
+  } else {
+    return "root is undefined";
+  }
+}
 
-  it('should fail scoped date', () => {
+describe("ChatComponent", ()=>{
+  //exists
+  it('should exist', () => {expect(ChatComponent).toExist();});
+
+  //correct amount of messages received from server
+  it('should recieve message list from server', ()=>{
+
+    expect(true).toBe(true);
+  });
+
+  //subsciption to new message events is active
+  it('should recieve new messages',()=>{
+    let chat = TestUtils.renderIntoDocument(<ChatComponent
+      serverApiGetMessageList={()=>{}}
+      serverApiSetOnMessageCallback = {()=>{}}
+      onMessageListRecieved = {()=>{}}
+      onNewMessage = {()=>{}}/>);
+  });
+
+  //nothing is rendered
+  it('should render nothing when there are no messages', ()=>{
+    let chat = TestUtils.renderIntoDocument(<ChatComponent
+      serverApiGetMessageList={()=>{}}
+      serverApiSetOnMessageCallback = {()=>{}}
+      onMessageListRecieved = {()=>{}}
+      onNewMessage = {()=>{}}/>);
+    var $el = $(ReactDOM.findDOMNode(chat));
+    var count = $el.find("#ul").children().length;
+    expect(count).toBe(0,"chat messages in list:"+count);
+    expect($el.text()).toBe('');
+  });
+
+  //complain if messages is passed not as an array
+  it('should complain if messages is passed not as an array', ()=>{
+    let date = new Date();
+    let mc = {author:'tom', content:'data', date};
+
     expect(()=>{
-      let date = Date(2000,1,2,3,4,5,0);
-      let msg = TestUtils.renderIntoDocument(
-            <MessageComponent author='tom' content='msg' date={date}/>);
-              expect(typeof(msg.getDate())).toNotBe('object');
-    }).toThrow(/Date/);
+      let chat = TestUtils.renderIntoDocument(<ChatComponent
+        serverApiGetMessageList={()=>{}}
+        serverApiSetOnMessageCallback = {()=>{}}
+        onMessageListRecieved = {()=>{}}
+        onNewMessage = {()=>{}}
+        messages = {mc}/>);
+    }).toThrow(/TypeError/);
   });
 
-  it('should complain about not having date', () => {
-    expect(()=>{
-        let msg = TestUtils.renderIntoDocument(
-          <MessageComponent author='tom' content='msg'/>);
-      }).toThrow(/Date/);
+  //should render a message
+  it('should render a message', ()=>{
+    let date = new Date();
+    let ma = [{author:'tom', message:'data', date},
+    {author:'tom', message:'data', date},
+    {author:'tom', message:'data', date}];
+
+    let chat = TestUtils.renderIntoDocument(<ChatComponent
+      serverApiGetMessageList={()=>{}}
+      serverApiSetOnMessageCallback = {()=>{}}
+      onMessageListRecieved = {()=>{}}
+      onNewMessage = {()=>{}}
+      messages = {ma}/>);
+
+    var $el = $(ReactDOM.findDOMNode(chat));
+    let count = $el.find("ul").children().length;
+    expect(count).toBe(3,"chat messages in list:"+count+" found ul: ",$el.find("ul"));
+    expect($el.text()).toNotBe('');
+    ////TODO: do we care what the messages look like?
   });
 
-  it('should complain about not having author',()=>{
-    let date = Date(2000,1,2,3,4,5,0);
-    expect(function () {
-      let m = TestUtils.renderIntoDocument(
-        <MessageComponent content='msg' date={date}/>);
-    }).toThrow(/Author/);
+  //a messages is added
+  it('should handle adding a message', ()=>{
 
-    expect(function () {
-      let m = TestUtils.renderIntoDocument(
-        <MessageComponent author='' content='msg' date={date}/>);
-    }).toThrow(/Author/);
   });
 
-  it('should complain about not having message content',()=>{
-    let date = Date(2000,1,2,3,4,5,0);
-    expect(()=>{
-      TestUtils.renderIntoDocument(
-          <MessageComponent author='tom' date={date}/>);
-      }).toThrow(/Message/);
+  //a message list is loaded
+  it('a message list is loaded',()=>{
+    var sGetMessageList = ()=>{};
+    var sSetOnMessageCB = ()=>{};
+    var onMessageListRec = ()=>{};
+    var onNewMessage = ()=>{};
+    let chat = TestUtils.renderIntoDocument(<ChatComponent
+      serverApiGetMessageList={sGetMessageList}
+      serverApiSetOnMessageCallback = {sSetOnMessageCB}
+      onMessageListRecieved = {onMessageListRec}
+      onNewMessage = {onNewMessage}/>);
+    sSetOnMessageCB('message');
 
-      expect(()=>{
-        TestUtils.renderIntoDocument(
-            <MessageComponent content = '' author='tom' date={date}/>);
-        }).toThrow(/Message/);
   });
 
-  //it('should complain about not having date',()=>{
-  //  var testMessage = TestUtils.renderIntoDocument(
-  //    <MessageComponent author='tom' content='msg' />);
-  //});
+  //complain when on-message-list-recieved callback is missing
 
-  var date = new Date(2000,1,2,3,4,5,0);
-  var testMessage = TestUtils.renderIntoDocument(
-    <MessageComponent author='tom' content='msg' date={date}/>);
+  //complain when on-new-message-recieved callback is missing
 
-  it('should have date',() => {
-    expect(testMessage.getDate()).toBe(date);
-    expect(typeof(testMessage.getDate())).toBe('object');
-  })
+  //complain when server get message list callback is missing
 
-  it('should format date', () => {
-    var expected = '3:04:05 AM'; //h:MM:ss TT");
-    var actual = testMessage.formatDate(date);
-    expect(actual).toBe(expected);
-  });
-
-  it('should format message', ()=>{
-    var expected = "[3:04:05 AM] tom : msg";
-    var actual = testMessage.formatMessage();
-    expect(actual).toBe(expected);
-  });
-
-  it('should render message to output',()=>{
-    var $el = $(ReactDOM.findDOMNode(testMessage));
-    expect($el).toNotBe(null,$el);
-    var actual = $el.text();
-    var expected = "[3:04:05 AM] tom : msg";
-    expect(actual).toBe(expected, actual);
-  });
-
+  //complain when server set on new message callback is missing
 
 });

@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     //to be called when a new message is recieved
-    onNewMessage : (msg)=>{
+    onNewMessage : (msg)=>{ //TODO: maybe call these methods dispatchNewMessage
       dispatch(addMessage(msg));
     },
 
