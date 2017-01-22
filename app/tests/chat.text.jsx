@@ -44,7 +44,7 @@ describe("ChatComponent", ()=>{
   it('should render nothing when there are no messages', ()=>{
     let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{});
     var $el = $(ReactDOM.findDOMNode(chat));
-    var count = $el.find("#ul").children().length;
+    var count = $el.find("ul").children().length;
     expect(count).toBe(0,"chat messages in list:"+count);
     expect($el.text()).toBe('');
   });

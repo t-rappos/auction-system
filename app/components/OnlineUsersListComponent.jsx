@@ -1,6 +1,5 @@
 var React = require('react');
 var UserComponent = require('UserComponent');
-var ServerApi = require('ServerAPI');
 
 const OnlineUsersListComponentListStyle = {
   overflowY:'scroll',
@@ -13,45 +12,56 @@ const OnlineUsersListComponentListStyle = {
   height: '70vh',
 };
 
-const OnlineUsersListComponentStyle = {
-
-}
-
 class OnlineUsersListComponent  extends React.Component {
+
   constructor(props){
+    if ((props.users && props.users.constructor != Array)||!props.users){
+      throw new Error('OnlineUsersListComponent : TypeError : expected "users" to be array, recieved :'+typeof(props.users));}
+    if (!props.getUserListFromServer || typeof(props.getUserListFromServer)!='function'){
+      throw new Error('OnlineUsersListComponent : Required function as prop');}
+    if (!props.setCallbackForLogins || typeof(props.setCallbackForLogins)!='function'){
+      throw new Error('OnlineUsersListComponent : Required function as prop');}
+    if (!props.setCallbackForLogouts || typeof(props.setCallbackForLogouts)!='function'){
+      throw new Error('OnlineUsersListComponent : Required function as prop');}
+    if (!props.dispatchSetUsers || typeof(props.dispatchSetUsers)!='function'){
+      throw new Error('OnlineUsersListComponent : Required function as prop');}
+    if (!props.dispatchAddUser || typeof(props.dispatchAddUser)!='function'){
+      throw new Error('OnlineUsersListComponent : Required function as prop');}
+    if (!props.dispatchRemoveUser || typeof(props.dispatchRemoveUser)!='function'){
+      throw new Error('OnlineUsersListComponent : Required function as prop');}
     super(props);
-
     //get users
-    ServerApi.getUserList((users) => {
+    this.props.getUserListFromServer((users) => {
       this.props.dispatchSetUsers(users);
-      console.log('OnlineUserListComponent:getUserList', users);
     });
-
     //set callbacks
-    ServerApi.setOnLoginCallback((user)=>{
-      console.log('ServerApi.setOnLoginCallback',user);
+    this.props.setCallbackForLogins((user)=>{
       this.props.dispatchAddUser(user);
     })
-    ServerApi.setOnLogoutCallback((user)=>{
-      console.log('ServerApi.setOnLogoutCallback',user);
+    this.props.setCallbackForLogouts((user)=>{
       this.props.dispatchRemoveUser(user);
     });
   }
   render(){
     var userId = 0;
-
     return (
-      <div style={OnlineUsersListComponentStyle}>
-        <ul style={OnlineUsersListComponentListStyle}>
-          {
+      <div>
+        <ul style={OnlineUsersListComponentListStyle}>{
             this.props.users.map(function(user){
               return(<UserComponent username = {user} key={userId++}/>);
-            })
-          }
+            })}
         </ul>
       </div>
     );
   }
 }
-
+OnlineUsersListComponent.propTypes = {
+  users : React.PropTypes.arrayOf(React.PropTypes.string),
+  getUserListFromServer : React.PropTypes.func.isRequired,
+  setCallbackForLogins : React.PropTypes.func.isRequired,
+  setCallbackForLogouts : React.PropTypes.func.isRequired,
+  dispatchSetUsers: React.PropTypes.func.isRequired,
+  dispatchAddUser: React.PropTypes.func.isRequired,
+  dispatchRemoveUser: React.PropTypes.func.isRequired
+};
 module.exports = OnlineUsersListComponent;

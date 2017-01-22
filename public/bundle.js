@@ -30190,15 +30190,21 @@
 	      React.createElement(
 	        'div',
 	        { style: mainWindowStyle },
-	        React.createElement(ChatContainer, { getMessageListFromServer: ServerApi.getMessageList,
+	        React.createElement(ChatContainer, {
+	          getMessageListFromServer: ServerApi.getMessageList,
 	          setCallbackForNewMessages: ServerApi.setOnMessageCallback }),
-	        React.createElement(OnlineUsersListContainer, null)
+	        React.createElement(OnlineUsersListContainer, {
+	          getUserListFromServer: ServerApi.getUserList,
+	          setCallbackForLogins: ServerApi.setOnLoginCallback,
+	          setCallbackForLogouts: ServerApi.setOnLogoutCallback })
 	      ),
 	      React.createElement(
 	        'div',
 	        { style: subWindowStyle },
-	        React.createElement(ChatInputFormContainer, { sendMessageToServer: ServerApi.sendMessage }),
-	        React.createElement(UsernameInputFormContainer, { sendLoginRequestToServer: ServerApi.sendUserLoginRequest })
+	        React.createElement(ChatInputFormContainer, {
+	          sendMessageToServer: ServerApi.sendMessage }),
+	        React.createElement(UsernameInputFormContainer, {
+	          sendLoginRequestToServer: ServerApi.sendUserLoginRequest })
 	      )
 	    );
 	  }
@@ -30826,6 +30832,8 @@
 
 	'use strict';
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30836,7 +30844,6 @@
 
 	var React = __webpack_require__(4);
 	var UserComponent = __webpack_require__(306);
-	var ServerApi = __webpack_require__(307);
 
 	var OnlineUsersListComponentListStyle = {
 	  overflowY: 'scroll',
@@ -30849,29 +30856,45 @@
 	  height: '70vh'
 	};
 
-	var OnlineUsersListComponentStyle = {};
-
 	var OnlineUsersListComponent = function (_React$Component) {
 	  _inherits(OnlineUsersListComponent, _React$Component);
 
 	  function OnlineUsersListComponent(props) {
 	    _classCallCheck(this, OnlineUsersListComponent);
 
+	    if (props.users && props.users.constructor != Array || !props.users) {
+	      throw new Error('OnlineUsersListComponent : TypeError : expected "users" to be array, recieved :' + _typeof(props.users));
+	    }
+	    if (!props.getUserListFromServer || typeof props.getUserListFromServer != 'function') {
+	      throw new Error('OnlineUsersListComponent : Required function as prop');
+	    }
+	    if (!props.setCallbackForLogins || typeof props.setCallbackForLogins != 'function') {
+	      throw new Error('OnlineUsersListComponent : Required function as prop');
+	    }
+	    if (!props.setCallbackForLogouts || typeof props.setCallbackForLogouts != 'function') {
+	      throw new Error('OnlineUsersListComponent : Required function as prop');
+	    }
+	    if (!props.dispatchSetUsers || typeof props.dispatchSetUsers != 'function') {
+	      throw new Error('OnlineUsersListComponent : Required function as prop');
+	    }
+	    if (!props.dispatchAddUser || typeof props.dispatchAddUser != 'function') {
+	      throw new Error('OnlineUsersListComponent : Required function as prop');
+	    }
+	    if (!props.dispatchRemoveUser || typeof props.dispatchRemoveUser != 'function') {
+	      throw new Error('OnlineUsersListComponent : Required function as prop');
+	    }
+
 	    //get users
 	    var _this = _possibleConstructorReturn(this, (OnlineUsersListComponent.__proto__ || Object.getPrototypeOf(OnlineUsersListComponent)).call(this, props));
 
-	    ServerApi.getUserList(function (users) {
+	    _this.props.getUserListFromServer(function (users) {
 	      _this.props.dispatchSetUsers(users);
-	      console.log('OnlineUserListComponent:getUserList', users);
 	    });
-
 	    //set callbacks
-	    ServerApi.setOnLoginCallback(function (user) {
-	      console.log('ServerApi.setOnLoginCallback', user);
+	    _this.props.setCallbackForLogins(function (user) {
 	      _this.props.dispatchAddUser(user);
 	    });
-	    ServerApi.setOnLogoutCallback(function (user) {
-	      console.log('ServerApi.setOnLogoutCallback', user);
+	    _this.props.setCallbackForLogouts(function (user) {
 	      _this.props.dispatchRemoveUser(user);
 	    });
 	    return _this;
@@ -30881,10 +30904,9 @@
 	    key: 'render',
 	    value: function render() {
 	      var userId = 0;
-
 	      return React.createElement(
 	        'div',
-	        { style: OnlineUsersListComponentStyle },
+	        null,
 	        React.createElement(
 	          'ul',
 	          { style: OnlineUsersListComponentListStyle },
@@ -30899,6 +30921,15 @@
 	  return OnlineUsersListComponent;
 	}(React.Component);
 
+	OnlineUsersListComponent.propTypes = {
+	  users: React.PropTypes.arrayOf(React.PropTypes.string),
+	  getUserListFromServer: React.PropTypes.func.isRequired,
+	  setCallbackForLogins: React.PropTypes.func.isRequired,
+	  setCallbackForLogouts: React.PropTypes.func.isRequired,
+	  dispatchSetUsers: React.PropTypes.func.isRequired,
+	  dispatchAddUser: React.PropTypes.func.isRequired,
+	  dispatchRemoveUser: React.PropTypes.func.isRequired
+	};
 	module.exports = OnlineUsersListComponent;
 
 /***/ },

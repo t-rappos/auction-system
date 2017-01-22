@@ -30,13 +30,19 @@ var Main = React.createClass({
     return (
       <div style={appStyle}>
         <div style={mainWindowStyle} >
-            <ChatContainer getMessageListFromServer = {ServerApi.getMessageList}
+          <ChatContainer
+            getMessageListFromServer = {ServerApi.getMessageList}
             setCallbackForNewMessages = {ServerApi.setOnMessageCallback}/>
-            <OnlineUsersListContainer/>
+          <OnlineUsersListContainer
+            getUserListFromServer = {ServerApi.getUserList}
+            setCallbackForLogins = {ServerApi.setOnLoginCallback}
+            setCallbackForLogouts = {ServerApi.setOnLogoutCallback}/>
         </div>
         <div style={subWindowStyle}>
-          <ChatInputFormContainer sendMessageToServer ={ServerApi.sendMessage}/>
-          <UsernameInputFormContainer sendLoginRequestToServer = {ServerApi.sendUserLoginRequest}/>
+          <ChatInputFormContainer
+            sendMessageToServer ={ServerApi.sendMessage}/>
+          <UsernameInputFormContainer
+            sendLoginRequestToServer = {ServerApi.sendUserLoginRequest}/>
         </div>
       </div>
     );
