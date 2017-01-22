@@ -30212,15 +30212,6 @@
 
 	module.exports = Main;
 
-	//ServerApi.getUserList();
-	//ServerApi.getMessageList(function(messages)
-	//{
-	//  console.log('main: getMessageList callback');
-	//});
-	//ServerApi.sendUserLoginRequest('tom');
-	//ServerApi.sendMessage('tom','hello world');
-	//ServerApi.sendUserLogoutNotification('tom');
-
 /***/ },
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {

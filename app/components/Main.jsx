@@ -50,13 +50,3 @@ var Main = React.createClass({
 });
 
 module.exports = Main;
-
-
-    //ServerApi.getUserList();
-    //ServerApi.getMessageList(function(messages)
-    //{
-    //  console.log('main: getMessageList callback');
-    //});
-    //ServerApi.sendUserLoginRequest('tom');
-    //ServerApi.sendMessage('tom','hello world');
-    //ServerApi.sendUserLogoutNotification('tom');
