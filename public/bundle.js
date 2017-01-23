@@ -31276,6 +31276,10 @@
 	/////////////
 
 	var portStr = 'http://localhost:' + port;
+	console.log(portStr);
+	console.log('env', process.env);
+	console.log('env.url', process.env.url);
+	console.log('env.web_url', process.env.web_url);
 	var socket = (0, _socket2.default)(portStr);
 
 	function safeCall(callback, data) {

@@ -6,6 +6,10 @@ import io from 'socket.io-client';
 
 let port = process.env.PORT || 3000;
 let portStr = 'http://localhost:'+port;
+console.log(portStr);
+console.log('env',process.env);
+console.log('env.url',process.env.url);
+console.log('env.web_url',process.env.web_url);
 let socket = io(portStr);
 
 function safeCall(callback, data){
