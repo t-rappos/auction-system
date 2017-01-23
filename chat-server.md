@@ -27,14 +27,41 @@ It was also successfully deployed on [heroku](https://chat-server-t-rappos.herok
 
 ### (Continuous) Deployment
 - Github
+- Heroku
 
 ### Testing
-- TODO: create automated tests
+- karma
+  - spawns webserver and runs tests in browser
+- mocha
+  - javascript test framework
+- jquery
+  - for inspecting the DOM
+- expect
+  - better syntax and functionality for making test assertions.
+
+
+Tests were created for all of the React components
+Things that were tested in general include:
+- Component renders in DOM with minimal amount of input
+- Component throws error if required property is not passed (crashes are better than silent errors as we can see issues imediately)
+- Component renders as expected with input specified
+
+Noteable changes to codebase to enable testing:
+- Calls to ServerApi within the components were abstracted out by setting new component callback properties to the existing serverApi calls within the main file. This is good as now only main.jsx needs reference to the serverApi.jsx file. This was done because of difficulties including serverApi.jsx as it uses socket.io which was causing test compilation issues.
+
+TODO:
+  - Explore how to test ServerAPI and redux containers
+  - Explore how to test back-end server.js and serverState
 
 ### Continuous Integration
-- TODO: set up Continuous integration with Travis-CI
+- Has been setup with travis-ci
+- Runs test suite every push to github
+
+TODO: get heroku to pull code whenever a push successfully passes
 
 ### Package.json
+
+
 ```
 "dependencies": {
   "axios": "^0.15.3",
@@ -45,11 +72,12 @@ It was also successfully deployed on [heroku](https://chat-server-t-rappos.herok
   "body-parser": "^1.15.2",
   "dateformat": "^2.0.0",
   "express": "^4.14.0",
-  "react": "^0.14.7",
-  "react-dom": "^0.14.7",
+  "react": "^15.4.2",
+  "react-dom": "^15.4.2",
   "react-redux": "^5.0.2",
   "react-router": "^2.0.0",
   "redux": "^3.6.0",
+  "jquery": "^3.1.1",
   "socket.io": "^1.7.2"
 },
 "devDependencies": {
@@ -58,10 +86,22 @@ It was also successfully deployed on [heroku](https://chat-server-t-rappos.herok
   "babel-preset-es2015": "^6.18.0",
   "babel-preset-react": "^6.5.0",
   "babel-preset-stage-0": "^6.16.0",
+  "expect": "^1.20.2",
+  "jquery": "^3.1.1",
+  "karma": "^1.4.0",
+  "karma-chrome-launcher": "^2.0.0",
+  "karma-firefox-launcher": "^1.0.0",
+  "karma-mocha": "^1.3.0",
+  "karma-mocha-reporter": "^2.2.1",
+  "karma-sourcemap-loader": "^0.3.7",
+  "karma-webpack": "^2.0.1",
+  "mocha": "^3.2.0",
+  "react-addons-test-utils": "^15.4.2",
+  "socket.io-client": "^1.7.2",
   "webpack": "^1.14.0"
 }
 ```
-
+TODO: Check if all the non-dev dependancies are needed
 ## Design
 
 ### Front-end React Component Tree

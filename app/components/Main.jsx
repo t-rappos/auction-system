@@ -1,5 +1,4 @@
 var React = require('react');
-var ChatComponent = require('ChatComponent');
 var ChatContainer = require('ChatContainer');
 var OnlineUsersListContainer = require('OnlineUsersListContainer');
 var UsernameInputFormContainer = require('UsernameInputFormContainer');

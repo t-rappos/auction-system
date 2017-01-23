@@ -52,7 +52,7 @@ What software can be used for specific purposes?
 - *Why use github?*
 - *What is the main workflow*
 - **TODO: Read This** http://hugogiraudel.com/2015/08/13/github-as-a-workflow/
-- **TODO: Research this (similar to trello) ** https://waffle.io/
+- **TODO: Research this (similar to trello)** https://waffle.io/
 
 ##### Issues
 - Is integrated with trello
