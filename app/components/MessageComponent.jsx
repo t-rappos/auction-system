@@ -1,6 +1,10 @@
 var React = require('react');
 var DateFormat = require('dateformat');
 
+const MessageStyle = {
+  wordWrap: 'breakWord'
+};
+
 class MessageComponent  extends React.Component {
   constructor(props){
     if (!props.author){throw new Error("MessageComponent: Author Missing");}
@@ -34,7 +38,7 @@ class MessageComponent  extends React.Component {
 
   render(){
     return (
-        <li ref={node => this.node = node}>{this.formatMessage()}</li>
+        <li style={MessageStyle} ref={node => this.node = node}>{this.formatMessage()}</li>
     );
   }
 }

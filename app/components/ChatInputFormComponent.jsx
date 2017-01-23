@@ -2,14 +2,10 @@ var React = require('react');
 
 const ChatInputFormComponentStyle =
 {
-    paddingLeft: '0pt',
-    width: '80vw',
-    maxWidth: '400pt',
 };
 
 const ChatInputFormComponentFormStyle =
 {
-  width: '80vw',
 };
 
 class ChatInputFormComponent  extends React.Component {

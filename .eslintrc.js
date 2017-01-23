@@ -22,7 +22,8 @@ module.exports = {
       }
     },
     "globals": {
-      "React": true
+      "React": true,
+      "$": true
     },
     "parserOptions": {
             "ecmaVersion": 6,

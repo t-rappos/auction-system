@@ -5,7 +5,7 @@ module.exports = function(config){
     browsers: ['Firefox'],
     singleRun: true,
     frameworks: ['mocha'],
-    files: ['app/tests/**/*.text.jsx',
+    files: [       'app/tests/**/*.text.jsx',
             'http://localhost:3000/socket.io/socket.io.js'],
     preprocessors: {
       'app/tests/**/*.text.jsx':['webpack','sourcemap']

@@ -129,9 +129,43 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'h1',
-	        null,
-	        'app.jsx Chat App!'
+	        'div',
+	        { className: 'top-bar' },
+	        React.createElement(
+	          'div',
+	          { className: 'top-bar-left' },
+	          React.createElement(
+	            'ul',
+	            { className: 'dropdown menu', 'data-dropdown-menu': true },
+	            React.createElement(
+	              'div',
+	              { className: 'menu-text' },
+	              'Chat-Server App!'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'top-bar-right' },
+	          React.createElement(
+	            'ul',
+	            { className: 'menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              'By Thomas Rappos '
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: 'https://github.com/t-rappos/auction-system/blob/master/chat-server.md' },
+	                'See Github'
+	              )
+	            )
+	          )
+	        )
 	      ),
 	      React.createElement(
 	        Router,
@@ -30239,21 +30273,16 @@
 	var ServerApi = __webpack_require__(317);
 
 	var appStyle = {
-	  width: '100%',
-	  overflow: 'hidden'
+	  //  width: '100%',
+	  //  overflow: 'hidden'
 	};
 
 	var mainWindowStyle = {
-	  color: 'blue',
-	  display: 'flex',
-	  flexDirection: 'row',
-	  flex: '1'
+	  color: 'blue'
 	};
 
 	var subWindowStyle = {
-	  color: 'red',
-	  display: 'flex',
-	  flexDirection: 'row'
+	  color: 'red'
 	};
 
 	var Main = React.createClass({
@@ -30270,22 +30299,38 @@
 	        }, style: appStyle },
 	      React.createElement(
 	        'div',
-	        { style: mainWindowStyle },
-	        React.createElement(ChatContainer, {
-	          getMessageListFromServer: ServerApi.getMessageList,
-	          setCallbackForNewMessages: ServerApi.setOnMessageCallback }),
-	        React.createElement(OnlineUsersListContainer, {
-	          getUserListFromServer: ServerApi.getUserList,
-	          setCallbackForLogins: ServerApi.setOnLoginCallback,
-	          setCallbackForLogouts: ServerApi.setOnLogoutCallback })
+	        { className: 'expanded row', style: mainWindowStyle },
+	        React.createElement(
+	          'div',
+	          { className: 'small-8 large-8 columns' },
+	          React.createElement(ChatContainer, {
+	            getMessageListFromServer: ServerApi.getMessageList,
+	            setCallbackForNewMessages: ServerApi.setOnMessageCallback })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'small-4 large-4 columns' },
+	          React.createElement(OnlineUsersListContainer, {
+	            getUserListFromServer: ServerApi.getUserList,
+	            setCallbackForLogins: ServerApi.setOnLoginCallback,
+	            setCallbackForLogouts: ServerApi.setOnLogoutCallback })
+	        )
 	      ),
 	      React.createElement(
 	        'div',
-	        { style: subWindowStyle },
-	        React.createElement(ChatInputFormContainer, {
-	          sendMessageToServer: ServerApi.sendMessage }),
-	        React.createElement(UsernameInputFormContainer, {
-	          sendLoginRequestToServer: ServerApi.sendUserLoginRequest })
+	        { className: 'expanded row', style: subWindowStyle },
+	        React.createElement(
+	          'div',
+	          { className: 'large-8 columns' },
+	          React.createElement(ChatInputFormContainer, {
+	            sendMessageToServer: ServerApi.sendMessage })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'large-4 columns' },
+	          React.createElement(UsernameInputFormContainer, {
+	            sendLoginRequestToServer: ServerApi.sendUserLoginRequest })
+	        )
 	      )
 	    );
 	  }
@@ -30426,7 +30471,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var ChatComponentStyle = {
-	  float: 'right'
+	  //float: 'right'
 	};
 
 	var ChatComponentListStyle = {
@@ -30436,9 +30481,9 @@
 	  listStyleType: 'none',
 	  backgroundColor: '#DEB272',
 	  paddingLeft: '0pt',
-	  width: '80vw',
-	  maxWidth: '400pt',
-	  height: '70vh'
+	  //width: '80vw',
+	  //maxWidth: '400pt',
+	  maxHeight: '50vh'
 	};
 
 	var ChatComponent = function (_React$Component) {
@@ -30552,6 +30597,10 @@
 	var React = __webpack_require__(10);
 	var DateFormat = __webpack_require__(309);
 
+	var MessageStyle = {
+	  wordWrap: 'breakWord'
+	};
+
 	var MessageComponent = function (_React$Component) {
 	  _inherits(MessageComponent, _React$Component);
 
@@ -30603,7 +30652,7 @@
 
 	      return React.createElement(
 	        'li',
-	        { ref: function ref(node) {
+	        { style: MessageStyle, ref: function ref(node) {
 	            return _this2.node = node;
 	          } },
 	        this.formatMessage()
@@ -30928,9 +30977,10 @@
 	  listStyleType: 'none',
 	  backgroundColor: '#DEB272',
 	  paddingLeft: '0pt',
-	  maxWidth: '200pt',
-	  minWidth: '100pt',
-	  height: '70vh'
+	  //  maxWidth: '200pt',
+	  //  minWidth: '100pt',
+	  //  height: '70vh',
+	  maxHeight: '20vh'
 	};
 
 	var OnlineUsersListComponent = function (_React$Component) {
@@ -31242,15 +31292,9 @@
 
 	var React = __webpack_require__(10);
 
-	var ChatInputFormComponentStyle = {
-	  paddingLeft: '0pt',
-	  width: '80vw',
-	  maxWidth: '400pt'
-	};
+	var ChatInputFormComponentStyle = {};
 
-	var ChatInputFormComponentFormStyle = {
-	  width: '80vw'
-	};
+	var ChatInputFormComponentFormStyle = {};
 
 	var ChatInputFormComponent = function (_React$Component) {
 	  _inherits(ChatInputFormComponent, _React$Component);

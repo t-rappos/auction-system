@@ -6,7 +6,6 @@ var TestUtils = require('react-addons-test-utils');
 
 var ChatComponent = require('ChatComponent');
 
-
 //NOTE: This component doesn't alter its own state per-se
 // therefor we don't test for changes to state. E.g. adding new messages,
 // loading message lists. This functionality will be tested in ChatContainer

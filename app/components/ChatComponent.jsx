@@ -2,7 +2,7 @@ import React from 'react';
 import MessageComponent from 'MessageComponent';
 
 const ChatComponentStyle = {
-  float: 'right'
+  //float: 'right'
 };
 
 const ChatComponentListStyle = {
@@ -12,9 +12,10 @@ const ChatComponentListStyle = {
   listStyleType: 'none',
   backgroundColor: '#DEB272',
   paddingLeft: '0pt',
-  width: '80vw',
-  maxWidth: '400pt',
-  height: '70vh',
+  //width: '80vw',
+  //maxWidth: '400pt',
+  maxHeight:'50vh',
+//  height: '70vh',
 };
 
 class ChatComponent extends React.Component {

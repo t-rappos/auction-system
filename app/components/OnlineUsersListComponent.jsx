@@ -7,9 +7,10 @@ const OnlineUsersListComponentListStyle = {
   listStyleType: 'none',
   backgroundColor: '#DEB272',
   paddingLeft: '0pt',
-  maxWidth: '200pt',
-  minWidth: '100pt',
-  height: '70vh',
+//  maxWidth: '200pt',
+//  minWidth: '100pt',
+//  height: '70vh',
+    maxHeight : '20vh',
 };
 
 class OnlineUsersListComponent  extends React.Component {
