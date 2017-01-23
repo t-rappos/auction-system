@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
@@ -18,7 +17,7 @@ describe("ChatInputFormComponent", ()=>{
   it('should render without username', () => {
     var chatInput = TestUtils.renderIntoDocument(
       <ChatInputFormComponent sendMessageToServer={()=>{}}/>);
-    let $el = $(ReactDOM.findDOMNode(chatInput));
+    let $el = $(chatInput.node);
     let input = $el.find('input')[0];
     expect(input).toExist();
   });
@@ -29,7 +28,7 @@ describe("ChatInputFormComponent", ()=>{
       it('none',()=>{
          let sendMessageFn = expect.createSpy();
          let chatInput = TestUtils.renderIntoDocument(<ChatInputFormComponent sendMessageToServer={sendMessageFn}/>);
-         let $el = $(ReactDOM.findDOMNode(chatInput));
+         let $el = $(chatInput.node);
          chatInput.input.value = 'hello world this is my message';
          TestUtils.Simulate.submit($el.find('form')[0]);
          expect(sendMessageFn).toNotHaveBeenCalled();
@@ -37,7 +36,7 @@ describe("ChatInputFormComponent", ()=>{
        it('empty quotes',()=>{
          let sendMessageFn = expect.createSpy();
          let chatInput = TestUtils.renderIntoDocument(<ChatInputFormComponent user='' sendMessageToServer={sendMessageFn}/>);
-         let $el = $(ReactDOM.findDOMNode(chatInput));
+         let $el = $(chatInput.node);
          chatInput.input.value = 'hello world this is my message';
          TestUtils.Simulate.submit($el.find('form')[0]);
          expect(sendMessageFn).toNotHaveBeenCalled();
@@ -45,7 +44,7 @@ describe("ChatInputFormComponent", ()=>{
       it('null',()=>{
          let sendMessageFn = expect.createSpy();
          let chatInput = TestUtils.renderIntoDocument(<ChatInputFormComponent user={null} sendMessageToServer={sendMessageFn}/>);
-         let $el = $(ReactDOM.findDOMNode(chatInput));
+         let $el = $(chatInput.node);
          chatInput.input.value = 'hello world this is my message';
          TestUtils.Simulate.submit($el.find('form')[0]);
          expect(sendMessageFn).toNotHaveBeenCalled();
@@ -54,7 +53,7 @@ describe("ChatInputFormComponent", ()=>{
      it('should pass if username is specified', ()=>{
         let sendMessageFn = expect.createSpy();
         let chatInput = renderChatInputForm('tom',sendMessageFn);
-        let $el = $(ReactDOM.findDOMNode(chatInput));
+        let $el = $(chatInput.node);
         chatInput.input.value = 'hello world this is my message';
         TestUtils.Simulate.submit($el.find('form')[0]);
         expect(sendMessageFn).toHaveBeenCalled();
@@ -66,7 +65,7 @@ describe("ChatInputFormComponent", ()=>{
     it('empty quotes',()=>{
       let sendMessageFn = expect.createSpy();
       let chatInput = renderChatInputForm('tom',sendMessageFn);
-      let $el = $(ReactDOM.findDOMNode(chatInput));
+      let $el = $(chatInput.node);
       chatInput.input.value = '';
       TestUtils.Simulate.submit($el.find('form')[0]);
       expect(sendMessageFn).toNotHaveBeenCalled();
@@ -75,7 +74,7 @@ describe("ChatInputFormComponent", ()=>{
     it('null',()=>{
       let sendMessageFn = expect.createSpy();
       let chatInput = renderChatInputForm('tom',sendMessageFn);
-      let $el = $(ReactDOM.findDOMNode(chatInput));
+      let $el = $(chatInput.node);
       chatInput.input.value = null;
       TestUtils.Simulate.submit($el.find('form')[0]);
       expect(sendMessageFn).toNotHaveBeenCalled();
@@ -84,7 +83,7 @@ describe("ChatInputFormComponent", ()=>{
     it('undefined',()=>{
       let sendMessageFn = expect.createSpy();
       let chatInput = renderChatInputForm('tom',sendMessageFn);
-      let $el = $(ReactDOM.findDOMNode(chatInput));
+      let $el = $(chatInput.node);
       delete chatInput.input.value;
       TestUtils.Simulate.submit($el.find('form')[0]);
       expect(sendMessageFn).toNotHaveBeenCalled();
@@ -93,7 +92,7 @@ describe("ChatInputFormComponent", ()=>{
 
   it('should render', ()=>{
     let chatInput = renderChatInputForm('tom',()=>{});
-    let $el = $(ReactDOM.findDOMNode(chatInput));
+    let $el = $(chatInput.node);
     let input = $el.find('input')[0];
     expect(input).toExist();
   });

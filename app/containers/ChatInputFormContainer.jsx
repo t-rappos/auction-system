@@ -1,17 +1,16 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import ChatInputFormComponent from 'ChatInputFormComponent'
+import {connect} from 'react-redux';
+import ChatInputFormComponent from 'ChatInputFormComponent';
 
 //define what do we need from redux state
 const mapStateToPropsA = (state) => {
   return {
     user: state.currentUserReducer
-  }
+  };
 };
 
 //define what actions we need to call
 const mapDispatchToPropsA = (dispatch) => {
-  return {}
+  return {};
 };
 
 const ChatInputFormContainer = connect(

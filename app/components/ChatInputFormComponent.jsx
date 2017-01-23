@@ -24,8 +24,6 @@ class ChatInputFormComponent  extends React.Component {
     if(this.props.user){
       if (this.input.value !== ''
       && this.input.value !== undefined){
-        console.log(typeof(this.props.user), this.props.user.length, this.props.user);
-        console.log("Called onSubmit,user:"+this.props.user+"type:" + typeof(this.input.value)+ " value :"+this.input.value);
         this.props.sendMessageToServer(this.props.user, this.input.value);
         this.input.value = '';
       }
@@ -37,7 +35,7 @@ class ChatInputFormComponent  extends React.Component {
 
   render(){
     return (
-      <div style = {ChatInputFormComponentStyle}>
+      <div ref={node => this.node = node} style = {ChatInputFormComponentStyle}>
         <form style = {ChatInputFormComponentFormStyle}
               onSubmit= {this.onSubmit.bind(this)}>
           <input size="90"

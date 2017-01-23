@@ -30,7 +30,7 @@ class ChatComponent extends React.Component {
     //subscribe to new message events from server
     this.props.setCallbackForNewMessages((message)=>{
       this.props.dispatchAddMessage(message);
-    })
+    });
   }
 
   constructor(props){
@@ -57,10 +57,10 @@ class ChatComponent extends React.Component {
           author= {message.author}
           content={message.message}
           date={message.date}
-          key={messageId++}/>)}) : '';
+          key={messageId++}/>);}) : '';
 
     return (
-      <div style={ChatComponentStyle}>
+      <div  ref={node => this.node = node} style={ChatComponentStyle}>
         <ul style={ChatComponentListStyle}>{items}</ul>
       </div>
     );

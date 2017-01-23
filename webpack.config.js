@@ -24,13 +24,6 @@ module.exports = {
       CurrentUserReducer: 'app/reducers/CurrentUserReducer.jsx',
       OnlineUsersReducer: 'app/reducers/OnlineUsersReducer.jsx',
       Actions: 'app/actions/index.js',
-      AppTest:'app/tests/app.text.jsx',
-      ChatTest:'app/tests/chat.text.jsx',
-      ChatInputFormTest:'app/tests/chatInputForm.text.jsx',
-      MessageTest:'app/tests/message.text.jsx',
-      OnlineUsersListTest:'app/tests/onlineUsersList.text.jsx',
-      UserTest:'app/tests/user.text.jsx',
-      UsernameInputFormTest:'app/tests/usernameInputForm.text.jsx',
     },
     extensions: ['','.js','.jsx']
   },

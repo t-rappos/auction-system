@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
@@ -13,16 +12,18 @@ describe('UserComponent',()=>{
     it('should throw error when no username is given', () => {
       expect(()=>{
           let user = TestUtils.renderIntoDocument(<UserComponent/>);
+          expect(user).toNotExist();
         }).toThrow(/Username/);
       expect(()=>{
           let user = TestUtils.renderIntoDocument(<UserComponent username=''/>);
+          expect(user).toNotExist();
         }).toThrow(/Username/);
     });
 
     //'should render properly'
     it('should render properly',()=>{
       let user = TestUtils.renderIntoDocument(<UserComponent username='tom'/>);
-      var $el = $(ReactDOM.findDOMNode(user));
+      var $el = $(user.node);
       expect($el).toNotBe(null,$el);
       var actual = $el.text();
       var expected = "tom";

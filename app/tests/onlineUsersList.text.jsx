@@ -1,5 +1,5 @@
+
 var React = require('react');
-var ReactDOM = require('react-dom');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
@@ -20,7 +20,7 @@ describe("OnlineUsersListComponent", ()=>{
         dispatchSetUsers= {()=>{}}
         dispatchAddUser= {()=>{}}
         dispatchRemoveUser= {()=>{}} />);
-    let $el = $(ReactDOM.findDOMNode(userList));
+    let $el = $(userList.node);
     let ul = $el.find('ul')[0];
     let count = $el.find('ul').children().length;
     expect(ul).toExist();
@@ -38,7 +38,7 @@ describe("OnlineUsersListComponent", ()=>{
         dispatchSetUsers= {()=>{}}
         dispatchAddUser= {()=>{}}
         dispatchRemoveUser= {()=>{}} />);
-    let $el = $(ReactDOM.findDOMNode(userList));
+    let $el = $(userList.node);
     let ul = $el.find('ul')[0];
     let count = $el.find('ul').children().length;
     expect(ul).toExist();
@@ -64,6 +64,7 @@ describe("OnlineUsersListComponent", ()=>{
         dispatchSetUsers = {dispatchSetUsers}
         dispatchAddUser = {dispatchAddUser}
         dispatchRemoveUser ={dispatchRemoveUser} />);
+    expect(userList).toExist();
     serverLoginCallback('tom'); //mock server
     expect(dispatchAddUser).toHaveBeenCalledWith('tom');
   });
@@ -85,6 +86,7 @@ describe("OnlineUsersListComponent", ()=>{
         dispatchSetUsers = {dispatchSetUsers}
         dispatchAddUser = {dispatchAddUser}
         dispatchRemoveUser = {dispatchRemoveUser}/>);
+    expect(userList).toExist();
     serverLogoutCallback('tom'); //mock server
     expect(dispatchRemoveUser).toHaveBeenCalled();
     expect(dispatchRemoveUser).toHaveBeenCalledWith('tom');
@@ -92,7 +94,7 @@ describe("OnlineUsersListComponent", ()=>{
 
   //dispatch event after getting user list from server
   it('should dispatch event after getting user list from server',()=>{
-    let getUserListFromServer = (returnFn)=>{returnFn(['tom','andy'])};
+    let getUserListFromServer = (returnFn)=>{returnFn(['tom','andy']);};
     let setCallbackForLogins =  ()=>{};
     let setCallbackForLogouts = ()=>{};
     let dispatchSetUsers= expect.createSpy();
@@ -107,6 +109,7 @@ describe("OnlineUsersListComponent", ()=>{
         dispatchAddUser = {dispatchAddUser}
         dispatchRemoveUser = {dispatchRemoveUser}
         />);
+    expect(userList).toExist();
     expect(dispatchSetUsers).toHaveBeenCalledWith(['tom','andy']);
   });
 
@@ -122,6 +125,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/users/);
     });
     it('empty quotes',()=>{
@@ -134,6 +138,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/users/);
     });
     it('not specified',()=>{
@@ -146,6 +151,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/users/);
     });
   });
@@ -165,6 +171,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/function/);
       expect(()=>{
              let userList = TestUtils.renderIntoDocument(
@@ -175,6 +182,7 @@ describe("OnlineUsersListComponent", ()=>{
                 dispatchSetUsers= {()=>{}}
                 dispatchAddUser= {()=>{}}
                 dispatchRemoveUser= {()=>{}} />);
+                expect(userList).toNotExist();
               }).toThrow(/function/);
     });
 
@@ -190,6 +198,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/function/);
     });
 
@@ -205,6 +214,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/function/);
     });
 
@@ -220,6 +230,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {null}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/function/);
     });
 
@@ -235,6 +246,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {null}
             dispatchRemoveUser= {()=>{}} />);
+            expect(userList).toNotExist();
           }).toThrow(/function/);
     });
 
@@ -250,6 +262,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchSetUsers= {()=>{}}
             dispatchAddUser= {()=>{}}
             dispatchRemoveUser= {null} />);
+            expect(userList).toNotExist();
           }).toThrow(/function/);
     });
   });

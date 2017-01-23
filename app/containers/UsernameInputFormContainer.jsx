@@ -1,12 +1,11 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {setCurrentUser} from '../actions'
-import UsernameInputFormComponent from 'UsernameInputFormComponent'
+import {connect} from 'react-redux';
+import {setCurrentUser} from '../actions';
+import UsernameInputFormComponent from 'UsernameInputFormComponent';
 
 const mapStateToPropsB = (state) => {
   return {
     user: state.currentUserReducer
-  }
+  };
 };
 
 const mapDispatchToPropsB = (dispatch) => {
@@ -15,8 +14,7 @@ const mapDispatchToPropsB = (dispatch) => {
     dispatchSetCurrentUser : (username)=>{
       dispatch(setCurrentUser(username));
     },
-
-  }
+  };
 };
 
 const UsernameInputFormContainer = connect(

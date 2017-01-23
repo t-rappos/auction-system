@@ -1,33 +1,33 @@
-var axios = require('axios');
-
-
 /////////////
 // CALLBACKS//
 /////////////
+
+import io from 'socket.io-client';
+
+let port = process.env.PORT || 3000;
+let portStr = 'http://localhost:'+port;
+let socket = io(portStr);
 
 function safeCall(callback, data){
   if (typeof(callback)==='function'){
     callback(data);
   } else {
-    console.log("ServerAPI:safeCall: couldn't call callback", callback);
-  }
+     throw new Error("safecall expected a function");
+   }
 }
 
 var serverApiOnLoginCallback;
 socket.on('login', function(username){
-  console.log('login occured: ',username);
   safeCall(serverApiOnLoginCallback,username);
 });
 
 var serverApiOnLogoutCallback;
 socket.on('logout', function(username){
-  console.log('logout occured: ', username);
   safeCall(serverApiOnLogoutCallback,username);
 });
 
 var serverApiOnMessageCallback;
 socket.on('message', function(data){
-  console.log('message occured: ',data);
   safeCall(serverApiOnMessageCallback,data);
 });
 
@@ -55,14 +55,12 @@ setOnLogoutCallback: function(callback){
 /////////////////////
 getUserList: function(callback){
   socket.emit('get_users', function(users){
-      console.log("ServerAPI:getUserList-callback", users);
       callback(users);
   });
 },
 
 getMessageList: function(callback){
   socket.emit('get_messages', function(messages){
-    console.log("ServerAPI:getMessageList-callback : ",messages.length);
     callback(messages);
   });
 },
@@ -70,7 +68,6 @@ getMessageList: function(callback){
 sendUserLoginRequest: function(username,callback)
 {
   socket.emit('login',username, function(success){
-    console.log("ServerAPI:login-callback success:",success);
     callback(success);
   });
 },
@@ -79,7 +76,6 @@ sendUserLogoutNotification : function(username)
 {
   alert('starting logging out');
   socket.emit('logout',username, function(success){
-    console.log("ServerAPI:logout-callback success:",success);
   });
   alert('logging out');
 },
@@ -88,8 +84,7 @@ sendMessage : function(_author, _message)
 {
   var data = {author:_author, message:_message};
   socket.emit('message',data, function(success){
-    console.log("ServerAPI:message-callback success:",success);
   });
 }
 
-}
+};

@@ -27,7 +27,7 @@ var Main = React.createClass({
 
   render: function(){
     return (
-      <div style={appStyle}>
+      <div ref={node => this.node = node} style={appStyle}>
         <div style={mainWindowStyle} >
           <ChatContainer
             getMessageListFromServer = {ServerApi.getMessageList}

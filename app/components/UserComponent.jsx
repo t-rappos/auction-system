@@ -13,7 +13,7 @@ class UserComponent  extends React.Component {
 
   render(){
     return (
-        <li style = {UserStyle}>{this.props.username}</li>
+        <li ref={node => this.node = node} style = {UserStyle}>{this.props.username}</li>
     );
   }
 }

@@ -34,7 +34,7 @@ class MessageComponent  extends React.Component {
 
   render(){
     return (
-        <li>{this.formatMessage()}</li>
+        <li ref={node => this.node = node}>{this.formatMessage()}</li>
     );
   }
 }

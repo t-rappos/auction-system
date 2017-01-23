@@ -1,14 +1,13 @@
-var React = require('react');
-import {connect} from 'react-redux'
-import {addUser} from '../actions'
-import {removeUser} from '../actions'
-import {setUsers} from '../actions'
-import OnlineUsersListComponent from 'OnlineUsersListComponent'
+import {connect} from 'react-redux';
+import {addUser} from '../actions';
+import {removeUser} from '../actions';
+import {setUsers} from '../actions';
+import OnlineUsersListComponent from 'OnlineUsersListComponent';
 
 const mapStateToProps = (state) => {
   return {
     users: state.onlineUsersReducer
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -27,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setUsers(messages));
     }
 
-  }
+  };
 };
 
 const OnlineUsersListContainer = connect(

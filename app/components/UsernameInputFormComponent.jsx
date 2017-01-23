@@ -20,7 +20,6 @@ class UsernameInputFormComponent  extends React.Component {
   onSubmit(e){
     var username = this.input.value;
     var usernameIsValid = /^[a-z0-9]+$/i.test(username);
-    console.log(username + " : valid : " + usernameIsValid);
     if (username !== '' && usernameIsValid){
       this.props.sendLoginRequestToServer(username,(success)=>{
         if (success){
@@ -36,7 +35,7 @@ class UsernameInputFormComponent  extends React.Component {
 
   render(){
     return (
-      <div>
+      <div ref={node => this.node = node}>
         <form onSubmit= {this.onSubmit.bind(this)}>
           <input type="text"
             size = '14'

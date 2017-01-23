@@ -37,7 +37,7 @@ class OnlineUsersListComponent  extends React.Component {
     //set callbacks
     this.props.setCallbackForLogins((user)=>{
       this.props.dispatchAddUser(user);
-    })
+    });
     this.props.setCallbackForLogouts((user)=>{
       this.props.dispatchRemoveUser(user);
     });
@@ -45,7 +45,7 @@ class OnlineUsersListComponent  extends React.Component {
   render(){
     var userId = 0;
     return (
-      <div>
+      <div ref={node => this.node = node}>
         <ul style={OnlineUsersListComponentListStyle}>{
             this.props.users.map(function(user){
               return(<UserComponent username = {user} key={userId++}/>);

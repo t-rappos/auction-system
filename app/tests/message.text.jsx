@@ -1,5 +1,5 @@
+
 var React = require('react');
-var ReactDOM = require('react-dom');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
@@ -22,6 +22,7 @@ describe('Message', () => {
     expect(()=>{
         let msg = TestUtils.renderIntoDocument(
           <MessageComponent author='tom' content='msg'/>);
+        expect(msg).toNotExist();
       }).toThrow(/Date/);
   });
 
@@ -30,11 +31,13 @@ describe('Message', () => {
     expect(function () {
       let m = TestUtils.renderIntoDocument(
         <MessageComponent content='msg' date={date}/>);
+      expect(m).toNotExist();
     }).toThrow(/Author/);
 
     expect(function () {
       let m = TestUtils.renderIntoDocument(
         <MessageComponent author='' content='msg' date={date}/>);
+      expect(m).toNotExist();
     }).toThrow(/Author/);
   });
 
@@ -63,7 +66,7 @@ describe('Message', () => {
   it('should have date',() => {
     expect(testMessage.getDate()).toBe(date);
     expect(typeof(testMessage.getDate())).toBe('object');
-  })
+  });
 
   it('should format date', () => {
     var expected = '3:04:05 AM'; //h:MM:ss TT");
@@ -78,7 +81,7 @@ describe('Message', () => {
   });
 
   it('should render message to output',()=>{
-    var $el = $(ReactDOM.findDOMNode(testMessage));
+    var $el = $(testMessage.node);
     expect($el).toNotBe(null,$el);
     var actual = $el.text();
     var expected = "[3:04:05 AM] tom : msg";

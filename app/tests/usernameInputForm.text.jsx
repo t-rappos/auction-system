@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
@@ -17,7 +16,7 @@ describe("UsernameInputFormComponent", ()=>{
       <UsernameInputFormComponent
         dispatchSetCurrentUser={()=>{}}
          sendLoginRequestToServer=  {()=>{}} />);
-    let $el = $(ReactDOM.findDOMNode(usernameInput));
+    let $el = $(usernameInput.node);
     let input = $el.find('input')[0];
     expect(input).toExist();
   });
@@ -32,8 +31,7 @@ describe("UsernameInputFormComponent", ()=>{
         <UsernameInputFormComponent
           dispatchSetCurrentUser={dispatchSetCurrentUser}
            sendLoginRequestToServer=  {sendMessageToServer} />);
-      let $el = $(ReactDOM.findDOMNode(usernameInput));
-      let input = $el.find('input')[0];
+      let $el = $(usernameInput.node);
       usernameInput.input.value = '';
       TestUtils.Simulate.submit($el.find('form')[0]);
       expect(dispatchSetCurrentUser).toNotHaveBeenCalled();
@@ -46,8 +44,7 @@ describe("UsernameInputFormComponent", ()=>{
         <UsernameInputFormComponent
           dispatchSetCurrentUser={dispatchSetCurrentUser}
            sendLoginRequestToServer=  {sendMessageToServer} />);
-      let $el = $(ReactDOM.findDOMNode(usernameInput));
-      let input = $el.find('input')[0];
+      let $el = $(usernameInput.node);
       delete usernameInput.input.value;
       TestUtils.Simulate.submit($el.find('form')[0]);
       expect(dispatchSetCurrentUser).toNotHaveBeenCalled();
@@ -60,8 +57,7 @@ describe("UsernameInputFormComponent", ()=>{
         <UsernameInputFormComponent
           dispatchSetCurrentUser={dispatchSetCurrentUser}
            sendLoginRequestToServer=  {sendMessageToServer} />);
-      let $el = $(ReactDOM.findDOMNode(usernameInput));
-      let input = $el.find('input')[0];
+      let $el = $(usernameInput.node);
       usernameInput.input.value = 't@#@12342134~~23#$#%^(#"".,)';
       TestUtils.Simulate.submit($el.find('form')[0]);
       expect(dispatchSetCurrentUser).toNotHaveBeenCalled();
@@ -78,8 +74,7 @@ describe("UsernameInputFormComponent", ()=>{
         user = 'andy'
         dispatchSetCurrentUser={dispatchSetCurrentUser}
          sendLoginRequestToServer=  {sendMessageToServer} />);
-    let $el = $(ReactDOM.findDOMNode(usernameInput));
-    let input = $el.find('input')[0];
+    let $el = $(usernameInput.node);
     usernameInput.input.value = 'tom';
     TestUtils.Simulate.submit($el.find('form')[0]);
     expect(dispatchSetCurrentUser).toHaveBeenCalledWith('tom');
@@ -93,8 +88,7 @@ describe("UsernameInputFormComponent", ()=>{
       <UsernameInputFormComponent
         dispatchSetCurrentUser={dispatchSetCurrentUser}
          sendLoginRequestToServer=  {sendMessageToServer} />);
-    let $el = $(ReactDOM.findDOMNode(usernameInput));
-    let input = $el.find('input')[0];
+    let $el = $(usernameInput.node);
     usernameInput.input.value = 'tom';
     TestUtils.Simulate.submit($el.find('form')[0]);
     expect(dispatchSetCurrentUser).toHaveBeenCalledWith('tom');

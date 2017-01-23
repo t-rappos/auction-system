@@ -3,31 +3,31 @@ const onlineUsersDefaultState = [];
 export const onlineUsersReducer = (state=onlineUsersDefaultState,action) => {
   switch(action.type){
 
-    case 'ADD_USER':
-      console.log('onlineUsers: Adding user to list:',action.user,state.length+1);
+    case 'ADD_USER':{
       return [...state,action.user];
+    }
 
-    case 'REMOVE_USER':
-      var result = [];
-      //state.indexOf(action.user);
-      console.log('onlineUsers: Removing user from list:',state.length);
+    case 'REMOVE_USER':{
+        let result = [];
       var filtered_results = state.filter(user=>user!==action.user);
       filtered_results.map(function(user){
         result.push(user);
       });
-      console.log('onlineUsers: Removing user from list:',state.length);
       return result;
+    }
 
-    case 'SET_USERS':
-      var result = [];
+    case 'SET_USERS':{
+      let result = [];
       action.users.map(function(user){
         result.push(user);
       });
-      console.log('onlineUsers: setting user list:', result.length);
       return result;
+    }
 
-    default:
+    default:{
       return state;
+    }
   }
-}
+};
+
 export default onlineUsersReducer;

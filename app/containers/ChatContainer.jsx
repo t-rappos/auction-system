@@ -1,13 +1,12 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {addMessage} from '../actions'
-import {setMessageList} from '../actions'
-import ChatComponent from 'ChatComponent'
+import {connect} from 'react-redux';
+import {addMessage} from '../actions';
+import {setMessageList} from '../actions';
+import ChatComponent from 'ChatComponent';
 
 const mapStateToProps = (state) => {
   return {
     messages: state.chatReducer
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -21,7 +20,7 @@ const mapDispatchToProps = (dispatch) => {
     dispatchSetMessageList : (messages)=>{
       dispatch(setMessageList(messages));
     }
-  }
+  };
 };
 
 const ChatContainer = connect(

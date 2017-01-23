@@ -1,7 +1,7 @@
+
 var React = require('react');
-var ReactDOM = require('react-dom');
 var expect = require('expect');
-var $ = require('jquery');
+var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
 var ChatComponent = require('ChatComponent');
@@ -11,21 +11,6 @@ var ChatComponent = require('ChatComponent');
 // therefor we don't test for changes to state. E.g. adding new messages,
 // loading message lists. This functionality will be tested in ChatContainer
 
-function PrintDom(root, level=0, child = 0){
-  if(root){
-  var type = $(root)[0].tagName;
-  if (!type){type=root;}
-    var res = "";
-    if ($(root).children() && $(root).children().length > 0){
-      for (var i = 0; i < $(root).children().length; i++){
-        res+=PrintDom($(root).children()[i],level+1,i);
-      }
-    }
-    return "["+type+":" +level+":"+child+"]"+res;
-  } else {
-    return "root is undefined";
-  }
-}
 
 function renderChatComponent(a,b,c,d,msgs=[]){
   return TestUtils.renderIntoDocument(<ChatComponent
@@ -43,8 +28,8 @@ describe("ChatComponent", ()=>{
   //nothing is rendered
   it('should render nothing when there are no messages', ()=>{
     let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{});
-    var $el = $(ReactDOM.findDOMNode(chat));
-    var count = $el.find("ul").children().length;
+    var $el = $(chat.node);
+    var count = $el.find("#ul").children().length;
     expect(count).toBe(0,"chat messages in list:"+count);
     expect($el.text()).toBe('');
   });
@@ -56,6 +41,7 @@ describe("ChatComponent", ()=>{
 
     expect(()=>{
       let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{},mc);
+      expect(chat).toNotExists();
     }).toThrow(/TypeError/);
   });
 
@@ -68,7 +54,7 @@ describe("ChatComponent", ()=>{
 
     let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{},ma);
 
-    var $el = $(ReactDOM.findDOMNode(chat));
+    var $el = $(chat.node);
     let count = $el.find("ul").children().length;
     expect(count).toBe(3,"chat messages in list:"+count+" found ul: ",$el.find("ul"));
     expect($el.text()).toNotBe('');
@@ -80,11 +66,11 @@ describe("ChatComponent", ()=>{
   it('a message list is loaded',()=>{
 
     let cb;
-    var msg = {author:'tom', message:'msg', date: new Date()}
+    var msg = {author:'tom', message:'msg', date: new Date()};
     var messagelist = [{author:'tom', message:'msg', date: new Date()},
                       {author:'tom', message:'msg', date: new Date()}];
 
-    var getMessageListFromServer = (callback)=>{callback(messagelist)};  //this should return message list};
+    var getMessageListFromServer = (callback)=>{callback(messagelist);};  //this should return message list};
     var setCallbackForNewMessages = (callback)=>{cb = callback;}; //this should set some other function
                                             //up to call this function when a new message arrives};
     var dispatchSetMessageList = expect.createSpy();    //this should be called when after the messagelist is recieved
@@ -93,6 +79,7 @@ describe("ChatComponent", ()=>{
                                   setCallbackForNewMessages,
                                   dispatchSetMessageList,
                                   dispatchAddMessage);
+    expect(chat).toExist();
     expect(dispatchSetMessageList).toHaveBeenCalled();
     cb(msg);
     expect(dispatchAddMessage).toHaveBeenCalled();
