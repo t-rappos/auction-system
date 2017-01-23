@@ -1,5 +1,5 @@
-var React = require('react');
-var MessageComponent = require('MessageComponent');
+import React from 'react';
+import MessageComponent from 'MessageComponent';
 
 const ChatComponentStyle = {
   float: 'right'
@@ -16,8 +16,6 @@ const ChatComponentListStyle = {
   maxWidth: '400pt',
   height: '70vh',
 };
-
-
 
 class ChatComponent extends React.Component {
 

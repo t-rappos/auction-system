@@ -53,6 +53,17 @@ TODO:
   - Explore how to test ServerAPI and redux containers
   - Explore how to test back-end server.js and serverState
 
+### Linting
+- ESLint
+
+https://shellmonger.com/2016/01/26/using-eslint-with-webpack/
+https://www.npmjs.com/package/eslint-plugin-react
+
+- setup to lint jsx files when webpack runs
+- TODO: will this work with deployment? or do we need to automate with gulp?
+  - idealy it should break the build if a lint error occurs and thus not deploy
+
+
 ### Continuous Integration
 - Has been setup with travis-ci
 - Runs test suite every push to github
