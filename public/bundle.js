@@ -31263,7 +31263,7 @@
 /* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	'use strict';
 
 	var _socket = __webpack_require__(312);
 
@@ -31271,16 +31271,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var port = process.env.PORT || 3000; /////////////
+	var socket = (0, _socket2.default)(); /////////////
 	// CALLBACKS//
 	/////////////
-
-	var portStr = 'http://localhost:' + port;
-	console.log(portStr);
-	console.log('env', process.env);
-	console.log('env.url', process.env.url);
-	console.log('env.web_url', process.env.web_url);
-	var socket = (0, _socket2.default)(portStr);
 
 	function safeCall(callback, data) {
 	  if (typeof callback === 'function') {
@@ -31357,7 +31350,6 @@
 	  }
 
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
 /* 312 */
