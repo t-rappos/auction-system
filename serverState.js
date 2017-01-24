@@ -23,7 +23,21 @@ module.exports =
 
   getMessages : function()
   {
+    console.log('getMessages:');
     return messages;
+  },
+
+  //loads a message from the database
+  //msg = {author, message, date}
+  loadMessage: function(msg)
+  {
+    if (!msg.author || !msg.message || !msg.date){
+      throw new Error("ServerState: loadMessage: msg incorrect format",msg);
+    }
+    else {
+      messages.push(msg);
+    }
+    return msg;
   },
 
   addMessage : function(author,message)
@@ -44,6 +58,7 @@ module.exports =
     return users;
   },
 
+  //TODO: user can be offline e.g. a historical user
   addUser : function(user,socket)
   {
     //make sure user isn't already here,
@@ -57,6 +72,7 @@ module.exports =
     return success;
   },
 
+  //TODO: make this alter the users status from online to offline
   removeUser : function(user)
   {
     console.log('ServerState:removeUser');

@@ -5,7 +5,10 @@ module.exports = function(config){
     browsers: ['Firefox'],
     singleRun: true,
     frameworks: ['mocha'],
-    files: [       'app/tests/**/*.text.jsx',
+    files: [
+      'node_modules/jquery/dist/jquery.min.js',
+      'node_modules/foundation-sites/dist/js/foundation.min.js',
+      'app/tests/**/*.text.jsx',
             'http://localhost:3000/socket.io/socket.io.js'],
     preprocessors: {
       'app/tests/**/*.text.jsx':['webpack','sourcemap']

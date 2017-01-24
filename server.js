@@ -7,6 +7,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var ServerState = require('./serverState.js');
+var ServerDB = require('./serverDB.js');
 
 function CheckCallback(cb, message)
 {
@@ -38,11 +39,6 @@ io.on('connection', function(socket){
     console.log('user disconnected', --numUsers);
     ServerState.removeConnection(socket,(user)=>{
       logout(user);
-      ////TODO: this is copied from logout... can be refactor this?
-      //console.log('logout',user);
-      //var success = ServerState.removeUser(user,socket);
-      //console.log("Online users ", ServerState.getNumberOfUsers());
-      //io.emit('logout',user); //send to all clients
     });
   });
 
@@ -54,6 +50,7 @@ io.on('connection', function(socket){
   });
 
   //callback() -> handleUserList(userlist))
+  //TODO: specifiy if users are online or offline
   socket.on('get_users', function(returnUsers){
     CheckCallback(returnUsers,'get_users');
 
@@ -80,12 +77,6 @@ io.on('connection', function(socket){
   socket.on('logout', function(username,wasSuccessful){
     CheckCallback(wasSuccessful,'logout');
     logout(username,wasSuccessful);
-    //if (!username){throw new Error("error: logout needs username");}
-    //console.log('logout',username);
-    //var success = ServerState.removeUser(username,socket);
-    //console.log("Online users ", ServerState.getNumberOfUsers());
-    //wasSuccessful(success);
-    //io.emit('logout',username); //send to all clients
   });
 
   //data = {author,message};
@@ -98,6 +89,7 @@ io.on('connection', function(socket){
     if (!message){throw new Error("error: message needs contents");}
     console.log('author:',author, 'message:',data);
     var msg = ServerState.addMessage(author,message);
+    ServerDB.stageMessage(msg);
     if (!msg)
     {
       wasSuccessful(false);
@@ -119,3 +111,24 @@ http.listen(process.env.PORT || 3000, function(){
 });
 
 app.use(express.static('public'));
+
+ServerDB.initialise(function(){
+  ServerDB.loadMessages(function(result){
+    result.map(function(msg){
+      ServerState.loadMessage(msg);
+    });
+  });
+});
+
+
+//periodic call that adds all new messages/users to the database
+function stashMessages(){
+  ServerDB.storeMessages();
+  setTimeout(function(){
+    stashMessages();
+  },10000)
+}
+
+setTimeout(function(){
+  stashMessages();
+},10000)
