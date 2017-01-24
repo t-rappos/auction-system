@@ -37,11 +37,15 @@ function isConnected(){
 }
 
 //calls the argument callback with result, if error, calls with false
-function query(query, done){
-  PGclient.query(query,function(err, result){
+function query(q3, done){
+  if(!PGclient)
+  {
+    throw new Error("Client is null!");
+  }
+  PGclient.query(q3,function(err, result){
 
     if (true){
-      console.log("Ran query :",query);
+      console.log("Ran query :",q3);
       if (result && result.rows){
         console.log("Returned ", result.rows.length, "rows");
       }
@@ -54,11 +58,24 @@ function query(query, done){
       }
     }
     if (err){
-      if (localConfig){
-        console.error(err);
+      var errStr = err+"";
+      if(errStr.match(/socket/)){
+        //TODO: fix this, THIS OCCURS WHEN A NEW USER VISITS THE PAGE
+        console.log("Socket Error Detected: Resending query");
+        connect(function(res){
+          if(res){
+            query(q3,done);
+          }
+        });
       }
-      else {
-        throw new Error(err);
+      else
+      {
+        if (localConfig){
+          console.error(err);
+        }
+        else {
+          throw new Error(err);
+        }
       }
       done(false);
     }
