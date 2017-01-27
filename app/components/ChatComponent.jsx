@@ -20,10 +20,30 @@ const ChatComponentListStyle = {
 
 class ChatComponent extends React.Component {
 
+  scrollToBottom(){
+    //update view to scroll
+    setTimeout(()=>{
+      let currentScroll = $(this.list)[0].scrollTop;
+      let desiredScroll =  $(this.list)[0].scrollHeight - $(this.list)[0].clientHeight;
+      let quality = 20.0;
+      let dScroll = (desiredScroll - currentScroll) / quality;
+      let dt = 300.0 / quality;
+      for (let i = 0; i < quality-1.00; i++){
+        setTimeout(()=>{
+          $(this.list)[0].scrollTop += dScroll;
+        },20+(dt*i));
+      }
+      setTimeout(()=>{
+        $(this.list)[0].scrollTop = desiredScroll;
+      },20+(dt*quality));
+    },100);
+  }
+
   getServerMessages(){
     //fetch all the messages stored on the server
     this.props.getMessageListFromServer((messages)=>{
       this.props.dispatchSetMessageList(messages);
+      this.scrollToBottom();
     });
   }
 
@@ -31,6 +51,7 @@ class ChatComponent extends React.Component {
     //subscribe to new message events from server
     this.props.setCallbackForNewMessages((message)=>{
       this.props.dispatchAddMessage(message);
+      this.scrollToBottom();
     });
   }
 
@@ -62,7 +83,7 @@ class ChatComponent extends React.Component {
 
     return (
       <div  ref={node => this.node = node} style={ChatComponentStyle}>
-        <ul style={ChatComponentListStyle}>{items}</ul>
+        <ul ref={list => this.list = list} style={ChatComponentListStyle}>{items}</ul>
       </div>
     );
   }

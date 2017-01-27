@@ -30448,7 +30448,7 @@
 /* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -30490,23 +30490,47 @@
 	  _inherits(ChatComponent, _React$Component);
 
 	  _createClass(ChatComponent, [{
+	    key: 'scrollToBottom',
+	    value: function scrollToBottom() {
+	      var _this2 = this;
+
+	      //update view to scroll
+	      setTimeout(function () {
+	        var currentScroll = $(_this2.list)[0].scrollTop;
+	        var desiredScroll = $(_this2.list)[0].scrollHeight - $(_this2.list)[0].clientHeight;
+	        var quality = 20.0;
+	        var dScroll = (desiredScroll - currentScroll) / quality;
+	        var dt = 300.0 / quality;
+	        for (var i = 0; i < quality - 1.00; i++) {
+	          setTimeout(function () {
+	            $(_this2.list)[0].scrollTop += dScroll;
+	          }, 20 + dt * i);
+	        }
+	        setTimeout(function () {
+	          $(_this2.list)[0].scrollTop = desiredScroll;
+	        }, 20 + dt * quality);
+	      }, 100);
+	    }
+	  }, {
 	    key: 'getServerMessages',
 	    value: function getServerMessages() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      //fetch all the messages stored on the server
 	      this.props.getMessageListFromServer(function (messages) {
-	        _this2.props.dispatchSetMessageList(messages);
+	        _this3.props.dispatchSetMessageList(messages);
+	        _this3.scrollToBottom();
 	      });
 	    }
 	  }, {
 	    key: 'subscribeToNewServerMessages',
 	    value: function subscribeToNewServerMessages() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      //subscribe to new message events from server
 	      this.props.setCallbackForNewMessages(function (message) {
-	        _this3.props.dispatchAddMessage(message);
+	        _this4.props.dispatchAddMessage(message);
+	        _this4.scrollToBottom();
 	      });
 	    }
 	  }]);
@@ -30540,7 +30564,7 @@
 	  _createClass(ChatComponent, [{
 	    key: 'render',
 	    value: function render() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      var messageId = 0;
 	      var items = this.props.messages ? this.props.messages.map(function (message) {
@@ -30554,11 +30578,13 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { ref: function ref(node) {
-	            return _this4.node = node;
+	            return _this5.node = node;
 	          }, style: ChatComponentStyle },
 	        _react2.default.createElement(
 	          'ul',
-	          { style: ChatComponentListStyle },
+	          { ref: function ref(list) {
+	              return _this5.list = list;
+	            }, style: ChatComponentListStyle },
 	          items
 	        )
 	      );
@@ -30577,6 +30603,7 @@
 	};
 
 	module.exports = ChatComponent;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(367)))
 
 /***/ },
 /* 308 */
