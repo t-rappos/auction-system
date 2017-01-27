@@ -26,8 +26,9 @@ It was also successfully deployed on [heroku](https://chat-server-t-rappos.herok
 - Express
 
 ### (Continuous) Deployment
-- Github
-- Heroku
+- Github (pushes to chat-server branch and runs)
+  - Travis-CI (if this passes)
+    - Heroku (deployed)
 
 ### Testing
 - karma

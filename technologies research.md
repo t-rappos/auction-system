@@ -1,16 +1,12 @@
 # Technologies Research
 This document explores different web technologies / ideologies and provides a justified selection that will be used during the development of this system.
 
-## In Brief
+~~[https://medium.com/reactspeed/react-speed-coding-technology-stack-d0e824f2d954#.iy6qyed9b]~~
 
-https://medium.com/reactspeed/react-speed-coding-technology-stack-d0e824f2d954#.iy6qyed9b
+## Agile Development or Alternatives
 
-What software can be used for specific purposes?
-
-### Agile Development or Alternatives?
-
-### Tracking Software
-#### Trello
+## Tracking Software
+### Trello
 - **How do people usually use trello in development workflows?**
 - Can be used to sort and organise tasks in order of priority
 - Tasks can be given due dates
@@ -47,66 +43,93 @@ What software can be used for specific purposes?
 
   - **What benefit would it add?**
 
-#### Github
+### Github
 
 - *Why use github?*
   - Online GIT repository
   - Widely used, great integration with other online services (travis-ci, heroku)
 - *What is the main workflow*
+  - create issues on github or tickets on trello
+  - make changes to code in local development branch
+  - create pull request (link issue) or push changes to staging branch (link commit to trello ticket)
+  - passes tests, merge to master or production branches
+
 - **TODO: Read This** http://hugogiraudel.com/2015/08/13/github-as-a-workflow/
 - **TODO: Research this (similar to trello)** https://waffle.io/
 
-##### Issues
-- Is integrated with trello
-- Integration with travis-ci
+#### Github Issues
+- Localised to repository, high visibility
+- Can be referenced from Trello
+- Whats more effective for solo development? Trello tickets or GitHub issues?
 
-##### Pull requests
+#### Github Pull requests
 
-- Can run tests before commit to master
+- Can run tests before commit to desired branch
+- Completed code can be inspected and voted on for satisfaction rating
+- Feature can be discussed and reviewed allowing it be become satisfactory to pass vote requirement
+- Commit can change to satisfy review
+- Ensures code pushed to repository compiles and passes tests
+
 - *What is the usually workflow?*
-
-#### Jira
-#### Bugzilla
-
-
-### Continuous Integration / Deployment
-https://nodesource.com/resources/#webinar
-- needs test driven development
-
-#### Docker?
-https://resources.nodesource.com/getting-started-with-node-docker-and-kubernetes
-
-#### Jenkins-CI
-- steep learning curve
-
-#### Travis-CI
-- simpler
-- nodeJS - NPM for dependancy management
-- make sure code coverage is tested as well
--
 "The correct process is to write your new code on a branch. Push to that branch. Create a pull request in github. Then only merge to master if the Travis build passes."
-
 https://github.com/dwyl/learn-travis
 https://github.com/dwyl/learn-tdd
 
-### Testing
+### Jira
+### Bugzilla
+
+
+## Continuous Integration / Deployment
+~~[https://nodesource.com/resources/#webinar]~~
+
+### Docker
+https://resources.nodesource.com/getting-started-with-node-docker-and-kubernetes
+
+### Jenkins-CI
+- steep learning curve
+
+### Travis-CI
+- easy
+- nodeJS - NPM for dependancy management
+- runs NPM install and NPM test, outcome determines whether build passes or failes
+  - Node (w/ NPM) can be configured to run tests, and code coverage tests
+
+## Testing
 - write tests
 - only write code to ensure that the current tests pass
+  - refactor code after test passes
 - code coverage - write tests to run program through all branches
   - blanket.js
-  - istanbul
+  - **istanbul**
   - codecov.io
-- javascript - JSHint - static analysis
+- javascript - JSHint - static analysis (Linting)
 - QUnit - javascript unit testing framework
-- nodeJS - uses Gulp?
+- nodeJS (Used this stack in chat-server, see [chat-server](chat-server.md) for more testing details)
+  - karma
+    - spawns webserver and runs tests in browser
+  - mocha
+    - javascript test framework
+  - jquery
+    - for inspecting the DOM
+  - expect
+    - better syntax and functionality for making test assertions.
 
-### Hosting
+## Automation
+- Gulp
+
+## Hosting
 - Heroku
   - A great tutorial on how to host a react-webpack-nodejs project on heroku http://ditrospecta.com/javascript/react/es6/webpack/heroku/2015/08/08/deploying-react-webpack-heroku.html
 - Travis-CI heroku integration
   - https://www.wlangiewicz.com/2016/03/30/setup-ci-build-pipeline-travis-ci-heroku-sbt/
+  - ~18 hr max uptime on free accounts
+  - no traffic causes the server to idle (running->shutdown->(request)->running)
+    - approx 30 mins after last request
+    - causes all server state to be lost due to shutdow & restart
+    - **make sure all persistant data and server state is saved to a database**
+    - This isn't a problem with payed servers, but for scaling + parrellelism, individual servers should be stateless (e.g. RESTful)
 
-### Front Ends
+## Front Ends
 A list of technologies used to create websites/UIs
 
 ### Templating Engines
@@ -115,7 +138,78 @@ Replaces variables with values within a HTML file before it is served to the cli
 - Jade
 - EJS
 
-### Back Ends
+### SCSS
+
+### Foundation (Used in prototype, client-server)
+- Improved CSS e.g. grids and nice screen-size modifiers  
+
+### Bootstrap
+
+### React (Used in client-server )
+
+Simplifies thinking about frontend components, react components presentation are directly dependant on what properties they are defined with and their current state. This ensures that behaviour is defined locally, within the component. Components representation is specified in html (where they are displayed, what they look like) and the behaviour is implemented as OO javascript code.
+
+- *What does it do?*
+  - View (from MVC)
+  - Library (not framework)
+  - Simple
+
+- *Where does it fit in the stack?*
+  - Front-end functionality
+
+
+**Good tutorial TODO: read this**
+https://www.smashingmagazine.com/2016/03/server-side-rendering-react-node-express/
+https://scotch.io/tutorials/react-on-the-server-for-beginners-build-a-universal-react-and-node-app
+
+### AnglularJS
+
+- Data Binding Framework (Single Page Applications SPA)
+  - Only URL part after # changes (allows back/forward)
+- Frontend,
+- Controllers
+- Services
+  - API Calls to node backend, retrieve data in JSON format?
+
+**React vs Angular TODO: Read This**
+https://www.codementor.io/reactjs/tutorial/react-vs-angularjs
+
+Complex info + testing
+https://medium.com/javascript-scene/angular-2-vs-react-the-ultimate-dance-off-60e7dfbc379c#.vpq6z0ht4
+
+### AngularJS 2
+no controllers, only components
+router wires components together
+typscript language
+  compiles to JS
+components
+  classes
+  decoupled from DOM
+    binding?
+directives
+  interact with DOM
+routers
+  navigation
+services
+  class that encapsulates non ui behaviour
+  comunicates with server
+a node package
+good with unit testing
+dependancy injection for construction?
+
+good intro
+https://www.youtube.com/watch?v=_-CD_5YhJTA
+
+## Redux
+
+- *What does it do?*
+- *Where does it fit in the stack?*
+- *What is it usually used for?*
+
+## jQuery
+https://spring.io/guides/tutorials/react-and-spring-data-rest/
+
+## Back Ends
 A  list of technologies used to create server functionality
 
 ### Authentication
@@ -134,7 +228,6 @@ https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
 ### Single page apps
 https://scotch.io/tutorials/single-page-apps-with-angularjs-routing-and-templating
 
-# In Detail
 
 Further explanation about each technology
 
@@ -163,58 +256,7 @@ Further explanation about each technology
 - *Where does it fit in the stack?*
 - *What is it usually used for?*
 
-## React
 
-- *What does it do?*
-- View (from MVC)
-- Library (not framework)
-- Simple
-- *Where does it fit in the stack?*
-- *What is it usually used for?*
-
-**Good tutorial TODO: read this **
-https://www.smashingmagazine.com/2016/03/server-side-rendering-react-node-express/
-https://scotch.io/tutorials/react-on-the-server-for-beginners-build-a-universal-react-and-node-app
-
-## AnglularJS
-
-- Data Binding Framework (Single Page Applications SPA)
-  - Only URL part after # changes (allows back/forward)
-- Frontend,
-- Controllers
-- Services
-  - API Calls to node backend, retrieve data in JSON format?
-
-**React vs Angular TODO: Read This**
-https://www.codementor.io/reactjs/tutorial/react-vs-angularjs
-
-Complex info + testing
-https://medium.com/javascript-scene/angular-2-vs-react-the-ultimate-dance-off-60e7dfbc379c#.vpq6z0ht4
-
-## AngularJS 2
-no controllers, only components
-router wires components together
-typscript language
-  compiles to JS
-components
-  classes
-  decoupled from DOM
-    binding?
-directives
-  interact with DOM
-routers
-  navigation
-services
-  class that encapsulates non ui behaviour
-  comunicates with server
-a node package
-good with unit testing
-dependancy injection for construction?
-
-good intro
-https://www.youtube.com/watch?v=_-CD_5YhJTA
-
-## Bootstrap
 
 ## Express
 https://code.tutsplus.com/tutorials/introduction-to-express--net-33367
@@ -242,17 +284,6 @@ https://code.tutsplus.com/tutorials/introduction-to-express--net-33367
 
 - **What is it usually used for?**
 
-## Redux
-
-- *What does it do?*
-- *Where does it fit in the stack?*
-- *What is it usually used for?*
-
-## jQuery
-
-
-https://spring.io/guides/tutorials/react-and-spring-data-rest/
-
 ## nodejs Passport
   - https://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619
 
@@ -264,6 +295,7 @@ https://spring.io/guides/tutorials/react-and-spring-data-rest/
 
 # Chosen Stack
 
+**See [chat-server](chat-server.md)**
 
 # How to model and design for this stack
 
