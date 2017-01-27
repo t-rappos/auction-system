@@ -50,6 +50,8 @@ What software can be used for specific purposes?
 #### Github
 
 - *Why use github?*
+  - Online GIT repository
+  - Widely used, great integration with other online services (travis-ci, heroku)
 - *What is the main workflow*
 - **TODO: Read This** http://hugogiraudel.com/2015/08/13/github-as-a-workflow/
 - **TODO: Research this (similar to trello)** https://waffle.io/
@@ -172,6 +174,7 @@ Further explanation about each technology
 
 **Good tutorial TODO: read this **
 https://www.smashingmagazine.com/2016/03/server-side-rendering-react-node-express/
+https://scotch.io/tutorials/react-on-the-server-for-beginners-build-a-universal-react-and-node-app
 
 ## AnglularJS
 
