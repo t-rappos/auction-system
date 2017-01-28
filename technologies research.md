@@ -308,6 +308,17 @@ https://code.tutsplus.com/tutorials/introduction-to-express--net-33367
 - Is it possible to design the model in a language + tech nonspecific way?
 - How are webservers + front ends usually modelled?
 
+- Dealing with multiple users:
+  - SocketIO:
+  ```
+  io.on('connection', function(socket){
+      ServerState.addUser(username,socket);
+  }
+  ```
+  - When a user connects, store its socket. This is a unique ID for a user.
+  - With a list of sockets, the users can be sent individual or broadcasted messages.
+  - Users can access the database through a single point-of-access (abstracted so it seems like there is only a single database connection for the server) but have the server use a pool of database connections. Not 1-user-to-1-connection.
+  - Only backend uses the database, no front-end uses via back-end intermediary.
 
 Express MVC
 https://github.com/expressjs/express/tree/master/examples/mvc

@@ -37,6 +37,9 @@ It was also successfully deployed on [Heroku](https://chat-server-t-rappos.herok
 ### Persistance
 - Heroku idles free-tier webapps after 30 minutes if they aren't receiving traffic, this means that the server-state will be reset often and the messages stored on the server will be lost. To avoid this, a PostgreSQL database was used.
 
+- All messages are loaded from DB when server is started
+- Periodically all recently added messages are sent to the database to be stored
+
 ### Continuous Integration & Deployment
   - Has been setup with travis-ci
   - Runs test suite every push to github
@@ -76,7 +79,7 @@ https://www.npmjs.com/package/eslint-plugin-react
 
 ### Styling
 Foundation was used to style the apps CSS, in particular:
-- 
+-
 
 ### Package.json
 
