@@ -7,7 +7,7 @@
     "build": "babel lib -d dist",
     "test": " npm run test-server && npm run test-app",
     "test-app": "./node_modules/.bin/karma start",
-    "test-server": "mocha --reporter spec --compilers js:babel-register",
+    "test-server": "mocha --reporter spec --compilers js:babel-register && npm run es6-coverage",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec",
     "es6-coverage" : "nyc --require babel-core/register mocha",
     "start": "nodemon lib/server.js --exec babel-node",
