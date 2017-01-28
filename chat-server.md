@@ -1,9 +1,9 @@
 # Chat Server
 
-[![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=master)](https://travis-ci.org/t-rappos/auction-system)
+[![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=chat-server)](https://travis-ci.org/t-rappos/auction-system)
 
 This application was created to test a proposed technology stack for web applications.
-It was also successfully deployed on [heroku](https://chat-server-t-rappos.herokuapp.com/#/?_k=32gzvg)
+It was also successfully deployed on [Heroku](https://chat-server-t-rappos.herokuapp.com/#/?_k=32gzvg).
 
 ![Home Page](chat-server-images/home.PNG)
 
@@ -19,18 +19,28 @@ It was also successfully deployed on [heroku](https://chat-server-t-rappos.herok
 ### Front-end
 - React
 - Redux
-- Socket.io
+- Socket.io-client
 - Babel
 - Webpack
+- JQuery
+- ESLint
+- Expect
+- Karma
+- Mocha
 
 ### Back-end
 - Node.js
 - Express
+- PostgreSQL
+- Socket.io
 
-### (Continuous) Deployment
-- Github (pushes to chat-server branch and runs)
-  - Travis-CI (if this passes)
-    - Heroku (deployed)
+### Persistance
+- Heroku idles free-tier webapps after 30 minutes if they aren't receiving traffic, this means that the server-state will be reset often and the messages stored on the server will be lost. To avoid this, a PostgreSQL database was used.
+
+### Continuous Integration & Deployment
+  - Has been setup with travis-ci
+  - Runs test suite every push to github
+  - Heroku pulls code whenever a chat-server branch git-push successfully passes travic-CI checks
 
 ### Testing
 - karma
@@ -43,8 +53,7 @@ It was also successfully deployed on [heroku](https://chat-server-t-rappos.herok
   - better syntax and functionality for making test assertions.
 
 
-Tests were created for all of the React components
-Things that were tested in general include:
+Tests were created for all of the React components, things that were tested in general include:
 - Component renders in DOM with minimal amount of input
 - Component throws error if required property is not passed (crashes are better than silent errors as we can see issues imediately)
 - Component renders as expected with input specified
@@ -58,19 +67,16 @@ TODO:
 
 ### Linting
 - ESLint
+- Setup to lint jsx files when webpack runs
+- Linting runs in NPM test and webpack -w
+- Runs during travis-CI deployment, if an error occurs the build will not pass
 
 https://shellmonger.com/2016/01/26/using-eslint-with-webpack/
 https://www.npmjs.com/package/eslint-plugin-react
 
-- setup to lint jsx files when webpack runs
-- TODO: will this work with deployment? or do we need to automate with gulp?
-  - idealy it should break the build if a lint error occurs and thus not deploy
-
-
-### Continuous Integration
-- Has been setup with travis-ci
-- Runs test suite every push to github
-- Heroku pulls code whenever a git-push successfully passes travic-ci checks
+### Styling
+Foundation was used to style the apps CSS, in particular:
+- 
 
 ### Package.json
 
@@ -120,7 +126,7 @@ https://www.npmjs.com/package/eslint-plugin-react
   "webpack": "^1.14.0"
 }
 ```
-TODO: Check if all the non-dev dependancies are needed
+
 ## Design
 
 ### Front-end React Component Tree
@@ -133,3 +139,11 @@ This image displays the react components and the props being sent to children co
 
 ### Front-end Redux diagram
 ![Redux](chat-server-images/redux.PNG)
+
+### Workflow
+- webpack -w | Compiles files into webpack bundle for server, picks up compilation and linting errors, run this command to automatically compile changes to code when developing locally.
+- NPM test | Runs the test suite and shows results.
+- node server.js | Runs the server locally. Go to localhost:3000 to view webpage
+- git add . | Adds changed files.
+- git commit -m "commit message" | Selects for submitting changes remotely to github
+- git push | Pushes commit to current remote branch, travis-CI then runs NPM test, and if the push was in chat-server branch and was successful then heroku will deploy to production.

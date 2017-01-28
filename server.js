@@ -9,8 +9,7 @@ var io = require('socket.io')(http);
 var ServerState = require('./serverState.js');
 var ServerDB = require('./serverDB.js');
 
-function CheckCallback(cb, message)
-{
+function CheckCallback(cb, message){
   var result = (cb && typeof cb === "function" );
   if (!result){throw new Error(message, "callback not provided");}
   return result;
