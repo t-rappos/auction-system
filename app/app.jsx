@@ -28,7 +28,7 @@ ReactDOM.render(
         <div className = 'top-bar-right'>
           <ul className="menu">
             <li>By Thomas Rappos </li>
-            <li><a href="https://github.com/t-rappos/auction-system/blob/master/chat-server.md">See Github</a></li>
+            <li><a href="https://github.com/t-rappos/auction-system/blob/master/doc/chat-server.md">See Github</a></li>
           </ul>
         </div>
       </div>
