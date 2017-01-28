@@ -1,5 +1,5 @@
 # auction-system
-[![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=master)](https://travis-ci.org/t-rappos/auction-system) 
+[![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=master)](https://travis-ci.org/t-rappos/auction-system)
 An auction listing system
 
 # Table of Contents
@@ -17,13 +17,13 @@ The purpose of this project is to gain experience using and integrating multiple
 
 Users can list items (user created) on an online auction website for sale for other users to either buyout or bid on. Items listed can be filtered to highlight interesting items. Once an item is successfully purchased, it is placed in the buyers personal inventory. The user can view their own inventory and inspect each item.
 
-See the [SRS](srs.md) for more information.
+See the [SRS](doc/srs.md) for more information.
 
 ## 1.2 How does it work
 
 Basic overview of structure and functionality
 
-See the [TDD](tdd.md) or [Technologies research](technologies%20research.md) for more information.
+See the [TDD](doc/tdd.md) or [Technologies research](doc/technologies%20research.md) for more information.
 
 # 2\. Development Plan
 
@@ -33,7 +33,7 @@ See the [TDD](tdd.md) or [Technologies research](technologies%20research.md) for
 
 - Outline the scope and define user requirements (SRS)
 - Research what technologies will be used
-- see [Chat-Server](chat-server.md) [![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=chat-server)](https://travis-ci.org/t-rappos/auction-system) for a throwaway prototype application using the desired technology stack
+- see [Chat-Server](doc/chat-server.md) [![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=chat-server)](https://travis-ci.org/t-rappos/auction-system) for a throwaway prototype application using the desired technology stack
 - or visit the deployment on [heroku](https://chat-server-t-rappos.herokuapp.com/#/?_k=32gzvg)
 - Define system structure by documenting all classes, their roles, responsibilities and collaborators. (TDD)
 - List of classes/Components w/ specs
@@ -49,7 +49,7 @@ See the [TDD](tdd.md) or [Technologies research](technologies%20research.md) for
 - Working Transparently
 - Changing user requirements
 
-See the [workflow.md](workflow.md) for detailed workflow research and [Trello](https://trello.com/b/R9DxZCFG/auction-system) for current development plans.
+See the [workflow.md](doc/workflow.md) for detailed workflow research and [Trello](https://trello.com/b/R9DxZCFG/auction-system) for current development plans.
 
 #### Phase Completion
 - SRS and TDD are drafted
