@@ -33,7 +33,7 @@ See the [TDD](tdd.md) or [Technologies research](technologies%20research.md) for
 
 - Outline the scope and define user requirements (SRS)
 - Research what technologies will be used
-- see [chat-server](chat-server.md) for a throwaway prototype application using the desired technology stack
+- see [Chat-Server](chat-server.md) [![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=master)](https://travis-ci.org/t-rappos/auction-system) for a throwaway prototype application using the desired technology stack
 - or visit the deployment on [heroku](https://chat-server-t-rappos.herokuapp.com/#/?_k=32gzvg)
 - Define system structure by documenting all classes, their roles, responsibilities and collaborators. (TDD)
 - List of classes/Components w/ specs

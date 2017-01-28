@@ -1,5 +1,7 @@
 # Chat Server
 
+[![Build Status](https://travis-ci.org/t-rappos/auction-system.svg?branch=master)](https://travis-ci.org/t-rappos/auction-system)
+
 This application was created to test a proposed technology stack for web applications.
 It was also successfully deployed on [heroku](https://chat-server-t-rappos.herokuapp.com/#/?_k=32gzvg)
 
@@ -68,29 +70,25 @@ https://www.npmjs.com/package/eslint-plugin-react
 ### Continuous Integration
 - Has been setup with travis-ci
 - Runs test suite every push to github
-
-TODO: get heroku to pull code whenever a push successfully passes
+- Heroku pulls code whenever a git-push successfully passes travic-ci checks
 
 ### Package.json
 
-
 ```
 "dependencies": {
-  "axios": "^0.15.3",
   "babel-plugin-transform-class-properties": "^6.19.0",
   "babel-plugin-transform-runtime": "^6.15.0",
   "babel-polyfill": "^6.20.0",
   "babel-register": "^6.18.0",
   "body-parser": "^1.15.2",
   "dateformat": "^2.0.0",
-  "express": "^4.14.0",
+  "jquery": "^3.1.1",
+  "pg": "^6.1.2",
   "react": "^15.4.2",
   "react-dom": "^15.4.2",
   "react-redux": "^5.0.2",
   "react-router": "^2.0.0",
-  "redux": "^3.6.0",
-  "jquery": "^3.1.1",
-  "socket.io": "^1.7.2"
+  "redux": "^3.6.0"
 },
 "devDependencies": {
   "babel-core": "^6.21.0",
@@ -98,8 +96,14 @@ TODO: get heroku to pull code whenever a push successfully passes
   "babel-preset-es2015": "^6.18.0",
   "babel-preset-react": "^6.5.0",
   "babel-preset-stage-0": "^6.16.0",
+  "css-loader": "^0.26.1",
+  "eslint": "^3.14.0",
+  "eslint-config-google": "^0.7.1",
+  "eslint-loader": "^1.6.1",
+  "eslint-plugin-react": "^6.9.0",
   "expect": "^1.20.2",
-  "jquery": "^3.1.1",
+  "express": "^4.14.0",
+  "foundation-sites": "^6.3.0",
   "karma": "^1.4.0",
   "karma-chrome-launcher": "^2.0.0",
   "karma-firefox-launcher": "^1.0.0",
@@ -109,7 +113,10 @@ TODO: get heroku to pull code whenever a push successfully passes
   "karma-webpack": "^2.0.1",
   "mocha": "^3.2.0",
   "react-addons-test-utils": "^15.4.2",
+  "script-loader": "^0.7.0",
+  "socket.io": "^1.7.2",
   "socket.io-client": "^1.7.2",
+  "style-loader": "^0.13.1",
   "webpack": "^1.14.0"
 }
 ```
