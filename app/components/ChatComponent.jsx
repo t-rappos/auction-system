@@ -57,15 +57,20 @@ class ChatComponent extends React.Component {
 
   constructor(props){
     if (props.messages && props.messages.constructor != Array){
-      throw new Error('ChatComponent : TypeError : expected "messages" to be array, recieved :'+typeof(messages));}
+      throw new Error('ChatComponent : TypeError : expected "messages" to be array, recieved :'+typeof(messages));
+    }
     if (!props.dispatchSetMessageList || typeof(props.dispatchSetMessageList)!='function'){
-      throw new Error('ChatComponent : Required function as prop');}
+      throw new Error('ChatComponent : Required function as prop');
+    }
     if (!props.dispatchAddMessage || typeof(props.dispatchAddMessage)!='function'){
-      throw new Error('ChatComponent : Required function as prop');}
+      throw new Error('ChatComponent : Required function as prop');
+    }
     if (!props.getMessageListFromServer || typeof(props.getMessageListFromServer)!='function'){
-      throw new Error('ChatComponent : Required function as prop');}
+      throw new Error('ChatComponent : Required function as prop');
+    }
     if (!props.setCallbackForNewMessages || typeof(props.setCallbackForNewMessages)!='function'){
-      throw new Error('ChatComponent : Required function as prop');}
+      throw new Error('ChatComponent : Required function as prop');
+    }
 
     super(props);
     this.getServerMessages();
