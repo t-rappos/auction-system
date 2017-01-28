@@ -79,7 +79,8 @@ https://www.npmjs.com/package/eslint-plugin-react
 
 ### Styling
 Foundation was used to style the apps CSS, in particular:
--
+- Row and Column system was used to ensure that the app behaved correctly on pc and mobile platforms.
+- The top-bar class was used as it provides a simple top bar for the webapp
 
 ### Package.json
 
