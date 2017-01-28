@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
-    "test": "./node_modules/.bin/karma start"
+    "test": " npm run test-server & npm run test-app",
+    "test-app": "./node_modules/.bin/karma start",
+    "test-server": "mocha --reporter spec",
+    "coverage": "istanbul cover --hook-run-in-context node_modules/mocha/bin/_mocha -- -R spec"
   },
   "author": "Thomas Rappos",
   "license": "ISC",
@@ -38,6 +41,7 @@
     "expect": "^1.20.2",
     "express": "^4.14.0",
     "foundation-sites": "^6.3.0",
+    "istanbul": "^0.4.5",
     "karma": "^1.4.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-firefox-launcher": "^1.0.0",
