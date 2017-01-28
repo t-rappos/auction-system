@@ -8,7 +8,7 @@
     "test": " npm run test-server & npm run test-app",
     "test-app": "./node_modules/.bin/karma start",
     "test-server": "mocha --reporter spec",
-    "coverage": "istanbul cover --hook-run-in-context node_modules/mocha/bin/_mocha -- -R spec"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec"
   },
   "author": "Thomas Rappos",
   "license": "ISC",
