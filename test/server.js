@@ -87,7 +87,7 @@ describe('Server',function(){
         client1.disconnect();
         client2.disconnect();
         done();
-      },20);
+      },50);
     });
   });
 
@@ -111,7 +111,7 @@ describe('Server',function(){
       setTimeout(function(){
         client2.disconnect();
         done();
-      },20);
+      },50);
       });
     });
 
@@ -139,7 +139,7 @@ describe('Server',function(){
         client1.disconnect();
         client2.disconnect();
         done();
-      },20);
+      },50);
     });
   });
 
@@ -155,7 +155,7 @@ describe('Server',function(){
         expect(msgs.length).toBeGreaterThan(0);
         client1.disconnect();
         done();
-      },20);
+      },50);
     });
   });
 
@@ -172,7 +172,7 @@ describe('Server',function(){
         expect(users.length).toBeGreaterThan(0);
         client1.disconnect();
         done();
-      },20);
+      },50);
     });
 });
 });
