@@ -6,12 +6,15 @@ var TestUtils = require('react-addons-test-utils');
 
 var OnlineUsersListComponent = require('OnlineUsersListComponent');
 
-describe("OnlineUsersListComponent", ()=>{
+describe("OnlineUsersListComponent", function(){
   //exists
-  it('should exist', () => {expect(OnlineUsersListComponent).toExist();});
+  it('should exist', function(done){
+    expect(OnlineUsersListComponent).toExist();
+    done();
+  });
 
   //renders with no users
-  it('should render with no users',()=>{
+  it('should render with no users',function(done){
     let userList = TestUtils.renderIntoDocument(
       <OnlineUsersListComponent users = {[]}
         getUserListFromServer = {()=>{}}
@@ -26,10 +29,11 @@ describe("OnlineUsersListComponent", ()=>{
     expect(ul).toExist();
     expect(count).toBe(0);
     expect($el.text()).toBe('');
+    done();
   });
 
   //renders multiple users
-  it('should render multiple users',()=>{
+  it('should render multiple users',function(done){
     let userList = TestUtils.renderIntoDocument(
       <OnlineUsersListComponent users = {['tom','andy','jim']}
         getUserListFromServer = {()=>{}}
@@ -44,10 +48,11 @@ describe("OnlineUsersListComponent", ()=>{
     expect(ul).toExist();
     expect(count).toBe(3);
     expect($el.text()).toNotBe('');
+    done();
   });
 
   //dispatches event when a user logs in
-  it('should dispatch event when user logs in',()=>{
+  it('should dispatch event when user logs in',function(done){
     let serverLoginCallback;
 
     let getUserListFromServer = ()=>{};
@@ -67,10 +72,11 @@ describe("OnlineUsersListComponent", ()=>{
     expect(userList).toExist();
     serverLoginCallback('tom'); //mock server
     expect(dispatchAddUser).toHaveBeenCalledWith('tom');
+    done();
   });
 
   //dispatches event when a user logs out
-  it('should dispatch an event when user logs out',()=>{
+  it('should dispatch an event when user logs out',function(done){
     let serverLogoutCallback;
     let getUserListFromServer = ()=>{};
     let setCallbackForLogins = ()=>{};
@@ -90,10 +96,11 @@ describe("OnlineUsersListComponent", ()=>{
     serverLogoutCallback('tom'); //mock server
     expect(dispatchRemoveUser).toHaveBeenCalled();
     expect(dispatchRemoveUser).toHaveBeenCalledWith('tom');
+    done();
   });
 
   //dispatch event after getting user list from server
-  it('should dispatch event after getting user list from server',()=>{
+  it('should dispatch event after getting user list from server',function(done){
     let getUserListFromServer = (returnFn)=>{returnFn(['tom','andy']);};
     let setCallbackForLogins =  ()=>{};
     let setCallbackForLogouts = ()=>{};
@@ -111,11 +118,12 @@ describe("OnlineUsersListComponent", ()=>{
         />);
     expect(userList).toExist();
     expect(dispatchSetUsers).toHaveBeenCalledWith(['tom','andy']);
+    done();
   });
 
   //complain if users isn't an array
-  describe('should complain if users isnt an array',()=>{
-    it('null',()=>{
+  describe('should complain if users isnt an array',function(){
+    it('should complain if null',function(done){
       expect(()=>{
         let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent users = {null}
@@ -127,8 +135,9 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {()=>{}} />);
             expect(userList).toNotExist();
           }).toThrow(/users/);
+          done();
     });
-    it('empty quotes',()=>{
+    it('should complain if empty quotes',function(done){
       expect(()=>{
         let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent users = {''}
@@ -140,8 +149,9 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {()=>{}} />);
             expect(userList).toNotExist();
           }).toThrow(/users/);
+          done();
     });
-    it('not specified',()=>{
+    it('should complain if not specified',function(done){
       expect(()=>{
          let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent
@@ -153,14 +163,15 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {()=>{}} />);
             expect(userList).toNotExist();
           }).toThrow(/users/);
+          done();
     });
   });
 
 
   //complain when callbacks arent passed
-  describe('should complain when callbacks arent passed',()=>{
+  describe('should complain when callbacks arent passed',function(){
     //getUserListFromServer
-    it('getUserListFromServer',()=>{
+    it('should complain when it doesnt recieve getUserListFromServer',function(done){
       expect(()=>{
          let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent
@@ -184,10 +195,11 @@ describe("OnlineUsersListComponent", ()=>{
                 dispatchRemoveUser= {()=>{}} />);
                 expect(userList).toNotExist();
               }).toThrow(/function/);
+              done();
     });
 
     //setCallbackForLogins
-    it('setCallbackForLogins',()=>{
+    it('should complain when it doesnt recieve setCallbackForLogins',function(done){
       expect(()=>{
          let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent
@@ -200,10 +212,11 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {()=>{}} />);
             expect(userList).toNotExist();
           }).toThrow(/function/);
+          done();
     });
 
     //setCallbackForLogouts
-    it('setCallbackForLogouts',()=>{
+    it('should complain when it doesnt recieve setCallbackForLogouts',function(done){
       expect(()=>{
          let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent
@@ -216,10 +229,11 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {()=>{}} />);
             expect(userList).toNotExist();
           }).toThrow(/function/);
+          done();
     });
 
     //
-    it('dispatchSetUsers',()=>{
+    it('should complain when it doesnt recieve dispatchSetUsers',function(done){
       expect(()=>{
          let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent
@@ -232,10 +246,11 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {()=>{}} />);
             expect(userList).toNotExist();
           }).toThrow(/function/);
+          done();
     });
 
     //
-    it('dispatchAddUser',()=>{
+    it('should complain when it doesnt recieve dispatchAddUser',function(done){
       expect(()=>{
          let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent
@@ -248,10 +263,11 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {()=>{}} />);
             expect(userList).toNotExist();
           }).toThrow(/function/);
+          done();
     });
 
     //
-    it('dispatchRemoveUser',()=>{
+    it('should complain when it doesnt recieve dispatchRemoveUser',function(done){
       expect(()=>{
          let userList = TestUtils.renderIntoDocument(
           <OnlineUsersListComponent
@@ -264,6 +280,7 @@ describe("OnlineUsersListComponent", ()=>{
             dispatchRemoveUser= {null} />);
             expect(userList).toNotExist();
           }).toThrow(/function/);
+        done();
     });
   });
 });

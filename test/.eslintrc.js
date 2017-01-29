@@ -48,7 +48,8 @@ module.exports = {
             "mocha/no-top-level-hooks":"error",
             "mocha/no-identical-title":"error",
             "mocha/max-top-level-suites":"error",
-            "mocha/no-nested-tests":"error"
+            "mocha/no-nested-tests":"error",
+            "node/no-unpublished-require" : 0,
         },
 
 };

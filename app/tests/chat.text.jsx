@@ -20,21 +20,25 @@ function renderChatComponent(a,b,c,d,msgs=[]){
     messages = {msgs}/>);
 }
 
-describe("ChatComponent", ()=>{
+describe("ChatComponent", function(){
   //exists
-  it('should exist', () => {expect(ChatComponent).toExist();});
+  it('should exist', function(done){
+    expect(ChatComponent).toExist();
+    done();
+  });
 
   //nothing is rendered
-  it('should render nothing when there are no messages', ()=>{
+  it('should render nothing when there are no messages', function(done){
     let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{});
     var $el = $(chat.node);
     var count = $el.find("#ul").children().length;
     expect(count).toBe(0,"chat messages in list:"+count);
     expect($el.text()).toBe('');
+    done();
   });
 
   //complain if messages is passed not as an array
-  it('should complain if messages is passed not as an array', ()=>{
+  it('should complain if messages is passed not as an array', function(done){
     let date = new Date();
     let mc = {author:'tom', content:'data', date};
 
@@ -42,10 +46,11 @@ describe("ChatComponent", ()=>{
       let chat = renderChatComponent(()=>{},()=>{},()=>{},()=>{},mc);
       expect(chat).toNotExists();
     }).toThrow(/TypeError/);
+    done();
   });
 
   //should render a message
-  it('should render a message', ()=>{
+  it('should render a message',function(done){
     let date = new Date();
     let ma = [{author:'tom', message:'data', date},
     {author:'tom', message:'data', date},
@@ -57,12 +62,13 @@ describe("ChatComponent", ()=>{
     let count = $el.find("ul").children().length;
     expect(count).toBe(3,"chat messages in list:"+count+" found ul: ",$el.find("ul"));
     expect($el.text()).toNotBe('');
+    done();
     ////TODO: do we care what the messages look like?
   });
 
 
   //a message list is loaded
-  it('a message list is loaded',()=>{
+  it('should load a message list',function(done){
 
     let cb;
     var msg = {author:'tom', message:'msg', date: new Date()};
@@ -82,27 +88,32 @@ describe("ChatComponent", ()=>{
     expect(dispatchSetMessageList).toHaveBeenCalled();
     cb(msg);
     expect(dispatchAddMessage).toHaveBeenCalled();
+    done();
 
   });
 
   //complain when on-message-list-recieved callback is missing
-  it('should complain when getMessageListFromServer callback is missing',()=>{
+  it('should complain when getMessageListFromServer callback is missing',function(done){
       expect(()=>{renderChatComponent(null,()=>{},()=>{},()=>{});}).toThrow(/function/);
+      done();
   });
 
   //complain when on-new-message-recieved callback is missing
-  it('should complain when setCallbackForNewMessages callback is missing',()=>{
+  it('should complain when setCallbackForNewMessages callback is missing',function(done){
       expect(()=>{renderChatComponent(()=>{},null,()=>{},()=>{});}).toThrow(/function/);
+      done();
   });
 
   //complain when server get message list callback is missing
-  it('should complain when dispatchSetMessageList is missing',()=>{
+  it('should complain when dispatchSetMessageList is missing',function(done){
       expect(()=>{renderChatComponent(()=>{},()=>{},null,()=>{});}).toThrow(/function/);
+      done();
   });
 
   //complain when server set on new message callback is missing
-  it('should complain when dispatchAddMessage callback is missing',()=>{
+  it('should complain when dispatchAddMessage callback is missing',function(done){
       expect(()=>{renderChatComponent(()=>{},()=>{},()=>{},null);}).toThrow(/function/);
+      done();
   });
 
 });

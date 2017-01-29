@@ -2,6 +2,7 @@
   "name": "chat-server-prototype",
   "version": "1.0.0",
   "description": "this is a prototype to explore a project structure and server functionality",
+  "repository" : "https://github.com/t-rappos/auction-system.git",
   "engines": {
     "node": ">=4.5.0"
   },
@@ -25,13 +26,15 @@
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.2",
     "dateformat": "^2.0.0",
+    "express": "^4.14.0",
     "jquery": "^3.1.1",
     "pg": "^6.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "react-router": "^2.0.0",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "socket.io": "^1.7.2"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -41,7 +44,6 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-preset-stage-2": "^6.22.0",
-    "babel-register": "^6.22.0",
     "css-loader": "^0.26.1",
     "eslint": "^3.14.0",
     "eslint-config-google": "^0.7.1",
@@ -52,7 +54,6 @@
     "eslint-plugin-node": "^3.0.5",
     "eslint-plugin-react": "^6.9.0",
     "expect": "^1.20.2",
-    "express": "^4.14.0",
     "foundation-sites": "^6.3.0",
     "istanbul": "^0.4.5",
     "karma": "^1.4.0",
@@ -68,7 +69,6 @@
     "nyc": "^10.1.2",
     "react-addons-test-utils": "^15.4.2",
     "script-loader": "^0.7.0",
-    "socket.io": "^1.7.2",
     "socket.io-client": "^1.7.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0"

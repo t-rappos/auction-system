@@ -9,15 +9,16 @@ var ServerApi = require('ServerAPI');
 //This file tests the state+behaviour of the usernameInputForm
 
 
-describe("UsernameInputFormContainer", ()=>{
+describe("UsernameInputFormContainer", function(){
   //exists
-  it('should exist', () => {
+  it('should exist', function(done){
     expect(UsernameInputFormContainer).toExist();
     expect(React).toExist();
     expect(expect).toExist();
     expect($).toExist();
     expect(TestUtils).toExist();
     expect(ServerApi).toExist();
+    done();
   });
 
 /*
