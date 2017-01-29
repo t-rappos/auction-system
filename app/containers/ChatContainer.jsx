@@ -1,6 +1,5 @@
 import {connect} from 'react-redux';
-import {addMessage} from '../actions';
-import {setMessageList} from '../actions';
+import {addMessage,setMessageList} from '../actions';
 import ChatComponent from 'ChatComponent';
 
 const mapStateToProps = (state) => {

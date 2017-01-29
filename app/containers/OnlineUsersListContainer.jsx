@@ -1,7 +1,5 @@
 import {connect} from 'react-redux';
-import {addUser} from '../actions';
-import {removeUser} from '../actions';
-import {setUsers} from '../actions';
+import {addUser,removeUser,setUsers} from '../actions';
 import OnlineUsersListComponent from 'OnlineUsersListComponent';
 
 const mapStateToProps = (state) => {

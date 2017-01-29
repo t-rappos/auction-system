@@ -22,7 +22,7 @@ module.exports = {
     root: __dirname,
     alias: {
       Main: 'app/components/Main.jsx',
-      Redux:      'app/Redux.jsx',
+      ReduxWrapper:      'app/ReduxWrapper.jsx',
       ServerAPI: 'app/api/ServerAPI.jsx',
       ChatComponent: 'app/components/ChatComponent.jsx',
       ChatInputFormComponent: 'app/components/ChatInputFormComponent.jsx',

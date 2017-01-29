@@ -3,13 +3,10 @@ let ReactDOM = require('react-dom');
 let {Route, Router, hashHistory} = require('react-router');
 let Main = require('Main');
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import {combinedReducers} from 'Redux';
+let redux = require('ReduxWrapper');
 var $ = require('jquery');
 
-var store = createStore(combinedReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__
-  && window.__REDUX_DEVTOOLS_EXTENSION__());
+var store = redux.createStore();
 
 //load foundation
 require('style!css!foundation-sites/dist/css/foundation.min.css');
