@@ -7,7 +7,9 @@ var http = require('http');
 var io = require('socket.io-client');//require('socket.io')(http);
 var assert =  require('assert');
 
-let socketURL = 'http://localhost:3000';
+let socketAddr = 'http://localhost:';
+let socketPort = process.env.PORT || 3000;
+let socketURL = socketAddr+socketPort;
 
 let options ={
   transports: ['websocket'],
@@ -43,7 +45,7 @@ describe('Server',function(){
         client1.disconnect();
         client2.disconnect();
         done();
-      },20);
+      },50);
     });
 
   });
