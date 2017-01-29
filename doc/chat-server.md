@@ -20,19 +20,24 @@ It was also successfully deployed on [Heroku](https://chat-server-t-rappos.herok
 - React
 - Redux
 - Socket.io-client
-- Babel
 - Webpack
-- JQuery
-- ESLint
-- Expect
-- Karma
-- Mocha
 
 ### Back-end
 - Node.js
 - Express
 - PostgreSQL
 - Socket.io
+
+### ES6
+This project uses ES6 as enabled by the following modules:
+
+- Client
+  - babel-core | babel transpiles es6 to js for browser compatability
+  - babel-loader | enables babel for webpack
+
+- Server
+  - babel-cli | command line interface for babel
+  - nodemon | watches server.js for changes and restarts server (with babel re-build)
 
 ### Persistance
 - Heroku idles free-tier webapps after 30 minutes if they aren't receiving traffic, this means that the server-state will be reset often and the messages stored on the server will be lost. To avoid this, a PostgreSQL database was used.
@@ -55,6 +60,12 @@ It was also successfully deployed on [Heroku](https://chat-server-t-rappos.herok
 - expect
   - better syntax and functionality for making test assertions.
 
+Testing is two-phased, server code is tested first and then client code.
+
+
+#### Client
+
+The package.json script ```"test-app": "./node_modules/.bin/karma start"``` will run karma for the client tests defined in karma.conf.js.
 
 Tests were created for all of the React components, things that were tested in general include:
 - Component renders in DOM with minimal amount of input
@@ -64,18 +75,51 @@ Tests were created for all of the React components, things that were tested in g
 Noteable changes to codebase to enable testing:
 - Calls to ServerApi within the components were abstracted out by setting new component callback properties to the existing serverApi calls within the main file. This is good as now only main.jsx needs reference to the serverApi.jsx file. This was done because of difficulties including serverApi.jsx as it uses socket.io which was causing test compilation issues.
 
+#### Server
+The package.json script ```"test-server": "mocha --reporter spec"``` will run mocha for the server tests in the /test folder.
+
+lib/server.js tests
+  - had to enable postgresql in travis-ci
+  - testing socket io functionality (public interface for server.js)
+
 TODO:
   - Explore how to test ServerAPI and redux containers
-  - Explore how to test back-end server.js and serverState
 
 ### Linting
-- ESLint
-- Setup to lint jsx files when webpack runs
-- Linting runs in NPM test and webpack -w
-- Runs during travis-CI deployment, if an error occurs the build will not pass
 
-https://shellmonger.com/2016/01/26/using-eslint-with-webpack/
-https://www.npmjs.com/package/eslint-plugin-react
+Linting was used to ensure that the ES6 code used conforms to best standards for google, react and node. The following modules were used to enable this functionality:
+
+- client
+  - eslint | enable eslint functionality
+  - eslint-import-resolver-webpack | enable import checks for webpack
+  - eslint-loader | enable eslint for webpack, runs tests on webpack -w
+  - eslint-plugin-react | enable react checks
+
+- server
+  - eslint
+  - eslint-plugin-node | enable node checks
+  - eslint-plugin-mocha | enable mocha checks
+  - eslint-plugin-import
+  - mocha-eslint | runs checks on npm test, see test/eslint.js for launch code
+
+
+
+NPM test will run both server and client Linting checks and therefor will run during travis-CI deployment. If an error occurs the build will not pass.
+a root .eslintrc.js file was created to config linting for client code TODO: move this into /app. Other .eslintrc.js files were created in /lib, /test and /app/test files to configure server, server-test and client-test file linting respectively.
+
+### Code Coverage
+
+#### Client
+
+TODO: enable client code coverage
+
+#### Server
+
+- istanbul
+- nyc
+- mocha
+
+Reports coverage during npm test, using the following package.json script ```"es6-coverage": "nyc --require babel-core/register mocha"```
 
 ### Styling
 Foundation was used to style the apps CSS, in particular:
@@ -92,28 +136,36 @@ Foundation was used to style the apps CSS, in particular:
   "babel-register": "^6.18.0",
   "body-parser": "^1.15.2",
   "dateformat": "^2.0.0",
+  "express": "^4.14.0",
   "jquery": "^3.1.1",
   "pg": "^6.1.2",
   "react": "^15.4.2",
   "react-dom": "^15.4.2",
   "react-redux": "^5.0.2",
   "react-router": "^2.0.0",
-  "redux": "^3.6.0"
+  "redux": "^3.6.0",
+  "socket.io": "^1.7.2"
 },
 "devDependencies": {
+  "babel-cli": "^6.22.2",
   "babel-core": "^6.21.0",
   "babel-loader": "^6.2.10",
-  "babel-preset-es2015": "^6.18.0",
+  "babel-preset-es2015": "^6.22.0",
   "babel-preset-react": "^6.5.0",
   "babel-preset-stage-0": "^6.16.0",
+  "babel-preset-stage-2": "^6.22.0",
   "css-loader": "^0.26.1",
   "eslint": "^3.14.0",
   "eslint-config-google": "^0.7.1",
+  "eslint-import-resolver-webpack": "^0.8.1",
   "eslint-loader": "^1.6.1",
+  "eslint-plugin-import": "^2.2.0",
+  "eslint-plugin-mocha": "^4.8.0",
+  "eslint-plugin-node": "^3.0.5",
   "eslint-plugin-react": "^6.9.0",
   "expect": "^1.20.2",
-  "express": "^4.14.0",
   "foundation-sites": "^6.3.0",
+  "istanbul": "^0.4.5",
   "karma": "^1.4.0",
   "karma-chrome-launcher": "^2.0.0",
   "karma-firefox-launcher": "^1.0.0",
@@ -122,9 +174,11 @@ Foundation was used to style the apps CSS, in particular:
   "karma-sourcemap-loader": "^0.3.7",
   "karma-webpack": "^2.0.1",
   "mocha": "^3.2.0",
+  "mocha-eslint": "^3.0.1",
+  "nodemon": "^1.11.0",
+  "nyc": "^10.1.2",
   "react-addons-test-utils": "^15.4.2",
   "script-loader": "^0.7.0",
-  "socket.io": "^1.7.2",
   "socket.io-client": "^1.7.2",
   "style-loader": "^0.13.1",
   "webpack": "^1.14.0"
