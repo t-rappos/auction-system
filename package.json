@@ -2,6 +2,9 @@
   "name": "chat-server-prototype",
   "version": "1.0.0",
   "description": "this is a prototype to explore a project structure and server functionality",
+  "engines": {
+    "node": ">=4.5.0"
+  },
   "main": "index.js",
   "scripts": {
     "build": "babel lib -d dist",
@@ -43,6 +46,9 @@
     "eslint": "^3.14.0",
     "eslint-config-google": "^0.7.1",
     "eslint-loader": "^1.6.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-mocha": "^4.8.0",
+    "eslint-plugin-node": "^3.0.5",
     "eslint-plugin-react": "^6.9.0",
     "expect": "^1.20.2",
     "express": "^4.14.0",

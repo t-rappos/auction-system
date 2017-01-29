@@ -1,6 +1,6 @@
 
 var lint = require('mocha-eslint');
-var paths = ['lib'];
+var paths = ['lib','test'];
 
 var options = {
 
