@@ -37,6 +37,59 @@ TODO:
 - EAV may be an anti pattern...
  https://mikesmithers.wordpress.com/2013/12/22/the-anti-pattern-eavil-database-design/
 
+### ServerAPI
+
+note: response messages are named `[message_name]_response`
+
+Message | Data sent with message | Data send as response
+--- | --- | ---
+connect | (socket) |
+disconnect      |  (socket) |
+disconnect_all | |
+--- | --- | ---
+create_account      |    (email, username, password) | (success)
+validate_new_username|   (username) | (success)
+ validate_new_email  |      (email) | (success)
+update_account    |      (username, account_details) | (success)
+ remove_account         |    (username) | (success)
+remove_all_accounts | |
+--- | --- | ---
+get_account_details   |    (username) | (account_details)
+get_account_messages |   (username) | (message_list)
+ get_message_detail     |   (message) | (message_details)
+set_message_read   |     (message)
+login_user       |       (username,password,socket)   | (success)
+logout_user     |          (username) | (success)
+logout_all_users   | |
+send_message     |         (author,message,recipient) | (success)
+autocomplete_username  | (input)   | (suggestion_list, is_valid)
+verify_username_exists    |(username) | (success)
+--- | --- | ---
+create_item          |        (item_details)   | (success, item)
+  validate_item       |       (item_details) | (success)
+  get_image_list     | |  (image_list)
+get_account_items      |      (username)   | (item_list)
+get_item_details       |        (item) | (item_details)
+get_item_image         |       (item) | (image)
+remove_item           |        (item) | (success)
+remove_all_items   | |
+--- | --- | ---
+create_item_tag        |     (tag_name) | (success)
+remove_item_tag      |       (tag_name) | (success)
+remove_all_item_tags   | |
+get_item_tags   |    | (item_tag_list)
+autocomplete_item_tags     | (input) | (item_tag_list)
+--- | --- | ---
+get_listings  |   |    (listing_list)
+get_account_listings |      (username) | (listing_list)
+get_listing_details    |    (listing) | (listing_details)
+bid_on_listing       |      (user,listing,price) | (success)
+buyout_listing    |         (user,listing,price) | (success)
+cancel_listing     |        (listing) | (success)
+cancel_all_listings   | |
+get_user_transactions   | (username) | (transaction_list)
+
+
 ### Candidate Classes
 
 #### List
@@ -70,6 +123,18 @@ TODO: Think About:
 #### 1. Bootstrap
 
 ## Front-End
+
+### Client API
+```
+[ServerAPI-call]_response 
+message_event
+listing_outbid_event
+listing_bid_won_event 
+listing_cancelled_event
+listing_expires_event
+listing_sold_event
+```
+
 
 ### Sitemap / Website structure
 ![webpage-layout](page_nav.PNG)
