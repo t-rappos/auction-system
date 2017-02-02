@@ -23,7 +23,7 @@ This document is aiming to explain the static and dynamic structure of the syste
 
 ## Systems Overview
 ### Diagram
-![System Diagram](system.PNG)
+![System Diagram](auction-images/system.PNG)
 TODO: Update this to reflect technologies research page
 ### Justification
 
@@ -31,7 +31,7 @@ TODO: Update this to reflect technologies research page
 ### Data Model
 
 https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
-![data model](data_model.PNG)
+![data model](auction-images/data_model.PNG)
 
 TODO:
 - EAV may be an anti pattern...
@@ -93,28 +93,229 @@ get_user_transactions   |(username) |(transaction_list)
 ### Candidate Classes
 
 #### List
+- ClientAPI
+- ServerAPI
+- AccountAPI
+- SessionAPI
+- ListingAPI
+- ItemAPI
+- User
+- MessageFactory
+- Message
+- AccountFactory
+- Account
+- ListingFactory
+- Listing
+- TransactionFactory
+- TransactionBid
+- TransactionPurchase
+- ItemFactory
+- Item
+- TagFactory
 
-#### Diagram
-https://www.lucidchart.com/documents/edit/ad45e7f3-f42b-44d3-a656-9027cd0a5a33
-V2 https://www.lucidchart.com/documents/edit/0e3063df-d456-42d1-9bae-fdfd764d3fb5#
+#### Diagrams
 
-V3
-![server domain model v1](server_domain_model1.PNG)
+##### Entity-Factory Pattern
+![entity factory pattern](auction-images/entity_pattern.PNG)
 
-Notes:
-- It would be nice to be able to use the same data validators in the front-end and back-end
-- ? Item having a listing (it shouldn't know anything about it...), might work if listing is a blind reference 
-- Does bid/buyout have to be a separate object?
+To deal with database records, an entity-factory design will be used.
 
-TODO: Think About:
-- Multiple users interacting - concurrency - Database binding to objects
-- Adding new types of item attributes
-- Switching front-ends
-- Switching databases
+`Factory<T>`: (Depends on `Entity<T>`)
+- CRUD manipulator for database entity records.
+- Knows how to use a database.
+- Knows how to alter an entity using the database.
+  - An instantiated `Entity<T>` object is reloaded from the database if its record is changed.
+- Knows how to convert a database record into an `Entity<T>` object.
+- Can only be a single factory for each entity type (Singleton)
+
+`Entity<T>`:
+- An object representation of a database record.
+- Doesn't depend on `Factory<T>`. Accesses factory functionality via dependancy injection when the entity is created. E.G. functions are passed down and binded.
+- Doesn't know anything about the underlying database or record.
+- Idealy the state of an instantiated Entity<T> will always be equal to its database record state.
+  - Has properties that can be 'get' but not 'set'.
+  - Has methods that can modify the entity but call the factory to perform operations on the entities record, after which, the Entity<T> is reloaded. These methods are injected.
+
+`API`:
+- Is a singleton
+- Knows how to use a factory and its entity
+
+
+![class diagram](auction-images/server_class_diagram.PNG)
 
 #### Justification
+- How it works:
+- object orientated vs procedural:
+  - the data is organised relationally, which makes implementing a full OO design difficult
+  - do not want to duplicate state in the OO design as the state is maintained in the DB
+- expected things that can change, and contingencies:
+  - front end
+    - socket IO messages, text interface makes it easy to replace front end
+  - database
+    - Factories will rely on an abstracted database, so the database implementation can be changed without effecting the factories.
 
 #### CRC cards
+
+##### ClientAPI
+The APIs send messages to this class with SocketIO
+
+##### ServerAPI
+A singleton class that deals with client connections
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|Handles client connection||
+|Handles client disconnection||
+|Can forcefully disconnect clients||
+|Delegates other messages to children APIs|AccountAPI, SessionAPI, ListingAPI, ItemAPI|
+
+##### AccountAPI
+A singleton class that deals with user accounts
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+
+##### SessionAPI
+A singleton class that deals with client connections
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### ListingAPI
+A singleton class that deals with client connections
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### ItemAPI
+A singleton class that deals with client connections
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### User
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### MessageFactory
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### Message
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### AccountFactory
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### Account
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### ListingFactory
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### Listing
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### TransactionFactory
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### TransactionBid
+
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### TransactionPurchase
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### ItemFactory
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### Item
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
+##### TagFactory
+
+|**Responsibilities**|**Collaborators**|
+| --- | --- |
+|||
+|||
+|||
+
 
 #### Quality, Extension, Design Patterns
 
@@ -137,7 +338,7 @@ listing_sold_event(listing)
 
 
 ### Sitemap / Website structure
-![webpage-layout](page_nav.PNG)
+![webpage-layout](auction-images/page_nav.PNG)
 TODO:
   - Maybe we can extract InventoryComponent, ItemInspectionComponent into a global component (e.g. similar to navbar)
 
@@ -147,44 +348,44 @@ TODO: find a website that can do this better than PowerPoint
 Note: These wireframes may have outdated terminology or functionality and serve as a rough guide and motivation for initial design of the front-end.
 
 #### Login Page
-![login page](wireframes/pg_login.PNG)
+![login page](auction-images/wireframes/pg_login.PNG)
 
 #### Register Page
-![register page](wireframes/pg_register.PNG)
+![register page](auction-images/wireframes/pg_register.PNG)
 
 #### Landing/Profile Page - Focus on mail and profile view
-![profile page](wireframes/pg_landing.PNG)
+![profile page](auction-images/wireframes/pg_landing.PNG)
 TODO: change messageComponent -> InboxComponent
 
 #### Landing/Profile Page - Focus on message view
-![profile page](wireframes/pg_message_view.PNG)
+![profile page](auction-images/wireframes/pg_message_view.PNG)
 
 #### Landing/Profile Page - Focus on message view
-![profile page](wireframes/pg_message_send.PNG)
+![profile page](auction-images/wireframes/pg_message_send.PNG)
 
 #### Landing/Profile Page - Focus on inventory
-![profile page](wireframes/pg_inventory.PNG)
+![profile page](auction-images/wireframes/pg_inventory.PNG)
 
 #### Landing/Profile Page - Focus on inventory search
-![profile page](wireframes/pg_inventory_search.PNG)
+![profile page](auction-images/wireframes/pg_inventory_search.PNG)
 
 #### Landing/Profile Page - Focus on item inspection view
-![profile page](wireframes/pg_item_view.PNG)
+![profile page](auction-images/wireframes/pg_item_view.PNG)
 
 #### Landing/Profile Page - Focus on item sell
-![profile page](wireframes/pg_item_sell.PNG)
+![profile page](auction-images/wireframes/pg_item_sell.PNG)
 
 #### Listing Page
-![listing page](wireframes/pg_cancel_listing.PNG)
+![listing page](auction-images/wireframes/pg_cancel_listing.PNG)
 
 #### Landing/Profile Page - Focus on item construction view
-![profile page](wireframes/pg_item_create.PNG)
+![profile page](auction-images/wireframes/pg_item_create.PNG)
 
 #### Landing/Profile Page - Focus on item image selection
-![profile page](wireframes/pg_item_image_select.PNG)
+![profile page](auction-images/wireframes/pg_item_image_select.PNG)
 
 #### Search - Buy Item
-![Buy Item page](wireframes/pg_buy_item.PNG)
+![Buy Item page](auction-images/wireframes/pg_buy_item.PNG)
 
 ### Component List
 This is a list of all the frontend components, a grouping of functionality for a related tasks. Components can be broken down into classes. Unless explicitly stated otherwise, all data validation is done server-side and likewise, all data that is displayed is generated server-side.

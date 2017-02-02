@@ -135,7 +135,7 @@ These are the tasks that are required to be supported by the software solution.
 ### 3.2.8 CRUD Check
 
 #### CRUD Table
-![Crud Table](crud.PNG)
+![Crud Table](auction-images/crud.PNG)
 
 [Link to CRUD spreadsheet ](https://docs.google.com/spreadsheets/d/1MRDU_9CzYix6REQ6JA-69m1cYBdSQDAedr_KkLhzpeI/edit?usp=sharing)
 
@@ -456,7 +456,7 @@ TODO: do we need a 'search listings' task?
 
 Outlined using [LucidCharts.](https://www.lucidchart.com/invitations/accept/a035fe7f-694f-43ff-b87d-d69750269dca)
 
-![Domain Model](domain_model.PNG)
+![Domain Model](auction-images/domain_model.PNG)
 
 ### 3.5 Design and Implementation Constraints / Assumptions
 
