@@ -1,3 +1,4 @@
+var expect = require('expect');
 
 let AccountFactory = require('../lib/accountFactory.js');
 //let Account = require('./lib/account.js');
