@@ -19,13 +19,13 @@ ReactDOM.render(
       <div className = 'top-bar'>
         <div className = 'top-bar-left'>
           <ul className="dropdown menu" data-dropdown-menu>
-            <div className ="menu-text">Chat-Server App!</div>
+            <div className ="menu-text">Auction System App!</div>
           </ul>
         </div>
         <div className = 'top-bar-right'>
           <ul className="menu">
             <li>By Thomas Rappos </li>
-            <li><a href="https://github.com/t-rappos/auction-system/blob/master/doc/chat-server.md">See Github</a></li>
+            <li><a href="https://github.com/t-rappos/auction-system/">See Github</a></li>
           </ul>
         </div>
       </div>

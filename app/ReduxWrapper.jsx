@@ -1,12 +1,8 @@
 var redux = require('redux');
-import {chatReducer} from 'ChatReducer';
-import {currentUserReducer} from 'CurrentUserReducer';
-import {onlineUsersReducer} from 'OnlineUsersReducer';
+
 
 let combinedReducers = redux.combineReducers({
- chatReducer,
- currentUserReducer,
- onlineUsersReducer
+//add reducers here
 });
 
 function createStore(){

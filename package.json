@@ -1,8 +1,8 @@
 {
-  "name": "chat-server-prototype",
+  "name": "auction-system",
   "version": "1.0.0",
-  "description": "this is a prototype to explore a project structure and server functionality",
-  "repository" : "https://github.com/t-rappos/auction-system.git",
+  "description": "",
+  "repository": "https://github.com/t-rappos/auction-system.git",
   "engines": {
     "node": ">=4.5.0"
   },
@@ -68,6 +68,7 @@
     "nodemon": "^1.11.0",
     "nyc": "^10.1.2",
     "react-addons-test-utils": "^15.4.2",
+    "rimraf": "^2.5.4",
     "script-loader": "^0.7.0",
     "socket.io-client": "^1.7.2",
     "style-loader": "^0.13.1",
