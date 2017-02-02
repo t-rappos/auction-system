@@ -4,3 +4,4 @@
 public/bundle.js
 **/dist
 **/.nyc_output
+npm-debug.log
