@@ -1,7 +1,16 @@
 var expect = require('expect');
 
 let AccountFactory = require('../lib/accountFactory.js');
-//let Account = require('./lib/account.js');
+
+let DB = require('../lib/serverDB.js');
+
+console.log("about to initialise account_factory_test");
+DB.initialise().then(function(){
+  console.log('account_factory_test initialise');
+  AccountFactory.initialise();
+});
+
+function runTests(){
 
 describe('AccountFactory',function(){
 
@@ -11,165 +20,159 @@ describe('AccountFactory',function(){
   });
 
   it("should be able to destroy all accounts", function(done){
-    AccountFactory.destroyAllAccounts();
-
-    setTimeout(function(){
-      AccountFactory.createAccount('tom', 'password', 'tom@gmail.com');
-      AccountFactory.createAccount('andy', 'password', 'andy@gmail.com');
-    },100);
-
-
-    setTimeout(function(){
-      AccountFactory.destroyAllAccounts();
-    },200);
-
-    let accounts = [];
-    let acc = null; // eslint-disable-line no-unused-vars
-
-    setTimeout(function(){
-       AccountFactory.getAllAccounts(function(accountList){
-         accounts = accountList;
-       });
-       AccountFactory.getAccount('tom',function(a){
-         acc = a;
-       });
-    },300);
-
-    let emptyArray = [];
-
-    setTimeout(function(){
-      expect(accounts).toBe(emptyArray);
-      expect().toBe(null);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return Promise.all([
+        AccountFactory.createAccount('tom', 'password', 'tom@gmail.com'),
+        AccountFactory.createAccount('andy', 'password', 'andy@gmail.com')
+      ]);
+    })
+    .then(function(){
+      return AccountFactory.destroyAllAccounts();
+    })
+    .then(function(){
+      return Promise.all([
+        AccountFactory.getAllAccounts(),
+        AccountFactory.getAccount('tom')
+      ]);
+    })
+    .then(function(results){
+      expect(results[0].length).toBe(0); //number of accounts
+      expect(results[1]).toBe(null); //no account named tom
       done();
-    },400);
-
+    }).catch(function(error){
+      console.log(error);
+    });
   });
 
   it("should be able to create an account",function(done){
 
-    AccountFactory.destroyAllAccounts();
-
     let username = 'tom';
     let password = 'password';
     let email = 'tom@gmail.com';
-    let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount(username, password, email, function(acc){account = acc;});
-    },100);
 
-    let emptyArray = [];
-    setTimeout(function(){
-      expect(account).toExist();
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount(username, password, email);
+    })
+    .then(function(account){
+      expect(account).toNotBe(null);
       expect(account.getUsername()).toBe(username);
       expect(account.getPassword()).toBe(password);
       expect(account.getEmail()).toBe(email);
-      expect(account.getDetails()).toBe(emptyArray);
-      expect(AccountFactory.getAccount('tom')).toNotBe(null);
+      expect(typeof account.getDetails()).toBe('object');
       done();
-    },200);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to destroy an account",function(done){
 
-    AccountFactory.destroyAllAccounts();
-
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom', 'password', 'tom@gmail.com',function(a){account= a;});
-    },100);
-
-    setTimeout(function(){
-      AccountFactory.destroyAccount();
-    },200);
-
-    setTimeout(function(){
-      expect(account).toBe(null);
-      expect(AccountFactory.getAccount('tom')).toBe(null);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom', 'password', 'tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return AccountFactory.destroyAccount(account);
+    })
+    .then(function(){
+      expect(account.getUsername()).toBe(null);
+      expect(account.getEmail()).toBe(null);
+      expect(account.getPassword()).toBe(null);
+      return AccountFactory.getAccount('tom');
+    })
+    .then(function(acc){
+      expect(acc).toBe(null);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to get account",function(done){
-    AccountFactory.destroyAllAccounts();
-
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom', 'password', 'tom@gmail.com',function(a){account = a;});
-    },100);
-
     let dbAccount = null;
-    setTimeout(function(){
-      AccountFactory.getAccount('tom',function(a){dbAccount = a;});
-    },200);
-
-    setTimeout(function(){
-      expect(account).toBe(dbAccount);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom', 'password', 'tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return AccountFactory.getAccount('tom');
+    })
+    .then(function(acc){
+      dbAccount = acc;
+      expect(account.equals(dbAccount)).toBe(true);
       expect(account.getUsername()).toBe(dbAccount.getUsername());
       expect(account.getPassword()).toBe(dbAccount.getPassword());
       expect(account.getEmail()).toBe(dbAccount.getEmail());
-      expect(account.getDetails()).toBe(dbAccount.getDetails());
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to get all accounts",function(done){
-    AccountFactory.destroyAllAccounts();
-
-    setTimeout(function(){
-      AccountFactory.createAccount('tom', 'password', 'tom@gmail.com');
-      AccountFactory.createAccount('andy', 'password', 'andy@gmail.com');
-    },100);
-
-    let accounts = [];
-    setTimeout(function(){
-      AccountFactory.getAllAccounts(function(accs){accounts = accs;});
-    },200);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return Promise.all([
+        AccountFactory.createAccount('tom', 'password', 'tom@gmail.com'),
+        AccountFactory.createAccount('andy', 'password', 'andy@gmail.com')
+      ]);
+    })
+    .then(function(){
+      return AccountFactory.getAllAccounts();
+    })
+    .then(function(accounts){
       expect(accounts.length).toBe(2);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should reload account after modifying its database record",function(done){
-    AccountFactory.destroyAllAccounts();
-
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom', 'password', 'tom@gmail.com',function(a){account = a;});
-    },100);
-
-    let result = false;  // eslint-disable-line no-unused-vars
-    setTimeout(function(){
-      AccountFactory._changeAccountPassword('tom','newPassword',function(r){result = r;});
-    },100);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom', 'password', 'tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return AccountFactory._changeAccountPassword(account,'newPassword');
+    })
+    .then(function(){
       expect(account.getPassword()).toBe('newPassword');
       done();
-    },200);
-
-    setTimeout(function(){},300);
+    }).catch(function(err){
+      throw(err);
+    });
   });
 
   it("should provide a list of account autocomplete suggestions",function(done){
-    AccountFactory.destroyAllAccounts();
-    setTimeout(function(){
-      AccountFactory.createAccount('tom1', 'password', 'tom@gmail.com');
-      AccountFactory.createAccount('tom2', 'password', 'tom@gmail.com');
-      AccountFactory.createAccount('tom3', 'password', 'tom@gmail.com');
-      AccountFactory.createAccount('tom4', 'password', 'tom@gmail.com');
-      AccountFactory.createAccount('tom5', 'password', 'tom@gmail.com');
-    },100);
 
-    let autocompleteList =[];
-    setTimeout(function(){
-      AccountFactory.getAutocompletedUsernames('tom',function(acl){autocompleteList = acl;});
-    },200);
-    setTimeout(function(){
-      expect(autocompleteList.length).toBe(5);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return Promise.all([
+        AccountFactory.createAccount('tom1', 'password', 'tom@gmail.com'),
+        AccountFactory.createAccount('tom2', 'password', 'tom@gmail.com'),
+        AccountFactory.createAccount('tom3', 'password', 'tom@gmail.com'),
+        AccountFactory.createAccount('tom4', 'password', 'tom@gmail.com'),
+        AccountFactory.createAccount('tom5', 'password', 'tom@gmail.com')
+      ]);
+    })
+    .then(function(){
+      return AccountFactory.getAutocompletedUsernames('tom');
+    })
+    .then(function(list){
+      expect(list.length).toBe(5);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   /* @ = tested
@@ -187,3 +190,7 @@ describe('AccountFactory',function(){
   */
 
 });
+
+}
+
+setTimeout(runTests,500);

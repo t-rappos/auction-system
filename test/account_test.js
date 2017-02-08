@@ -2,7 +2,9 @@ var expect = require('expect');
 
 let Account = require('../lib/account.js');
 let AccountFactory = require('../lib/accountFactory.js');
+let Utility = require('../lib/utility.js');
 
+function runTests(){
 describe('Account',function(){
 
   it('should exist',function(done){
@@ -11,124 +13,151 @@ describe('Account',function(){
   });
 
   it("should be able to get username",function(done){
-    AccountFactory.destroyAllAccounts();
-
-    let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(account){
       expect(account.getUsername()).toBe('tom');
       done();
-    },200);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to get password",function(done){
-    AccountFactory.destroyAllAccounts();
-    let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(account){
       expect(account.getPassword()).toBe('password');
       done();
-    },200);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to get email",function(done){
-    AccountFactory.destroyAllAccounts();
-    let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(account){
       expect(account.getEmail()).toBe('tom@gmail.com');
       done();
-    },200);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to get details",function(done){
-    AccountFactory.destroyAllAccounts();
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
     let details = {age: '50', reputation : '10'};
-    setTimeout(function(){
-      AccountFactory._setAccountDetails('tom',details);
-    },200);
-
-    setTimeout(function(){
-      expect(account.getDetails()).toBe(details);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return AccountFactory._changeAccountDetails(account,details);
+    })
+    .then(function(){
+      let comparison = Utility.debugCompare(details,account.getDetails(), 'should be able to get details',true);
+      expect(comparison).toBe(true);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to get money?",function(done){
-    AccountFactory.destroyAllAccounts();
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
     let money = 200;
-    setTimeout(function(){
-      AccountFactory._setMoney('tom',money);
-    },200);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return AccountFactory._changeAccountMoney(account,money);
+    })
+    .then(function(){
       expect(account.getMoney()).toBe(money);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to shallowCopy",function(done){
-    AccountFactory.destroyAllAccounts();
-
     let account1 = null;
     let account2 = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account1 = a;});
-      AccountFactory.createAccount('andy','pw2','andy@gmail.com',function(a){account2 = a;});
-    },100);
-
     let details = {age: '50', reputation : '10'};
     let money = 200;
-    setTimeout(function(){
-      AccountFactory._setMoney('andy',money);
-      AccountFactory._setAccountDetails('andy',details);
-    },200);
 
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return Promise.all([AccountFactory.createAccount('tom','password','tom@gmail.com'),
+                          AccountFactory.createAccount('andy','pw2','andy@gmail.com')])
+        .then(function(results){
+          account1 = results[0];
+          account2 = results[1];
+        });
+    })
+    .then(function(){
+      return Promise.all([AccountFactory._changeAccountMoney(account2,money),
+                          AccountFactory._changeAccountDetails(account2,details)]);
+    })
+    .then(function(){
       account1.shallowCopy(account2);
       expect(account1.getUsername()).toBe('andy');
       expect(account1.getPassword()).toBe('pw2');
       expect(account1.getEmail()).toBe('andy@gmail.com');
-      expect(account1.getDetails()).toBe(details);
+      expect(Utility.isEqual(account1.getDetails(),details)).toBe(true);
       expect(account1.getMoney()).toBe(money);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to shallowCopy a null account",function(done){
-    AccountFactory.destroyAllAccounts();
+    let account2 = null;
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(acc){
+      acc.shallowCopy(account2);
+      expect(acc.getUsername()).toBe(null);
+      done();
+    }).catch(function(error){
+      throw(error);
+    });
+  });
 
+  it("should be able to compare accounts",function(done){
     let account1 = null;
     let account2 = null;
+    let account3 = null;
 
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account1 = a;});
-    },100);
-
-    setTimeout(function(){
-      account1.shallowCopy(account2);
-      expect(account1).toBe(null);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return Promise.all([
+        AccountFactory.createAccount('tom','password','tom@gmail.com'),
+        AccountFactory.createAccount('to342m','pass123word','tom@324gmail.com'),
+        AccountFactory.createAccount('tom','password','tom@gmail.com')]);
+    }).then(function(results){
+      account1 = results[0];
+      account2 = results[1];
+      account3 = results[2];
+      expect(account1.equals(account3)).toBe(true);
+      expect(account1.equals(account2)).toBe(false);
       done();
-    },200);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to validate username",function(done){
@@ -194,81 +223,80 @@ describe('Account',function(){
   });
 
   it("should be able to change password",function(done){
-    AccountFactory.destroyAllAccounts();
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
-    setTimeout(function(){
-      account.changePassword('password','new password');
-    },200);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return account.changePassword('password','new password');
+    })
+    .then(function(){
       expect(account.getPassword()).toBe('new password');
       done();
-    },300);
+    })
+    .catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to change email",function(done){
-    AccountFactory.destroyAllAccounts();
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
-    setTimeout(function(){
-      account.changeEmail('new@gmail.com');
-    },200);
-
-    setTimeout(function(){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return account.changeEmail('new@gmail.com');
+    })
+    .then(function(){
       expect(account.getEmail()).toBe('new@gmail.com');
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to change details  ",function(done){
-    AccountFactory.destroyAllAccounts();
     let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
     let details = {asdf:'asdfs',sdfsad:'dafgh'};
-
-    setTimeout(function(){
-      account.changeDetails(details);
-    },200);
-
-    setTimeout(function(){
-      expect(account.getDetails()).toBe(details);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(acc){
+      account = acc;
+      return account.changeDetails(details);
+    })
+    .then(function(){
+      expect(Utility.isEqual(account.getDetails(),details)).toBe(true);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
   it("should be able to check password",function(done){
-    AccountFactory.destroyAllAccounts();
-    let account = null;
-    setTimeout(function(){
-      AccountFactory.createAccount('tom','password','tom@gmail.com',function(a){account = a;});
-    },100);
-
-    let resulta = false;
-    let resultb = false;
-
-    setTimeout(function(){
-      account.checkPassword('password',function(r){resulta = r;});
-      account.checkPassword('dasfs',function(r){resultb = r;});
-    },200);
-
-    setTimeout(function(){
-      expect(resulta).toBe(true);
-      expect(resultb).toBe(false);
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','password','tom@gmail.com');
+    })
+    .then(function(account){
+      expect(account.checkPassword('password')).toBe(true);
+      expect(account.checkPassword('dasfs')).toBe(false);
       done();
-    },300);
+    }).catch(function(error){
+      throw(error);
+    });
   });
 
-});
+  });
+}
+
+
+setTimeout(runTests,500);
 
 /*
   @should be able to get username
