@@ -140,22 +140,20 @@ describe('Account',function(){
   it("should be able to compare accounts",function(done){
     let account1 = null;
     let account2 = null;
-    let account3 = null;
 
     AccountFactory.destroyAllAccounts()
     .then(function(){
       return Promise.all([
         AccountFactory.createAccount('tom','password','tom@gmail.com'),
-        AccountFactory.createAccount('to342m','pass123word','tom@324gmail.com'),
-        AccountFactory.createAccount('tom','password','tom@gmail.com')]);
+        AccountFactory.createAccount('to342m','pass123word','tom@324gmail.com')]);
     }).then(function(results){
       account1 = results[0];
       account2 = results[1];
-      account3 = results[2];
-      expect(account1.equals(account3)).toBe(true);
+      expect(account1.equals(account1)).toBe(true);
       expect(account1.equals(account2)).toBe(false);
       done();
     }).catch(function(error){
+      console.log(error);
       throw(error);
     });
   });

@@ -58,8 +58,11 @@ describe('UserList',function(){
   it('should be able to logout',function(done){
     UserList.logoutAllUsers();
     let socket = {id : 4,socketData: 'data'};
-    AccountFactory.createAccount('tom','toms-password','toms-email').
-    then(function(acc){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','toms-password','toms-email');
+    })
+    .then(function(acc){
       return UserList.login('tom','toms-password',socket);
     })
     .then(function(loginResult){
@@ -78,8 +81,11 @@ describe('UserList',function(){
     UserList.logoutAllUsers();
     let socket = {id: 5, socketData: 'data'};
     let socket2 = {id: 4, socketData: 'otherData'};
-    AccountFactory.createAccount('tom','toms-password','toms-email').
-    then(function(acc){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','toms-password','toms-email');
+    })
+    .then(function(acc){
       return UserList.login('tom','toms-password',socket);
     })
     .then(function(loginResult){
@@ -96,8 +102,11 @@ describe('UserList',function(){
   it('should be able to get username from socket',function(done){
     UserList.logoutAllUsers();
     let socket = {id: 5, socketData: 'data'};
-    AccountFactory.createAccount('tom','toms-password','toms-email').
-    then(function(acc){
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom','toms-password','toms-email');
+    })
+    .then(function(acc){
       return UserList.login('tom','toms-password',socket);
     })
     .then(function(loginResult){
