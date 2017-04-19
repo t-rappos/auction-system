@@ -22,44 +22,45 @@ let accountId2 = 0;
       return ItemFactory.removeAllItems();
     })
     .then(()=>{
+      return ItemFactory.getAllItems();
+    })
+    .then((items)=>{
+      expect(items.length).toBe(0);
       return AccountFactory.createAccount('tom2', 'tom-password', 'tom@tom.tom');
     })
-    .then((account)=>{
-      accountId2 = account.getId();
+    .then((account2)=>{
+      accountId2 = account2.getId();
       done();
-    })
-    .catch(function(e){
-      console.log(e);
+    }).catch(function(err){
+      throw(err);
     });
   });
 
   it('should be able to create item',function(done){
     ItemFactory.removeAllItems()
     .then(() => {
-      return ItemFactory.createItem('broom handle', 'dusty', itemImageUrl, accountId);
+      return ItemFactory.createItem('broom handle', 'dusty',itemImageUrl, accountId);
     })
-    .then(item =>{
+    .then((item) =>{
       expect(item).toExist().toNotBe(null).toNotBe('undefined');
       expect(item.getName()).toBe('broom handle');
       return ItemFactory.getAllItems();
     })
-    .then(items=>{
+    .then((items)=>{
       expect(items.length).toBe(1);
       done();
-    })
-    .catch(function(e){
-      console.log(e);
-      throw(e);
+    }).catch(function(err){
+      throw(err);
     });
   });
 
   it('should be able to remove item',function(done){
     ItemFactory.removeAllItems()
     .then(() => {
-      return ItemFactory.createItem('broom handle', 'dusty', itemImageUrl, accountId);
+      return ItemFactory.createItem('broom handle', 'dusty',itemImageUrl, accountId);
     })
     .then(item=>{
-      return ItemFactory.deleteItem(item);
+      return ItemFactory.removeItem(item);
     })
     .then(()=>{
       return ItemFactory.getAllItems();
@@ -67,16 +68,15 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
-    })
-    .catch(function(e){
-      console.log(e);
+    }).catch(function(err){
+      throw(err);
     });
   });
 
   it('should be able to remove all items',function(done){
     ItemFactory.removeAllItems()
     .then(() => {
-      return Promise.all([ItemFactory.createItem('broom handle', 'dusty', itemImageUrl, accountId),
+      return Promise.all([ItemFactory.createItem('broom handle', 'dusty',itemImageUrl, accountId),
                           ItemFactory.createItem('broom handle2', 'dusty', itemImageUrl, accountId),
                           ItemFactory.createItem('broom handle3', 'dusty', itemImageUrl, accountId2)]);
     })
@@ -93,21 +93,20 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
-    })
-    .catch(function(e){
-      console.log(e);
+    }).catch(function(err){
+      throw(err);
     });
   });
 
   it('should be able to get account items',function(done){
     ItemFactory.removeAllItems()
     .then(() => {
-      return Promise.all([ItemFactory.createItem('broom handle', 'dusty', itemImageUrl, accountId),
+      return Promise.all([ItemFactory.createItem('broom handle', 'dusty',itemImageUrl, accountId),
                           ItemFactory.createItem('broom handle2', 'dusty', itemImageUrl, accountId),
                           ItemFactory.createItem('broom handle3', 'dusty', itemImageUrl, accountId2)]);
     })
     .then(()=>{
-      return ItemFactory.getAccountItems();
+      return ItemFactory.getAccountItems(accountId);
     })
     .then((items)=>{
       expect(items.length).toBe(2);
@@ -119,9 +118,8 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
-    })
-    .catch(function(e){
-      console.log(e);
+    }).catch(function(err){
+      throw(err);
     });
   });
 
@@ -131,9 +129,8 @@ let accountId2 = 0;
     })
     .then(function(){
       done();
-    })
-    .catch(function(e){
-      console.log(e);
+    }).catch(function(err){
+      throw(err);
     });
   });
 });
