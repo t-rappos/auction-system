@@ -4,10 +4,9 @@ let AccountFactory = require('../lib/accountFactory.js');
 
 let DB = require('../lib/serverDB.js');
 
-console.log("about to initialise account_factory_test");
+console.log("about to initialise database");
 DB.initialise().then(function(){
-  console.log('account_factory_test initialise');
-  AccountFactory.initialise();
+  console.log('dn initialise');
 });
 
 function runTests(){
