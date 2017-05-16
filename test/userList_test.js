@@ -17,8 +17,6 @@ describe('UserList',function(){
       return AccountFactory.destroyAllAccounts();
     }).then(function(){
       done();
-    }).catch(function(e){
-      throw e;
     });
   });
 
@@ -71,9 +69,6 @@ describe('UserList',function(){
     }).then(function(){
       expect(UserList.getNumberOfUsers()).toBe(0);
       done();
-    }).catch(function(e){
-      console.log(e);
-      throw e;
     });
   });
 
@@ -115,10 +110,6 @@ describe('UserList',function(){
     })
     .then(function(){
       done();
-    })
-    .catch(function(e){
-      console.log(e);
-      throw e;
     });
   });
 

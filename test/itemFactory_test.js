@@ -31,8 +31,6 @@ let accountId2 = 0;
     .then((account2)=>{
       accountId2 = account2.getId();
       done();
-    }).catch(function(err){
-      throw(err);
     });
   });
 
@@ -49,8 +47,6 @@ let accountId2 = 0;
     .then((items)=>{
       expect(items.length).toBe(1);
       done();
-    }).catch(function(err){
-      throw(err);
     });
   });
 
@@ -68,8 +64,6 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
-    }).catch(function(err){
-      throw(err);
     });
   });
 
@@ -93,8 +87,6 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
-    }).catch(function(err){
-      throw(err);
     });
   });
 
@@ -118,8 +110,6 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
-    }).catch(function(err){
-      throw(err);
     });
   });
 
@@ -129,8 +119,6 @@ let accountId2 = 0;
     })
     .then(function(){
       done();
-    }).catch(function(err){
-      throw(err);
     });
   });
 });

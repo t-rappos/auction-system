@@ -45,8 +45,6 @@ describe('MessageFactory',function(){
       .then(function(messages){
         expect(messages.length).toBe(0);
         done();
-      }).catch(function(e){
-        console.log(e);
       });
   });
 
@@ -68,9 +66,6 @@ describe('MessageFactory',function(){
     .then(function(messages){
       expect(messages.length).toBe(0);
       done();
-    }).catch(function(e){
-      console.log(e);
-      throw e;
     });
   });
 
@@ -100,9 +95,6 @@ describe('MessageFactory',function(){
       expect(tomsMessages.length).toBe(0);
       //expect(spy).toHaveBeenCalled();
       done();
-    }).catch(function(e){
-      console.log(e);
-      throw e;
     });
   });
 
@@ -114,9 +106,6 @@ describe('MessageFactory',function(){
       expect(msg.isRead()).toBe(true);
       expect(msg._setRead).toHaveBeenCalled();
       done();
-    }).catch(function(e){
-      console.log(e);
-      throw e;
     });
   });
 

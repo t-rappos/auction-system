@@ -61,8 +61,6 @@ describe('AccountFactory',function(){
       expect(account.getEmail()).toBe(email);
       expect(typeof account.getDetails()).toBe('object');
       done();
-    }).catch(function(error){
-      throw(error);
     });
   });
 
@@ -86,8 +84,6 @@ describe('AccountFactory',function(){
     .then(function(acc){
       expect(acc).toBe(null);
       done();
-    }).catch(function(error){
-      throw(error);
     });
   });
 
@@ -109,8 +105,6 @@ describe('AccountFactory',function(){
       expect(account.getPassword()).toBe(dbAccount.getPassword());
       expect(account.getEmail()).toBe(dbAccount.getEmail());
       done();
-    }).catch(function(error){
-      throw(error);
     });
   });
 
@@ -128,8 +122,6 @@ describe('AccountFactory',function(){
     .then(function(accounts){
       expect(accounts.length).toBe(2);
       done();
-    }).catch(function(error){
-      throw(error);
     });
   });
 
@@ -146,8 +138,6 @@ describe('AccountFactory',function(){
     .then(function(){
       expect(account.getPassword()).toBe('newPassword');
       done();
-    }).catch(function(err){
-      throw(err);
     });
   });
 
@@ -169,8 +159,6 @@ describe('AccountFactory',function(){
     .then(function(list){
       expect(list.length).toBe(5);
       done();
-    }).catch(function(error){
-      throw(error);
     });
   });
 

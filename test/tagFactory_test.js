@@ -12,12 +12,10 @@ describe('TagFactory',function(){
   it("should be able to create tag",function(done){
     Promise.all([TagFactory.createTag("value"),
                 TagFactory.createTag("quantity"),
-                TagFactory.createTag("quality"))
+                TagFactory.createTag("quality")])
     .then((results)=>{
       expect(results[0]).toExist().toNotBe(null).toNotBe('');
       done();
-    }).catch(function(error){
-      throw(error);
     });
   });
 
@@ -107,9 +105,9 @@ describe('TagFactory',function(){
     TagFactory.getTag("quality").then((tag)=>{
       return TagFactory.getTagValue(tag.getId(),itemId);
     })
-    .then((tagValue=>{
+    .then((tagValue)=>{
       expect(tagValue).toExist().toNotBe(null).toNotBe('');
-      expect(tagValue.getTag().getName().toBe(tag.getName());
+      expect(tagValue.getTag().getName()).toBe(tag.getName());
       done();
     });
   });
@@ -127,7 +125,7 @@ describe('TagFactory',function(){
     .then((tagValue3)=>{
       return TagFactory.getItemTagValues(itemId);
     })
-    .then((itemTagValues=>{
+    .then((itemTagValues)=>{
       expect(itemTagValues.length).toBe(2);
       expect(itemTagValues[1].getValue()).toBe('10');
       done();

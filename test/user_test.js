@@ -41,9 +41,6 @@ describe('User',function(){
     })
     .then(function(){
       done();
-    })
-    .catch(function(error){
-      throw error;
     });
   });
 });
