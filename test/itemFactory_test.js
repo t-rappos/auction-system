@@ -12,7 +12,6 @@ let accountId = 0;
 let accountId2 = 0;
 
   it('should exist',function(done){
-    expect(ItemFactory).toExist();
     AccountFactory.destroyAllAccounts()
     .then(()=>{
       return AccountFactory.createAccount('tom', 'tom-password', 'tom@tom.tom');
@@ -31,6 +30,8 @@ let accountId2 = 0;
     .then((account2)=>{
       accountId2 = account2.getId();
       done();
+    }).catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -47,6 +48,9 @@ let accountId2 = 0;
     .then((items)=>{
       expect(items.length).toBe(1);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -64,6 +68,8 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
+    }).catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -87,6 +93,8 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
+    }).catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -110,6 +118,8 @@ let accountId2 = 0;
     .then(items=>{
       expect(items.length).toBe(0);
       done();
+    }).catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -119,6 +129,8 @@ let accountId2 = 0;
     })
     .then(function(){
       done();
+    }).catch(function(e){
+      console.log(e);throw(e);
     });
   });
 });

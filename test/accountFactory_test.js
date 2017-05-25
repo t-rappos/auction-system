@@ -39,8 +39,9 @@ describe('AccountFactory',function(){
       expect(results[0].length).toBe(0); //number of accounts
       expect(results[1]).toBe(null); //no account named tom
       done();
-    }).catch(function(error){
-      console.log(error);
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -61,6 +62,9 @@ describe('AccountFactory',function(){
       expect(account.getEmail()).toBe(email);
       expect(typeof account.getDetails()).toBe('object');
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -84,6 +88,9 @@ describe('AccountFactory',function(){
     .then(function(acc){
       expect(acc).toBe(null);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -105,6 +112,9 @@ describe('AccountFactory',function(){
       expect(account.getPassword()).toBe(dbAccount.getPassword());
       expect(account.getEmail()).toBe(dbAccount.getEmail());
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -122,6 +132,9 @@ describe('AccountFactory',function(){
     .then(function(accounts){
       expect(accounts.length).toBe(2);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -138,6 +151,9 @@ describe('AccountFactory',function(){
     .then(function(){
       expect(account.getPassword()).toBe('newPassword');
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -159,6 +175,9 @@ describe('AccountFactory',function(){
     .then(function(list){
       expect(list.length).toBe(5);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 

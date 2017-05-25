@@ -3,6 +3,14 @@ let UserList = require('../lib/userList.js');
 let AccountFactory = require('../lib/accountFactory.js');
 
 describe('UserList',function(){
+
+  it('should be able to do startup cleanup', function(done){
+    AccountFactory.destroyAllAccounts()
+    .then(()=>{
+      done();
+    });
+  });
+
   it('should be able to login with correct details',function(done){
     UserList.logoutAllUsers();
     let socket = {id : 4, socketData: 'data'};
@@ -17,6 +25,10 @@ describe('UserList',function(){
       return AccountFactory.destroyAllAccounts();
     }).then(function(){
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
@@ -34,6 +46,10 @@ describe('UserList',function(){
       done();
       console.log(e);
       return AccountFactory.destroyAllAccounts();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
@@ -50,6 +66,10 @@ describe('UserList',function(){
     })
     .then(function(){
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
@@ -69,6 +89,10 @@ describe('UserList',function(){
     }).then(function(){
       expect(UserList.getNumberOfUsers()).toBe(0);
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
@@ -91,6 +115,10 @@ describe('UserList',function(){
       return AccountFactory.destroyAllAccounts();
     }).then(function(){
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
@@ -110,6 +138,10 @@ describe('UserList',function(){
     })
     .then(function(){
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 

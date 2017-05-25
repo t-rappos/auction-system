@@ -41,6 +41,10 @@ describe('User',function(){
     })
     .then(function(){
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 });

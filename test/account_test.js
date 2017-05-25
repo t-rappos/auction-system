@@ -20,6 +20,9 @@ describe('Account',function(){
     .then(function(account){
       expect(account.getUsername()).toBe('tom');
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -31,6 +34,9 @@ describe('Account',function(){
     .then(function(account){
       expect(account.getPassword()).toBe('password');
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -42,6 +48,9 @@ describe('Account',function(){
     .then(function(account){
       expect(account.getEmail()).toBe('tom@gmail.com');
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -60,6 +69,9 @@ describe('Account',function(){
       let comparison = Utility.debugCompare(details,account.getDetails(), 'should be able to get details',true);
       expect(comparison).toBe(true);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -77,6 +89,9 @@ describe('Account',function(){
     .then(function(){
       expect(account.getMoney()).toBe(money);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -107,6 +122,9 @@ describe('Account',function(){
       expect(Utility.isEqual(account1.getDetails(),details)).toBe(true);
       expect(account1.getMoney()).toBe(money);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -120,6 +138,9 @@ describe('Account',function(){
       acc.shallowCopy(account2);
       expect(acc.getUsername()).toBe(null);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -138,6 +159,9 @@ describe('Account',function(){
       expect(account1.equals(account1)).toBe(true);
       expect(account1.equals(account2)).toBe(false);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -216,6 +240,9 @@ describe('Account',function(){
     .then(function(){
       expect(account.getPassword()).toBe('new password');
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -232,6 +259,9 @@ describe('Account',function(){
     .then(function(){
       expect(account.getEmail()).toBe('new@gmail.com');
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -249,6 +279,9 @@ describe('Account',function(){
     .then(function(){
       expect(Utility.isEqual(account.getDetails(),details)).toBe(true);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
@@ -261,6 +294,9 @@ describe('Account',function(){
       expect(account.checkPassword('password')).toBe(true);
       expect(account.checkPassword('dasfs')).toBe(false);
       done();
+    })
+    .catch(function(e){
+      console.log(e);throw(e);
     });
   });
 
