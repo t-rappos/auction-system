@@ -13,42 +13,53 @@ describe('listing factory',function(){
 
   it("should exist",function(done){
     expect(ListingFactory).toExist();
-    done();
+    ListingFactory.cancelAllListings().then(()=>{
+      done();
+    });
   });
 
   it('should be able to do start up',function(done){
+
     AccountFactory.createAccount('lftom', 'lfpassword', 'lftom@gmail.com')
     .then((account)=>{
+
       testAccountId = account.getId();
+      console.log("Test account id = "+testAccountId);
       return ItemFactory.createItem('lfTestItemName', 'itemDesc', 'www.itemUrl.com', testAccountId);
     })
     .then((item)=>{
+
       testItemId = item.getId();
+      console.log("Test item id = "+testItemId);
     })
     .then(()=>{
+
       return ItemFactory.createItem('lfTestItemName2', 'itemDesc2', 'www.itemUrl.com2', testAccountId);
     })
     .then((item)=>{
+
       testItemId2 = item.getId();
       done();
     })
     .catch((e)=>{
+
       console.log(e);
       throw(e);
     });
   });
 
   it("should be able to add listing bid",function(done){
-    ListingFactory.createListing(testItemId, 100, 3600*24, 'bid')
+    //(itemId, startPrice, listTime, type, sellerId){
+    ListingFactory.createListing(testItemId, 100, 3600*24, 'bid', testAccountId)
     .then((listing)=>{
       expect(listing).toNotBe(null).toNotBe(undefined);
-      expect(listing.getItem().getId()).toBe(testItemId);
+      expect(listing.getItemId()).toBe(testItemId);
       expect(listing.getType()).toBe('bid');
-      expect(listing.getStartPrice()).toBe(100);
-      expect(listing.getCreateTime()).toNotBe(null).toNotBe(undefined);
-      expect(listing.getEndTime()).toNotBe(null).toNotBe(undefined);
+      expect(listing.getStartPrice()).toBe('100');
+      expect(listing.getCreationDate()).toNotBe(null).toNotBe(undefined);
+      expect(listing.getExpiryDate()).toNotBe(null).toNotBe(undefined);
       expect(listing.getSellerId()).toBe(testAccountId);
-      expect(listing.getWinnerId()).toBe(null);
+      expect(listing.isSold()).toBe(false);
       expect(listing.getId()).toNotBe(null);
       testListingId = listing.getId();
       done();
@@ -61,12 +72,12 @@ describe('listing factory',function(){
 
 
   it("should be able to add listing buyout",function(done){
-    ListingFactory.createListing(testItemId2, 100, 3600*24, 'buyout')
+    ListingFactory.createListing(testItemId2, 100, 3600*24, 'buyout', testAccountId)
     .then((listing)=>{
       expect(listing).toNotBe(null).toNotBe(undefined);
-      expect(listing.getItem().getId()).toBe(testItemId);
+      expect(listing.getItemId()).toBe(testItemId2);
       expect(listing.getType()).toBe('buyout');
-      expect(listing.getStartPrice()).toBe(100);
+      expect(listing.getStartPrice()).toBe('100');
       expect(listing.getCreationDate()).toNotBe(null).toNotBe(undefined);
       expect(listing.getExpiryDate()).toNotBe(null).toNotBe(undefined);
       expect(listing.getSellerId()).toBe(testAccountId);
@@ -79,13 +90,6 @@ describe('listing factory',function(){
       console.log(e);
       throw(e);
     });
-  });
-
-  it("shouldnt be able to list twice",function(done){
-    expect(()=>{
-      ListingFactory.createListing(testItemId2, 100, 3600*24, 'buyout');
-    }).toThrow(/duplicate/);
-    done();
   });
 
   it("should be able to get listings",function(done){
@@ -120,7 +124,7 @@ describe('listing factory',function(){
     ListingFactory.getAccountListings(testAccountId)
     .then((listings)=>{
       expect(listings.length).toBe(2);
-      return ListingFactory.cancelListing(testListingId);
+      return ListingFactory.cancelListing(testItemId, testListingId);
     })
     .then(()=>{
       return ListingFactory.getAccountListings(testAccountId);
@@ -152,7 +156,7 @@ describe('listing factory',function(){
   });
 
   it("should be able to cancel all user listings",function(done){
-    ListingFactory.createListing(testItemId, 100, 3600*24, 'bid')
+    ListingFactory.createListing(testItemId, 100, 3600*24, 'bid', testAccountId)
     .then(()=>{
       return ListingFactory.getAccountListings(testAccountId);
     })
