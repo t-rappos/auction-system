@@ -2,6 +2,7 @@ let expect = require('expect');
 let ListingFactory = require('../lib/listingFactory.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
+let Utility = require('../lib/utility.js');
 
 let testItemId = null;
 let testItemId2 = null;
@@ -175,6 +176,46 @@ describe('listing factory',function(){
       console.log(e);
       throw(e);
     });
+  });
+
+  let testListing = null;
+  it("should expire", function(done){
+    ListingFactory.createListing(testItemId, 100, 1, 'bid', testAccountId)
+    .then((l)=>{
+      testListing = l;
+      expect(testListing.hasExpired()).toBe(false);
+      return Utility.delay(1500);
+    }).then(()=>{
+      expect(testListing.hasExpired()).toBe(true);
+    })
+    .then(()=>{
+      done();
+    });
+  });
+
+  it("should not be able to be sell an expired listing", function(done){
+    expect(()=>{
+      testListing.setSold();
+    }).toThrow(/expired/);
+    done();
+  });
+  testListing=null;
+
+  it("should be able to be set as sold", function(done){
+    let listing = null;
+    ListingFactory.cancelAllListings()
+    .then(()=>{
+      return ListingFactory.createListing(testItemId, 100, 10, 'bid', testAccountId);
+    })
+    .then((l)=>{
+      listing = l;
+      listing.setSold();
+    })
+    .then(()=>{
+      expect(listing.isSold()).toBe(true, 'isSold should be true');
+      expect(listing.hasExpired()).toBe(true, 'hasExpired should be true');
+    });
+    done();
   });
 
   it("should be able to do shutdown",function(done){
