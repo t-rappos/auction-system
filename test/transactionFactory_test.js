@@ -19,6 +19,7 @@ describe('TransactionFactory',function(){
     AccountFactory.createAccount('tftom2', 'password', 'tftom@gmail.com2', '1000')
     .then((account)=>{
       testAccountId2 = account.getId();
+      expect(testAccountId2).toBe(account.getId());
       return AccountFactory.createAccount('tftom', 'password', 'tftom@gmail.com', '1000');
     })
     .then((account)=>{
@@ -31,7 +32,6 @@ describe('TransactionFactory',function(){
     })
     .then((listing)=>{
       testListingId = listing.getId();
-      done();
     })
     .then(()=>{
       return ItemFactory.createItem('tfTestItemName2', 'itemDesc2', 'www.itemUrl.com2', testAccountId);

@@ -20,30 +20,24 @@ describe('listing factory',function(){
   });
 
   it('should be able to do start up',function(done){
-
     AccountFactory.createAccount('lftom', 'lfpassword', 'lftom@gmail.com')
     .then((account)=>{
-
       testAccountId = account.getId();
       console.log("Test account id = "+testAccountId);
       return ItemFactory.createItem('lfTestItemName', 'itemDesc', 'www.itemUrl.com', testAccountId);
     })
     .then((item)=>{
-
       testItemId = item.getId();
       console.log("Test item id = "+testItemId);
     })
     .then(()=>{
-
       return ItemFactory.createItem('lfTestItemName2', 'itemDesc2', 'www.itemUrl.com2', testAccountId);
     })
     .then((item)=>{
-
       testItemId2 = item.getId();
       done();
     })
     .catch((e)=>{
-
       console.log(e);
       throw(e);
     });
@@ -180,42 +174,80 @@ describe('listing factory',function(){
 
   let testListing = null;
   it("should expire", function(done){
-    ListingFactory.createListing(testItemId, 100, 1, 'bid', testAccountId)
+    ListingFactory.createListing(testItemId, 100, 1500/*ms*/, 'bid', testAccountId)
     .then((l)=>{
       testListing = l;
-      expect(testListing.hasExpired()).toBe(false);
-      return Utility.delay(1500);
+      expect(testListing.hasExpired()).toBe(false, "should start not expired");
+      return Utility.delay(500);
     }).then(()=>{
-      expect(testListing.hasExpired()).toBe(true);
+      expect(testListing.hasExpired()).toBe(false, "shouldnt expire early");
+      return Utility.delay(1000);
     })
     .then(()=>{
+      expect(testListing.hasExpired()).toBe(true, "should expire after date");
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
   it("should not be able to be sell an expired listing", function(done){
-    expect(()=>{
-      testListing.setSold();
-    }).toThrow(/expired/);
-    done();
+    testListing.setSold()
+    .then(()=>{
+
+    })
+    .catch((e)=>{
+      expect(testListing.hasExpired()).toBe(true);
+      done();
+      console.log(e);
+      console.throw(e);
+    });
+  });
+
+
+  it("should be able to get listing", function(done){
+    ListingFactory.getListing(testListing.getId())
+    .then((listing)=>{
+      expect(listing).toExist().toNotBe(null);
+      expect(listing.getId()).toBe(testListing.getId());
+      done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
+    });
   });
   testListing=null;
 
   it("should be able to be set as sold", function(done){
-    let listing = null;
+    let tlisting;
+
     ListingFactory.cancelAllListings()
     .then(()=>{
-      return ListingFactory.createListing(testItemId, 100, 10, 'bid', testAccountId);
+      return ListingFactory.getAllListings();
     })
-    .then((l)=>{
-      listing = l;
-      listing.setSold();
+    .then((listings)=>{
+      expect(listings.length).toBe(0, "listings should have been removed");
+      return ListingFactory.createListing(testItemId, 100, 2000, 'bid', testAccountId);
+    })
+    .then((listing)=>{
+      expect(listing.isSold()).toBe(false, 'shouldnt be sold initially');
+      tlisting = listing;
+      return listing.setSold();
     })
     .then(()=>{
-      expect(listing.isSold()).toBe(true, 'isSold should be true');
-      expect(listing.hasExpired()).toBe(true, 'hasExpired should be true');
+      expect(tlisting.isSold()).toBe(true, 'should have been sold');
+      return ListingFactory.cancelAllListings();
+    })
+    .then(()=>{
+      done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
-    done();
   });
 
   it("should be able to do shutdown",function(done){
