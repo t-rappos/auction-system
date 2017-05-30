@@ -2,15 +2,22 @@ var expect = require('expect');
 let UserList = require('../lib/userList.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ListingFactory = require('../lib/listingFactory.js');
+let TransactionFactory = require('../lib/transactionFactory.js');
 
 describe('UserList',function(){
 
   it('should be able to do startup cleanup', function(done){
-    ListingFactory.cancelAllListings()
+    TransactionFactory.removeAllTransactions()
     .then(()=>{
+      console.log("after remove trans");
+      return ListingFactory.cancelAllListings();
+    })
+    .then(()=>{
+      console.log("after remove listings");
       return AccountFactory.destroyAllAccounts();
     })
     .then(()=>{
+      console.log("after remove accounts");
       done();
     })
     .catch((e)=>{

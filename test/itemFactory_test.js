@@ -3,6 +3,8 @@ var expect = require('expect');
 //let Item = require('../lib/item.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
+let TransactionFactory = require('../lib/transactionFactory.js');
+let ListingFactory = require('../lib/listingFactory.js');
 
 const itemImageUrl = 'https://members.dd-on.jp/common/img/item/item/bb8a558c6b1f1a1cf12e08c49dd0a17d.png';
 
@@ -12,7 +14,15 @@ let accountId = 0;
 let accountId2 = 0;
 
   it('should exist',function(done){
-    AccountFactory.destroyAllAccounts()
+    TransactionFactory.removeAllTransactions()
+    .then(()=>{
+      console.log("ItemFactory: post Remove All Transactions !");
+      return ListingFactory.cancelAllListings();
+    })
+    .then(()=>{
+      console.log("ItemFactory: post cancel All listings !");
+      return AccountFactory.destroyAllAccounts();
+    })
     .then(()=>{
       return AccountFactory.createAccount('tom', 'tom-password', 'tom@tom.tom');
     })
