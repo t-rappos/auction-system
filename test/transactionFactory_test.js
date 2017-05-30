@@ -16,31 +16,38 @@ let testBuyoutId = null;
 describe('TransactionFactory',function(){
   it('should be able to do intial cleanup', function(done){
     console.log("TODO: Implement account factory construction with money");
+
     AccountFactory.createAccount('tftom2', 'password', 'tftom@gmail.com2', '1000')
     .then((account)=>{
+      expect(account).toExist('account');
       testAccountId2 = account.getId();
       expect(testAccountId2).toBe(account.getId());
       return AccountFactory.createAccount('tftom', 'password', 'tftom@gmail.com', '1000');
     })
     .then((account)=>{
+      expect(account).toExist('account2');
       testAccountId = account.getId();
       return ItemFactory.createItem('tfTestItemName', 'itemDesc', 'www.itemUrl.com', testAccountId);
     })
     .then((item)=>{
+      expect(item).toExist('item');
       testItemId = item.getId();
       return ListingFactory.createListing(testItemId, 100, 3600*24, 'bid', testAccountId);
     })
     .then((listing)=>{
+      expect(listing).toExist('listing');
       testListingId = listing.getId();
     })
     .then(()=>{
       return ItemFactory.createItem('tfTestItemName2', 'itemDesc2', 'www.itemUrl.com2', testAccountId);
     })
     .then((item)=>{
+      expect(item).toExist('item2');
       testItemId2 = item.getId();
       return ListingFactory.createListing(testItemId2, 100, 3600*24, 'bid', testAccountId);
     })
     .then((listing)=>{
+      expect(listing).toExist('listing');
       testListingId2 = listing.getId();
       done();
     })
@@ -55,70 +62,84 @@ describe('TransactionFactory',function(){
     done();
   });
 
-  it("should be able to create bid for listing",function(done){
+  it("should be able to create transaction for listing",function(done){
     let amount = '100';
-    ListingFactory.createBid(amount, testAccountId, testListingId)
+    TransactionFactory.createTransaction(amount, testAccountId, testListingId)
     .then((bid)=>{
       testBidId = bid.getId();
-      expect(bid.getId()).toNotBe(null);
-      expect(bid.getPriorBidId()).toBe(null);
-      expect(bid.getAmount()).toBe(amount);
-      expect(bid.getCreationDate()).toNotBe(null);
-      expect(bid.getBidderId()).toBe(testAccountId);
-      expect(bid.getListingId()).toBe(testListingId);
-      expect(bid.isPending()).toBe(true);
-      expect(bid.isSuccessful()).toBe(false);
+      expect(bid.getId()).toNotBe(null, "id failed");
+      expect(bid.getAmount()).toBe(amount, "amount failed");
+      expect(bid.getCreationDate()).toNotBe(null, 'creation_date failed');
+      expect(bid.getBidderId()).toBe(testAccountId, 'bidder_id failed');
+      expect(bid.getListingId()).toBe(testListingId, 'listing id failed');
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
   it("should be able to create buyout for listing",function(done){
     let amount = '100';
-    ListingFactory.createBuyout(amount, testAccountId, testListingId2)
+    TransactionFactory.createTransaction(amount, testAccountId, testListingId2)
     .then((bid)=>{
-      testBidId = bid.getId();
-      expect(bid.getId()).toNotBe(null);
-      expect(bid.getPriorBidId()).toBe(null);
-      expect(bid.getAmount()).toBe(amount);
-      expect(bid.getCreationDate()).toNotBe(null);
-      expect(bid.getBidderId()).toBe(testAccountId);
-      expect(bid.getListingId()).toBe(testListingId2);
-      expect(bid.isPending()).toBe(false);
-      expect(bid.isSuccessful()).toBe(true);
+      testBuyoutId = bid.getId();
+      expect(bid.getId()).toNotBe(null, "id failed");
+      expect(bid.getAmount()).toBe(amount, "amount failed");
+      expect(bid.getCreationDate()).toNotBe(null, 'creation_date failed');
+      expect(bid.getBidderId()).toBe(testAccountId, 'bidder_id failed');
+      expect(bid.getListingId()).toBe(testListingId2, 'listing id failed');
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
   it("should be able to get all transactions", function(done){
-    ListingFactory.getAllTransactions().then((transactions)=>{
-      expect(transactions.length).toBe(2);
+    TransactionFactory.getAllTransactions().then((transactions)=>{
+      expect(transactions.length).toBe(2, 'should have 2 transactions');
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
   it("should be able to remove bid / buyout",function(done){
-    ListingFactory.removeTransaction(testBidId)
-    .then(ListingFactory.removeTransaction(testBuyoutId))
-    .then(ListingFactory.getAllTransactions())
+    TransactionFactory.removeTransaction(testBidId)
+    .then(()=>{return TransactionFactory.removeTransaction(testBuyoutId);})
+    .then(()=>{return TransactionFactory.getAllTransactions();})
     .then((transactions)=>{
-      expect(transactions.length).toBe(0);
+      expect(transactions.length).toBe(0, 'should have 0 transactions');
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
   it("should be able to remove all bids / buyout",function(done){
     let amount = '100';
-    ListingFactory.createBid(amount, testAccountId, testListingId)
-    .then(ListingFactory.createBuyout(amount, testAccountId, testListingId2))
-    .then(ListingFactory.getAllTransactions())
+    TransactionFactory.createTransaction(amount, testAccountId, testListingId)
+    .then(()=>{return TransactionFactory.createTransaction(amount, testAccountId, testListingId2);})
+    .then(()=>{return TransactionFactory.getAllTransactions();})
     .then((transactions)=>{
-      expect(transactions.length).toBe(2);
+      expect(transactions.length).toBe(2, 'should have 2 transactions');
     })
-    .then(ListingFactory.removeAllTransactions())
-    .then(ListingFactory.getAllTransactions())
+    .then(()=>{return TransactionFactory.removeAllTransactions();})
+    .then(()=>{return TransactionFactory.getAllTransactions();})
     .then((transactions)=>{
-      expect(transactions.length).toBe(0);
+      expect(transactions.length).toBe(0, 'should have 0 transactions');
       done();
+    })
+    .catch((e)=>{
+      console.log(e);
+      throw(e);
     });
   });
 
@@ -146,7 +167,7 @@ describe('TransactionFactory',function(){
     it("should be able to undo buyout", function(done){done();});
   });
 
-  it('should be able to do shut cleanup', function(done){
+  it('should be able to do shutdown cleanup', function(done){
     TransactionFactory.removeAllTransactions()
     .then(ListingFactory.cancelAllListings())
     .then(ItemFactory.removeAllItems())
