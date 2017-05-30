@@ -1,5 +1,5 @@
 let expect = require('expect');
-let TransactionFactory = require('../lib/TransactionFactory.js');
+let TransactionFactory = require('../lib/transactionFactory.js');
 let ListingFactory = require('../lib/listingFactory.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
