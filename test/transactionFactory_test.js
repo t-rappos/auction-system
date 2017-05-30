@@ -66,7 +66,7 @@ describe('TransactionFactory',function(){
   });
 
   it("should be able to create transaction for listing",function(done){
-    let amount = '100';
+    let amount = 100;
     TransactionFactory.createTransaction(amount, testAccountId, testListingId)
     .then((bid)=>{
       testBidId = bid.getId();
@@ -84,7 +84,7 @@ describe('TransactionFactory',function(){
   });
 
   it("should be able to create buyout for listing",function(done){
-    let amount = '100';
+    let amount = 100;
     TransactionFactory.createTransaction(amount, testAccountId, testListingId2)
     .then((bid)=>{
       testBuyoutId = bid.getId();
@@ -170,7 +170,7 @@ describe('TransactionFactory',function(){
       let acc2 = null;
       let item = null;
       let listing = null;
-      //let trans = null;
+      let trans = null;
       let acc1Items = null;
       let acc2Items = null;
       let acc1Money = null;
@@ -191,24 +191,36 @@ describe('TransactionFactory',function(){
         //TODO: buyoutListing changes the state of the accounts, thus it invalidates the above account vars
         //find a way to make this obvious or nicer...
         //or force refresh after this somehow...
+        //same issue with listing
+        //or make buyoutListing take (buyerAccount, sellerAccount, listing) instead of ids to keep reference
+        //constant
         return TransactionFactory.buyoutListing(acc2.getId(), listing.getId());
       })
       .then((t)=>{
+        trans = t;
         return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
                             ItemFactory.getAccountItems(acc2.getId()),
                             AccountFactory.getAccountFromId(acc1.getId()),
-                            AccountFactory.getAccountFromId(acc2.getId())]);
+                            AccountFactory.getAccountFromId(acc2.getId()),
+                            ListingFactory.getListing(listing.getId())]);
       })
       .then((results)=>{
         acc1Items = results[0];
         acc2Items = results[1];
         acc1Money = results[2].getMoney();
         acc2Money = results[3].getMoney();
+        listing = results[4];
         expect(acc1Items.length).toBe(0, 'seller should have no items');
         expect(acc2Items.length).toBe(1, 'buyer should have item');
         expect(acc2Items[0].getId()).toBe(item.getId(),'item id should be correct');
         expect(acc1Money).toBe(1100, 'seller should have 1100 money not : ' + acc1Money);
         expect(acc2Money).toBe(900, 'buyer should have 900, not : '+acc2Money);
+
+        /*we're losing the listing reference*/
+        expect(listing.isSold()).toBe(true, 'listing should be sold');
+        expect(trans.getAmount()).toBe(100, 'transaction amount should be correct, not :' + trans.getAmount());
+        expect(trans.getBidderId()).toBe(acc2.getId(), 'trans bidder id should be correct, not : '+ trans.getBidderId());
+
         done();
       })
       .catch((e)=>{
