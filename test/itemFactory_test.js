@@ -35,12 +35,14 @@ let accountId2 = 0;
     });
   });
 
+  let testItemId =null;
   it('should be able to create item',function(done){
     ItemFactory.removeAllItems()
     .then(() => {
       return ItemFactory.createItem('broom handle', 'dusty',itemImageUrl, accountId);
     })
     .then((item) =>{
+      testItemId = item.getId();
       expect(item).toExist().toNotBe(null).toNotBe('undefined');
       expect(item.getName()).toBe('broom handle');
       return ItemFactory.getAllItems();
@@ -53,6 +55,29 @@ let accountId2 = 0;
       console.log(e);throw(e);
     });
   });
+
+  it('should be able to transfer item', function(done){
+    ItemFactory.getAccountItems(accountId).
+    then((items)=>{
+      expect(items.length).toBe(1, 'giver has item');
+      expect(items[0].getId()).toBe(testItemId, 'item is correct id');
+      return ItemFactory.transferItem(testItemId, accountId2);
+    })
+    .then(()=>{
+      return Promise.all([ItemFactory.getAccountItems(accountId),
+        ItemFactory.getAccountItems(accountId2)]);
+    })
+    .then((results)=>{
+      expect(results[0].length).toBe(0, 'giver has no items');
+      expect(results[1].length).toBe(1, 'recipient has item');
+      expect(results[1][0].getId()).toBe(testItemId, 'item is correct id 2');
+      done();
+    }).catch((e)=>{
+      console.log(e);
+      throw(e);
+    });
+  });
+  testItemId =null;
 
   it('should be able to remove item',function(done){
     ItemFactory.removeAllItems()
