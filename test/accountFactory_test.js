@@ -14,6 +14,7 @@ function runTests(){
 describe('AccountFactory',function(){
 
   it('should exist',function(done){
+    AccountFactory.enableDebug();
     expect(AccountFactory).toExist();
     done();
   });
@@ -181,6 +182,36 @@ describe('AccountFactory',function(){
     });
   });
 
+  it("should cache accounts, and only store one", function(done){
+    let account = null;
+    let accountCopy = null;
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      return AccountFactory.createAccount('tom1', 'password', 'tom@gmail.com');
+    })
+    .then((acc)=>{
+      account = acc;
+      return AccountFactory.getAccountFromId(account.getId());
+    })
+    .then((acc2)=>{
+      accountCopy = acc2;
+      return accountCopy.changeMoney(100);
+    })
+    .then(()=>{
+      expect(accountCopy.getMoney()).toBe(account.getMoney(),
+      "both account references should have the same amount of money");
+      done();
+      AccountFactory.disableDebug();
+    })
+    .then(()=>{
+      return AccountFactory.destroyAllAccounts();
+    })
+    .catch((e)=>{
+      console.log(e);
+      AccountFactory.disableDebug();
+      throw(e);
+    });
+  });
   /* @ = tested
   @should be able to destroy all accounts
   @should be able to create an account

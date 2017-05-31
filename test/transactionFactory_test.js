@@ -15,8 +15,6 @@ let testBuyoutId = null;
 
 describe('TransactionFactory',function(){
   it('should be able to do intial cleanup', function(done){
-    console.log("TODO: Implement account factory construction with money");
-
     AccountFactory.enableDebug();
     AccountFactory.createAccount('tftom2', 'password', 'tftom@gmail.com2', '1000')
     .then((account)=>{
