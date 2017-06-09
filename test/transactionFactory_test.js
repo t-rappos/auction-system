@@ -3,6 +3,7 @@ let TransactionFactory = require('../lib/transactionFactory.js');
 let ListingFactory = require('../lib/listingFactory.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
+let Utility = require('../lib/utility.js');
 
 let testItemId = null;
 let testItemId2 = null;
@@ -12,6 +13,24 @@ let testListingId = null;
 let testListingId2 = null;
 let testBidId = null;
 let testBuyoutId = null;
+
+function clearAll(){
+  return new Promise((resolve, reject)=>{
+    TransactionFactory.removeAllTransactions()
+    .then(()=>{
+      return ListingFactory.cancelAllListings();
+    })
+    .then(()=>{
+      return ItemFactory.removeAllItems();
+    })
+    .then(()=>{
+      return AccountFactory.destroyAllAccounts();
+    })
+    .then(()=>{
+      resolve();
+    });
+  });
+}
 
 describe('TransactionFactory',function(){
   it('should be able to do intial cleanup', function(done){
@@ -147,7 +166,95 @@ describe('TransactionFactory',function(){
 //TODO: should this be in transaction API?
   describe("should be able to bid on listing",function(done){
     it("should be able to bid first and cost money",function(done){
-      done();
+      let acc1 = null;
+      let acc2 = null;
+      let item = null;
+      let listing = null;
+      let trans = null;
+      let acc1Items = null;
+      let acc2Items = null;
+      let acc1Money = null;
+      let acc2Money = null;
+      Promise.all([AccountFactory.createAccount('testA2', 'password', 'tftom@gmdsfgail.com22', '1000'),
+              AccountFactory.createAccount('testB2', 'password', 'tftom@gmsdfgail.com2', '1000')])
+      .then((accounts)=>{
+        acc1 = accounts[0];
+        acc2 = accounts[1];
+        return ItemFactory.createItem('itemA', 'itemDesc', 'www.itemUrl.com', acc1.getId());
+      })
+      .then((i)=>{
+        item = i;
+        return ListingFactory.createListing(item.getId(), 100, 1001/*ms*/, 'bid', acc1.getId());
+      })
+      .then((l)=>{
+        listing = l;
+        return TransactionFactory.bidOnListing(acc2.getId(), listing.getId(), 100);
+      })
+      .then((t)=>{
+        trans = t;
+        //TODO: make it so we don't have to refresh all this crap...
+        return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
+                            ItemFactory.getAccountItems(acc2.getId()),
+                            acc1.getMoney(),
+                            acc2.getMoney(),
+                            ListingFactory.getListing(listing.getId())]);
+      })
+      .then((results)=>{
+        acc1Items = results[0];
+        acc2Items = results[1];
+        acc1Money = results[2];
+        acc2Money = results[3];
+        listing = results[4];
+
+        //before listing has expired
+        console.log("doing pre-expiry tests");
+        expect(acc1Items.length).toBe(0, 'seller should have no items');
+        expect(acc2Items.length).toBe(0, 'buyer shouldnt have item');
+        expect(acc1Money).toBe(1000, 'seller should have 1000 money not : ' + acc1Money);
+        expect(acc2Money).toBe(900, 'buyer should have 900, not : '+acc2Money);
+        expect(listing.isSold()).toBe(false, 'listing should not be sold');
+        expect(trans.getAmount()).toBe(100, 'transaction amount should be correct, not :' + trans.getAmount());
+        expect(trans.getBidderId()).toBe(acc2.getId(), 'trans bidder id should be correct, not : '+ trans.getBidderId());
+
+        return Utility.delay(1001);
+      })
+      .then(()=>{
+        return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
+                            ItemFactory.getAccountItems(acc2.getId()),
+                            acc1.getMoney(),
+                            acc2.getMoney(),
+                            ListingFactory.getListing(listing.getId())]);
+      })
+      .then((results)=>{
+        //after listing has expired
+        acc1Items = results[0];
+        acc2Items = results[1];
+        acc1Money = results[2];
+        acc2Money = results[3];
+        listing = results[4];
+        console.log("doing post-expiry tests");
+        expect(acc1Items.length).toBe(0, 'seller should have no items');
+        expect(acc2Items.length).toBe(1, 'buyer should have item');
+        expect(acc2Items[0].getId()).toBe(item.getId(),'item id should be correct');
+
+        expect(acc1Money).toBe(1100, 'seller should have 1100 money not : ' + acc1Money);
+        expect(acc2Money).toBe(900, 'buyer should have 900, not : '+acc2Money);
+        expect(listing.isSold()).toBe(true, 'listing should have been sold');
+        expect(trans.getAmount()).toBe(100, 'transaction amount should be correct, not :' + trans.getAmount());
+        expect(trans.getBidderId()).toBe(acc2.getId(), 'trans bidder id should be correct, not : '+ trans.getBidderId());
+      })
+      .then(()=>{
+        console.log("clearing");
+        return clearAll();
+      })
+      .then(()=>{
+        console.log("done : clearing");
+        done();
+      })
+      .catch((e)=>{
+        console.log(e);
+        throw(e);
+      });
     });
     it("should get item after listing expires",function(done){done();});
     it("shouldnt get item after listing expires",function(done){done();});
@@ -186,6 +293,10 @@ describe('TransactionFactory',function(){
       })
       .then((l)=>{
         listing = l;
+        return ItemFactory.getAccountItems(acc1.getId());
+      })
+      .then((items)=>{
+        expect(items.length).toBe(0, "lister must no items");
         //TODO: buyoutListing changes the state of the accounts, thus it invalidates the above account vars
         //find a way to make this obvious or nicer...
         //or force refresh after this somehow...
@@ -233,21 +344,7 @@ describe('TransactionFactory',function(){
   });
 
   it('should be able to do shutdown cleanup', function(done){
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    TransactionFactory.removeAllTransactions()
-    .then(()=>{
-      console.log("Removed transactions !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      return ListingFactory.cancelAllListings();
-    })
-    .then(()=>{
-      console.log("Removed listings !");
-      return ItemFactory.removeAllItems();})
-    .then(()=>{
-      console.log("Removed items !");
-      return AccountFactory.destroyAllAccounts();
-      })
-    .then(()=>{
-      console.log("Removed accounts !");
+    clearAll().then(()=>{
       done();
     })
     .catch((e)=>{
