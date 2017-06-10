@@ -500,12 +500,98 @@ describe('TransactionFactory',function(){
         throw(e);
       });
     });
-    it("shouldnt be able to bid on own listing",function(done){done();});
-    it("shouldnt be able to bid over own bid",function(done){done();});
-    it('should get money back if outbid', function(done){done();});
-    it("should be able to outbid the outbidder", function(done){done();});
-    it("should be able to undo expired winning bid",function(done){done();});
-    it("should be able to undo pending bid",function(done){done();});
+
+    //Don't think we need this -> it("should be able to undo expired winning bid",function(done){done();});
+
+    /*let catchCount = 0;
+    let acc1 = null;
+    let acc2 = null;
+    let acc3 = null;
+    let item = null;
+    let listing = null;
+    Promise.all([AccountFactory.createAccount('t1', 'password', 'tftom@gmdsfgail.com21', '1000'),
+                 AccountFactory.createAccount('t2', 'password', 'tftom@gmdsfgail.com22', '1000'),
+                 AccountFactory.createAccount('t3', 'password', 'tftom@gmsdfgail.com23', '1000')])
+    .then((accs)=>{
+      acc1 = accs[0]; acc1.getId();
+      acc2 = accs[1]; acc2.getId();
+      acc3 = accs[2]; acc3.getId();
+      return ItemFactory.createItem('itemA', 'itemDesc', 'www.itemUrl.com', acc1.getId());
+    })
+    .then((i)=>{
+      item = i;
+      return ListingFactory.createListing(item.getId(), 100, 1001, 'bid', acc1.getId());
+    })
+    .then((l)=>{
+      listing = l;
+      return TransactionFactory.bidOnListing(acc1.getId(), listing.getId(), 100);
+    })*/
+
+    //TODO: are we even testing transaction at this point... think about refactoring
+    it("should be able to undo pending bid",function(done){
+      /*
+        lister should be able to cancel bid, and have money go back to highest bidder, and have item back
+        Note: a bidder shouldnt be able to cancel a bid on an item
+
+        create acc1, acc2
+        create item for acc1
+        create listing(item) for acc1
+        create bid for acc2 on listing
+        cancel listing(item) for acc1
+          /acc1 should have item back/
+          /acc2 should have money back/
+      */
+      let acc1 = null;
+      let acc2 = null;
+      let item = null;
+      let listing = null;
+
+      Promise.all([AccountFactory.createAccount('t1', 'password', 'tftom@gmdsfgail.com21', '1000'),
+                   AccountFactory.createAccount('t2', 'password', 'tftom@gmdsfgail.com22', '1000')])
+      .then((accs)=>{
+        acc1 = accs[0]; acc1.getId();
+        acc2 = accs[1]; acc2.getId();
+        return ItemFactory.createItem('itemA', 'itemDesc', 'www.itemUrl.com', acc1.getId());
+      })
+      .then((i)=>{
+        item = i;
+        return ListingFactory.createListing(item.getId(), 100, 1001, 'bid', acc1.getId());
+      })
+      .then((l)=>{
+        listing = l;
+        return TransactionFactory.bidOnListing(acc2.getId(), listing.getId(), 100);
+        //expect acc1, acc2 money to be 1000, 900
+        //expect acc1, acc2 to have 0 and 0 items
+      })
+      .then(()=>{
+        return ListingFactory.cancelListing(listing.getItemId(), listing.getId());
+      })
+      .then(()=>{
+        return Promise.all([AccountFactory.getAccountFromId(acc1.getId()), //TODO: we shouldnt need to do this!
+                            AccountFactory.getAccountFromId(acc2.getId())]);
+      })
+      .then((res)=>{
+        return Promise.all([res[0].getMoney(),
+                            res[1].getMoney(),
+                            ItemFactory.getAccountItems(res[0].getId()),
+                            ItemFactory.getAccountItems(res[1].getId())
+        ]);
+      })
+      .then((res)=>{
+        //expect acc1, acc2 money to be 1000, 1000
+        expect(res[0]).toBe(1000);
+        expect(res[1]).toBe(1000);
+
+        //expect acc1, acc2 to have 1 and 0 items
+        expect(res[2].length).toBe(1);
+        expect(res[3].length).toBe(0);
+        done();
+      })
+      .catch((e)=>{
+        console.log(e);
+        throw(e);
+      });
+    });
   });
 
   describe("should be able to buyout listing",function(done){
@@ -536,12 +622,6 @@ describe('TransactionFactory',function(){
       })
       .then((items)=>{
         expect(items.length).toBe(0, "lister must no items");
-        //TODO: buyoutListing changes the state of the accounts, thus it invalidates the above account vars
-        //find a way to make this obvious or nicer...
-        //or force refresh after this somehow...
-        //same issue with listing
-        //or make buyoutListing take (buyerAccount, sellerAccount, listing) instead of ids to keep reference
-        //constant
         return TransactionFactory.buyoutListing(acc2.getId(), listing.getId());
       })
       .then((t)=>{
@@ -568,7 +648,11 @@ describe('TransactionFactory',function(){
         expect(listing.isSold()).toBe(true, 'listing should be sold');
         expect(trans.getAmount()).toBe(100, 'transaction amount should be correct, not :' + trans.getAmount());
         expect(trans.getBidderId()).toBe(acc2.getId(), 'trans bidder id should be correct, not : '+ trans.getBidderId());
-
+      })
+      .then(()=>{
+        return clearAll();
+      })
+      .then(()=>{
         done();
       })
       .catch((e)=>{
@@ -576,10 +660,86 @@ describe('TransactionFactory',function(){
         throw(e);
       });
     });
-    it("shouldnt be able to buyout listing with not enough money",function(done){done();});
-    it("shouldnt be able to buyout bid listing",function(done){done();});
-    it("shouldnt be able to buyout own listing",function(done){done();});
-    it("should be able to undo buyout", function(done){done();});
+
+    it("shouldnt be able to buyout listing",function(done){
+
+      /* TODO: convert this to a 'describe' and make 'its' for each test...
+        create acc1, acc2
+        create item for acc1
+        create listing(buyout,item) for acc1
+        create listing(bid,item)
+          /cant list item twice/
+        acc2 buyout listing(item)
+          /not enough money/
+        acc1 buyout listing(item)
+          /cant buyout own listing/
+        cancel listing
+        create listing(bid,item) for acc1
+        buyout listing
+          /cant buyout bid/
+      */
+
+      let acc1 = null;    let acc2 = null;
+      let listing = null;
+      let item = null;
+      let catchCount = 0;
+      Promise.all([AccountFactory.createAccount('testA', 'password', 'tftom@gmdsfgail.com22', '1500'),
+              AccountFactory.createAccount('testB', 'password', 'tftom@gmsdfgail.com2', '1000')])
+      .then((accounts)=>{
+        acc1 = accounts[0];
+        acc2 = accounts[1];
+        return ItemFactory.createItem('itemA', 'itemDesc', 'www.itemUrl.com', acc1.getId());
+      })
+      .then((i)=>{
+        item = i;
+        return ListingFactory.createListing(item.getId(), 1100, 3600*24*1000, 'buyout', acc1.getId());
+      })
+      .then((l)=>{
+        listing = l;
+        return ListingFactory.createListing(item.getId(), 1100, 3600*24*1000, 'bid', acc1.getId());
+      })
+      .catch((e)=>{
+        expect(e+"").toMatch(/twice/, 'expect: incorrect error occured, expected "cant list item twice", got ' + e);
+        catchCount++;
+      })
+      .then(()=>{
+        return TransactionFactory.buyoutListing(acc2.getId(), listing.getId());
+      })
+      .catch((e)=>{
+        expect(e+"").toMatch(/money/, 'expect: incorrect error occured, expected "not enough money to buyout" got ' + e);
+        catchCount++;
+      })
+      .then(()=>{
+        return TransactionFactory.buyoutListing(acc1.getId(), listing.getId());
+      })
+      .catch((e)=>{
+        expect(e+"").toMatch(/own/, 'expect: incorrect error occured, expected "cant buyout own listing" got ' + e);
+        catchCount++;
+      })
+      .then(()=>{
+        return ListingFactory.cancelAllListings();
+      })
+      .then(()=>{
+        return ListingFactory.createListing(item.getId(), 1100, 3600*24*1000, 'bid', acc1.getId());
+      })
+      .then((l)=>{
+        listing = l;
+        return TransactionFactory.buyoutListing(acc1.getId(), listing.getId());
+      })
+      .catch((e)=>{
+        expect(e+"").toMatch(/buyout/, 'expect: incorrect error occured, expected "cant buyout a bid listing" got ' + e);
+        catchCount++;
+      })
+      .then(()=>{
+        expect(catchCount).toBe(4, "didnt return all errors, expected 4, got " + catchCount);
+        done();
+      })
+      .catch((e)=>{
+        console.log(e);
+        throw(e);
+      });
+    });
+    //defered: it("should be able to undo buyout", function(done){done();});
   });
 
   it('should be able to do shutdown cleanup', function(done){
