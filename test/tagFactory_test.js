@@ -1,15 +1,12 @@
 let expect = require('expect');
 let TagFactory = require('../lib/tagFactory.js');
-
-
+let Utility = require('../lib/utility.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
 
 let testAccountId = null;
 let testItemId = null;
 let testItemId2 = null;
-
-
 
 function createTestAccount(){
   return AccountFactory.destroyAllAccounts()
@@ -69,8 +66,7 @@ describe('TagFactory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -82,7 +78,7 @@ describe('TagFactory',function(){
       expect(results[0]).toExist().toNotBe(null).toNotBe('');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -91,7 +87,7 @@ describe('TagFactory',function(){
       expect(result).toExist().toNotBe(null).toNotBe('');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -100,7 +96,7 @@ describe('TagFactory',function(){
       expect(result.getName()).toBe("value");
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -113,7 +109,7 @@ describe('TagFactory',function(){
         expect(result.getId()).toNotBe(null).toNotBe('');
         done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -123,7 +119,7 @@ describe('TagFactory',function(){
       expect(tags[1].getName()).toBe('quantity');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -138,7 +134,7 @@ describe('TagFactory',function(){
       expect(tags.length).toBe(2);
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -150,7 +146,7 @@ describe('TagFactory',function(){
       expect(tags.length).toBe(0);
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -168,7 +164,7 @@ describe('TagFactory',function(){
       expect(tagValue).toExist().toNotBe(null).toNotBe('');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -180,7 +176,7 @@ describe('TagFactory',function(){
       expect(tagValue).toExist().toNotBe(null).toNotBe('');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -192,7 +188,7 @@ describe('TagFactory',function(){
       expect(tagValue.getValue()).toBe('rare');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -207,7 +203,7 @@ describe('TagFactory',function(){
       expect(tagValue.getTagName()).toBe(ltag.getName());
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -231,7 +227,7 @@ describe('TagFactory',function(){
       expect(itemTagValues[1].getValue()).toBe('10');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -252,7 +248,7 @@ describe('TagFactory',function(){
       expect(tagValue.getValue()).toBe('common');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -273,7 +269,7 @@ describe('TagFactory',function(){
       expect(itemTagValues[0].getTagName()).toBe('quality');
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -296,7 +292,7 @@ describe('TagFactory',function(){
       done();
     })
     .catch((e)=>{
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -330,11 +326,11 @@ describe('TagFactory',function(){
     .then(()=>{
       return destroyTestAccount();
     }).catch(function(e){
-      console.log("tag factory cleanup" + e);
+
       destroyTestItem().then(()=>{
         return destroyTestAccount();
       });
-      throw(e);
+      Utility.logError(e);
     });
   });
 

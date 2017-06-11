@@ -23,12 +23,10 @@ describe('listing factory',function(){
     AccountFactory.createAccount('lftom', 'lfpassword', 'lftom@gmail.com')
     .then((account)=>{
       testAccountId = account.getId();
-      console.log("Test account id = "+testAccountId);
       return ItemFactory.createItem('lfTestItemName', 'itemDesc', 'www.itemUrl.com', testAccountId);
     })
     .then((item)=>{
       testItemId = item.getId();
-      console.log("Test item id = "+testItemId);
     })
     .then(()=>{
       return ItemFactory.createItem('lfTestItemName2', 'itemDesc2', 'www.itemUrl.com2', testAccountId);
@@ -38,8 +36,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -60,8 +57,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -82,8 +78,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -94,8 +89,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -110,8 +104,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -130,8 +123,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -145,8 +137,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -167,8 +158,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -188,8 +178,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -203,8 +192,7 @@ describe('listing factory',function(){
     .catch((e)=>{
       expect(testListing.hasExpired()).toBe(true);
       done();
-      console.log(e);
-      console.throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -217,8 +205,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
   testListing=null;
@@ -247,8 +234,7 @@ describe('listing factory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -261,8 +247,7 @@ describe('listing factory',function(){
        done();
      })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 });

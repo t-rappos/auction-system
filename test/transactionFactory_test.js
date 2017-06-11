@@ -34,7 +34,6 @@ function clearAll(){
 
 describe('TransactionFactory',function(){
   it('should be able to do intial cleanup', function(done){
-    AccountFactory.enableDebug();
     AccountFactory.createAccount('tftom2', 'password', 'tftom@gmail.com2', '1000')
     .then((account)=>{
       expect(account).toExist('account');
@@ -44,7 +43,6 @@ describe('TransactionFactory',function(){
     })
     .then((account)=>{
       expect(account).toExist('account2');
-      AccountFactory.disableDebug();
       testAccountId = account.getId();
       return ItemFactory.createItem('tfTestItemName', 'itemDesc', 'www.itemUrl.com', testAccountId);
     })
@@ -72,8 +70,7 @@ describe('TransactionFactory',function(){
 
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -95,8 +92,7 @@ describe('TransactionFactory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -113,8 +109,7 @@ describe('TransactionFactory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -124,8 +119,7 @@ describe('TransactionFactory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -138,8 +132,7 @@ describe('TransactionFactory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -158,8 +151,7 @@ describe('TransactionFactory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -180,8 +172,7 @@ describe('TransactionFactory',function(){
         done();
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
 
@@ -254,8 +245,7 @@ describe('TransactionFactory',function(){
         done();
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
 
@@ -311,8 +301,7 @@ describe('TransactionFactory',function(){
         done();
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
 
@@ -335,7 +324,7 @@ describe('TransactionFactory',function(){
         return TransactionFactory.bidOnListing(acc2.getId(), l.getId(), 100);
       })
       .catch((e)=>{
-        console.log(e);
+        Utility.log(e);
         expect(e+"").toMatch(/money/);
         goodPath = true;
 
@@ -348,8 +337,7 @@ describe('TransactionFactory',function(){
         expect(goodPath).toBe(true);
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
 
@@ -376,10 +364,10 @@ describe('TransactionFactory',function(){
       })
       .then((t)=>{
         expect(t).toBe(null, "should return null transaction, since we cant bid on a buyout");
-        console.log("error: "+"bidOnListing should error instead of returning null, when bidding on a buyout");
+        Utility.logWarning("error: "+"bidOnListing should error instead of returning null, when bidding on a buyout");
       })
       .catch((e)=>{
-        console.log(e);
+        Utility.log(e);
         expect(e+"").toMatch(/Cant bid on buyout/);
         goodPath = true;
       })
@@ -392,9 +380,7 @@ describe('TransactionFactory',function(){
                                     //promise is processed until clearAll is fully done
       })
       .catch((e)=>{
-        console.log(e);
-
-        throw(e);
+        Utility.logError(e);
       });
     });
     it("should get failed bid attempt money after listing expires",function(done){
@@ -496,36 +482,11 @@ describe('TransactionFactory',function(){
         done();
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
 
     //Don't think we need this -> it("should be able to undo expired winning bid",function(done){done();});
-
-    /*let catchCount = 0;
-    let acc1 = null;
-    let acc2 = null;
-    let acc3 = null;
-    let item = null;
-    let listing = null;
-    Promise.all([AccountFactory.createAccount('t1', 'password', 'tftom@gmdsfgail.com21', '1000'),
-                 AccountFactory.createAccount('t2', 'password', 'tftom@gmdsfgail.com22', '1000'),
-                 AccountFactory.createAccount('t3', 'password', 'tftom@gmsdfgail.com23', '1000')])
-    .then((accs)=>{
-      acc1 = accs[0]; acc1.getId();
-      acc2 = accs[1]; acc2.getId();
-      acc3 = accs[2]; acc3.getId();
-      return ItemFactory.createItem('itemA', 'itemDesc', 'www.itemUrl.com', acc1.getId());
-    })
-    .then((i)=>{
-      item = i;
-      return ListingFactory.createListing(item.getId(), 100, 1001, 'bid', acc1.getId());
-    })
-    .then((l)=>{
-      listing = l;
-      return TransactionFactory.bidOnListing(acc1.getId(), listing.getId(), 100);
-    })*/
 
     //TODO: are we even testing transaction at this point... think about refactoring
     it("should be able to undo pending bid",function(done){
@@ -588,8 +549,7 @@ describe('TransactionFactory',function(){
         done();
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
   });
@@ -656,8 +616,7 @@ describe('TransactionFactory',function(){
         done();
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
 
@@ -735,8 +694,7 @@ describe('TransactionFactory',function(){
         done();
       })
       .catch((e)=>{
-        console.log(e);
-        throw(e);
+        Utility.logError(e);
       });
     });
     //defered: it("should be able to undo buyout", function(done){done();});
@@ -747,8 +705,7 @@ describe('TransactionFactory',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
 
   });

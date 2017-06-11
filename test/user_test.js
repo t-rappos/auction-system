@@ -43,8 +43,7 @@ describe('User',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 });

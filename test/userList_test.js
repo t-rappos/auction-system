@@ -3,26 +3,23 @@ let UserList = require('../lib/userList.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ListingFactory = require('../lib/listingFactory.js');
 let TransactionFactory = require('../lib/transactionFactory.js');
+let Utility = require('../lib/utility.js');
 
 describe('UserList',function(){
 
   it('should be able to do startup cleanup', function(done){
     TransactionFactory.removeAllTransactions()
     .then(()=>{
-      console.log("after remove trans");
       return ListingFactory.cancelAllListings();
     })
     .then(()=>{
-      console.log("after remove listings");
       return AccountFactory.destroyAllAccounts();
     })
     .then(()=>{
-      console.log("after remove accounts");
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -42,8 +39,7 @@ describe('UserList',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -59,12 +55,11 @@ describe('UserList',function(){
     }).catch(function(e){
       expect(UserList.getNumberOfUsers()).toBe(1);
       done();
-      console.log(e);
+      Utility.logWarning(e);
       return AccountFactory.destroyAllAccounts();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -83,8 +78,7 @@ describe('UserList',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -106,8 +100,7 @@ describe('UserList',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -132,8 +125,7 @@ describe('UserList',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -155,8 +147,7 @@ describe('UserList',function(){
       done();
     })
     .catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
 

@@ -1,7 +1,6 @@
 var expect = require('expect');
 
 let Utility = require('../lib/utility.js');
-//let Account = require('./lib/account.js');
 
 describe('Utility',function(){
 

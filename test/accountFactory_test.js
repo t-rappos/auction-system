@@ -1,12 +1,11 @@
 var expect = require('expect');
-
+let Utility = require('../lib/utility.js');
 let AccountFactory = require('../lib/accountFactory.js');
-
 let DB = require('../lib/serverDB.js');
 
-console.log("about to initialise database");
+Utility.log("about to initialise database");
 DB.initialise().then(function(){
-  console.log('dn initialise');
+  Utility.log('dn initialise');
 });
 
 function runTests(){
@@ -14,7 +13,6 @@ function runTests(){
 describe('AccountFactory',function(){
 
   it('should exist',function(done){
-    AccountFactory.enableDebug();
     expect(AccountFactory).toExist();
     done();
   });
@@ -42,7 +40,7 @@ describe('AccountFactory',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -65,7 +63,7 @@ describe('AccountFactory',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -91,7 +89,7 @@ describe('AccountFactory',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -115,7 +113,7 @@ describe('AccountFactory',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -135,7 +133,7 @@ describe('AccountFactory',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -154,7 +152,7 @@ describe('AccountFactory',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -178,7 +176,7 @@ describe('AccountFactory',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -201,15 +199,12 @@ describe('AccountFactory',function(){
       expect(accountCopy.getMoney()).toBe(account.getMoney(),
       "both account references should have the same amount of money");
       done();
-      AccountFactory.disableDebug();
     })
     .then(()=>{
       return AccountFactory.destroyAllAccounts();
     })
     .catch((e)=>{
-      console.log(e);
-      AccountFactory.disableDebug();
-      throw(e);
+      Utility.logError(e);
     });
   });
   /* @ = tested

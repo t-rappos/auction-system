@@ -1,6 +1,5 @@
 var expect = require('expect');
-//let Utility = require('../lib/utility.js');
-//let Item = require('../lib/item.js');
+let Utility = require('../lib/utility.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
 let TransactionFactory = require('../lib/transactionFactory.js');
@@ -16,11 +15,9 @@ let accountId2 = 0;
   it('should exist',function(done){
     TransactionFactory.removeAllTransactions()
     .then(()=>{
-      console.log("ItemFactory: post Remove All Transactions !");
       return ListingFactory.cancelAllListings();
     })
     .then(()=>{
-      console.log("ItemFactory: post cancel All listings !");
       return AccountFactory.destroyAllAccounts();
     })
     .then(()=>{
@@ -41,7 +38,7 @@ let accountId2 = 0;
       accountId2 = account2.getId();
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -62,7 +59,7 @@ let accountId2 = 0;
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -83,8 +80,7 @@ let accountId2 = 0;
       expect(results[1][0].getId()).toBe(testItemId, 'item is correct id 2');
       done();
     }).catch((e)=>{
-      console.log(e);
-      throw(e);
+      Utility.logError(e);
     });
   });
   testItemId =null;
@@ -104,7 +100,7 @@ let accountId2 = 0;
       expect(items.length).toBe(0);
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -129,7 +125,7 @@ let accountId2 = 0;
       expect(items.length).toBe(0);
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -154,7 +150,7 @@ let accountId2 = 0;
       expect(items.length).toBe(0);
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -165,7 +161,7 @@ let accountId2 = 0;
     .then(function(){
       done();
     }).catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 });

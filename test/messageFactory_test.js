@@ -2,6 +2,7 @@
 var expect = require('expect');
 let MessageFactory = require('../lib/messageFactory.js');
 let AccountFactory = require('../lib/accountFactory.js');
+let Utility = require('../lib/utility.js');
 
 describe('MessageFactory',function(){
 
@@ -14,8 +15,7 @@ describe('MessageFactory',function(){
     MessageFactory.initialise(function(){}).then(function(){
       done();
     }).catch(function(e){
-      console.log(e);
-      throw e;
+      Utility.logError(e);
     }).then(function(){
       return Promise.all([AccountFactory.createAccount('tom','toms-pw','email@email.com'),
       AccountFactory.createAccount('andy','andys-pw','email@email.com')]);
@@ -76,8 +76,6 @@ describe('MessageFactory',function(){
   });
 
   it('should be able to send message',function(done){
-    //let spy = expect.createSpy();
-    //MessageFactory._messageSent = function(){console.log("TEST: _messageSent called");};
     MessageFactory.deleteAllMessages().then(function(){
       let msg = MessageFactory.createMessage('tom','andy','hi andy','message details');
       return MessageFactory.sendMessage(msg);
@@ -93,7 +91,6 @@ describe('MessageFactory',function(){
       let tomsMessages = results[1];
       expect(andysMessages.length).toBe(1);
       expect(tomsMessages.length).toBe(0);
-      //expect(spy).toHaveBeenCalled();
       done();
     });
   });

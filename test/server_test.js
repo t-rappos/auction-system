@@ -4,7 +4,7 @@ var expect = require('expect');
 var server = require('../lib/server.js');
 
 var http = require('http');
-var io = require('socket.io-client');//require('socket.io')(http);
+var io = require('socket.io-client');
 var assert =  require('assert');
 
 let socketAddr = 'http://localhost:';

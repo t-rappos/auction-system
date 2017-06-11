@@ -22,7 +22,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -36,7 +36,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -50,7 +50,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -71,7 +71,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -91,7 +91,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -124,7 +124,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -140,7 +140,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -161,7 +161,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -242,7 +242,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -261,7 +261,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -281,7 +281,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
@@ -296,7 +296,7 @@ describe('Account',function(){
       done();
     })
     .catch(function(e){
-      console.log(e);throw(e);
+      Utility.logError(e);
     });
   });
 
