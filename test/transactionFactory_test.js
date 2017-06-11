@@ -114,7 +114,8 @@ describe('TransactionFactory',function(){
   });
 
   it("should be able to get all transactions", function(done){
-    TransactionFactory.getAllTransactions().then((transactions)=>{
+    TransactionFactory.getAllTransactions()
+    .then((transactions)=>{
       expect(transactions.length).toBe(2, 'should have 2 transactions');
       done();
     })
@@ -201,18 +202,15 @@ describe('TransactionFactory',function(){
         //TODO: make it so we don't have to refresh all this crap...
         return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
                             ItemFactory.getAccountItems(acc2.getId()),
-                            acc1.getMoney(),
-                            acc2.getMoney(),
                             ListingFactory.getListing(listing.getId())]);
       })
       .then((results)=>{
         acc1Items = results[0]; acc2Items = results[1];
-        acc1Money = results[2]; acc2Money = results[3];
-        listing = results[4];
+        listing = results[2];
         expect(acc1Items.length).toBe(0, 'seller should have no items');
         expect(acc2Items.length).toBe(0, 'buyer shouldnt have item');
-        expect(acc1Money).toBe(1000, 'seller should have 1000 money not : ' + acc1Money);
-        expect(acc2Money).toBe(900, 'buyer should have 900, not : '+acc2Money);
+        expect(acc1.getMoney()).toBe(1000, 'seller should have 1000 money not : ' + acc1Money);
+        expect(acc2.getMoney()).toBe(900, 'buyer should have 900, not : '+acc2Money);
         expect(listing.isSold()).toBe(false, 'listing should not be sold');
         expect(trans.getAmount()).toBe(100, 'transaction amount should be correct, not :' + trans.getAmount());
         expect(trans.getBidderId()).toBe(acc2.getId(), 'trans bidder id should be correct, not : '+ trans.getBidderId());
@@ -221,19 +219,16 @@ describe('TransactionFactory',function(){
       .then(()=>{
         return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
                             ItemFactory.getAccountItems(acc2.getId()),
-                            acc1.getMoney(),
-                            acc2.getMoney(),
                             ListingFactory.getListing(listing.getId())]);
       })
       .then((results)=>{
         acc1Items = results[0];    acc2Items = results[1];
-        acc1Money = results[2];    acc2Money = results[3];
-        listing = results[4];
+        listing = results[2];
         expect(acc1Items.length).toBe(0, 'seller should have no items');
         expect(acc2Items.length).toBe(1, 'buyer should have item');
         expect(acc2Items[0].getId()).toBe(item.getId(),'item id should be correct');
-        expect(acc1Money).toBe(1100, 'seller should have 1100 money not : ' + acc1Money);
-        expect(acc2Money).toBe(900, 'buyer should have 900, not : '+acc2Money);
+        expect(acc1.getMoney()).toBe(1100, 'seller should have 1100 money not : ' + acc1Money);
+        expect(acc2.getMoney()).toBe(900, 'buyer should have 900, not : '+acc2Money);
         expect(listing.isSold()).toBe(true, 'listing should have been sold');
         expect(trans.getAmount()).toBe(100, 'transaction amount should be correct, not :' + trans.getAmount());
         expect(trans.getBidderId()).toBe(acc2.getId(), 'trans bidder id should be correct, not : '+ trans.getBidderId());
@@ -268,30 +263,26 @@ describe('TransactionFactory',function(){
       .then((lis)=>{
         listing = lis;
         return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
-                            acc1.getMoney(),
                             ListingFactory.getListing(listing.getId())]);
       })
       .then((results)=>{
         acc1Items = results[0];
-        acc1Money = results[1];
-        listing = results[2];
+        listing = results[1];
         expect(acc1Items.length).toBe(0, 'seller should have no items');
-        expect(acc1Money).toBe(1000, 'seller should have 1000 money not : ' + acc1Money);
+        expect(acc1.getMoney()).toBe(1000, 'seller should have 1000 money not : ' + acc1Money);
         expect(listing.isSold()).toBe(false, 'listing should not be sold');
         return Utility.delay(1001);
       })
       .then(()=>{
         return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
-                            acc1.getMoney(),
                             ListingFactory.getListing(listing.getId())]);
       })
       .then((results)=>{
         acc1Items = results[0];
-        acc1Money = results[1];
-        listing = results[2];
+        listing = results[1];
         expect(acc1Items.length).toBe(1, 'seller should have item returned');
         expect(acc1Items[0].getId()).toBe(item.getId(),'item id should be correct');
-        expect(acc1Money).toBe(1000, 'seller should have 1000 money not : ' + acc1Money);
+        expect(acc1.getMoney()).toBe(1000, 'seller should have 1000 money not : ' + acc1Money);
         expect(listing.isSold()).toBe(false, 'listing should not have been sold');
       })
       .then(()=>{
@@ -412,9 +403,9 @@ describe('TransactionFactory',function(){
                    AccountFactory.createAccount('t2', 'password', 'tftom@gmdsfgail.com22', '1000'),
                    AccountFactory.createAccount('t3', 'password', 'tftom@gmsdfgail.com23', '1000')])
       .then((accs)=>{
-        acc1 = accs[0]; acc1.getId();
-        acc2 = accs[1]; acc2.getId();
-        acc3 = accs[2]; acc3.getId();
+        acc1 = accs[0];
+        acc2 = accs[1];
+        acc3 = accs[2];
         return ItemFactory.createItem('itemA', 'itemDesc', 'www.itemUrl.com', acc1.getId());
       })
       .then((i)=>{
@@ -446,12 +437,7 @@ describe('TransactionFactory',function(){
       })
       .then((t)=>{
         expect(t).toNotBe(null);
-        return acc2._refreshFn(); //TODO: Account doesnt seem to update money automatically... Fix this
-      })
-      .then(()=>{
-        return acc2.getMoney();
-      })
-      .then((m)=>{
+        let m = acc2.getMoney();
         expect(m).toBe(1000, 'expct: account 2 should have 1000 money back, not ' + m);
         return TransactionFactory.bidOnListing(acc3.getId(), listing.getId(), 190);
       })
@@ -462,15 +448,10 @@ describe('TransactionFactory',function(){
       })
       .then((t)=>{
         expect(t).toNotBe(null);
-        return Promise.all([acc2._refreshFn(), acc3._refreshFn()]); //TODO: fix this
-      })
-      .then(()=>{
-        return Promise.all([acc3.getMoney(),acc2.getMoney()]);
-      })
-      .then((m)=>{
-        expect(m[0]).toBe(1000, 'expct: account 3 should have 1000 money back, not ' + m[0]);
-        expect(m[1]).toBe(800, 'expct: account 2 should have 800 money, not ' + m[1]);
-
+        let m1 = acc1.getMoney();
+        let m2 = acc2.getMoney();
+        expect(m1).toBe(1000, 'expct: account 3 should have 1000 money back, not ' + m1);
+        expect(m2).toBe(800, 'expct: account 2 should have 800 money, not ' + m2);
       })
       .then(()=>{
         return clearAll();
@@ -510,8 +491,8 @@ describe('TransactionFactory',function(){
       Promise.all([AccountFactory.createAccount('t1', 'password', 'tftom@gmdsfgail.com21', '1000'),
                    AccountFactory.createAccount('t2', 'password', 'tftom@gmdsfgail.com22', '1000')])
       .then((accs)=>{
-        acc1 = accs[0]; acc1.getId();
-        acc2 = accs[1]; acc2.getId();
+        acc1 = accs[0];
+        acc2 = accs[1];
         return ItemFactory.createItem('itemA', 'itemDesc', 'www.itemUrl.com', acc1.getId());
       })
       .then((i)=>{
@@ -521,31 +502,22 @@ describe('TransactionFactory',function(){
       .then((l)=>{
         listing = l;
         return TransactionFactory.bidOnListing(acc2.getId(), listing.getId(), 100);
-        //expect acc1, acc2 money to be 1000, 900
-        //expect acc1, acc2 to have 0 and 0 items
       })
       .then(()=>{
         return ListingFactory.cancelListing(listing.getItemId(), listing.getId());
       })
       .then(()=>{
-        return Promise.all([AccountFactory.getAccountFromId(acc1.getId()), //TODO: we shouldnt need to do this!
-                            AccountFactory.getAccountFromId(acc2.getId())]);
-      })
-      .then((res)=>{
-        return Promise.all([res[0].getMoney(),
-                            res[1].getMoney(),
-                            ItemFactory.getAccountItems(res[0].getId()),
-                            ItemFactory.getAccountItems(res[1].getId())
-        ]);
+        return Promise.all( [ItemFactory.getAccountItems(acc1.getId()),
+                            ItemFactory.getAccountItems(acc2.getId())]);
       })
       .then((res)=>{
         //expect acc1, acc2 money to be 1000, 1000
-        expect(res[0]).toBe(1000);
-        expect(res[1]).toBe(1000);
+        expect(acc1.getMoney()).toBe(1000);
+        expect(acc2.getMoney()).toBe(1000);
 
         //expect acc1, acc2 to have 1 and 0 items
-        expect(res[2].length).toBe(1);
-        expect(res[3].length).toBe(0);
+        expect(res[0].length).toBe(1);
+        expect(res[1].length).toBe(0);
         done();
       })
       .catch((e)=>{
@@ -588,16 +560,14 @@ describe('TransactionFactory',function(){
         trans = t;
         return Promise.all([ItemFactory.getAccountItems(acc1.getId()),
                             ItemFactory.getAccountItems(acc2.getId()),
-                            AccountFactory.getAccountFromId(acc1.getId()),
-                            AccountFactory.getAccountFromId(acc2.getId()),
                             ListingFactory.getListing(listing.getId())]);
       })
       .then((results)=>{
         acc1Items = results[0];
         acc2Items = results[1];
-        acc1Money = results[2].getMoney();
-        acc2Money = results[3].getMoney();
-        listing = results[4];
+        acc1Money = acc1.getMoney();
+        acc2Money = acc2.getMoney();
+        listing = results[2];
         expect(acc1Items.length).toBe(0, 'seller should have no items');
         expect(acc2Items.length).toBe(1, 'buyer should have item');
         expect(acc2Items[0].getId()).toBe(item.getId(),'item id should be correct');
