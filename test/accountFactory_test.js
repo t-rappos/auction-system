@@ -163,7 +163,7 @@ describe('AccountFactory',function(){
       return Promise.all([
         AccountFactory.createAccount('tom1', 'password', 'tom@gmail.com'),
         AccountFactory.createAccount('tom2', 'password', 'tom@gmail.com'),
-        AccountFactory.createAccount('tom3', 'password', 'tom@gmail.com'),
+        AccountFactory.createAccount('sadfs', 'password', 'tom@gmail.com'),
         AccountFactory.createAccount('tom4', 'password', 'tom@gmail.com'),
         AccountFactory.createAccount('tom5', 'password', 'tom@gmail.com')
       ]);
@@ -172,7 +172,8 @@ describe('AccountFactory',function(){
       return AccountFactory.getAutocompletedUsernames('tom');
     })
     .then(function(list){
-      expect(list.length).toBe(5);
+      expect(list.length).toBe(4);
+      expect(list[0]).toBe('tom1');
       done();
     })
     .catch(function(e){

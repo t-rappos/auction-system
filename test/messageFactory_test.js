@@ -19,6 +19,9 @@ describe('MessageFactory',function(){
     }).then(function(){
       return Promise.all([AccountFactory.createAccount('tom','toms-pw','email@email.com'),
       AccountFactory.createAccount('andy','andys-pw','email@email.com')]);
+    })
+    .catch((e)=>{
+      Utility.logError(e);
     });
   });
 
@@ -45,6 +48,9 @@ describe('MessageFactory',function(){
       .then(function(messages){
         expect(messages.length).toBe(0);
         done();
+      })
+      .catch((e)=>{
+        Utility.logError(e);
       });
   });
 
@@ -66,6 +72,9 @@ describe('MessageFactory',function(){
     .then(function(messages){
       expect(messages.length).toBe(0);
       done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
     });
   });
 
@@ -92,22 +101,35 @@ describe('MessageFactory',function(){
       expect(andysMessages.length).toBe(1);
       expect(tomsMessages.length).toBe(0);
       done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
     });
   });
 
   it('should be able to set message as read',function(done){
-    MessageFactory.deleteAllMessages().then(function(){
+    MessageFactory.deleteAllMessages()
+    .then(function(){
       let msg = MessageFactory.createMessage('sendertom','recieverandy','title','message contents');
       msg._setRead = expect.createSpy();
       msg.setRead();
       expect(msg.isRead()).toBe(true);
       expect(msg._setRead).toHaveBeenCalled();
       done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
     });
   });
 
   it('should be able to deinitialise',function(done){
-    AccountFactory.destroyAllAccounts().then(function(){done();});
+    AccountFactory.destroyAllAccounts()
+    .then(function(){
+      done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
+    });
   });
 
 });
