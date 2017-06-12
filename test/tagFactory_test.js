@@ -16,6 +16,8 @@ function createTestAccount(){
   .then((account)=>{
     testAccountId = account.getId();
     expect(testAccountId).toNotBe(null);
+  }).catch((e)=>{
+    Utility.logError(e);
   });
 }
 
@@ -32,6 +34,8 @@ function createTestItem(){
     testItemId2 = item.getId();
     expect(testItemId).toNotBe(null);
     expect(testItemId2).toNotBe(null);
+  }).catch((e)=>{
+    Utility.logError(e);
   });
 }
 
@@ -51,6 +55,8 @@ describe('TagFactory',function(){
     TagFactory.removeAllTags()
     .then(()=>{
       done();
+    }).catch((e)=>{
+      Utility.logError(e);
     });
   });
 

@@ -14,8 +14,12 @@ describe('listing factory',function(){
 
   it("should exist",function(done){
     expect(ListingFactory).toExist();
-    ListingFactory.cancelAllListings().then(()=>{
+    ListingFactory.cancelAllListings()
+    .then(()=>{
       done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
     });
   });
 

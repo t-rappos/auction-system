@@ -12,13 +12,11 @@ describe('MessageFactory',function(){
   });
 
   it('should be able to be initialised',function(done){
-    MessageFactory.initialise(function(){}).then(function(){
+    MessageFactory.initialise(function(){});
+    Promise.all([AccountFactory.createAccount('tom','toms-pw','email@email.com'),
+    AccountFactory.createAccount('andy','andys-pw','email@email.com')])
+    .then(()=>{
       done();
-    }).catch(function(e){
-      Utility.logError(e);
-    }).then(function(){
-      return Promise.all([AccountFactory.createAccount('tom','toms-pw','email@email.com'),
-      AccountFactory.createAccount('andy','andys-pw','email@email.com')]);
     })
     .catch((e)=>{
       Utility.logError(e);
@@ -55,7 +53,8 @@ describe('MessageFactory',function(){
   });
 
   it('should be able to delete message',function(done){
-    MessageFactory.deleteAllMessages().then(function(){
+    MessageFactory.deleteAllMessages()
+    .then(function(){
       let msg = MessageFactory.createMessage('tom','andy','hi andy','message details');
       return MessageFactory.sendMessage(msg);
     })

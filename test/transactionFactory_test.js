@@ -28,6 +28,8 @@ function clearAll(){
     })
     .then(()=>{
       resolve();
+    }).catch((e)=>{
+      Utility.logError(e);
     });
   });
 }
@@ -67,7 +69,6 @@ describe('TransactionFactory',function(){
       expect(listing).toExist('listing');
       testListingId2 = listing.getId();
       done();
-
     })
     .catch((e)=>{
       Utility.logError(e);
@@ -159,23 +160,6 @@ describe('TransactionFactory',function(){
 //TODO: should this be in transaction API?
 //TODO: can we refactor these tests?
   describe("should be able to bid on listing",function(done){
-
-    //TODO: remove this, its just a template to assert errors in
-    it("should throw error test",function(done){
-      var promise = new Promise((resolve, reject)=>{
-        throw new Error("error");
-      });
-      promise.then(()=>{
-        expect("shouldn't have succeeded").toBe('should have failed');
-      });
-      promise.catch((e)=>{
-        expect(e+"" /*<-- this is important, have to convert to string!*/).toMatch(/error/);
-        done();
-      })
-      .catch((e)=>{
-        Utility.logError(e);
-      });
-    });
 
     it("should be able to bid first and cost money",function(done){
       let acc1 = null;   let acc2 = null;
