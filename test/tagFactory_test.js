@@ -164,7 +164,8 @@ describe('TagFactory',function(){
       return TagFactory.createTag("quality");
     })
     .then((tag1)=>{
-      return TagFactory.createTagValue(tag1.getId(),testItemId, 'rare');
+      console.log(tag1);
+      return TagFactory.createTagValue(tag1.getId(),testItemId, 'rare', tag1.getName());
     })
     .then((tagValue)=>{
       expect(tagValue).toExist().toNotBe(null).toNotBe('');
@@ -216,13 +217,16 @@ describe('TagFactory',function(){
 //TODO: also test getting tagValues for item without a tagValue
 
   it("should be able to get all tagValues for item",function(done){
-    TagFactory.createTag("quantity").then((tag1)=>{
+    TagFactory.createTag("quantity")
+    .then((tag1)=>{
+      console.log(tag1);
       return  TagFactory.createTagValue(tag1.getId(),testItemId,'10');
     })
     .then((tagValue)=>{
       return TagFactory.createTag("weight");
     })
     .then((tag3)=>{
+      console.log(tag3);
       return TagFactory.createTagValue(tag3.getId(),testItemId2,'50kg');
     })
     .then(()=>{
@@ -280,7 +284,9 @@ describe('TagFactory',function(){
   });
 
   it("should be able to delete all tagValues on item",function(done){
-    TagFactory.getTag("quantity").then((tag1)=>{
+    TagFactory.getTag("quantity")
+    .then((tag1)=>{
+      console.log(tag1);
       return TagFactory.createTagValue(tag1.getId(),testItemId,'10');
     })
     .then((tagValue)=>{
@@ -303,13 +309,16 @@ describe('TagFactory',function(){
   });
 
   it("should be able to delete all tagValues",function(done){
-    TagFactory.getTag("quantity").then((tag1)=>{
+    TagFactory.getTag("quantity")
+    .then((tag1)=>{
+      console.log(tag1);
       return TagFactory.createTagValue(tag1.getId(),testItemId,'10');
     })
     .then(()=>{
       return TagFactory.getTag("quality");
     })
     .then((tag2)=>{
+      console.log(tag2);
       return TagFactory.createTagValue(tag2.getId(),testItemId,'10');
     })
     .then(()=>{
