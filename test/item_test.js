@@ -1,5 +1,4 @@
 var expect = require('expect');
-//let Utility = require('../lib/utility.js');
 let Item = require('../lib/item.js');
 
 let item_image = 'https://members.dd-on.jp/common/img/item/item/bb8a558c6b1f1a1cf12e08c49dd0a17d.png';

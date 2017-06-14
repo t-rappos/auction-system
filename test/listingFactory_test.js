@@ -3,6 +3,7 @@ let ListingFactory = require('../lib/listingFactory.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
 let Utility = require('../lib/utility.js');
+let UtilData = require('../lib/utilData.js');
 
 let testItemId = null;
 let testItemId2 = null;
@@ -243,13 +244,8 @@ describe('listing factory',function(){
   });
 
   it("should be able to do shutdown",function(done){
-     ItemFactory.removeAllItems()
-     .then(()=>{
-       AccountFactory.destroyAllAccounts();
-     })
-     .then(()=>{
-       done();
-     })
+    UtilData.clearAllData()
+    .then(done)
     .catch((e)=>{
       Utility.logError(e);
     });

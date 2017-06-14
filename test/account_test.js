@@ -3,6 +3,7 @@ var expect = require('expect');
 let Account = require('../lib/account.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let Utility = require('../lib/utility.js');
+let UtilData = require('../lib/utilData.js');
 
 function runTests(){
 describe('Account',function(){
@@ -293,8 +294,11 @@ describe('Account',function(){
     .then(function(account){
       expect(account.checkPassword('password')).toBe(true);
       expect(account.checkPassword('dasfs')).toBe(false);
-      done();
     })
+    .then(()=>{
+      return UtilData.clearAllData();
+    })
+    .then(done)
     .catch(function(e){
       Utility.logError(e);
     });

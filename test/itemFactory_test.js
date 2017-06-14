@@ -4,6 +4,7 @@ let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
 let TransactionFactory = require('../lib/transactionFactory.js');
 let ListingFactory = require('../lib/listingFactory.js');
+let UtilData = require('../lib/utilData.js');
 
 const itemImageUrl = 'https://members.dd-on.jp/common/img/item/item/bb8a558c6b1f1a1cf12e08c49dd0a17d.png';
 
@@ -38,6 +39,34 @@ let accountId2 = 0;
       accountId2 = account2.getId();
       done();
     }).catch(function(e){
+      Utility.logError(e);
+    });
+  });
+
+  it('should be able to add image',function(done){
+    /*function createImage(name, url){
+      return DB.doSingle(Queries.createImage(name,url));
+    }
+
+    function getImageList(){
+      return DB.getMany(Queries.getAllImages(), (row)=>{
+        return {name : row.name, url : row.url};
+      });
+    }*/
+    ItemFactory.removeAllImages()
+    .then(()=>{
+      return ItemFactory.createImage('image1','imageUrl');
+    })
+    .then(()=>{
+      return ItemFactory.getImageList();
+    })
+    .then((il)=>{
+      expect(il).toExist();
+      expect(il[0].name).toBe('image1');
+      expect(il[0].url).toBe('imageUrl');
+      done();
+    })
+    .catch((e)=>{
       Utility.logError(e);
     });
   });
@@ -155,12 +184,9 @@ let accountId2 = 0;
   });
 
   it('should deinitialise',function(done){
-    AccountFactory.destroyAllAccounts().then(function(){
-      return ItemFactory.removeAllItems();
-    })
-    .then(function(){
-      done();
-    }).catch(function(e){
+    UtilData.clearAllData()
+    .then(done)
+    .catch(function(e){
       Utility.logError(e);
     });
   });

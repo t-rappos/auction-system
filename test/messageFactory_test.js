@@ -3,6 +3,7 @@ var expect = require('expect');
 let MessageFactory = require('../lib/messageFactory.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let Utility = require('../lib/utility.js');
+let UtilData = require('../lib/utilData.js');
 
 describe('MessageFactory',function(){
 
@@ -122,10 +123,8 @@ describe('MessageFactory',function(){
   });
 
   it('should be able to deinitialise',function(done){
-    AccountFactory.destroyAllAccounts()
-    .then(function(){
-      done();
-    })
+    UtilData.clearAllData()
+    .then(done)
     .catch((e)=>{
       Utility.logError(e);
     });

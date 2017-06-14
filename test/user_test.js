@@ -3,6 +3,8 @@ let User = require('../lib/user.js');
 let Utility = require('../lib/utility.js');
 //let UserList = require('../lib/userList.js');
 let AccountFactory = require('../lib/accountFactory.js');
+let UtilData = require('../lib/utilData.js');
+
 describe('User',function(){
 
   it('should exist',function(done){
@@ -37,11 +39,9 @@ describe('User',function(){
       let incorrectPasswordPassed = results[1];
       expect(correctPasswordPassed).toBe(true);
       expect(incorrectPasswordPassed).toBe(false);
-      return AccountFactory.destroyAllAccounts();
+      return UtilData.clearAllData();
     })
-    .then(function(){
-      done();
-    })
+    .then(done)
     .catch((e)=>{
       Utility.logError(e);
     });

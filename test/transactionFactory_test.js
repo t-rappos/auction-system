@@ -4,6 +4,7 @@ let ListingFactory = require('../lib/listingFactory.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
 let Utility = require('../lib/utility.js');
+let UtilData = require('../lib/utilData.js');
 
 let testItemId = null;
 let testItemId2 = null;
@@ -15,28 +16,14 @@ let testBidId = null;
 let testBuyoutId = null;
 
 function clearAll(){
-  return new Promise((resolve, reject)=>{
-    TransactionFactory.removeAllTransactions()
-    .then(()=>{
-      return ListingFactory.cancelAllListings();
-    })
-    .then(()=>{
-      return ItemFactory.removeAllItems();
-    })
-    .then(()=>{
-      return AccountFactory.destroyAllAccounts();
-    })
-    .then(()=>{
-      resolve();
-    }).catch((e)=>{
-      Utility.logError(e);
-    });
-  });
+  return UtilData.clearAllData();
 }
 
 describe('TransactionFactory',function(){
   it('should be able to do intial cleanup', function(done){
-    AccountFactory.createAccount('tftom2', 'password', 'tftom@gmail.com2', '1000')
+    clearAll().then(()=>{
+      return AccountFactory.createAccount('tftom2', 'password', 'tftom@gmail.com2', '1000');
+    })
     .then((account)=>{
       expect(account).toExist('account');
       testAccountId2 = account.getId();
@@ -655,9 +642,8 @@ describe('TransactionFactory',function(){
   });
 
   it('should be able to do shutdown cleanup', function(done){
-    clearAll().then(()=>{
-      done();
-    })
+    clearAll()
+    .then(done)
     .catch((e)=>{
       Utility.logError(e);
     });

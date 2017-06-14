@@ -4,6 +4,7 @@ let AccountFactory = require('../lib/accountFactory.js');
 let ListingFactory = require('../lib/listingFactory.js');
 let TransactionFactory = require('../lib/transactionFactory.js');
 let Utility = require('../lib/utility.js');
+let UtilData = require('../lib/utilData.js');
 
 describe('UserList',function(){
 
@@ -54,10 +55,10 @@ describe('UserList',function(){
       return UserList.login('tom','toms-password',socket);
     }).catch(function(e){
       expect(UserList.getNumberOfUsers()).toBe(1);
-      done();
       Utility.logWarning(e);
       return AccountFactory.destroyAllAccounts();
     })
+    .then(done)
     .catch((e)=>{
       Utility.logError(e);
     });
@@ -141,11 +142,9 @@ describe('UserList',function(){
     })
     .then(function(loginResult){
       expect(UserList.getUsername(socket)).toBe('tom');
-      return AccountFactory.destroyAllAccounts();
+      return UtilData.clearAllData();
     })
-    .then(function(){
-      done();
-    })
+    .then(done)
     .catch((e)=>{
       Utility.logError(e);
     });

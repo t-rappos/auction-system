@@ -3,6 +3,7 @@ let TagFactory = require('../lib/tagFactory.js');
 let Utility = require('../lib/utility.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let ItemFactory = require('../lib/itemFactory.js');
+let UtilData = require('../lib/utilData.js');
 
 let testAccountId = null;
 let testItemId = null;
@@ -327,7 +328,6 @@ describe('TagFactory',function(){
     })
     .then((itemTagValues)=>{
       expect(itemTagValues.length).toBe(0);
-      done();
     })
     .then(()=>{
       return destroyTestItem();
@@ -335,10 +335,16 @@ describe('TagFactory',function(){
     .then(()=>{
       return destroyTestAccount();
     }).catch(function(e){
-
       destroyTestItem().then(()=>{
         return destroyTestAccount();
       });
+      Utility.logError(e);
+    })
+    .then(()=>{
+      return UtilData.clearAllData();
+    })
+    .then(done)
+    .catch((e)=>{
       Utility.logError(e);
     });
   });

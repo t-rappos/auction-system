@@ -2,6 +2,7 @@ var expect = require('expect');
 let Utility = require('../lib/utility.js');
 let AccountFactory = require('../lib/accountFactory.js');
 let DB = require('../lib/serverDB.js');
+let UtilData = require('../lib/utilData.js');
 
 Utility.log("about to initialise database");
 DB.initialise().then(function(){
@@ -202,7 +203,7 @@ describe('AccountFactory',function(){
       done();
     })
     .then(()=>{
-      return AccountFactory.destroyAllAccounts();
+      return UtilData.clearAllData();
     })
     .catch((e)=>{
       Utility.logError(e);
