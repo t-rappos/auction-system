@@ -1,54 +1,54 @@
 let expect = require('expect');
 let TagFactory = require('../lib/tagFactory.js');
 let Utility = require('../lib/utility.js');
-let AccountFactory = require('../lib/accountFactory.js');
-let ItemFactory = require('../lib/itemFactory.js');
-let UtilData = require('../lib/utilData.js');
+//let AccountFactory = require('../lib/accountFactory.js');
+//let ItemFactory = require('../lib/itemFactory.js');
+//let UtilData = require('../lib/utilData.js');
 
-let testAccountId = null;
-let testItemId = null;
-let testItemId2 = null;
-
-function createTestAccount(){
-  return AccountFactory.destroyAllAccounts()
-  .then(()=>{
-    return AccountFactory.createAccount('tom', 'tom-password', 'tom@tom.tom');
-  })
-  .then((account)=>{
-    testAccountId = account.getId();
-    expect(testAccountId).toNotBe(null);
-  }).catch((e)=>{
-    Utility.logError(e);
-  });
-}
-
-function createTestItem(){
-  return ItemFactory.removeAllItems()
-  .then(()=>{
-    return ItemFactory.createItem('broom handle', 'dusty',"dsfdsf", testAccountId);
-  })
-  .then((item)=>{
-    testItemId = item.getId();
-    return ItemFactory.createItem('broom handle2', 'dusty2',"dsfdsf2", testAccountId);
-  })
-  .then((item)=>{
-    testItemId2 = item.getId();
-    expect(testItemId).toNotBe(null);
-    expect(testItemId2).toNotBe(null);
-  }).catch((e)=>{
-    Utility.logError(e);
-  });
-}
-
-function destroyTestItem(){
-  testItemId = null;
-  return ItemFactory.removeAllItems();
-}
-
-function destroyTestAccount(){
-  testAccountId = null;
-  return AccountFactory.destroyAllAccounts();
-}
+// let testAccountId = null;
+// let testItemId = null;
+// let testItemId2 = null;
+//
+// function createTestAccount(){
+//   return AccountFactory.destroyAllAccounts()
+//   .then(()=>{
+//     return AccountFactory.createAccount('tom', 'tom-password', 'tom@tom.tom');
+//   })
+//   .then((account)=>{
+//     testAccountId = account.getId();
+//     expect(testAccountId).toNotBe(null);
+//   }).catch((e)=>{
+//     Utility.logError(e);
+//   });
+// }
+//
+// function createTestItem(){
+//   return ItemFactory.removeAllItems()
+//   .then(()=>{
+//     return ItemFactory.createItem('broom handle', 'dusty',"dsfdsf", testAccountId);
+//   })
+//   .then((item)=>{
+//     testItemId = item.getId();
+//     return ItemFactory.createItem('broom handle2', 'dusty2',"dsfdsf2", testAccountId);
+//   })
+//   .then((item)=>{
+//     testItemId2 = item.getId();
+//     expect(testItemId).toNotBe(null);
+//     expect(testItemId2).toNotBe(null);
+//   }).catch((e)=>{
+//     Utility.logError(e);
+//   });
+// }
+//
+// function destroyTestItem(){
+//   testItemId = null;
+//   return ItemFactory.removeAllItems();
+// }
+//
+// function destroyTestAccount(){
+//   testAccountId = null;
+//   return AccountFactory.destroyAllAccounts();
+// }
 
 
 describe('TagFactory',function(){
@@ -100,7 +100,7 @@ describe('TagFactory',function(){
 
   it("should be able to get tag name",function(done){
     TagFactory.getTag("value").then((result)=>{
-      expect(result.getName()).toBe("value");
+      expect(result.name).toBe("value");
       done();
     }).catch(function(e){
       Utility.logError(e);
@@ -113,7 +113,7 @@ describe('TagFactory',function(){
 
   it("should be able to get tag id",function(done){
       TagFactory.getTag("value").then((result)=>{
-        expect(result.getId()).toNotBe(null).toNotBe('');
+        expect(result.id).toNotBe(null).toNotBe('');
         done();
     }).catch(function(e){
       Utility.logError(e);
@@ -123,7 +123,7 @@ describe('TagFactory',function(){
   it("should be able to get all tags",function(done){
     TagFactory.getAllTags().then((tags)=>{
       expect(tags.length).toBe(3);
-      expect(tags[1].getName()).toBe('quantity');
+      expect(tags[1].name).toBe('quantity');
       done();
     }).catch(function(e){
       Utility.logError(e);
@@ -131,7 +131,8 @@ describe('TagFactory',function(){
   });
 
   it("should be able to delete tag",function(done){
-    TagFactory.getTag("value").then((tag)=>{
+    TagFactory.getTag("value")
+    .then((tag)=>{
       return TagFactory.removeTag(tag);
     })
     .then(()=>{
@@ -157,6 +158,7 @@ describe('TagFactory',function(){
     });
   });
 
+/*
   it("should be able to create tagValue for item",function(done){
     createTestAccount().then(()=>{
       return createTestItem();
@@ -348,7 +350,7 @@ describe('TagFactory',function(){
       Utility.logError(e);
     });
   });
-
+*/
 
 
 });
