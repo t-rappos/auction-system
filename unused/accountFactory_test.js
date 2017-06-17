@@ -4,10 +4,6 @@
 // let DB = require('../lib/serverDB.js');
 // let UtilData = require('../lib/utilData.js');
 //
-// Utility.log("about to initialise database");
-// DB.initialise().then(function(){
-//   Utility.log('dn initialise');
-// });
 //
 // function runTests(){
 //
@@ -57,10 +53,10 @@
 //     })
 //     .then(function(account){
 //       expect(account).toNotBe(null);
-//       expect(account.getUsername()).toBe(username);
-//       expect(account.getPassword()).toBe(password);
-//       expect(account.getEmail()).toBe(email);
-//       expect(typeof account.getDetails()).toBe('object');
+//       expect(account.username).toBe(username);
+//       expect(account.password).toBe(password);
+//       expect(account.email).toBe(email);
+//       expect(typeof account.details).toBe('object');
 //       done();
 //     })
 //     .catch(function(e){
@@ -80,9 +76,9 @@
 //       return AccountFactory.destroyAccount(account);
 //     })
 //     .then(function(){
-//       expect(account.getUsername()).toBe(null);
-//       expect(account.getEmail()).toBe(null);
-//       expect(account.getPassword()).toBe(null);
+//       expect(account.username).toBe(null);
+//       expect(account.email).toBe(null);
+//       expect(account.password).toBe(null);
 //       return AccountFactory.getAccount('tom');
 //     })
 //     .then(function(acc){
@@ -108,9 +104,9 @@
 //     .then(function(acc){
 //       dbAccount = acc;
 //       expect(account.equals(dbAccount)).toBe(true);
-//       expect(account.getUsername()).toBe(dbAccount.getUsername());
-//       expect(account.getPassword()).toBe(dbAccount.getPassword());
-//       expect(account.getEmail()).toBe(dbAccount.getEmail());
+//       expect(account.username).toBe(dbAccount.username);
+//       expect(account.password).toBe(dbAccount.password);
+//       expect(account.email).toBe(dbAccount.email);
 //       done();
 //     })
 //     .catch(function(e){
@@ -149,7 +145,7 @@
 //       return AccountFactory._changeAccountPassword(account,'newPassword');
 //     })
 //     .then(function(){
-//       expect(account.getPassword()).toBe('newPassword');
+//       expect(account.password).toBe('newPassword');
 //       done();
 //     })
 //     .catch(function(e){
