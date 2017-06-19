@@ -50,6 +50,7 @@ module.exports = {
             "mocha/max-top-level-suites":"error",
             "mocha/no-nested-tests":"error",
             "node/no-unpublished-require" : 0,
+            "node/no-unsupported-features" : 0
         },
 
 };
