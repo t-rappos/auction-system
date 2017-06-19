@@ -64,38 +64,63 @@ describe('AccountFacade',function(){
     });
   });
 
-
-  it('should be able to get account messages', function(done){
-    expect(true).toBe(false);
-    done();
-  });
-
-  it('should be able to get message detail', function(done){
-    expect(true).toBe(false);
-    done();
-  });
-
-  it('should be able to set message read', function(done){
-    expect(true).toBe(false);
-    done();
-  });
-
-  it('should be able to send message', function(done){
-    expect(true).toBe(false);
-    done();
-  });
+  let acc1Id = null;
+  let acc2Id = null;
 
   it('should be able to autocomplete username', function(done){
     Promise.all([
       AccountFacade.createAccount('username1','email1@domain.com', 'password'),
       AccountFacade.createAccount('username2','email2@domain.com', 'password')])
-    .then(()=>{
+    .then((res)=>{
+        acc1Id = res[0].id;
+        acc2Id = res[1].id;
         return AccountFacade.autocompleteUsername('username');
     })
     .then((res)=>{
       expect(res.length).toBe(2);
       expect(res[0]).toBe('username1');
       expect(res[1]).toBe('username2');
+      done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
+    });
+  });
+
+  it('should be able to send message', function(done){
+    AccountFacade.sendMessage(acc1Id, acc2Id, 'new message', 'hi account 2')
+    .then((msg)=>{
+      expect(msg.senderId).toBe(acc1Id);
+      expect(msg.recipientId).toBe(acc2Id);
+      expect(msg.title).toBe('new message');
+      expect(msg.content).toBe('hi account 2');
+      done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
+    });
+  });
+
+  let msgId = null;
+  it('should be able to get account messages', function(done){
+    AccountFacade.getAccountMessages(acc2Id)
+    .then((msgs)=>{
+      expect(msgs.length).toBe(1);
+      msgId = msgs[0].id;
+      done();
+    })
+    .catch((e)=>{
+      Utility.logError(e);
+    });
+  });
+
+  it('should be able to set message read', function(done){
+    AccountFacade.setMessageRead(msgId)
+    .then(()=>{
+      return AccountFacade.getAccountMessages(acc2Id);
+    })
+    .then((msgs)=>{
+      expect(msgs[0].read).toBe(true);
       done();
     })
     .catch((e)=>{
