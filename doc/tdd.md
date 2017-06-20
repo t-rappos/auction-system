@@ -52,21 +52,17 @@ Message | Data sent with message | Data sent as response
 --- | --- | ---
 connect         | (socket) |
 disconnect        | (socket) |
-disconnect_all  |          |
 --- | --- | ---
-create_account          |(email, username, password) |(success)
+create_account          |(email, username, password) |(account)
 validate_new_username   |(username)                  |(success)
  validate_new_email      |  (email)                     |(success)
 update_account          |(username, account_details) |(success)
- remove_account             |(username)                  |(success)
-remove_all_accounts     | |
 --- | --- | ---
 get_account_details      |(username) |(account_details)
 get_account_messages   |(username) |([message...])
 set_message_read       |(message)
 login_user             |(username,password,socket)   |(success)
 logout_user            |  (username) |(success)
-logout_all_users         | |
 send_message           |  (author,recipient,title,message) |(success)
 autocomplete_username  |(input)   |(suggestion_list)
 verify_username_exists   |(username) |(success)
@@ -74,27 +70,21 @@ verify_username_exists   |(username) |(success)
 create_item          |(imageId, name, description, tagValues, ownerId)  |(item)
 get_image_list     | |(image_list)
 get_account_items      |(username)   |(item_list)
-get_item_details       |  (item) |(item_details)
 get_item_image         |(item) |(image)
 remove_item           |(item) |(success)
-remove_all_items   | |
 --- | --- | ---
-create_item_tag   |(tag_name) |(success)
-remove_item_tag      |  (tag_name) |(success)
-remove_all_item_tags   | |
-get_item_tags   | |(item_tag_list)
-autocomplete_item_tags     |(input) |(item_tag_list)
+create_item_tag_value |(tag_name) |(tagValue)
+get_tag_enum_values | (tag_name) | ([tagValue...])
+get_all_tags   | |([tag...])
 --- | --- | ---
-get_listings  |   |(listing_list)
-get_account_listings |  (username) |(listing_list)
-get_listing_details    |(listing) |(listing_details)
+get_all_listings  |   |([listing...])
+get_account_listings |  (username) |([listing...])
+create_listing | (itemId, startPrice, duration, type, sellerId) | (listing)
 bid_on_listing       |(user,listing,price) |(success)
-buyout_listing    |  (user,listing,price) |(success)
+buyout_listing    |  (user,listing) |(success)
 cancel_listing     |  (listing) |(success)
-cancel_all_listings   | |
-get_user_transactions   |(username) |(transaction_list)
 
-
+## V1
 ### Candidate Classes
 
 #### List
@@ -159,168 +149,30 @@ To deal with database records, an entity-factory design will be used.
   - database
     - Factories will rely on an abstracted database, so the database implementation can be changed without effecting the factories.
 
-#### CRC cards
+## V2
 
-##### ClientAPI
-The APIs send messages to this class with SocketIO
+### Candidate Class List
+- API.js //Might refactor this into smaller parts
+- Facade
+  - account.js
+  - item.js
+  - listing.js
+  - tag.js
+- Model
+ - account.js
+ - image.js
+ - item.js
+ - listing.js
+ - message.js
+ - tag.js
+ - tagValue.js
+ - transaction.js
+- Validation
+ - account.js
 
-##### ServerAPI
-A singleton class that deals with client connections
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|Handles client connection||
-|Handles client disconnection||
-|Can forcefully disconnect clients||
-|Delegates other messages to children APIs|AccountAPI, SessionAPI, ListingAPI, ItemAPI|
-
-##### AccountAPI
-A singleton class that deals with user accounts
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-
-##### SessionAPI
-A singleton class that deals with client connections
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### ListingAPI
-A singleton class that deals with client connections
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### ItemAPI
-A singleton class that deals with client connections
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### User
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### MessageFactory
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### Message
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### AccountFactory
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### Account
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### ListingFactory
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### Listing
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### TransactionFactory
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### TransactionBid
-
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### TransactionPurchase
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### ItemFactory
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### Item
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
-##### TagFactory
-
-|**Responsibilities**|**Collaborators**|
-| --- | --- |
-|||
-|||
-|||
-
+### Diagrams
+### Explanation
+### Justification
 
 #### Quality, Extension, Design Patterns
 
