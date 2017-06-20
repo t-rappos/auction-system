@@ -22,28 +22,26 @@ The following is a list estimated user functionality, users can:
 
 - Accounts
   - Create an account
-  - Edit their account
+  - View account details
+  - Edit their account details
   - Message other accounts
-  - See received messages (loaded on login, and as they are sent)
+  - See received messages
+  - Real time notifications
   - Have associated currency amount for use
   - Login
   - Logout
-
 
 - Items
   - Create items
   - View stored items
   - Sort stored items
   - See what items look like
-  - Can be of a type/category/tag
-
+  - Items can have metadata
 
 - Listings
-  - Sell and buy items
-  - Auction and bid on items
-  - Sold items trigger a 'item sold' message to be sent to the seller
+  - List items for bid or buyout
+  - Bid on listing or buyout item
   - Cancel listing
-
 
 - Searching
   - Search for items to buy
@@ -56,19 +54,14 @@ The following is a list of functionality deferred for version 2.0 of the system
  - Items
   - Upload item image
 
-
- - Listings
-  - Sell item (search for similar items to check recommended price)
-
-
  - Searching
   - Wait for item to appear that matches search criteria
   - View price of item type over time
-  - TODO: ?idea? search criteria price over time?
+    - Save search criteria and plot average price over time?
 
 ### 3.2.4 Operating Environment
 
-- Users will be able to use this software from a website GUI. It should work identically on ?Internet Explorer?, Firefox and Chrome on PC's and mobiles.
+- Users will be able to use this software from a website GUI. It should work identically on Internet Explorer, Firefox and Chrome on PC's and mobiles.
 - Multiple users can use the software at any time
 
 ### 3.2.5 Domain Entities
@@ -123,14 +116,14 @@ These are the tasks that are required to be supported by the software solution.
 10. View item
 11. Sort inventory
 12. Search inventory
-13. Sell item
+13. List item
 14. Buy item
 15. Bid on item
 16. View owned listings
 17. Cancel listing
 18. Wait for search
 19. Sort search result list
-20. View price of item-type over time
+20. View price of item-type over time (deferred)
 
 ### 3.2.8 CRUD Check
 
@@ -460,8 +453,7 @@ Outlined using [LucidCharts.](https://www.lucidchart.com/invitations/accept/a035
 
 ### 3.5 Design and Implementation Constraints / Assumptions
 
-- Security issues can be ignored due to trivial nature of software, user account should be designed to be replaced by a secure system after this project is complete.
-- User account verification can be ignored since this is a prototypical live website
+- Security issues can be largely ignored due to trivial nature of software.
 - The items used in this system are trivial, allowing items to be created by any user. In a video game system the items would have been obtained via the game before hand, or in a real-life bidding system a sold item would have to be verified as received (by the recipient) otherwise the sellers credibility would be devalued etc...
 
 ## 3.5 Non-functional Requirements
@@ -473,13 +465,13 @@ Outlined using [LucidCharts.](https://www.lucidchart.com/invitations/accept/a035
 
 
 ### 3.5.2 Reliability
-
 - Less than 15 mins downtime for updates / maintenance
 - UI Must work on firefox, chrome and internet explorer and mobile
 - Must support up to 100 concurrent users
 
 ### 3.5.2 Safety
-
+- Passwords be stored encrypted and no keys or secrets will be stored within the repository.
+- Users will be authenticated when using the system and must be authorized for certain actions.
 - Store least amount of required personal user information
 
 ### 3.5.3 Usability

@@ -14,9 +14,9 @@ This document is aiming to explain the static and dynamic structure of the syste
 
 ### Description of requirements
 - User can create an account to interact with the system (logging in/out) and call also message other accounts.
-- User can create items, which are then stored in the users inventory. Inventories can be sorted and searched. Items can be inspected to see their component attributes.
+- User can create items, which are then stored in the users inventory. Inventories can be sorted and searched. Items can be inspected to see their metadata.
 - User can list singular items for sale as a bid and/or a buyout listing. They can also cancel listings. Users will be alerted by a message when an item is sold.
-- User can search all listed items using item attributes as search criteria. They can also create on-going searches which will display items as they are listed in real time if they match criteria. The search results can be sorted. Item-type price can be observed over time
+- User can search all listed items using item metadata as search criteria. They can also create on-going searches which will display items as they are listed in real time if they match criteria (deferred). The search results can be sorted. Item-type price can be observed over time (deferred).
 
 ### Assumptions
 ### Simplifications
@@ -28,10 +28,17 @@ TODO: Update this to reflect technologies research page
 ### Justification
 
 ## Back-End
-### Data Model
+### Data Model V1
 
 https://www.lucidchart.com/documents/edit/299c93a7-91aa-4bd3-b2d2-2c8fcfa3b7c4#
-![data model](auction-images/data_model.PNG)
+![data model v1](auction-images/data_model.PNG)
+
+### Data Model V2
+
+![data model v2](auction-images/data_model2.PNG)
+
+#### Explanation
+The V2 model has been simplified by removing MessageRoute and LoginCredentials. It also allows items to be relisted multiple times. Messages no longer have a prior message, and bids no longer have a prior bid.
 
 TODO:
 - EAV may be an anti pattern...
@@ -55,19 +62,17 @@ update_account          |(username, account_details) |(success)
 remove_all_accounts     | |
 --- | --- | ---
 get_account_details      |(username) |(account_details)
-get_account_messages   |(username) |(message_list)
- get_message_detail       |(message)  |(message_details)
+get_account_messages   |(username) |([message...])
 set_message_read       |(message)
 login_user             |(username,password,socket)   |(success)
 logout_user            |  (username) |(success)
 logout_all_users         | |
-send_message           |  (author,message,recipient) |(success)
-autocomplete_username  |(input)   |(suggestion_list, is_valid)
+send_message           |  (author,recipient,title,message) |(success)
+autocomplete_username  |(input)   |(suggestion_list)
 verify_username_exists   |(username) |(success)
 --- | --- | ---
-create_item          |(item_details)  |(success, item)
-  validate_item       |(item_details) |(success)
-  get_image_list     | |(image_list)
+create_item          |(imageId, name, description, tagValues, ownerId)  |(item)
+get_image_list     | |(image_list)
 get_account_items      |(username)   |(item_list)
 get_item_details       |  (item) |(item_details)
 get_item_image         |(item) |(image)
