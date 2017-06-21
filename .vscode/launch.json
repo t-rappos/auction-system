@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 "version": "0.2.0",
 "configurations": [
+
    { 
        "type": "node",
        "request": "launch",
@@ -18,6 +19,27 @@
            "${workspaceRoot}/test"
        ],
        "internalConsoleOptions": "openOnSessionStart"
-   }
+   },
+   {
+            "name": "Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceRoot}/app",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///app/*":"${workspaceRoot}/app/*" 
+            },
+            "trace": true
+        },
+        {
+            "name": "Attach",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "url": "http://localhost:3000/*",
+            "webRoot": "${workspaceRoot}/app"
+        }
+
 ]
 }

@@ -48,4 +48,5 @@ module.exports = {
         failOnWarning: false,
         failOnError: true
     },
+  devtool : "#cheap-module-source-map"
 };

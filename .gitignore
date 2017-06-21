@@ -2,6 +2,8 @@
 **/db_config
 **/coverage
 public/bundle.js
+public/bundle.js.map
 **/dist
 **/.nyc_output
+**/.chrome
 npm-debug.log
