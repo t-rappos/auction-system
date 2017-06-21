@@ -1,6 +1,6 @@
 var React = require('react');
-var ServerApi = require('ServerAPI');
-
+var ServerApi = require('../api/server.jsx');
+var Login = require('./login.jsx');
 const appStyle = {
 
 };
@@ -16,7 +16,7 @@ var Main = React.createClass({
     return (
       <div ref={node => this.node = node} style={appStyle}>
         <div className='expanded row' style={mainWindowStyle} >
-          <h1>Main Window</h1>
+          <Login/>
         </div>
       </div>
     );

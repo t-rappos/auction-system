@@ -20,12 +20,6 @@ module.exports = {
   },
   resolve: {
     root: __dirname,
-    alias: {
-      Main: 'app/components/Main.jsx',
-      ReduxWrapper:      'app/ReduxWrapper.jsx',
-      ServerAPI: 'app/api/ServerAPI.jsx',
-      Actions: 'app/actions/index.js',
-    },
     extensions: ['','.js','.jsx']
   },
   module: {
