@@ -1,5 +1,5 @@
 var React = require('react');
-//var ServerApi = require('ServerAPI');
+var ServerApi = require('ServerAPI');
 
 const appStyle = {
 
@@ -12,6 +12,7 @@ const mainWindowStyle = {
 var Main = React.createClass({
 
   render: function(){
+    ServerApi.sendUserLoginRequest('tom');
     return (
       <div ref={node => this.node = node} style={appStyle}>
         <div className='expanded row' style={mainWindowStyle} >
