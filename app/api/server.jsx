@@ -25,25 +25,28 @@ socket.emitAsync = Promise.promisify(socket.emit);
 //});
 
 
-function sendUserLoginRequest(username){
-  
-  console.log("attempting to login");
-  socket.emitAsync('login', username).timeout(1000)
-  .then(()=>{
-    console.log("logged in");
-  })
-  .catch((e)=>{
-    console.log("logging in error");
-    console.log(e);
+function sendUserLoginRequest(username, password){
+  return new Promise((resolve, reject)=>{
+    console.log("attempting to login");
+    socket.emit('login',{username : username, password : password}, (res)=>{
+      console.log("logged in : " + res);
+      resolve(res);
+    });
   });
-  //socket.emit('login',username, (res)=>{
-  //  callback(res);
-  //});
+}
+
+function sendAccountCreationRequest(username, email, password){
+  return new Promise((resolve, reject)=>{
+    socket.emit('create_account', {username: username, email : email, password : password}, (res)=>{
+      resolve(res);
+    });
+  });
 }
 
 module.exports = {
 
-  sendUserLoginRequest : sendUserLoginRequest
+  sendUserLoginRequest : sendUserLoginRequest,
+  sendAccountCreationRequest : sendAccountCreationRequest
 ////////////////////
 //Public CALLBACKS//
 ////////////////////

@@ -1,9 +1,5 @@
 var React = require('react');
-//var ServerApi = require('../api/server.jsx');
-
-//const appStyle = {
-//
-//};
+var ServerApi = require('../api/server.jsx');
 
 const containerStyle = {
     maxWidth : 250,
@@ -72,18 +68,31 @@ const buttonNoMarginStyle = {
 };
 
 var RegisterPage = React.createClass({
-  onSubmit : function(){
-
+  onSubmit : function(e){
+    e.preventDefault();
+    console.log('create page pressed');
+    if(this.username.value == null || this.username.value == '') {return;}
+    if(this.password.value == null || this.password.value == '') {return;}
+    if(this.email.value == null || this.email.value == '') {return;}
+    if(this.password.value != this.password2.value){alert('passwords do not match');return;}
+    ServerApi.sendAccountCreationRequest(this.username.value, this.email.value, this.password.value)
+    .then((res)=>{
+        //TODO: update this to use a modal
+        if(res === true){alert('Success');} else {alert(res);}
+    })
+    .catch((e)=>{
+        console.log(e);
+    });
   },
   render: function(){
     return (
       <div ref={node => this.node = node}>
         <div className='expanded row' >
             <form onSubmit = {this.onSubmit}>
-                <input placeholder="username" type='text'/>
-                <input placeholder="email" type='text'/>
-                <input placeholder="password" type='password'/>
-                <input placeholder="re-enter password" type='password'/>
+                <input ref={(input) => this.username = input} placeholder="username" type='text'/>
+                <input ref={(input) => this.email = input} placeholder="email" type='text'/>
+                <input ref={(input) => this.password = input} placeholder="password" type='password'/>
+                <input ref={(input) => this.password2 = input} placeholder="re-enter password" type='password'/>
                 <button className = "button success" style = {buttonNoMarginStyle} type="submit">Register</button>
             </form>
         </div>
@@ -93,16 +102,26 @@ var RegisterPage = React.createClass({
 });
 
 var LoginPage = React.createClass({
-  onSubmit : function(){
 
+  onSubmit : function(e){
+    e.preventDefault();
+    if(this.username.value == null || this.username.value == '') {return;}
+    if(this.password.value == null || this.password.value == '') {return;}
+    ServerApi.sendUserLoginRequest(this.username.value, this.password.value)
+    .then((res)=>{
+        //TODO: update this to use a modal
+        if(res){alert('Success');} else {alert('Incorrect username or password, please try again');}
+    });
   },
   render: function(){
     return (
       <div ref={node => this.node = node}>
         <div className='expanded row' >
             <form onSubmit = {this.onSubmit}>
-                <input placeholder="username" type='text'/>
-                <input placeholder="password" type='password'/>
+                <input placeholder="username" type='text'
+                    ref={(input) => this.username = input}/>
+                <input placeholder="password" type='password'
+                    ref={(input) => this.password = input}/>
                 <button className = "button success" style = {buttonNoMarginStyle} type="submit">Login</button>
             </form>
         </div>
