@@ -2,6 +2,8 @@ var React = require('react');
 var expect = require('expect');
 var $ = require('jquery');
 var TestUtils = require('react-addons-test-utils');
+//import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 
 var LandingTabContainer = require('../components/landingTabContainer.jsx');
 
@@ -25,7 +27,7 @@ describe("LandingTabContainer", function(){
     expect(tr).toExist();
     done();
   });
-  it('should be able to toggle',function(done){
+  it('should have login form as default',function(done){
     let login = renderLoginComponent();
     expect(login).toExist();
     let $el = $(login.node);
@@ -34,6 +36,15 @@ describe("LandingTabContainer", function(){
     expect(loginForm).toExist();
     expect(registerForm).toNotExist();
     //TODO: Simulate clicking on tab
+    done();
+  });
+  it('should be able to toggle', function(done){
+    let login = mount(<LandingTabContainer/>);
+    expect(login.find('LoginForm').length).toBe(1);
+    expect(login.find('RegisterForm').length).toBe(0);
+    login.find('button#registerTab').at(0).simulate('click');
+    expect(login.find('LoginForm').length).toBe(0);
+    expect(login.find('RegisterForm').length).toBe(1);
     done();
   });
 });

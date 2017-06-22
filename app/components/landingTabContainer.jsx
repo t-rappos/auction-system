@@ -45,14 +45,14 @@ class LandingTabContainer extends React.Component{
         <div style = {containerStyle} ref={node => this.node = node} >
             <div style = {tabContainerStyle}>
                     <button className = "button" 
-                        id = 'registerTab'
+                        id = 'loginTab'
                         style = {(!this.state.registerPageEnabled)?activeButtonStyle:buttonStyle} 
                         onClick = {()=>{this.setState({registerPageEnabled:false});}}
                         type="">
                         Login
                     </button>
                     <button className = "button" 
-                        id = 'loginTab'
+                        id = 'registerTab'
                         style = {(!this.state.registerPageEnabled)?buttonStyle:activeButtonStyle} 
                         onClick = {()=>{this.setState({registerPageEnabled:true});}}
                         type="">
