@@ -27,9 +27,7 @@ socket.emitAsync = Promise.promisify(socket.emit);
 
 function sendUserLoginRequest(username, password){
   return new Promise((resolve, reject)=>{
-    console.log("attempting to login");
     socket.emit('login',{username : username, password : password}, (res)=>{
-      console.log("logged in : " + res);
       resolve(res);
     });
   });

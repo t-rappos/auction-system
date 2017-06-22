@@ -1,5 +1,5 @@
 var React = require('react');
-var Login = require('./login.jsx');
+var LandingTabContainer = require('./landingTabContainer.jsx');
 const appStyle = {
 
 };
@@ -14,7 +14,7 @@ var Main = React.createClass({
     return (
       <div ref={node => this.node = node} style={appStyle}>
         <div className='expanded row' style={mainWindowStyle} >
-          <Login/>
+          <LandingTabContainer/>
         </div>
       </div>
     );
