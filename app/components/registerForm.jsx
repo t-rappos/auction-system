@@ -1,5 +1,6 @@
 var React = require('react');
 var ServerApi = require('../api/server.jsx');
+import PropTypes from 'prop-types';
 
 const buttonNoMarginStyle = {
     margin : 0,
@@ -25,6 +26,7 @@ class RegisterForm extends React.Component{
             if(res === true){
                 this.setState({lastResultMessage:'success'});
                 alert('Success');
+                this.props.switchTab(0);
             } else {
                 this.setState({lastResultMessage:String(res)});
                 alert(res);
@@ -53,5 +55,9 @@ class RegisterForm extends React.Component{
         );
     }
 }
+
+RegisterForm.propTypes = {
+    switchTab : PropTypes.func
+};
 
 module.exports = RegisterForm;

@@ -25,6 +25,19 @@ socket.emitAsync = Promise.promisify(socket.emit);
 //});
 
 
+function sendAccountModifyRequest(email, details, callback){
+  let options = {email : email, details : details};
+  return new Promise((resolve, reject)=>{
+    socket.emit('modify_account', options, callback);
+  });
+}
+
+function sendAccountViewRequest(callback){
+  return new Promise((resolve, reject)=>{
+    socket.emit('view_account', callback);
+  });
+}
+
 function sendUserLoginRequest(username, password){
   return new Promise((resolve, reject)=>{
     socket.emit('login',{username : username, password : password}, (res)=>{
@@ -42,9 +55,10 @@ function sendAccountCreationRequest(username, email, password){
 }
 
 module.exports = {
-
+  sendAccountViewRequest : sendAccountViewRequest,
   sendUserLoginRequest : sendUserLoginRequest,
-  sendAccountCreationRequest : sendAccountCreationRequest
+  sendAccountCreationRequest : sendAccountCreationRequest,
+  sendAccountModifyRequest : sendAccountModifyRequest
 ////////////////////
 //Public CALLBACKS//
 ////////////////////

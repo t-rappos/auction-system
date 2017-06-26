@@ -1,5 +1,6 @@
 var React = require('react');
 var ServerApi = require('../api/server.jsx');
+import { browserHistory } from 'react-router';
 
 const buttonNoMarginStyle = {
     margin : 0,
@@ -27,7 +28,7 @@ class LoginForm extends React.Component{
             //TODO: update this to use a modal
             if(res){
                 this.setState({lastResultMessage:'logged in'});
-                alert('Success');
+                browserHistory.push('/account');
             } else {
                 this.setState({lastResultMessage:'failed login'});
                 alert('Incorrect username or password, please try again');
