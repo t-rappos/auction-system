@@ -14,7 +14,20 @@ let expect = require('expect');
 describe('ItemFacade', function(){
     it('should exist', function(done){
         expect(ItemFacade).toExist();
-        done();
+                ItemFacade.removeAllItems()
+        .then(()=>{
+            return ItemFacade.removeAllImages();
+        })
+        .then(()=>{
+            return require('../lib/facade/account.js').removeAllAccounts();
+        })
+        .then(()=>{
+            done();
+        })
+        .catch((e)=>{
+            Utility.logError(e);
+        });
+        
     });
 
     it('should be able to do setup', function(done){
@@ -44,11 +57,11 @@ describe('ItemFacade', function(){
     });
 
     it('should create test item',function(done){
-        ItemFacade.createTestItem('testItemName', 'testItemDesc', 1337, ownerAccount.id)
+        ItemFacade.createTestItem('testItemName', 'testItemDesc', 500, ownerAccount.id)
         .then((res)=>{
             expect(res.name).toBe('testItemName');
             expect(res.description).toBe('testItemDesc');
-            expect(res.id).toBe(1337);
+            expect(res.id).toBe(500);
             done();
         })
         .catch((e)=>{
