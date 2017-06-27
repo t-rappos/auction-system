@@ -5,6 +5,7 @@ var Tab = require('./tabContainer.jsx').Tab;
 var ServerApi = require('../api/server.jsx');
 let AccountView = require('./accountView.jsx');
 let AccountModify = require('./accountModify.jsx');
+let InventoryContainer = require('./inventoryContainer.jsx');
 
 //gets account details from db
 class AccountContainer extends React.Component{
@@ -82,6 +83,7 @@ class AccountContainer extends React.Component{
                         />
                     </Tab>
                 </TabContainer>
+                <InventoryContainer/>
             </div>
         );
     }

@@ -24,6 +24,11 @@ socket.emitAsync = Promise.promisify(socket.emit);
 //  safeCall(serverApiOnLoginCallback,username);
 //});
 
+function sendInventoryViewRequest(callback){
+  return new Promise((resolve, reject)=>{
+    socket.emit('view_items', callback);
+  });
+}
 
 function sendAccountModifyRequest(email, details, callback){
   let options = {email : email, details : details};
@@ -58,7 +63,8 @@ module.exports = {
   sendAccountViewRequest : sendAccountViewRequest,
   sendUserLoginRequest : sendUserLoginRequest,
   sendAccountCreationRequest : sendAccountCreationRequest,
-  sendAccountModifyRequest : sendAccountModifyRequest
+  sendAccountModifyRequest : sendAccountModifyRequest,
+  sendInventoryViewRequest : sendInventoryViewRequest
 ////////////////////
 //Public CALLBACKS//
 ////////////////////
