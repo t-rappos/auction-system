@@ -30,7 +30,6 @@ class InventoryContainer extends React.Component{
     render(){
         return (
             <div>
-               InventoryContainer
                <InventoryView 
                 items = {this.state.items}
                 tagValues = {this.state.tagValues}

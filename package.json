@@ -34,6 +34,7 @@
     "react": "^15.4.2",
     "react-redux": "^5.0.2",
     "react-router": "^2.0.0",
+    "react-table": "^6.4.0",
     "redux": "^3.6.0",
     "sequelize": "^4.1.0",
     "socket.io": "^1.7.2",
@@ -47,7 +48,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-preset-stage-2": "^6.22.0",
-    "css-loader": "^0.26.1",
+    "css-loader": "^0.28.4",
     "enzyme": "^2.9.0",
     "eslint": "^3.14.0",
     "eslint-config-google": "^0.7.1",
@@ -77,7 +78,7 @@
     "rimraf": "^2.5.4",
     "script-loader": "^0.7.0",
     "socket.io-client": "^1.7.2",
-    "style-loader": "^0.13.1",
+    "style-loader": "^0.18.2",
     "webpack": "^1.14.0"
   }
 }
