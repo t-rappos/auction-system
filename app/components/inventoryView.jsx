@@ -7,7 +7,15 @@ let InventoryTable = require('./inventoryTable.jsx');
 class InventoryView extends React.Component{
 
     getHeaders(){
-        let columns = [{Header : 'name', accessor : 'name', id : 'name'}];
+
+        let nameCellRenderer = row=> (
+            <div style = { {cursor: 'pointer'} } >
+                {row.value}
+            </div>
+        );
+
+        let columns = [{Header : 'name', accessor : 'name', id : 'name', Cell : nameCellRenderer },
+                       {Header : 'itemId', accessor : 'itemId', id : 'itemId', show : false }];
         if(this.props.tags != null && this.props.tags != undefined){
             this.props.tags.map((tag, i)=>{
                 columns.push({Header : tag.name, accessor: tag.name});
@@ -22,6 +30,7 @@ class InventoryView extends React.Component{
             this.props.items.map((item)=>{
                 let row = {};
                 row['name'] = item.name;
+                row['itemId'] = item.id;
                 this.props.tagValues
                     .filter((tv)=>{return tv.itemId === item.id;})
                     .map((tv)=>{
@@ -41,7 +50,7 @@ class InventoryView extends React.Component{
         return (
             <div>
                 {this.props.items && this.props.tagValues && this.props.tags && 
-                   <InventoryTable values = {this.getValues()} headers = {this.getHeaders()}/>}
+                   <InventoryTable selectItem = {this.props.selectItem} values = {this.getValues()} headers = {this.getHeaders()}/>}
             </div>
         );
     }
@@ -50,7 +59,8 @@ class InventoryView extends React.Component{
 InventoryView.propTypes = {
     items : PropTypes.arrayOf(PropTypes.object),
     tags : PropTypes.arrayOf(PropTypes.object),
-    tagValues : PropTypes.arrayOf(PropTypes.object)
+    tagValues : PropTypes.arrayOf(PropTypes.object),
+    selectItem : PropTypes.func
 };
 
 module.exports = InventoryView;
