@@ -3,6 +3,9 @@ var React = require('react');
 var ServerApi = require('../api/server.jsx');
 let InventoryView = require('./inventoryView.jsx');
 let ItemView = require('./itemView.jsx');
+let ItemFormContainer = require("./itemFormContainer.jsx");
+let TabContainer = require('./tabContainer.jsx').TabContainer;
+let Tab = require('./tabContainer.jsx').Tab;
 
 //gets account details from db
 class InventoryContainer extends React.Component{
@@ -85,9 +88,12 @@ class InventoryContainer extends React.Component{
         return (
             <div className = 'row'>
                 <div className = 'small-3 columns'>
-                    {itemView}
+                    <TabContainer>
+                        <Tab name = 'Item Details'>{itemView}</Tab>
+                        <Tab name = 'Create Item'><ItemFormContainer/></Tab>
+                    </TabContainer>
                 </div>
-                <div className = 'small-9 columns'>
+                <div className = 'small-6 columns'>
                     <InventoryView
                         selectItem = {this.selectItem.bind(this)}
                         items = {this.state.items}

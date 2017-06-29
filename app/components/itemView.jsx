@@ -15,16 +15,20 @@ class ItemView extends React.Component{
                 <img src={this.props.imageUrl} alt=''/>
                 <h4>{this.props.name}</h4>
                 <p>{this.props.description}</p>
-                {
-                    this.props.tagNames.map((name, i)=>{
-                    return (
-                        <tr key = {i}>
-                            <td>{this.props.tagNames[i]}</td>
-                            <td>{this.props.tagValues[i]}</td>
-                        </tr>
-                        );
-                    })
-                }
+                <table>
+                    <tbody>
+                    {   
+                        this.props.tagNames.map((name, i)=>{
+                        return (
+                                <tr key = {i}>
+                                    <td >{this.props.tagNames[i]}</td>
+                                    <td >{this.props.tagValues[i]}</td>
+                                </tr>
+                            );
+                        })
+                    }   
+                    </tbody>
+                </table>
             </div>
         );
     }
