@@ -1,0 +1,58 @@
+
+var React = require('react');
+import PropTypes from 'prop-types';
+let ImageListForm = require('./imageListForm.jsx');
+let ServerAPI = require('../api/server.jsx');
+
+class ImageListContainer extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {selectedImageIndex : -1,
+                    urls : ['./assets/image1.jpg','./assets/image1.jpg'],
+                    ids : [0,1],
+                    names : ['image1', 'image2']
+        };
+    }
+
+    loadImages(){
+        ServerAPI.sendImageListViewRequest((res)=>{
+            if(res){
+                if(res.error){
+                    alert("Cannot connect to server!");
+                } else {
+                    let urls = [];
+                    let ids = [];
+                    let names = [];
+                    res.images.map((image)=>{
+                        urls.push(image.url);
+                        ids.push(image.id);
+                        names.push(image.name);
+                    });
+                    this.setState({urls : urls, ids : ids, names : name});
+                    console.log("loading images : ", res.images);
+                }
+            }
+        });
+    }
+    componentDidMount() {
+        this.loadImages();
+    }
+     //onImageSelection
+     render(){
+        return (
+            <ImageListForm images = {this.state.urls}
+                        names = {this.state.names}
+                        onImageClick = {(imageIndex)=>{
+                            this.setState({selectedImageIndex : imageIndex});
+                            this.props.onImageSelection(this.state.ids[imageIndex],this.state.urls[imageIndex] );
+                        }}
+                        selectedImageIndex = {this.state.selectedImageIndex}/>
+        );
+     }
+}
+
+ImageListContainer.propTypes = {
+    onImageSelection : PropTypes.func.isRequired
+};
+
+module.exports = ImageListContainer;

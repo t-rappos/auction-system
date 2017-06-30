@@ -76,18 +76,12 @@ class InventoryContainer extends React.Component{
                             tagValues = {this.state.selectedItemTagValues}
                         />;
         } else {
-            itemView = <ItemView
-                        imageUrl = './assets/image2.gif'
-                        description = "item description is here abasdfkj sd sakld asdfsad kjdsfasdfs sdklafsad fsadflksdf."
-                        name = 'bronze sword'
-                        tagNames = {['value', 'quantity' ]}
-                        tagValues = {['10','50']}
-                    />;
+            itemView = <p>No item selected</p>;
         }
 
         return (
             <div className = 'row'>
-                <div className = 'small-3 columns'>
+                <div className = 'small-6 columns'>
                     <TabContainer>
                         <Tab name = 'Item Details'>{itemView}</Tab>
                         <Tab name = 'Create Item'><ItemFormContainer/></Tab>

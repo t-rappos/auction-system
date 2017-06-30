@@ -24,6 +24,25 @@ socket.emitAsync = Promise.promisify(socket.emit);
 //  safeCall(serverApiOnLoginCallback,username);
 //});
 
+function sendTagViewRequest(callback){
+  return new Promise((resolve, reject)=>{
+    socket.emit('view_tags', callback);
+  });
+}
+
+function sendItemCreationRequest(imageId, name, desc, tagNames, tagValues, callback){
+  let options = {imageId : imageId, name : name, desc: desc, tagNames : tagNames, tagValues : tagValues};
+  return new Promise((resolve, reject)=>{
+    socket.emit('create_item', options, callback);
+  });
+}
+
+function sendImageListViewRequest(callback){
+  return new Promise((resolve, reject)=>{
+    socket.emit('view_images', callback);
+  });
+}
+
 function sendInventoryViewRequest(callback){
   return new Promise((resolve, reject)=>{
     socket.emit('view_items', callback);
@@ -60,6 +79,9 @@ function sendAccountCreationRequest(username, email, password){
 }
 
 module.exports = {
+  sendTagViewRequest : sendTagViewRequest,
+  sendItemCreationRequest : sendItemCreationRequest,
+  sendImageListViewRequest : sendImageListViewRequest,
   sendAccountViewRequest : sendAccountViewRequest,
   sendUserLoginRequest : sendUserLoginRequest,
   sendAccountCreationRequest : sendAccountCreationRequest,
