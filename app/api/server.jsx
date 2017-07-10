@@ -24,9 +24,37 @@ socket.emitAsync = Promise.promisify(socket.emit);
 //  safeCall(serverApiOnLoginCallback,username);
 //});
 
+function sendMessageDeleteRequest(messageId, callback){
+  return new Promise((resolve, reject)=>{
+    let options = {messageId : messageId};
+    socket.emit('delete_message', options, callback);
+  });
+}
+
+function sendMessageReadRequest(messageId, callback){
+  return new Promise((resolve, reject)=>{
+    let options = {messageId : messageId};
+    socket.emit('read_message', options, callback);
+  });
+}
+
 function sendTagViewRequest(callback){
   return new Promise((resolve, reject)=>{
     socket.emit('view_tags', callback);
+  });
+}
+
+function sendMessageCreationRequest(recipientId, title, message, callback){
+  let options = {recipientId : recipientId, title : title, message : message};
+   return new Promise((resolve, reject)=>{
+    socket.emit('create_message',options, callback);
+  });
+}
+
+function sendMessageListViewRequest(callback){
+   return new Promise((resolve, reject)=>{
+     console.log("sending view message request");
+    socket.emit('view_messages', callback);
   });
 }
 
@@ -79,6 +107,10 @@ function sendAccountCreationRequest(username, email, password){
 }
 
 module.exports = {
+  sendMessageDeleteRequest  : sendMessageDeleteRequest,
+  sendMessageReadRequest  : sendMessageReadRequest,
+  sendMessageCreationRequest : sendMessageCreationRequest,
+  sendMessageListViewRequest : sendMessageListViewRequest,
   sendTagViewRequest : sendTagViewRequest,
   sendItemCreationRequest : sendItemCreationRequest,
   sendImageListViewRequest : sendImageListViewRequest,
