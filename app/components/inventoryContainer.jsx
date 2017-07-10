@@ -24,7 +24,11 @@ class InventoryContainer extends React.Component{
 
 
     updateSelectedItemData(selectedItem){
-        let url = this.state.images.find((im)=>{return im.id === selectedItem.imageId;}).url;
+        let image = this.state.images.find((im)=>{
+            console.log('comparing image id %d against selected id %d',im.id, selectedItem.imageId);
+            return im.id === selectedItem.imageId;
+        });
+        let url = image?image.url:'';
         let tagNames = [];
         let tagValues = [];
         this.state.tagValues
@@ -76,7 +80,13 @@ class InventoryContainer extends React.Component{
                             tagValues = {this.state.selectedItemTagValues}
                         />;
         } else {
-            itemView = <p>No item selected</p>;
+            itemView = <ItemView
+                            description = ''
+                            name = ''
+                            imageUrl = ''
+                            tagNames = {[]}
+                            tagValues = {[]}
+                        />;
         }
 
         return (

@@ -27,6 +27,8 @@ use className close-modal to indicate the element in the modal that will close t
 a modal can also be force closed by setting the forceClosed prop to true
 this allows callbacks to be passed to the modal children, these callbacks can alter a value for the modals parent, the parent then can pass
 a forceClose prop to the modal  
+
+^^ same for forceOpen prop but opposite
 */
 
 class Modal extends React.Component {
@@ -34,7 +36,6 @@ class Modal extends React.Component {
     super();
     this.state = {
       showModal: false,
-      onClick : ()=>{},
       contents : null,
       button : null
     };
@@ -51,37 +52,42 @@ class Modal extends React.Component {
     this.setState({ showModal: false });
   }
  
-  componentWillMount(){
-    let button = null;
-    let contents = this.props.children.map((child, i)=>{
-                      if(child && child.props && child.props.className){
-                          if(/close-modal/.test(child.props.className)){
-                            let clone = React.cloneElement(child, {key : i, onClick : this.handleCloseModal});
-                            return clone;
-                          }else if(/open-modal/.test(child.props.className)){
-                             //so we append (instead of replace) the open button onClick
-                            button = React.cloneElement(child, {key : i, onClick : ()=>{this.state.onClick();  this.handleOpenModal();}});
-                            this.setState({onClick : child.props.onClick, button : button});
-                          }
-                      } else {
-                        let clone = React.cloneElement(child, {key : i});
-                        return clone;
-                      }
-                    });
-    this.setState({contents : contents});
-  }
-
   render () {
+    let button = null;
+    let contents = 
+      this.props.children.map((child, i)=>{
+        if(child && child.props && child.props.className){
+            if(/close-modal/.test(child.props.className)){
+              if(child.props.onClick && typeof child.props.onClick === 'function'){
+                let clone = React.cloneElement(child, {key : i, onClick : ()=>{child.props.onClick();this.handleCloseModal();}});
+                return clone;
+            } else {
+                let clone = React.cloneElement(child, {key : i, onClick : this.handleCloseModal});
+                return clone;
+              }
+            }else if(/open-modal/.test(child.props.className)){
+               //so we append (instead of replace) the open button onClick
+               if(child.props.onClick && typeof child.props.onClick === 'function'){
+                button = React.cloneElement(child, {key : i, onClick : ()=>{child.props.onClick();  this.handleOpenModal();}});
+               } else {
+                button = React.cloneElement(child, {key : i, onClick : this.handleOpenModal});
+               }
+            }
+        } else {
+          let clone = React.cloneElement(child, {key : i});
+          return clone;
+        }
+      });
     return (
       <div>
-        {this.state.button}
+        {button}
         <ReactModal 
-           isOpen={this.state.showModal && this.props.forceClosed !== true}
+           isOpen={(this.state.showModal && this.props.forceClosed !== true) || this.props.forceOpen}
            contentLabel={this.props.label}
            onRequestClose={this.handleCloseModal /*this allows esc to work*/}
            >
            
-           {this.state.contents}
+           {contents}
         </ReactModal>
       </div>
     );
@@ -91,7 +97,8 @@ class Modal extends React.Component {
 Modal.propTypes = {
     label : PropTypes.string,
     children: React.PropTypes.node,
-    forceClosed : React.PropTypes.bool 
+    forceClosed : React.PropTypes.bool,
+    forceOpen : React.PropTypes.bool
 };
 
 module.exports = Modal;

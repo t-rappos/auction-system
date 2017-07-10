@@ -1,7 +1,7 @@
 
 var React = require('react');
-let ServerAPI = require('../api/server.jsx');
-let Message = require('./message.jsx');
+let ServerAPI = require('../../api/server.jsx');
+let MessageList = require('./messageList.jsx');
 
 class MessageContainer extends React.Component{
     constructor(props) {
@@ -69,7 +69,7 @@ class MessageContainer extends React.Component{
      render(){
         return (
             <div> 
-            <Message 
+            <MessageList 
                 sendMessage = {this.sendMessage.bind(this)} 
                 setMessageRead = {this.setMessageRead.bind(this)}
                 deleteMessage = {this.deleteMessage.bind(this)}
