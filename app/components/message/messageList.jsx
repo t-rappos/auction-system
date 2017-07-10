@@ -136,6 +136,8 @@ class MessageList extends React.Component{
     }
 
     render(){
+        let unreadMessages = (this.props.messages?this.props.messages.filter((msg)=>{return msg.read == false;}):[]);
+        let unreadCount = unreadMessages.length;
         let messageList = this.renderMessageList();
         let composeModal =  this.renderComposeButton();
 
@@ -152,13 +154,21 @@ class MessageList extends React.Component{
             : 
             <div></div>;
         
+        let unreadLabel = <span style = {{borderRadius: '8px'}} className = 'label success round'>{unreadCount}</span>;
+        let readLabel = <span style = {{borderRadius: '8px', background: '#2f94ec'}} className = 'label round'>{this.props.messages.length}</span>;
+
+        let unreadLabel2 = unreadCount > 0 ? <span style={{float:'right'}}> {unreadLabel}  New </span> : '';
+
         return (
             <div>
                 <div className='button' 
                     style = {messageButtonStyle}
                     onClick={()=>{this.setState({open: !this.state.open});}}
-                >
-                    ({this.props.messages.length}) Messages
+                >   
+                    <span style={{width:'100%'}}>
+                        <span style={{float:'left'}}>{readLabel}   Messages</span>
+                        {unreadLabel2}
+                    </span>
                 </div>
                 {list}
             </div>
