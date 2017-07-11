@@ -47,7 +47,7 @@ class MessageForm extends React.Component{
                     <tr>
                         <td style = {labelStyle}>Sender: </td>
                         <td style = {contentStyle} >
-                            <input defaultValue = {this.props.sender!=-1?this.props.sender:''}
+                            <input defaultValue = {this.props.sender}
                                     type = 'text' 
                                     ref={(input) => this.recipient = input}/>
                         </td>
@@ -75,7 +75,7 @@ class MessageForm extends React.Component{
 
 MessageForm.propTypes = {
     title : PropTypes.string.isRequired,
-    sender : PropTypes.number.isRequired,
+    sender : PropTypes.string.isRequired,
     contents : PropTypes.string.isRequired,
     forceCloseModal : PropTypes.func.isRequired,
     sendMessage : PropTypes.func.isRequired,

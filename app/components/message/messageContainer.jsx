@@ -9,6 +9,12 @@ class MessageContainer extends React.Component{
         this.state = {messages : []};
     }
 
+    lookUpSender(id, senders){
+        let name = null;
+        senders.map((s)=>{if(s.id == id){name = s.name;}});
+        return name;
+    }
+
     deleteMessage(messageId){
         ServerAPI.sendMessageDeleteRequest(messageId,(res)=>{
             if(res){
@@ -52,9 +58,11 @@ class MessageContainer extends React.Component{
                     alert('failed to connect to server! ' + res.error);
                 } else {
                     if(res.messages && res.messages.length > 0){
-                        this.setState({messages : res.messages});
-                    } else {
-                        this.setState({messages : []});
+                        let messagesWithSenderName 
+                            = res.messages.map((msg)=>{
+                                msg.senderName = this.lookUpSender(msg.senderId, res.senders); return msg;
+                            });
+                        this.setState({messages : messagesWithSenderName});
                     }
                 }
             }
@@ -73,7 +81,6 @@ class MessageContainer extends React.Component{
                 setMessageRead = {this.setMessageRead.bind(this)}
                 deleteMessage = {this.deleteMessage.bind(this)}
                 messages = {this.state.messages}
-
             />
             </div>
         );

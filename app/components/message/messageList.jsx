@@ -36,7 +36,7 @@ class MessageList extends React.Component{
                         composeForceOpen : false,
                         replyTitle : '',
                         replyContents: '',
-                        replyRecipient : -1
+                        replyRecipient : ''
                     };
     }
 
@@ -46,7 +46,7 @@ class MessageList extends React.Component{
             this.setState({
                         replyTitle : this.props.messages[index].title,
                         replyContents: this.props.messages[index].content,
-                        replyRecipient : this.props.messages[index].senderId,
+                        replyRecipient : this.props.messages[index].senderName,
                         composeForceClosed : false, 
                         composeForceOpen : true});
         }
@@ -62,7 +62,7 @@ class MessageList extends React.Component{
                                             this.setState({
                                                 replyTitle : '',
                                                 replyContents: '',
-                                                replyRecipient : -1,
+                                                replyRecipient : '',
                                                 composeForceClosed : false
                                             });
                                         }} 
@@ -112,7 +112,7 @@ class MessageList extends React.Component{
                                         }} 
                                     messageId = {msg.id} deleteMessage = {this.props.deleteMessage} 
                                     title = {msg.title} 
-                                    sender = {msg.senderId}  
+                                    sender = {msg.senderName}  
                                     contents = {msg.content}  
                                 />
                                 <div className = 'alert button close-modal' style = {exitMessageViewButtonStyle}>x</div>

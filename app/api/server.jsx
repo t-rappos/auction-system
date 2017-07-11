@@ -53,7 +53,6 @@ function sendMessageCreationRequest(recipientId, title, message, callback){
 
 function sendMessageListViewRequest(callback){
    return new Promise((resolve, reject)=>{
-     console.log("sending view message request");
     socket.emit('view_messages', callback);
   });
 }

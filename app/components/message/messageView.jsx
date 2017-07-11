@@ -62,7 +62,7 @@ class MessageView extends React.Component{
 MessageView.propTypes = {
     messageId : PropTypes.number.isRequired,
     title : PropTypes.string.isRequired,
-    sender : PropTypes.number.isRequired,
+    sender : PropTypes.string.isRequired,
     contents : PropTypes.string.isRequired,
     deleteMessage : PropTypes.func.isRequired,
     forceCloseModal : PropTypes.func.isRequired,
