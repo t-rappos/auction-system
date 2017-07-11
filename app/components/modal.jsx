@@ -53,29 +53,17 @@ class Modal extends React.Component {
   }
  
   render () {
-    let button = null;
+    let button = null;  //TODO: think about making this a prop e.g. this.props.button = {<button></button>}
     let contents = 
       this.props.children.map((child, i)=>{
         if(child && child.props && child.props.className){
             if(/close-modal/.test(child.props.className)){
-              if(child.props.onClick && typeof child.props.onClick === 'function'){
-                let clone = React.cloneElement(child, {key : i, onClick : ()=>{child.props.onClick();this.handleCloseModal();}});
-                return clone;
-            } else {
-                let clone = React.cloneElement(child, {key : i, onClick : this.handleCloseModal});
-                return clone;
-              }
+              return <div key = {i} onClick = {this.handleCloseModal}>{child}</div>;
             }else if(/open-modal/.test(child.props.className)){
-               //so we append (instead of replace) the open button onClick
-               if(child.props.onClick && typeof child.props.onClick === 'function'){
-                button = React.cloneElement(child, {key : i, onClick : ()=>{child.props.onClick();  this.handleOpenModal();}});
-               } else {
-                button = React.cloneElement(child, {key : i, onClick : this.handleOpenModal});
-               }
+              button = <div key = {i} onClick = {this.handleOpenModal}>{child}</div>;
             }
         } else {
-          let clone = React.cloneElement(child, {key : i});
-          return clone;
+          return child;
         }
       });
     return (
@@ -95,8 +83,8 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-    label : PropTypes.string,
-    children: React.PropTypes.node,
+    label : PropTypes.string.isRequired,
+    children: React.PropTypes.node.isRequired,
     forceClosed : React.PropTypes.bool,
     forceOpen : React.PropTypes.bool
 };
