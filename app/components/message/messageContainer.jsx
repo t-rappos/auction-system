@@ -85,7 +85,6 @@ class MessageContainer extends React.Component{
 
      render(){
         return (
-            <div> 
             <MessageList 
                 sendMessage = {this.sendMessage.bind(this)} 
                 setMessageRead = {this.setMessageRead.bind(this)}
@@ -93,7 +92,6 @@ class MessageContainer extends React.Component{
                 messages = {this.state.messages}
                 getAccountId = {this.getAccountId.bind(this)}
             />
-            </div>
         );
      }
 }

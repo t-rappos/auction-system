@@ -31,7 +31,7 @@ class ItemView extends React.Component{
                     </tbody>
                 </table>
             </div>
-        : <p>No item selected</p>;
+        : <p>No object selected</p>;
         
 
         return (

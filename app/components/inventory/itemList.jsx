@@ -1,10 +1,10 @@
 
 var React = require('react');
 import PropTypes from 'prop-types';
-let InventoryTable = require('./inventoryTable.jsx');
+let InventoryTable = require('../inventoryTable.jsx');
 
 //gets account details from db
-class InventoryView extends React.Component{
+class ItemList extends React.Component{
 
     getHeaders(){
 
@@ -56,11 +56,11 @@ class InventoryView extends React.Component{
     }
 }
 
-InventoryView.propTypes = {
+ItemList.propTypes = {
     items : PropTypes.arrayOf(PropTypes.object),
     tags : PropTypes.arrayOf(PropTypes.object),
     tagValues : PropTypes.arrayOf(PropTypes.object),
     selectItem : PropTypes.func
 };
 
-module.exports = InventoryView;
+module.exports = ItemList;

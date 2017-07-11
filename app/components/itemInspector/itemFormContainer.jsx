@@ -1,7 +1,7 @@
 
 var React = require('react');
 let ItemForm = require('./itemForm.jsx');
-let ServerAPI = require('../api/server.jsx');
+let ServerAPI = require('../../api/server.jsx');
 
 //Container for item construction panel
 class ItemFormContainer extends React.Component{

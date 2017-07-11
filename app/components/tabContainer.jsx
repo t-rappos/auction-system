@@ -2,8 +2,7 @@ var React = require('react');
 import PropTypes from 'prop-types';
 
 const containerStyle = {
-    maxWidth : 250,
-    margin : 30
+    maxWidth : 1000
 };
 
 const tabContainerStyle = {
