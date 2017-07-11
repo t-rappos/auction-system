@@ -48,7 +48,6 @@ class MessageContainer extends React.Component{
     loadMessages(){
         ServerAPI.sendMessageListViewRequest((res)=>{
             if(res){
-                console.log("fetched messages : ", res);
                 if(res.error){
                     alert('failed to connect to server! ' + res.error);
                 } else {

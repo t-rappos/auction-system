@@ -29,7 +29,6 @@ class ImageListContainer extends React.Component{
                         names.push(image.name);
                     });
                     this.setState({urls : urls, ids : ids, names : name});
-                    console.log("loading images : ", res.images);
                 }
             }
         });

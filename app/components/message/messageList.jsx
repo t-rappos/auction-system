@@ -1,7 +1,5 @@
 
 var React = require('react');
-//let ServerAPI = require('../api/server.jsx');
-//let Message = require('./message.jsx');
 import PropTypes from 'prop-types';
 let MessageView = require('./messageView.jsx');
 let Modal = require('../modal.jsx');
@@ -42,21 +40,15 @@ class MessageList extends React.Component{
                     };
     }
 
-//<button onClick = {()=>{this.props.sendMessage(1, 'test', 'test contents');}}>send test message</button>
-
     replyCallback(messageId){
         let index = this.props.messages.findIndex((msg)=>{return msg.id == messageId;});
         if(index != -1){
-            console.log("b4 set state - reply callback", this.state);
             this.setState({
                         replyTitle : this.props.messages[index].title,
                         replyContents: this.props.messages[index].content,
                         replyRecipient : this.props.messages[index].senderId,
                         composeForceClosed : false, 
                         composeForceOpen : true});
-            console.log("set state - reply callback", this.state);
-        } else {
-            console.error("couldnt find message data for reply");
         }
     }
 

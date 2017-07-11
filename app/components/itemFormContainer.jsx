@@ -32,7 +32,7 @@ class ItemFormContainer extends React.Component{
          ServerAPI.sendTagViewRequest((res)=>{
              if(res){
                  if(res.error){
-                     console.log("error connecting to server");
+                     alert("error connecting to server");
                  } else {
                      if(res.tags && res.tags.length > 0){
                          let tagNames = [];
@@ -40,7 +40,6 @@ class ItemFormContainer extends React.Component{
                              tagNames.push(tag.name);
                          });
                         this.setState({tags : tagNames});
-                        console.log("loaded tags : ", tagNames);
                      }
                  }
              }

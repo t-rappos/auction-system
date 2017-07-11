@@ -18,10 +18,6 @@ const msgViewContentsStyle = {
 class MessageForm extends React.Component{
     constructor(props) {
         super(props);
-        console.log("Message Form Props: ", props);
-        //if(!this.props.title){this.props.title = "";}
-        //if(!this.props.sender){this.props.sender = "";}
-        //if(!this.props.contents){this.props.contents = "";}
         this.state = {open : false};
     }
 
@@ -35,7 +31,6 @@ class MessageForm extends React.Component{
     }
 
     render(){
-        console.log('messageForm : render : props :', this.props);
         return(
             <div style = {msgViewContentsStyle}>
                 <form onSubmit = {this.onSubmit.bind(this)}>

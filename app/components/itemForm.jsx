@@ -9,7 +9,6 @@ class ItemForm extends React.Component{
         super(props);
      }
      onSubmit(e){
-         console.log("on submit");
          e.preventDefault();
          let tagNames = [];
          let tagValues = [];

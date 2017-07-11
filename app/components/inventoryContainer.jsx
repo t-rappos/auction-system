@@ -25,7 +25,6 @@ class InventoryContainer extends React.Component{
 
     updateSelectedItemData(selectedItem){
         let image = this.state.images.find((im)=>{
-            console.log('comparing image id %d against selected id %d',im.id, selectedItem.imageId);
             return im.id === selectedItem.imageId;
         });
         let url = image?image.url:'';
