@@ -71,6 +71,7 @@ class MessageList extends React.Component{
                                     >
                                     New Message</div>
                                     <MessageForm 
+                                            getAccountId = {this.props.getAccountId}
                                             sendMessage = {this.props.sendMessage}
                                             title = {this.state.replyTitle} 
                                             sender = {this.state.replyRecipient}  
@@ -88,7 +89,8 @@ class MessageList extends React.Component{
         let messageList = null; 
         if(this.props.messages){
             messageList = this.props.messages.map((msg, i)=>{
-                let labelText = msg.read ? msg.title:<strong>{msg.title}</strong>;
+                let msgTitle = msg.title == '' ? '(untitled)' : msg.title;
+                let labelText = msg.read ? msgTitle:<strong>{msgTitle}</strong>;
                 return (
                     <tr key = {i}>
                         <td>
@@ -172,7 +174,8 @@ MessageList.propTypes = {
     sendMessage : PropTypes.func.isRequired,
     setMessageRead : PropTypes.func.isRequired,
     deleteMessage : PropTypes.func.isRequired,
-    messages : PropTypes.arrayOf(PropTypes.object).isRequired
+    messages : PropTypes.arrayOf(PropTypes.object).isRequired,
+    getAccountId : PropTypes.func.isRequired
 };
 
 

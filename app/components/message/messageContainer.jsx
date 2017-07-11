@@ -9,6 +9,18 @@ class MessageContainer extends React.Component{
         this.state = {messages : []};
     }
 
+    getAccountId(username, callback){
+        ServerAPI.sendAccountIdRequest(username,(res)=>{
+            if(res){
+                if(res.error){
+                    callback(null);
+                } else {
+                    callback(res.id);
+                }
+            }
+        });
+    }
+
     lookUpSender(id, senders){
         let name = null;
         senders.map((s)=>{if(s.id == id){name = s.name;}});
@@ -21,7 +33,7 @@ class MessageContainer extends React.Component{
                 if(res.error){
                     alert("Couldn't delete message");
                 } else {
-                    alert("Message deleted");
+                    alert("Message deleted"); 
                 }
             }
         });
@@ -32,8 +44,6 @@ class MessageContainer extends React.Component{
             if(res){
                 if(res.error){
                     alert("Couldn't read message");
-                } else {
-                    alert("Message read");
                 }
             }
         });
@@ -45,7 +55,7 @@ class MessageContainer extends React.Component{
                 if(res.error){
                     alert("Couldn't send message");
                 } else {
-                    alert("Message sent!");
+                    alert("Message sent!"); //TODO: make alerts into toasts
                 }
             }
         });
@@ -81,6 +91,7 @@ class MessageContainer extends React.Component{
                 setMessageRead = {this.setMessageRead.bind(this)}
                 deleteMessage = {this.deleteMessage.bind(this)}
                 messages = {this.state.messages}
+                getAccountId = {this.getAccountId.bind(this)}
             />
             </div>
         );

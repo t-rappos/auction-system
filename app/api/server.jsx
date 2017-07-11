@@ -24,6 +24,13 @@ socket.emitAsync = Promise.promisify(socket.emit);
 //  safeCall(serverApiOnLoginCallback,username);
 //});
 
+
+function makeRequest(name, options, callback){
+  return new Promise((resolve, reject)=>{
+    socket.emit(name, options, callback);
+  });
+}
+
 function sendMessageDeleteRequest(messageId, callback){
   return new Promise((resolve, reject)=>{
     let options = {messageId : messageId};
@@ -106,6 +113,7 @@ function sendAccountCreationRequest(username, email, password){
 }
 
 module.exports = {
+  sendAccountIdRequest : (username, callback)=>{makeRequest('get_account_id', {username : username}, callback);},
   sendMessageDeleteRequest  : sendMessageDeleteRequest,
   sendMessageReadRequest  : sendMessageReadRequest,
   sendMessageCreationRequest : sendMessageCreationRequest,

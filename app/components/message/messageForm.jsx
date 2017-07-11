@@ -18,19 +18,55 @@ const msgViewContentsStyle = {
 class MessageForm extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {open : false};
+        this.state = {recipientId : null};
     }
 
-     onSubmit(e){
-         e.preventDefault();
-     }
+    onSubmit(e){
+        e.preventDefault();
+    }
+
+    validateRecipient(username){
+        this.props.getAccountId(username,(id)=>{
+            this.setState({recipientId : id});
+        });
+    }
 
     sendMessage(){
-       this.props.sendMessage(this.recipient.value, this.title.value, this.contents.value);
-       this.props.forceCloseModal();
+        if(this.state.recipientId != null){
+            this.props.sendMessage(this.state.recipientId, this.title.value, this.contents.value);
+            this.props.forceCloseModal();
+        } else {
+            alert("Username " + this.recipient.value + " doesn't exist!");
+        }
+        /*
+        this.props.getAccountId(this.recipient.value,(id)=>{
+            if(id != null){
+                this.props.sendMessage(id, this.title.value, this.contents.value);
+                this.props.forceCloseModal();
+            } else {
+                alert("Username " + this.recipient.value + " doesn't exist!");
+            }
+        });
+        */
+    }
+
+    recipientOnBlur(e){
+        this.validateRecipient(this.recipient.value);
+    }
+
+    componentDidMount() {
+       this.recipient.onblur = this.recipientOnBlur.bind(this);
+       if(this.recipient.value && this.recipient.value != ''){
+            this.validateRecipient(this.recipient.value);
+       }
     }
 
     render(){
+
+        let recipientStatus = this.state.recipientId != null 
+        ? <p>✔</p>
+        : <p>x</p>;
+
         return(
             <div style = {msgViewContentsStyle}>
                 <form onSubmit = {this.onSubmit.bind(this)}>
@@ -47,15 +83,18 @@ class MessageForm extends React.Component{
                     <tr>
                         <td style = {labelStyle}>Sender: </td>
                         <td style = {contentStyle} >
+                            <span>
                             <input defaultValue = {this.props.sender}
                                     type = 'text' 
                                     ref={(input) => this.recipient = input}/>
+                            {recipientStatus}
+                            </span>
                         </td>
                     </tr>
                     <tr>
                         <td style = {labelStyle}>Contents: </td>
                         <td style = {contentStyle} >
-                            <textarea  rows="4" cols="50" defaultValue = {this.props.contents?('----\n'+this.props.contents):''} 
+                            <textarea  rows="4" cols="10" defaultValue = {this.props.contents?('----\n'+this.props.contents):''} 
                                     ref={(textarea) => this.contents = textarea}/>
                         </td>
                     </tr>
@@ -79,6 +118,7 @@ MessageForm.propTypes = {
     contents : PropTypes.string.isRequired,
     forceCloseModal : PropTypes.func.isRequired,
     sendMessage : PropTypes.func.isRequired,
+    getAccountId : PropTypes.func.isRequired,
 };
 
 module.exports = MessageForm;
