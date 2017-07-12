@@ -2,9 +2,12 @@ var React = require('react');
 let ItemInspector = require('../itemInspector/itemInspector.jsx');
 let ItemList = require('./itemList.jsx');
 var ServerApi = require('../../api/server.jsx');
+let TabContainer = require('../tabContainer.jsx').TabContainer;
+let Tab = require('../tabContainer.jsx').Tab;
+let ItemFormContainer = require('../forms/itemFormContainer.jsx');
 
 class ItemContainer extends React.Component{
-        constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {items : [], 
             tags : [],
@@ -16,7 +19,6 @@ class ItemContainer extends React.Component{
             selectedItemImageUrl : null
         };
      }
-
 
     updateSelectedItemData(selectedItem){
         let image = this.state.images.find((im)=>{
@@ -65,11 +67,18 @@ class ItemContainer extends React.Component{
     render(){
         return <div className='row'>
                                 <div className='small-6 columns'>
-                                    <ItemInspector 
-                                        item={this.state.selectedItem} 
-                                        url={this.state.selectedItemImageUrl} 
-                                        tagNames = {this.state.selectedItemTagNames} 
-                                        tagValues = {this.state.selectedItemTagValues}/>
+                                    <TabContainer>
+                                        <Tab name= 'View'>
+                                            <ItemInspector 
+                                                item={this.state.selectedItem} 
+                                                url={this.state.selectedItemImageUrl} 
+                                                tagNames = {this.state.selectedItemTagNames} 
+                                                tagValues = {this.state.selectedItemTagValues}/>
+                                        </Tab>
+                                        <Tab name = 'Create'>
+                                            <ItemFormContainer/>
+                                        </Tab>
+                                    </TabContainer>
                                 </div>
                                 <div className='small-6 columns'>
                                     <ItemList

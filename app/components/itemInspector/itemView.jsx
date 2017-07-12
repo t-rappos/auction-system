@@ -10,9 +10,8 @@ class ItemView extends React.Component{
      }
 
     render(){
-
-        let r2 = (this.props && this.props.name) 
-        ? <div>
+        return (
+            <div>
                 <img src={this.props.imageUrl} alt=''/>
                 <h4>{this.props.name}</h4>
                 <p>{this.props.description}</p>
@@ -30,13 +29,6 @@ class ItemView extends React.Component{
                     }   
                     </tbody>
                 </table>
-            </div>
-        : <p>No object selected</p>;
-        
-
-        return (
-            <div>
-            {r2}
             </div>
         );
     }

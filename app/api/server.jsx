@@ -26,6 +26,7 @@ socket.emitAsync = Promise.promisify(socket.emit);
 
 
 function makeRequest(name, options, callback){
+  console.log(name);
   return new Promise((resolve, reject)=>{
     socket.emit(name, options, callback);
   });

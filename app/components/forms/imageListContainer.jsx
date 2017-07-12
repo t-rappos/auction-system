@@ -2,7 +2,7 @@
 var React = require('react');
 import PropTypes from 'prop-types';
 let ImageListForm = require('./imageListForm.jsx');
-let ServerAPI = require('../api/server.jsx');
+let ServerAPI = require('../../api/server.jsx');
 
 class ImageListContainer extends React.Component{
     constructor(props) {

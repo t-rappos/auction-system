@@ -13,7 +13,7 @@ use className open-modal to indicate the element that will be drawn by default a
 use className close-modal to indicate the element in the modal that will close the modal when clicked
 
 
-                <Modal label = 'test modal' forceClose = {this.state.fclose} >
+                <Modal label = 'test modal' forceClosed = {this.state.fclose} >
                     <button className = "open-modal"> Open Modal </button> <-- drawn outside of modal
                     <button className = "close-modal"> Close modal </button> <-- everything else is drawn inside modal
 

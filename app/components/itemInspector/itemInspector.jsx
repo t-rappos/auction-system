@@ -2,25 +2,47 @@ var React = require('react');
 let ItemView = require('./itemView.jsx');
 let ItemButtons = require('./itemButtons.jsx');
 import PropTypes from 'prop-types';
+var ServerApi = require('../../api/server.jsx');
 
 class ItemInspector extends React.Component{
     constructor(props) {
         super(props);
      }
 
+    destroySelectedItem(){
+        if(this.props.item){
+            ServerApi.sendDestroyItemRequest(this.props.item.id, (res)=>{
+                if(res.error == null){
+                    alert('Item destroyed successfully!');
+                } else {
+                    alert('Couldn\'t destroy item!');
+                }
+            });
+        }
+    }
+
     render(){
         let valid = this.props.item;
-        let itemView = <ItemView
-                            description = {valid?this.props.item.description:''}
-                            name = {valid?this.props.item.name:''}
-                            imageUrl = {valid?this.props.url:''}
-                            tagNames = {valid?this.props.tagNames:[]}
-                            tagValues = {valid?this.props.tagValues:[]}
-                        />;
         return (
-            <div>
-                {itemView}
-                <ItemButtons/>
+            <div>{
+                valid ?
+                    <div>
+                        <ItemView
+                            description = {this.props.item.description}
+                            name = {this.props.item.name}
+                            imageUrl = {this.props.url}
+                            tagNames = {this.props.tagNames}
+                            tagValues = {this.props.tagValues}
+                        />
+                        <ItemButtons 
+                            item = {this.props.item}
+                            destroySelectedItem = {this.destroySelectedItem.bind(this)}
+                        />
+                    </div>
+                :
+                    <div>No item selected</div>
+                }
+                
             </div>
         );
     }

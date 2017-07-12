@@ -1,6 +1,6 @@
 var React = require('react');
 import PropTypes from 'prop-types';
-let ImageListContainer = require('../imageListContainer.jsx');
+let ImageListContainer = require('./imageListContainer.jsx');
 let Modal = require('../modal.jsx');
 
 //gets account details from db
