@@ -23,7 +23,7 @@ class ListingContainer extends React.Component{
     getSelectedItemImage(){
         let url = null;
         if(this.state.selectedItemId != null){
-            let imgId = this.getSeletedItem().imageId;
+            let imgId = this.getSelectedItem().imageId;
             this.state.images.map((img)=>{
                 if(img.id == imgId){
                     url = img.url;
@@ -33,7 +33,21 @@ class ListingContainer extends React.Component{
         return url;
     }
 
-    getSeletedItem(){
+    //TODO: refactor all these getSelected... functions
+    //maybe return {selectedItem, selectedUrl, selectedListing, selectedNames, selectedValues}
+    getSelectedListing(){
+        let selectedListing = null;
+            if(this.state.selectedItemId != null){
+                this.state.listings.map((listing)=>{
+                if(listing.item.id == this.state.selectedItemId){
+                    selectedListing = listing;
+                }
+            });
+        }
+        return selectedListing;
+    }
+
+    getSelectedItem(){
         let selectedItem = null;
             if(this.state.selectedItemId != null){
                 this.state.listings.map((listing)=>{
@@ -88,7 +102,8 @@ class ListingContainer extends React.Component{
             <div className='row'>
                     <div className='small-6 columns'>
                            <ListingInspector 
-                                item={this.getSeletedItem()} 
+                                listing = {this.getSelectedListing()}
+                                item={this.getSelectedItem()} 
                                 url = {this.getSelectedItemImage()} 
                                 tagNames = {selectedTagNameValues[0]} 
                                 tagValues = {selectedTagNameValues[1]}/>

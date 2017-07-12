@@ -37,19 +37,25 @@ class ItemList extends React.Component{
                 this.props.tagValues
                     .filter((tv)=>{return tv.itemId === item.id;})
                     .map((tv)=>{
-                        row[this.props.tags[tv.tagId-1].name] = tv.value;
+                        let tagsIndex= tv.tagId-1;
+                        let tag = this.props.tags[tagsIndex];
+                        let tagName = tag.name;
+                        row[tagName] = tv.value;
                     });
                 data.push(row);
-            });
+            },this);
         }
         return data;
     }
 
     render(){
+        let values = this.getValues();
+        let headers = this.getHeaders();
+        console.log('render');
         return (
             <div>
                 {this.props.items && this.props.tagValues && this.props.tags && 
-                   <InventoryTable selectItem = {this.props.selectItem} values = {this.getValues()} headers = {this.getHeaders()}/>}
+                   <InventoryTable selectItem = {this.props.selectItem} values = {values} headers = {headers}/>}
             </div>
         );
     }

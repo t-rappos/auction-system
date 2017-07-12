@@ -1,7 +1,7 @@
 var React = require('react');
 let ListingButtons = require('./listingButtons.jsx');
 let ItemView = require('./itemView.jsx');
-
+var ServerApi = require('../../api/server.jsx');
 
 import PropTypes from 'prop-types';
 
@@ -10,6 +10,18 @@ class ListingInspector extends React.Component{
         super(props);
         this.state = {forceModalClosed : null};
      }
+
+    cancelSelectedListing(){
+        ServerApi.sendCancelListingRequest(this.props.listing.id,(res)=>{
+            if(res){
+                if(res.error){
+                    alert('Couldnt cancel listing' + res.error);
+                } else {
+                    alert('listing successfully cancelled');
+                }
+            }
+        });
+    }
 
     render(){
         console.log(this);
@@ -24,7 +36,7 @@ class ListingInspector extends React.Component{
                                     tagNames = {this.props.tagNames}
                                     tagValues = {this.props.tagValues}
                                 />
-                    <ListingButtons/>
+                    <ListingButtons cancelListing = {this.cancelSelectedListing.bind(this)}/>
                     </div>
                 :
                 <div>No listing selected.</div>
@@ -33,6 +45,7 @@ class ListingInspector extends React.Component{
 }
 
 ListingInspector.propTypes = {
+    listing :  PropTypes.object,
     item : PropTypes.object,
     url : PropTypes.string,
     tagNames : PropTypes.array,

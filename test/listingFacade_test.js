@@ -48,6 +48,27 @@ describe('ListingFacade', function(){
         });
     });
 
+    it('should be able to remove listings v2', function(done){
+        ListingFacade.removeAllTransactions()
+        .then(()=>{
+            return Promise.all([ListingFacade.getAllListings(),
+                ListingFacade.getAllListingsSimpleJoined(), 
+                ListingFacade.getAllListingsSimple()]);
+        })
+        .spread((l1, l2, l3)=>{
+            console.log('getAllListings',l1);
+            console.log('getSimpleJoined',l2);
+            console.log('getSimple',l3);
+            expect(l1.length).toBe(0);
+            expect(l2.length).toBe(0);
+            expect(l3.length).toBe(0);
+            done();
+        })
+        .catch((e)=>{
+            Utility.logError(e);
+        });
+    });
+
     it('should create listing', function(done){
         Promise.all([
             ListingFacade.createListing(listedItem1.id, 1.00, 10000,'bid',listedItem1.accountId),

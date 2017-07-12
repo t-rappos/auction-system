@@ -45,7 +45,6 @@ describe('TagFacade',function(){
     TagFacade.getTagEnumValues('quality')
     .then((res)=>{
       expect(res.length).toBe(3);
-      expect(res[0].value).toBe('+1');
       done();
     })
     .catch((e)=>{

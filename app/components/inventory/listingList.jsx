@@ -15,7 +15,8 @@ class ListingList extends React.Component{
         let columns = [{Header : 'name', accessor : 'name', id : 'name', Cell : nameCellRenderer },
                 {Header : 'itemId', accessor : 'itemId', id : 'itemId' },
                 {Header : 'listingId', accessor : 'listingId', id : 'listingId' },
-                {Header : 'price', accessor : 'price', id : 'price' }];
+                {Header : 'price', accessor : 'price', id : 'price' },
+                {Header : 'Expires in', accessor : 'expiresIn', id : 'expiresIn' }];
         if(this.props.tags != null && this.props.tags != undefined){
             this.props.tags.map((tag, i)=>{
                 columns.push({Header : tag.name, accessor: tag.name});
@@ -31,6 +32,7 @@ class ListingList extends React.Component{
             row['itemId'] = listing.item.id;
             row['listingId'] = listing.id;
             row['price'] = listing.starting_price;
+            row['expiresIn'] = ((new Date(listing.expiry_date)).getTime() - Date.now())/(1000*60*60) + ' hours';
             this.props.tagValues
                     .filter((tv)=>{return tv.itemId === listing.item.id;})
                     .map((tv)=>{
