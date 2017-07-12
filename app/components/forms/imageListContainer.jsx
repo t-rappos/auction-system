@@ -8,9 +8,9 @@ class ImageListContainer extends React.Component{
     constructor(props) {
         super(props);
         this.state = {selectedImageIndex : -1,
-                    urls : ['./assets/image1.jpg','./assets/image1.jpg'],
-                    ids : [0,1],
-                    names : ['image1', 'image2']
+                    urls : [],
+                    ids : [],
+                    names : []
         };
     }
 

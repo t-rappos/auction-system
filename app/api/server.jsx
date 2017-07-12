@@ -120,7 +120,7 @@ module.exports = {
   sendCancelListingRequest : (listingId, callback)=>{makeRequest('cancel_listing', {listingId : listingId}, callback);},
   sendBidOnListingRequest : (listingId, amount, callback)=>{makeRequest('bid_on_listing', {listingId : listingId, amount : amount}, callback);},
   sendBuyoutListingRequest : (listingId, callback)=>{makeRequest('buyout_listing', {listingId : listingId}, callback);},
-  sendViewAccountListingsRequest : (accountId, callback)=>{makeRequest('view_account_listings', {accountId : accountId}, callback);},
+  sendViewAccountListingsRequest : (callback)=>{makeRequest('view_account_listings', {}, callback);},
   sendViewListingsRequest : (callback)=>{makeRequest('view_listings', {}, callback);},
 
   sendAccountIdRequest : (username, callback)=>{makeRequest('get_account_id', {username : username}, callback);},

@@ -5,6 +5,9 @@ let InventoryTable = require('../inventoryTable.jsx');
 
 //gets account details from db
 class ItemList extends React.Component{
+    constructor(props) {
+        super(props);
+     }
 
     getHeaders(){
 
@@ -41,10 +44,6 @@ class ItemList extends React.Component{
         }
         return data;
     }
-
-    constructor(props) {
-        super(props);
-     }
 
     render(){
         return (

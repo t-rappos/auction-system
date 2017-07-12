@@ -14,7 +14,7 @@ class ListItemFormContainer extends React.Component{
             request(this.props.item.id, amount, duration*1000*60*60, (res)=>{
                 if(res){
                     if(res.error){
-                        alert('Error selling item' + res.error);
+                        alert('Error selling item');
                     } else {
                         alert('Created '+type+' listing for ' + this.props.item.name + ' for ' + amount );
                         this.props.forceCloseModal();

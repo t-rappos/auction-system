@@ -20,7 +20,7 @@ class ItemFormContainer extends React.Component{
         ServerAPI.sendItemCreationRequest(this.state.selectedImageId, name, desc, tagNames, tagValues,(res)=>{
             if(res){
                 if(res.error){
-                    alert("Item couldn't be created! " + res.error);
+                    alert("Item couldn't be created! ");
                     return;
                 }
                 alert("Item created successfully!");
