@@ -27,6 +27,7 @@ class ListItemForm extends React.Component{
                         <label htmlFor='listingTypeBuyout'><input ref={(input) => this.radioBuyout = input} type="radio" name="listingType" value="Buyout" id="listingTypeBuyout"/>Buyout</label>
                         <label>Listing Duration
                             <select ref={(input) => this.selectDuration = input}>
+                                <option value="0.03">2 Mins</option>
                                 <option value="1">1 Hour</option>
                                 <option value="12">1 Day</option>
                                 <option value="24">2 Days</option>

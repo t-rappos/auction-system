@@ -12,6 +12,19 @@ class LoginForm extends React.Component{
         super(props);
         this.state = {lastResultMessage: ''};
     }
+    
+    componentDidMount(){
+        let callback = (res)=>{
+            if(res){
+                if(res.error == null){
+                    this.setState({lastResultMessage:'logged in'});
+                    browserHistory.push('/account');
+                }
+            }
+        };
+        ServerApi.sendUserCheckLoggedInRequest(callback);   
+    }
+
     onSubmit(e){
         e.preventDefault();
         if(this.username.value == null || this.username.value == '') {
@@ -26,12 +39,18 @@ class LoginForm extends React.Component{
         ServerApi.sendUserLoginRequest(this.username.value, this.password.value)
         .then((res)=>{
             //TODO: update this to use a modal
-            if(res){
+            //{passwordValid : passwordValid, alreadyLoggedIn : alreadyLoggedIn}
+            if(res.passwordValid){
                 this.setState({lastResultMessage:'logged in'});
                 browserHistory.push('/account');
             } else {
-                this.setState({lastResultMessage:'failed login'});
-                alert('Incorrect username or password, please try again');
+                if(res.alreadyLoggedIn){
+                    this.setState({lastResultMessage:'failed login'});
+                    alert('Already logged in, please log out!');
+                } else {
+                    this.setState({lastResultMessage:'failed login'});
+                    alert('Incorrect username or password, please try again');
+                }
             }
         });
     }

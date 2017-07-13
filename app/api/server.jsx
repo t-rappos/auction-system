@@ -26,7 +26,6 @@ socket.emitAsync = Promise.promisify(socket.emit);
 
 
 function makeRequest(name, options, callback){
-  console.log(name);
   return new Promise((resolve, reject)=>{
     socket.emit(name, options, callback);
   });
@@ -139,7 +138,9 @@ module.exports = {
 
   sendImageListViewRequest : sendImageListViewRequest,
   sendTagViewRequest : sendTagViewRequest,
-  sendUserLoginRequest : sendUserLoginRequest
+  sendUserLoginRequest : sendUserLoginRequest,
+  sendUserLogoutRequest : (callback)=>{makeRequest('logout',{},callback);},
+  sendUserCheckLoggedInRequest : (callback) => {makeRequest('check_logged_in',{},callback);}
   
 ////////////////////
 //Public CALLBACKS//

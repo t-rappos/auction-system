@@ -2,11 +2,13 @@ var React = require('react');
 let ListingInspector = require('../itemInspector/listingInspector.jsx');
 let ListingList = require('./listingList.jsx');
 var ServerApi = require('../../api/server.jsx');
+import PropTypes from 'prop-types';
 
 class ListingContainer extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            maxBids : [],
             listings : [],
             tags : [],
             tagValues : [],
@@ -44,7 +46,21 @@ class ListingContainer extends React.Component{
                 }
             });
         }
+        console.log(selectedListing);
         return selectedListing;
+    }
+
+    getSelectedMaxBid(){
+        let selectedMaxBid = null;
+            if(this.state.selectedItemId != null){
+                this.state.listings.map((listing,i)=>{
+                if(listing.item.id == this.state.selectedItemId){
+                    selectedMaxBid = this.state.maxBids[i];
+                }
+            });
+        }
+        console.log(selectedMaxBid);
+        return selectedMaxBid;
     }
 
     getSelectedItem(){
@@ -74,13 +90,17 @@ class ListingContainer extends React.Component{
     }
 
     loadData(){
-        ServerApi.sendViewAccountListingsRequest((res)=>{
+        let request = this.props.showAllListings ? ServerApi.sendViewListingsRequest : ServerApi.sendViewAccountListingsRequest;
+        request((res)=>{
             if(res){
                 if(res.error){
-                    alert('listingContainer error');
+                    alert('listingContainer error ');
                 } else {
+                    console.log('res', res);
                     console.log("gathered " + res.listings.length + ' listings ');
+                    console.log('listings',res.listings);
                     this.setState({
+                        maxBids : res.listingMaxBids,
                         listings : res.listings,
                         tags : res.tags,
                         tagValues : res.tagValues,
@@ -102,6 +122,8 @@ class ListingContainer extends React.Component{
             <div className='row'>
                     <div className='small-6 columns'>
                            <ListingInspector 
+                                displayOwnedListings = {!this.props.showAllListings}
+                                maxBid = {this.getSelectedMaxBid()}
                                 listing = {this.getSelectedListing()}
                                 item={this.getSelectedItem()} 
                                 url = {this.getSelectedItemImage()} 
@@ -109,7 +131,9 @@ class ListingContainer extends React.Component{
                                 tagValues = {selectedTagNameValues[1]}/>
                     </div>
                     <div className='small-6 columns'>
-                           <ListingList listings = {this.state.listings}
+                           <ListingList 
+                                        maxBids = {this.state.maxBids}
+                                        listings = {this.state.listings}
                                         tags = {this.state.tags}
                                         tagValues = {this.state.tagValues}
                                         selectItem = {this.selectListing.bind(this)}/>
@@ -118,5 +142,9 @@ class ListingContainer extends React.Component{
         );
      }
 }
+
+ListingContainer.propTypes = {
+    showAllListings : PropTypes.bool.isRequired
+};
 
 module.exports = ListingContainer;

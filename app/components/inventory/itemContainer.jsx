@@ -50,6 +50,7 @@ class ItemContainer extends React.Component{
     loadData(){
         ServerApi.sendInventoryViewRequest(function(res){
                 if(res.error == null){
+                    console.log("items : ", res.items);
                     this.setState({ items : res.items, 
                                     tagValues : res.tagValues,
                                     tags : res.tags,

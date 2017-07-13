@@ -15,6 +15,7 @@ class ListingList extends React.Component{
         let columns = [{Header : 'name', accessor : 'name', id : 'name', Cell : nameCellRenderer },
                 {Header : 'itemId', accessor : 'itemId', id : 'itemId' },
                 {Header : 'listingId', accessor : 'listingId', id : 'listingId' },
+                {Header : 'Starting price', accessor : 'startingPrice', id : 'startingPrice' },
                 {Header : 'price', accessor : 'price', id : 'price' },
                 {Header : 'Expires in', accessor : 'expiresIn', id : 'expiresIn' }];
         if(this.props.tags != null && this.props.tags != undefined){
@@ -26,12 +27,13 @@ class ListingList extends React.Component{
     }
     getValues(){
         let data = [];
-        this.props.listings.map((listing)=>{
+        this.props.listings.map((listing,i)=>{
             let row = {};
             row['name'] = listing.item.name;
             row['itemId'] = listing.item.id;
             row['listingId'] = listing.id;
-            row['price'] = listing.starting_price;
+            row['startingPrice'] = listing.starting_price;
+            row['price'] = (this.props.maxBids && this.props.maxBids[i])?this.props.maxBids[i].amount:listing.starting_price;
             row['expiresIn'] = ((new Date(listing.expiry_date)).getTime() - Date.now())/(1000*60*60) + ' hours';
             this.props.tagValues
                     .filter((tv)=>{return tv.itemId === listing.item.id;})
@@ -50,6 +52,7 @@ class ListingList extends React.Component{
 }
 ListingList.propTypes = {
     listings : PropTypes.array.isRequired,
+    maxBids : PropTypes.array.isRequired,
     tags : PropTypes.arrayOf(PropTypes.object).isRequired,
     tagValues : PropTypes.arrayOf(PropTypes.object).isRequired,
     selectItem : PropTypes.func.isRequired

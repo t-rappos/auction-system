@@ -4,7 +4,7 @@ let TabContainer = require('../tabContainer.jsx').TabContainer;
 let Tab = require('../tabContainer.jsx').Tab;
 let ItemContainer = require('./itemContainer.jsx');
 let ListingContainer = require('./listingContainer.jsx');
-let SearchContainer = require('./searchContainer.jsx');
+//let SearchContainer = require('./searchContainer.jsx');
 
 class InventoryContainer extends React.Component{
     constructor(props) {
@@ -18,10 +18,10 @@ class InventoryContainer extends React.Component{
                             <ItemContainer/>
                         </Tab>
                         <Tab name = 'Listed Items'>
-                            <ListingContainer/>
+                            <ListingContainer showAllListings = {false}/>
                         </Tab>
                         <Tab name = 'Search All Listings'>
-                            <SearchContainer/>
+                            <ListingContainer showAllListings = {true}/>
                         </Tab>
                     </TabContainer>
         );
