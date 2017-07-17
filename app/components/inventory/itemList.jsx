@@ -51,11 +51,15 @@ class ItemList extends React.Component{
     render(){
         let values = this.getValues();
         let headers = this.getHeaders();
-        console.log('render');
         return (
             <div>
                 {this.props.items && this.props.tagValues && this.props.tags && 
-                   <InventoryTable selectItem = {this.props.selectItem} values = {values} headers = {headers}/>}
+                   <InventoryTable 
+                   selectItem = {this.props.selectItem} 
+                   selectIdNames = {['itemId']}
+                   values = {values} 
+                   headers = {headers}
+                   />}
             </div>
         );
     }

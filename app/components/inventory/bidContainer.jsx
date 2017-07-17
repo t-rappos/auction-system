@@ -1,45 +1,31 @@
 var React = require('react');
-let ListingInspector = require('../itemInspector/listingInspector.jsx');
-let ListingList = require('./listingList.jsx');
+let BidInspector = require('../itemInspector/bidInspector.jsx');
+let BidList = require('./bidList.jsx');
 var ServerApi = require('../../api/server.jsx');
-import PropTypes from 'prop-types';
-
-class SearchForm extends React.Component{
-    constructor(props) {
-        super(props);
-    }
-    render(){
-        return(
-            <form onSubmit = {(e)=>{e.preventDefault(); this.props.submitFn(this.input.value);}}>
-                <label> Search
-                    <input type='text' ref = {(input)=>{this.input = input;}} placeholder='enter search text here'/>
-                    <button type='submit' className = 'button succes'>Search</button>
-                </label>
-            </form>
-        );
-    }
-}
-
-SearchForm.propTypes = {
-    submitFn : PropTypes.func.isRequired
-};
+//import PropTypes from 'prop-types';
 
 
-class ListingContainer extends React.Component{
+//TODO: abstract this, too much duplicate behaviour with listingContainer
+class BidContainer extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            bids : [],
             maxBids : [],
             listings : [],
             tags : [],
             tagValues : [],
             images : [],
-            selectedItemId : null
+            selectedItemId : null,
+            selectedStatus : '',
+            selectedExpired : 0
         };
      }
 
     selectListing(data){
-        this.setState({selectedItemId : data.itemId});
+        this.setState({selectedItemId : data.itemId,
+                    selectedStatus:data.status,
+                    selectedExpired : data.expiresIn});
     }
 
     getSelectedItemImage(){
@@ -107,14 +93,14 @@ class ListingContainer extends React.Component{
         return [tagNames, tagValues];
     }
 
-    loadData(searchCommand){
-        let request = this.props.showAllListings ? ServerApi.sendViewListingsRequest : ServerApi.sendViewAccountListingsRequest;
-        request(searchCommand, (res)=>{
+    loadData(){
+        ServerApi.sendViewBidsRequest((res)=>{
             if(res){
                 if(res.error){
                     alert('listingContainer error ');
                 } else {
                     this.setState({
+                        bids : res.bids,
                         maxBids : res.listingMaxBids,
                         listings : res.listings,
                         tags : res.tags,
@@ -128,17 +114,15 @@ class ListingContainer extends React.Component{
     componentDidMount(){
         this.loadData();
     }
-    /*    item : PropTypes.object,
-    url : PropTypes.string,
-    tagNames : PropTypes.array,
-    tagValues : PropTypes.array */
+
      render(){
         let selectedTagNameValues = this.getSelectedItemTagNamesAndValues();
         return (
             <div className='row'>
                     <div className='small-6 columns'>
-                           <ListingInspector 
-                                displayOwnedListings = {!this.props.showAllListings}
+                           <BidInspector 
+                                expired = {this.state.selectedExpired}
+                                status = {this.state.selectedStatus}
                                 maxBid = {this.getSelectedMaxBid()}
                                 listing = {this.getSelectedListing()}
                                 item={this.getSelectedItem()} 
@@ -147,21 +131,19 @@ class ListingContainer extends React.Component{
                                 tagValues = {selectedTagNameValues[1]}/>
                     </div>
                     <div className='small-6 columns'>
-                           <ListingList 
+                           <BidList bids = {this.state.bids}
                                         maxBids = {this.state.maxBids}
                                         listings = {this.state.listings}
                                         tags = {this.state.tags}
                                         tagValues = {this.state.tagValues}
                                         selectItem = {this.selectListing.bind(this)}/>
-                            <SearchForm submitFn = {(inp)=>{this.loadData(inp);}}/>
                     </div>
             </div>
         );
      }
 }
 
-ListingContainer.propTypes = {
-    showAllListings : PropTypes.bool.isRequired
-};
+//BidContainer.propTypes = {
+//};
 
-module.exports = ListingContainer;
+module.exports = BidContainer;

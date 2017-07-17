@@ -25,7 +25,6 @@ class ListingInspector extends React.Component{
     }
 
     purchaseListing(price){
-        alert('attempting to purchase listing '+this.props.listing.item.name+' for ' + price);
         if(this.props.listing.type === 'bid'){
             ServerApi.sendBidOnListingRequest(this.props.listing.id,price,(res)=>{
                 if(res){

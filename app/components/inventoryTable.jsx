@@ -17,7 +17,19 @@ class InventoryTable extends React.Component{
                getTdProps={(state, rowInfo, column, instance) => {
                 return {
                     onClick: e => {
-                        this.props.selectItem(rowInfo.row.itemId);
+                        /*
+                            e.g. selectIdNames = [itemId,status,expired]
+                            returns selectData = {itemId : 0, status: outbid, expired: -100.00}
+                            to this.props.selectItem callback
+                         */
+                        if(this.props.selectIdNames){
+                           let selectData = {};
+                           this.props.selectIdNames.map((key)=>{
+                               
+                                selectData[key] = rowInfo.row[key];
+                           });
+                           this.props.selectItem(selectData);
+                        }
                     }
                 };
                }}
@@ -32,6 +44,7 @@ class InventoryTable extends React.Component{
 InventoryTable.propTypes = {
     headers : PropTypes.arrayOf(PropTypes.object),
     values : PropTypes.arrayOf(PropTypes.object),
+    selectIdNames : PropTypes.array.isRequired,
     selectItem : PropTypes.func
 };
 

@@ -42,15 +42,14 @@ class ItemContainer extends React.Component{
         });
     }
 
-    selectItem(itemId){
-        let selectedItem = this.state.items.find((i)=>{return i.id == itemId;});
+    selectItem(data){
+        let selectedItem = this.state.items.find((i)=>{return i.id == data.itemId;});
         this.updateSelectedItemData(selectedItem);
     }
 
     loadData(){
         ServerApi.sendInventoryViewRequest(function(res){
                 if(res.error == null){
-                    console.log("items : ", res.items);
                     this.setState({ items : res.items, 
                                     tagValues : res.tagValues,
                                     tags : res.tags,

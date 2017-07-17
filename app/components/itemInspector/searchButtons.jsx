@@ -7,11 +7,11 @@ class SearchButtons extends React.Component{
     }
     onSubmit(e){
         e.preventDefault();
-        this.props.bidFunc(this.price.value);
-    }
-
-    componentDidMount(){
-
+        if(this.props.listingTypeIsBid  && this.price.value < this.props.listingMinPrice){
+            alert("Cannot bid less than the listed price!");
+            return;
+        }
+        this.props.bidFunc(this.props.listingTypeIsBid ? this.price.value : this.props.listingMinPrice);
     }
 
     render(){
@@ -22,13 +22,15 @@ class SearchButtons extends React.Component{
         <div>
             <form onSubmit={this.onSubmit.bind(this)}>
                 <label> {bidLabel}
-                    <input ref = {(input)=>{this.price = input;}} 
+                    {this.props.listingTypeIsBid 
+                        ? <input ref = {(input)=>{this.price = input;}} 
                             type='number'
                             step = 'any'
                             placeholder = {this.props.listingMinPrice}
                             disabled = {!this.props.listingTypeIsBid}
                             required=  {true}
                             />
+                        :<h4>{this.props.listingMinPrice}</h4>}
                 </label>
                 <button type='submit' className='button success'>{buttonText}</button>
             </form>

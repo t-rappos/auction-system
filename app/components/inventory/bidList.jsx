@@ -2,7 +2,8 @@ var React = require('react');
 import PropTypes from 'prop-types';
 let InventoryTable = require('../inventoryTable.jsx');
 
-class ListingList extends React.Component{
+//TODO: abstract this, too much duplicate behaviour with itemList & listingList
+class BidList extends React.Component{
     constructor(props) {
         super(props);
      }
@@ -15,8 +16,10 @@ class ListingList extends React.Component{
         let columns = [{Header : 'name', accessor : 'name', id : 'name', Cell : nameCellRenderer },
                 {Header : 'itemId', accessor : 'itemId', id : 'itemId' },
                 {Header : 'listingId', accessor : 'listingId', id : 'listingId' },
-                {Header : 'Starting price', accessor : 'startingPrice', id : 'startingPrice' },
-                {Header : 'price', accessor : 'price', id : 'price' },
+                {Header : 'Starting Bid', accessor : 'startingPrice', id : 'startingPrice' },
+                {Header : 'Current Bid', accessor : 'price', id : 'price' },
+                {Header : 'My Bid', accessor : 'bid', id : 'bid' },
+                {Header : 'Status', accessor : 'status', id : 'status' },
                 {Header : 'Expires in', accessor : 'expiresIn', id : 'expiresIn' }];
         if(this.props.tags != null && this.props.tags != undefined){
             this.props.tags.map((tag, i)=>{
@@ -34,7 +37,33 @@ class ListingList extends React.Component{
             row['listingId'] = listing.id;
             row['startingPrice'] = listing.starting_price;
             row['price'] = (this.props.maxBids && this.props.maxBids[i])?this.props.maxBids[i].amount:listing.starting_price;
-            row['expiresIn'] = ((new Date(listing.expiry_date)).getTime() - Date.now())/(1000*60*60) + ' hours';
+            row['bid'] = this.props.bids[i].amount;
+            let expiry = ((new Date(listing.expiry_date)).getTime() - Date.now())/(1000*60*60);
+            if(expiry <= 0){ 
+                row['expiresIn'] = 'expired';
+            }else{
+                row['expiresIn'] = expiry + ' hours';
+            } 
+
+            let expired = expiry <= 0.0;
+            let sold = listing.sold;
+            let currentBidder = this.props.bids[i].bidderId === this.props.maxBids[i].bidderId 
+            && this.props.bids[i].amount === this.props.maxBids[i].amount;
+            if(!expired && !sold){
+                if(currentBidder){
+                    row['status'] = 'active';
+                } else {
+                    row['status'] = 'outbid';
+                }
+                
+            } else if(sold){
+                if(currentBidder){
+                    row['status'] = 'won';
+                } else {
+                    row['status'] = 'outbid';
+                }
+            } 
+
             this.props.tagValues
                     .filter((tv)=>{return tv.itemId === listing.item.id;})
                     .map((tv)=>{
@@ -46,19 +75,20 @@ class ListingList extends React.Component{
     }
     render(){
          return (
-             <InventoryTable 
-             selectItem = {this.props.selectItem} 
-             selectIdNames = {['itemId']}
-             values = {this.getValues()} headers = {this.getHeaders()}/>
+             <InventoryTable selectIdNames = {['itemId','status', 'expiresIn']}
+                             selectItem = {this.props.selectItem} 
+                             values = {this.getValues()} 
+                             headers = {this.getHeaders()}/>
          );
     }
 }
-ListingList.propTypes = {
+BidList.propTypes = {
     listings : PropTypes.array.isRequired,
+    bids : PropTypes.array.isRequired,
     maxBids : PropTypes.array.isRequired,
     tags : PropTypes.arrayOf(PropTypes.object).isRequired,
     tagValues : PropTypes.arrayOf(PropTypes.object).isRequired,
     selectItem : PropTypes.func.isRequired
 };
 
-module.exports = ListingList;
+module.exports = BidList;
