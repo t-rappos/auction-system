@@ -7,6 +7,7 @@ let PageContainer = require('./components/pageContainer.jsx');
 import {Provider} from 'react-redux';
 let redux = require('./reduxWrapper.jsx');
 var $ = require('jquery');
+let ToastContainer = require('./components/toast/toastContainer.jsx');
 
 var store = redux.createStore();
 
@@ -28,6 +29,7 @@ ReactDOM.render(
           <Route path="/" component = {LoginContainer}></Route>
           <Route path="/account" component={PageContainer}></Route>
         </Router>
+        <ToastContainer/>
       </div>
     </Provider>
 ,

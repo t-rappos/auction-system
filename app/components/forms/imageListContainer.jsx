@@ -1,8 +1,8 @@
-
 var React = require('react');
 import PropTypes from 'prop-types';
 let ImageListForm = require('./imageListForm.jsx');
 let ServerAPI = require('../../api/server.jsx');
+let ToastStore = require('../toast/toastStore.jsx');
 
 class ImageListContainer extends React.Component{
     constructor(props) {
@@ -18,7 +18,7 @@ class ImageListContainer extends React.Component{
         ServerAPI.sendImageListViewRequest((res)=>{
             if(res){
                 if(res.error){
-                    alert("Cannot connect to server!");
+                    ToastStore.push('Loading Images : Cannot connect to server', 5000, 'error');
                 } else {
                     let urls = [];
                     let ids = [];

@@ -2,6 +2,7 @@
 var React = require('react');
 let ItemForm = require('./itemForm.jsx');
 let ServerAPI = require('../../api/server.jsx');
+let ToastStore = require('../toast/toastStore.jsx');
 
 //Container for item construction panel
 class ItemFormContainer extends React.Component{
@@ -20,10 +21,10 @@ class ItemFormContainer extends React.Component{
         ServerAPI.sendItemCreationRequest(this.state.selectedImageId, name, desc, tagNames, tagValues,(res)=>{
             if(res){
                 if(res.error){
-                    alert("Item couldn't be created! ");
+                    ToastStore.push('Item creation FAILED!', 5000, 'error');
                     return;
                 }
-                alert("Item created successfully!");
+                ToastStore.push('Item created successfully', 5000, 'success');
             }
         });
      }
@@ -32,7 +33,7 @@ class ItemFormContainer extends React.Component{
          ServerAPI.sendTagViewRequest((res)=>{
              if(res){
                  if(res.error){
-                     alert("error connecting to server");
+                     ToastStore.push('Couldnt connect to server!', 5000, 'error');
                  } else {
                      if(res.tags && res.tags.length > 0){
                          let tagNames = [];

@@ -121,7 +121,7 @@ class BidContainer extends React.Component{
             <div className='row'>
                     <div className='small-6 columns'>
                            <BidInspector 
-                                expired = {this.state.selectedExpired}
+                                expired = {this.state.selectedExpired + ""}
                                 status = {this.state.selectedStatus}
                                 maxBid = {this.getSelectedMaxBid()}
                                 listing = {this.getSelectedListing()}

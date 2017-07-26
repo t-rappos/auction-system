@@ -1,6 +1,7 @@
 var React = require('react');
 var ServerApi = require('../api/server.jsx');
 import { browserHistory } from 'react-router';
+let ToastStore = require('./toast/toastStore.jsx');
 
 const buttonNoMarginStyle = {
     margin : 0,
@@ -46,10 +47,10 @@ class LoginForm extends React.Component{
             } else {
                 if(res.alreadyLoggedIn){
                     this.setState({lastResultMessage:'failed login'});
-                    alert('Already logged in, please log out!');
+                    ToastStore.push('Already logged in, please log out!', 5000, 'error');
                 } else {
                     this.setState({lastResultMessage:'failed login'});
-                    alert('Incorrect username or password, please try again');
+                    ToastStore.push('Incorrect username or password, please try again', 5000, 'error');
                 }
             }
         });

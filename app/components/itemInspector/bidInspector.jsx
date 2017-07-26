@@ -2,6 +2,7 @@ var React = require('react');
 let BidButtons = require('./bidButtons.jsx');
 let ItemView = require('./itemView.jsx');
 var ServerApi = require('../../api/server.jsx');
+let ToastStore = require('../toast/toastStore.jsx');
 
 import PropTypes from 'prop-types';
 
@@ -15,9 +16,9 @@ class BidInspector extends React.Component{
         ServerApi.sendBidOnListingRequest(this.props.listing.id,price,(res)=>{
             if(res){
                 if(res.error){
-                    alert('Couldn\'t outbid listing' + res.error);
+                    ToastStore.push('Couldn\'t outbid listing' + res.error, 5000, 'error');
                 } else {
-                    alert('Listing re-bid on '+this.props.listing.item.name+' for ' + price);
+                    ToastStore.push('Listing re-bid on '+this.props.listing.item.name+' for ' + price, 5000, 'success');
                 }
             }
         });

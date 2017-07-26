@@ -31,45 +31,51 @@ class BidList extends React.Component{
     getValues(){
         let data = [];
         this.props.listings.map((listing,i)=>{
-            let row = {};
-            row['name'] = listing.item.name;
-            row['itemId'] = listing.item.id;
-            row['listingId'] = listing.id;
-            row['startingPrice'] = listing.starting_price;
-            row['price'] = (this.props.maxBids && this.props.maxBids[i])?this.props.maxBids[i].amount:listing.starting_price;
-            row['bid'] = this.props.bids[i].amount;
-            let expiry = ((new Date(listing.expiry_date)).getTime() - Date.now())/(1000*60*60);
-            if(expiry <= 0){ 
-                row['expiresIn'] = 'expired';
-            }else{
-                row['expiresIn'] = expiry + ' hours';
-            } 
-
-            let expired = expiry <= 0.0;
-            let sold = listing.sold;
-            let currentBidder = this.props.bids[i].bidderId === this.props.maxBids[i].bidderId 
-            && this.props.bids[i].amount === this.props.maxBids[i].amount;
-            if(!expired && !sold){
-                if(currentBidder){
-                    row['status'] = 'active';
-                } else {
-                    row['status'] = 'outbid';
+            if(listing){
+                let row = {};
+                if(listing.item===null){
+                    listing.item = {name : '*deleted*', id : -1};
                 }
-                
-            } else if(sold){
-                if(currentBidder){
-                    row['status'] = 'won';
-                } else {
-                    row['status'] = 'outbid';
-                }
-            } 
+                row['name'] = listing.item.name;
+                row['itemId'] = listing.item.id;
+                row['listingId'] = listing.id;
+                row['startingPrice'] = listing.starting_price;
+                row['price'] = (this.props.maxBids && this.props.maxBids[i])?this.props.maxBids[i].amount:listing.starting_price;
+                row['bid'] = this.props.bids[i].amount;
+                let expiry = ((new Date(listing.expiry_date)).getTime() - Date.now())/(1000*60*60);
+                if(expiry <= 0){ 
+                    row['expiresIn'] = 'expired';
+                }else{
+                    row['expiresIn'] = expiry + ' hours';
+                } 
 
-            this.props.tagValues
-                    .filter((tv)=>{return tv.itemId === listing.item.id;})
-                    .map((tv)=>{
-                        row[this.props.tags[tv.tagId-1].name] = tv.value;
-                    });
-            data.push(row);
+                let expired = expiry <= 0.0;
+                let sold = listing.sold;
+                let currentBidder = this.props.bids[i].bidderId === this.props.maxBids[i].bidderId 
+                && this.props.bids[i].amount === this.props.maxBids[i].amount;
+                if(!expired && !sold){
+                    if(currentBidder){
+                        row['status'] = 'active';
+                    } else {
+                        row['status'] = 'outbid';
+                    }
+                    
+                } else if(sold){
+                    if(currentBidder){
+                        row['status'] = 'won';
+                    } else {
+                        row['status'] = 'outbid';
+                    }
+                } 
+
+                this.props.tagValues
+                        .filter((tv)=>{return tv.itemId === listing.item.id;})
+                        .map((tv)=>{
+                            row[this.props.tags[tv.tagId-1].name] = tv.value;
+                        });
+                data.push(row);
+            }
+           
         });
         return data;
     }

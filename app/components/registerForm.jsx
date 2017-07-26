@@ -1,6 +1,7 @@
 var React = require('react');
 var ServerApi = require('../api/server.jsx');
 import PropTypes from 'prop-types';
+let ToastStore = require('./toast/toastStore.jsx');
 
 const buttonNoMarginStyle = {
     margin : 0,
@@ -18,24 +19,24 @@ class RegisterForm extends React.Component{
         if(this.username.value == null || this.username.value == '') {return;}
         if(this.password.value == null || this.password.value == '') {return;}
         if(this.email.value == null || this.email.value == '') {return;}
-        if(this.password.value != this.password2.value){alert('passwords do not match');return;}
+        if(this.password.value != this.password2.value){ToastStore.push('passwords do not match', 5000, 'error');return;}
         this.setState({lastResultMessage:'valid'});
         ServerApi.sendAccountCreationRequest(this.username.value, this.email.value, this.password.value)
         .then((res)=>{
             //TODO: update this to use a modal
             if(res === true){
                 this.setState({lastResultMessage:'success'});
-                alert('Success');
+                ToastStore.push('Registration successful', 5000, 'success');
                 this.props.switchTab(0);
             } else {
                 this.setState({lastResultMessage:String(res)});
-                alert(res);
+                ToastStore.push(res, 5000, 'error');
             }
             //TODO: trigger login functionality here
         })
         .catch((e)=>{
             this.setState({lastResultMessage:'fail'});
-            alert('sendAccountCreationRequest error');
+            ToastStore.push('sendAccountCreationRequest error', 5000, 'error');
         });
     }
 

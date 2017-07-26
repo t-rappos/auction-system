@@ -3,6 +3,7 @@ let ItemView = require('./itemView.jsx');
 let ItemButtons = require('./itemButtons.jsx');
 import PropTypes from 'prop-types';
 var ServerApi = require('../../api/server.jsx');
+let ToastStore = require('../toast/toastStore.jsx');
 
 class ItemInspector extends React.Component{
     constructor(props) {
@@ -13,9 +14,9 @@ class ItemInspector extends React.Component{
         if(this.props.item){
             ServerApi.sendDestroyItemRequest(this.props.item.id, (res)=>{
                 if(res.error == null){
-                    alert('Item destroyed successfully!');
+                    ToastStore.push('Item destroyed successfully!', 5000, 'success');
                 } else {
-                    alert('Couldn\'t destroy item!');
+                    ToastStore.push('Couldn\'t destroy item!', 5000, 'error');
                 }
             });
         }

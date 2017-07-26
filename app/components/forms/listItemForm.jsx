@@ -1,6 +1,6 @@
-
 var React = require('react');
 import PropTypes from 'prop-types';
+let ToastStore = require('../toast/toastStore.jsx');
 
 class ListItemForm extends React.Component{
     constructor(props) {
@@ -10,7 +10,9 @@ class ListItemForm extends React.Component{
     onSubmit(e){
         e.preventDefault();
         let mode = this.radioBid.checked ? 'bid' : (this.radioBuyout.checked?'buyout':'');
-        if(mode == ''){alert('Please select listing mode');}
+        if(mode == ''){
+            ToastStore.push('Please select listing mode', 5000, 'warning');
+        }
         else{
             this.props.sellItem(mode, 
                             this.price.value,

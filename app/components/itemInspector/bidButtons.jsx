@@ -1,5 +1,6 @@
 var React = require('react');
 import PropTypes from 'prop-types';
+let ToastStore = require('../toast/toastStore.jsx');
 
 class BidButtons extends React.Component{
     constructor(props){
@@ -8,7 +9,7 @@ class BidButtons extends React.Component{
     onSubmit(e){
         e.preventDefault();
         if(this.price.value < this.props.listingMinPrice){
-            alert("Cannot bid less than the listed price!");
+            ToastStore.push("Cannot bid less than the listed price!", 5000, 'warning');
             return;
         }
         this.props.bidFunc(this.price.value);

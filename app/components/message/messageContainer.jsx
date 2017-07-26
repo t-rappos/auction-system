@@ -2,6 +2,7 @@
 var React = require('react');
 let ServerAPI = require('../../api/server.jsx');
 let MessageList = require('./messageList.jsx');
+let ToastStore = require('../toast/toastStore.jsx');
 
 class MessageContainer extends React.Component{
     constructor(props) {
@@ -31,9 +32,9 @@ class MessageContainer extends React.Component{
         ServerAPI.sendMessageDeleteRequest(messageId,(res)=>{
             if(res){
                 if(res.error){
-                    alert("Couldn't delete message");
+                    ToastStore.push("Couldn't delete message", 5000, 'error');
                 } else {
-                    alert("Message deleted"); 
+                    ToastStore.push("Message deleted", 5000, 'success'); 
                 }
             }
         });
@@ -43,7 +44,7 @@ class MessageContainer extends React.Component{
         ServerAPI.sendMessageReadRequest(messageId,(res)=>{
             if(res){
                 if(res.error){
-                    alert("Couldn't read message");
+                    ToastStore.push("Couldn't read message", 5000, 'error');
                 }
             }
         });
@@ -53,9 +54,9 @@ class MessageContainer extends React.Component{
         ServerAPI.sendMessageCreationRequest(recipientId, title, message,(res)=>{
             if(res){
                 if(res.error){
-                    alert("Couldn't send message");
+                    ToastStore.push("Couldn't send message", 5000, 'error');
                 } else {
-                    alert("Message sent!"); //TODO: make alerts into toasts
+                    ToastStore.push("Message sent!", 5000, 'success'); //TODO: make ToastStore.pushs into toasts
                 }
             }
         });
@@ -65,7 +66,7 @@ class MessageContainer extends React.Component{
         ServerAPI.sendMessageListViewRequest((res)=>{
             if(res){
                 if(res.error){
-                    alert('failed to connect to server! ');
+                    ToastStore.push('failed to connect to server! ', 5000, 'error');
                 } else {
                     if(res.messages && res.messages.length > 0){
                         let messagesWithSenderName 

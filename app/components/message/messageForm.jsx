@@ -1,5 +1,6 @@
 var React = require('react');
 import PropTypes from 'prop-types';
+let ToastStore = require('../toast/toastStore.jsx');
 
 //TODO style the table
 const labelStyle = {
@@ -36,7 +37,7 @@ class MessageForm extends React.Component{
             this.props.sendMessage(this.state.recipientId, this.title.value, this.contents.value);
             this.props.forceCloseModal();
         } else {
-            alert("Username " + this.recipient.value + " doesn't exist!");
+            ToastStore.push("Username " + this.recipient.value + " doesn't exist!", 5000, 'error');
         }
         /*
         this.props.getAccountId(this.recipient.value,(id)=>{
@@ -44,7 +45,7 @@ class MessageForm extends React.Component{
                 this.props.sendMessage(id, this.title.value, this.contents.value);
                 this.props.forceCloseModal();
             } else {
-                alert("Username " + this.recipient.value + " doesn't exist!");
+                ToastStore.push("Username " + this.recipient.value + " doesn't exist!");
             }
         });
         */

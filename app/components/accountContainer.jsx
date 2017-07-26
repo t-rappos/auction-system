@@ -1,10 +1,10 @@
-
 var React = require('react');
 var TabContainer = require('./tabContainer.jsx').TabContainer;
 var Tab = require('./tabContainer.jsx').Tab;
 var ServerApi = require('../api/server.jsx');
 let AccountView = require('./accountView.jsx');
 let AccountModify = require('./accountModify.jsx');
+let ToastStore = require('./toast/toastStore.jsx');
 
 //gets account details from db
 class AccountContainer extends React.Component{
@@ -23,7 +23,7 @@ class AccountContainer extends React.Component{
     sendAccountModifyRequest(email, details){
         ServerApi.sendAccountModifyRequest(email, details ,function(res){
             if(res.error == null){
-                alert("Success");
+                ToastStore.push("Acount successfully modified", 5000, 'success');
                 this.loadData();
             }
         }.bind(this));
@@ -49,7 +49,7 @@ class AccountContainer extends React.Component{
                         detailValues : dv
                     });
                 } else {
-                    alert('Account not found');
+                    ToastStore.push('Account not found', 5000, 'error');
                 }
             }.bind(this));
     }

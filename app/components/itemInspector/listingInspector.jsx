@@ -3,6 +3,7 @@ let ListingButtons = require('./listingButtons.jsx');
 let SearchButtons = require('./searchButtons.jsx');
 let ItemView = require('./itemView.jsx');
 var ServerApi = require('../../api/server.jsx');
+let ToastStore = require('../toast/toastStore.jsx');
 
 import PropTypes from 'prop-types';
 
@@ -16,9 +17,9 @@ class ListingInspector extends React.Component{
         ServerApi.sendCancelListingRequest(this.props.listing.id,(res)=>{
             if(res){
                 if(res.error){
-                    alert('Couldnt cancel listing' + res.error);
+                    ToastStore.push('Couldnt cancel listing' + res.error, 5000, 'error');
                 } else {
-                    alert('listing successfully cancelled');
+                    ToastStore.push('listing successfully cancelled', 5000, 'success');
                 }
             }
         });
@@ -29,9 +30,9 @@ class ListingInspector extends React.Component{
             ServerApi.sendBidOnListingRequest(this.props.listing.id,price,(res)=>{
                 if(res){
                     if(res.error){
-                        alert('Couldn\'t purchase listing' + res.error);
+                        ToastStore.push('Couldn\'t purchase listing' + res.error, 5000, 'error');
                     } else {
-                        alert('Listing purchased ! '+this.props.listing.item.name+' for ' + price);
+                        ToastStore.push('Listing purchased ! '+this.props.listing.item.name+' for ' + price, 5000, 'success');
                     }
                 }
             });
@@ -39,9 +40,9 @@ class ListingInspector extends React.Component{
             ServerApi.sendBuyoutListingRequest(this.props.listing.id,(res)=>{
                 if(res){
                     if(res.error){
-                        alert('Couldn\'t purchase listing' + res.error);
+                        ToastStore.push('Couldn\'t purchase listing' + res.error, 5000, 'error');
                     } else {
-                        alert('Listing purchased ! '+this.props.listing.item.name+' for ' + price);
+                        ToastStore.push('Listing purchased ! '+this.props.listing.item.name+' for ' + price, 5000, 'success');
                     }
                 }
             });
@@ -54,10 +55,7 @@ class ListingInspector extends React.Component{
         let minPrice = 0;
         if(this.props && this.props.listing){
             minPrice = ((this.props.maxBid!=null)? this.props.maxBid.amount : this.props.listing.starting_price) + 1;
-            console.log('minPrice', minPrice);
         }
-        console.log(this);
-        
         return (
                 this.props.item 
                 ?
