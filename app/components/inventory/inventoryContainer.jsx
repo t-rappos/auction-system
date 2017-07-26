@@ -11,9 +11,10 @@ class InventoryContainer extends React.Component{
     constructor(props) {
         super(props);
      }
-
+     
     render(){
         return (
+
                     <TabContainer>
                         <Tab name= 'Items'>
                             <ItemContainer/>
@@ -29,6 +30,7 @@ class InventoryContainer extends React.Component{
                         </Tab>
 
                     </TabContainer>
+
         );
     }
 }

@@ -3,6 +3,7 @@ var React = require('react');
 let ItemForm = require('./itemForm.jsx');
 let ServerAPI = require('../../api/server.jsx');
 let ToastStore = require('../toast/toastStore.jsx');
+import PropTypes from 'prop-types';
 
 //Container for item construction panel
 class ItemFormContainer extends React.Component{
@@ -25,6 +26,7 @@ class ItemFormContainer extends React.Component{
                     return;
                 }
                 ToastStore.push('Item created successfully', 5000, 'success');
+                this.props.update();
             }
         });
      }
@@ -63,5 +65,7 @@ class ItemFormContainer extends React.Component{
         );
      }
 }
-
+ItemFormContainer.propTypes = {
+    update : PropTypes.func
+};
 module.exports = ItemFormContainer;

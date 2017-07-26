@@ -76,7 +76,7 @@ class ItemContainer extends React.Component{
                                                 tagValues = {this.state.selectedItemTagValues}/>
                                         </Tab>
                                         <Tab name = 'Create'>
-                                            <ItemFormContainer/>
+                                            <ItemFormContainer update={this.loadData.bind(this)}/>
                                         </Tab>
                                     </TabContainer>
                                 </div>
