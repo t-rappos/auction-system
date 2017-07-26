@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 
 let Promise = require('bluebird');
 let socket = io();
-
+let ToastStore = require('../components/toast/toastStore.jsx');
 socket.emitAsync = Promise.promisify(socket.emit);
 
 //a callback
@@ -18,6 +18,27 @@ socket.emitAsync = Promise.promisify(socket.emit);
 //     throw new Error("safecall expected a function");
 //   }
 //}
+
+socket.on('outbid', ()=>{
+  ToastStore.push('outbid on item', 5000, 'update');
+});
+
+socket.on('item_won', ()=>{
+  ToastStore.push('a bid has been won', 5000, 'update');
+});
+
+socket.on('listing_expired', ()=>{
+  ToastStore.push('a listing has expired', 5000, 'update');
+});
+
+socket.on('new_message', ()=>{
+   ToastStore.push('new message arrived', 5000, 'update');
+});
+
+socket.on('item_sold', ()=>{
+   ToastStore.push('item sold', 5000, 'update');
+});
+
 
 //var serverApiOnLoginCallback;
 //socket.on('login', function(username){

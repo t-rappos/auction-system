@@ -82,7 +82,7 @@ class MessageForm extends React.Component{
                         </td>
                     </tr>
                     <tr>
-                        <td style = {labelStyle}>Sender: </td>
+                        <td style = {labelStyle}>Recipient: </td>
                         <td style = {contentStyle} >
                             <span>
                             <input defaultValue = {this.props.sender}
