@@ -60,10 +60,14 @@ class LoginForm extends React.Component{
         <div ref={node => this.node = node} id = 'loginForm' >
           <div className='expanded row' >
               <form onSubmit = {this.onSubmit.bind(this)}>
-                  <input id='username' placeholder="username" type='text'
+                <label> Username
+                  <input id='username' type='text'
                       ref={(input) => this.username = input}/>
-                  <input id='password' placeholder="password" type='password'
+                </label>
+                <label> Password
+                  <input id='password' type='password'
                       ref={(input) => this.password = input}/>
+                </label>
                   <button className = "button success" style = {buttonNoMarginStyle} type="submit">Login</button>
               </form>
           </div>

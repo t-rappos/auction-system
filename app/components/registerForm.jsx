@@ -45,10 +45,10 @@ class RegisterForm extends React.Component{
           <div ref={node => this.node = node} id = 'registerForm'>
             <div className='expanded row' >
                 <form onSubmit = {this.onSubmit.bind(this)}>
-                    <input id='username' ref={(input) => this.username = input} placeholder="username" type='text'/>
-                    <input id='email' ref={(input) => this.email = input} placeholder="email" type='text'/>
-                    <input id='password1' ref={(input) => this.password = input} placeholder="password" type='password'/>
-                    <input id='password2' ref={(input) => this.password2 = input} placeholder="re-enter password" type='password'/>
+                    <label>Username<input id='username' ref={(input) => this.username = input}  type='text'/></label>
+                    <label>Email<input id='email' ref={(input) => this.email = input}  type='text'/></label>
+                    <label>Password<input id='password1' ref={(input) => this.password = input}  type='password'/></label>
+                    <label>Re-enter Password<input id='password2' ref={(input) => this.password2 = input}  type='password'/></label>
                     <button className = "button success" style = {buttonNoMarginStyle} type="submit">Register</button>
                 </form>
             </div>
