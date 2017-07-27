@@ -3,7 +3,6 @@ let ReactDOM = require('react-dom');
 let {Route, Router, browserHistory} = require('react-router');
 let LoginContainer = require('./components/loginContainer.jsx');
 let Header = require('./components/header.jsx');
-let RegisterForm = require('./components/registerForm.jsx'); 
 let PageContainer = require('./components/pageContainer.jsx');
 import {Provider} from 'react-redux';
 let redux = require('./redux/wrapper.jsx');
@@ -26,9 +25,9 @@ ReactDOM.render(
       <div>
         <Header/>
         <Router history={browserHistory}>
-          <Route path="/" component = {LoginContainer}></Route>
+          <Route path="/" component = {LoginContainer} mode = 'login'></Route>
           <Route path="/account" component={PageContainer}></Route>
-          <Route path="/register" component={RegisterForm}></Route>
+          <Route path="/register" component={LoginContainer} mode = 'register'></Route>
         </Router>
         <ToastContainer/>
       </div>

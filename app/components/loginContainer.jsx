@@ -3,10 +3,13 @@ var React = require('react');
 //var Tab = require('./tabContainer.jsx').Tab;
 //var RegisterForm = require('./registerForm.jsx');
 var LoginForm = require('./LoginForm.jsx');
+var RegisterForm = require('./RegisterForm.jsx');
+
+import PropTypes from 'prop-types';
 
 const appStyle = {
   width: '100%',
-	background: 'linear-gradient(45deg, rgb(8, 204, 219) 0%, rgb(31, 158, 219) 51%, rgb(23, 121, 186) 75%)',
+	background: 'linear-gradient(45deg, rgb(8, 204, 219) 0%, rgb(23, 121, 186) 100%)',
   height: '70vh',
   paddingTop: '10px',
   boxShadow: 'inset 0px 0px 8px 3px rgba(0, 0, 0, 0.09)'
@@ -27,20 +30,24 @@ const imageStyle={
   borderRadius: '5px'
 };
 
-var LoginContainer = React.createClass({
+class LoginContainer extends React.Component{
 
-  render: function(){
+  render(){
+    let form = this.props.route.mode==='login'?<LoginForm/> : <RegisterForm/>;
     return (
       <div ref={node => this.node = node} style={appStyle}>
         <img src="./assets/scales2.png" alt="" style = {imageStyle}/>
         <div className='expanded row' style={mainWindowStyle} >
-          <LoginForm/>
+          {form}
         </div>
       </div>
     );
   }
-});
+}
 
+LoginContainer.propTypes = {
+  route : PropTypes.object
+};
 module.exports = LoginContainer;
 
 /*          <TabContainer>

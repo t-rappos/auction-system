@@ -1,12 +1,45 @@
 var React = require('react');
 var ServerApi = require('../api/server.jsx');
-import PropTypes from 'prop-types';
 let ToastStore = require('./toast/toastStore.jsx');
+import { browserHistory } from 'react-router';
+let Router = require('react-router');
+let Link = Router.Link;
 
 const buttonNoMarginStyle = {
     margin : 0,
-    width : '100%'
+    width: '50%',
+    borderRadius: '20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '25px',
+    display: 'block'
 };
+
+const loginFormStyle = {
+    padding : '10px',
+    borderRadius : '5px',
+    background : 'white',
+    boxShadow: '5px 5px 5px rgba(0,0,0,0.1)',
+    marginTop: '2vh'
+};
+
+const textStyleTop = {
+ padding:'10px',
+ paddingBottom: '20px',
+ textAlign: 'center'
+};
+
+const textStyle = {
+ fontSize:'0.8em',
+ paddingTop: '10px'
+};
+
+const inputStyles = {
+    maxWidth: '180px',    
+    marginLeft: 'auto',
+    marginRight: 'auto'
+};
+
 
 class RegisterForm extends React.Component{
     constructor(props){
@@ -27,7 +60,7 @@ class RegisterForm extends React.Component{
             if(res === true){
                 this.setState({lastResultMessage:'success'});
                 ToastStore.push('Registration successful', 5000, 'success');
-                this.props.switchTab(0);
+                browserHistory.push('/');
             } else {
                 this.setState({lastResultMessage:String(res)});
                 ToastStore.push(res, 5000, 'error');
@@ -42,23 +75,30 @@ class RegisterForm extends React.Component{
 
     render(){
         return (
-          <div ref={node => this.node = node} id = 'registerForm'>
+          <div ref={node => this.node = node} id = 'registerForm' style={loginFormStyle}>
             <div className='expanded row' >
                 <form onSubmit = {this.onSubmit.bind(this)}>
-                    <label>Username<input id='username' ref={(input) => this.username = input}  type='text'/></label>
-                    <label>Email<input id='email' ref={(input) => this.email = input}  type='text'/></label>
-                    <label>Password<input id='password1' ref={(input) => this.password = input}  type='password'/></label>
-                    <label>Re-enter Password<input id='password2' ref={(input) => this.password2 = input}  type='password'/></label>
-                    <button className = "button success" style = {buttonNoMarginStyle} type="submit">Register</button>
+                    <div style = {textStyleTop}>
+                        Create an account
+                    </div>
+                    <div style = {inputStyles}>
+                        <input id='username' placeholder = 'Username' ref={(input) => this.username = input}  type='text'/>
+                        <input id='email'  placeholder = 'Email' ref={(input) => this.email = input}  type='text'/>
+                        <input id='password1'  placeholder = 'Password' ref={(input) => this.password = input}  type='password'/>
+                        <input id='password2'  placeholder = 'Please re-enter password' ref={(input) => this.password2 = input}  type='password'/>
+                    </div>
+                    <div className = 'button-group'>
+                        <button className = "button success" style = {buttonNoMarginStyle} type="submit">Register</button>
+                    </div>
                 </form>
+                <div style = {textStyle}>
+                    <Link to="/" style = {{clear: 'left'}}><span>Back</span></Link>
+                    <Link to="/guestLogin" style = {{float: 'right'}}><span>Skip</span></Link>
+                </div>
             </div>
         </div>
         );
     }
 }
-
-RegisterForm.propTypes = {
-    switchTab : PropTypes.func
-};
 
 module.exports = RegisterForm;

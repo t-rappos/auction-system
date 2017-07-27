@@ -2,6 +2,8 @@ var React = require('react');
 var ServerApi = require('../api/server.jsx');
 import { browserHistory } from 'react-router';
 let ToastStore = require('./toast/toastStore.jsx');
+let Router = require('react-router');
+let Link = Router.Link;
 
 const buttonNoMarginStyle = {
     margin : 0,
@@ -105,7 +107,8 @@ class LoginForm extends React.Component{
                   <button className = "button success" style = {buttonNoMarginStyle} type="submit">Login</button>
               </form>
               <div style = {textStyle}>
-              Don't have an account? <a href=""style = { {cursor: 'pointer' }} onClick = {()=>{browserHistory.push('/register');}}>Sign Up</a>
+                  
+              Don't have an account? <Link to="/register"><span>Sign Up</span></Link>
               </div>
           </div>
       </div>
