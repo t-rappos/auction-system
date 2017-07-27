@@ -9,6 +9,10 @@ let socket = io();
 let ToastStore = require('../components/toast/toastStore.jsx');
 socket.emitAsync = Promise.promisify(socket.emit);
 
+let store = require('../redux/wrapper.jsx').store;
+let actions = require('../redux/actions.jsx');
+//import {connect} from 'react-router';
+
 //a callback
 
 //function safeCall(callback, data){
@@ -21,22 +25,27 @@ socket.emitAsync = Promise.promisify(socket.emit);
 
 socket.on('outbid', ()=>{
   ToastStore.push('outbid on item', 5000, 'update');
+  store.dispatch(actions.refreshItems());
 });
 
 socket.on('item_won', ()=>{
   ToastStore.push('a bid has been won', 5000, 'update');
+  store.dispatch(actions.refreshItems());
 });
 
 socket.on('listing_expired', ()=>{
   ToastStore.push('a listing has expired', 5000, 'update');
+  store.dispatch(actions.refreshItems());
 });
 
 socket.on('new_message', ()=>{
    ToastStore.push('new message arrived', 5000, 'update');
+   store.dispatch(actions.refreshMessages());
 });
 
 socket.on('item_sold', ()=>{
    ToastStore.push('item sold', 5000, 'update');
+   store.dispatch(actions.refreshItems());
 });
 
 

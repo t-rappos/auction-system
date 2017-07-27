@@ -5,10 +5,13 @@ var ServerApi = require('../../api/server.jsx');
 let TabContainer = require('../tabContainer.jsx').TabContainer;
 let Tab = require('../tabContainer.jsx').Tab;
 let ItemFormContainer = require('../forms/itemFormContainer.jsx');
+let store = require('../../redux/wrapper.jsx').store;
+//import PropTypes from 'prop-types';
 
 class ItemContainer extends React.Component{
     constructor(props) {
         super(props);
+        this.events = [];
         this.state = {items : [], 
             tags : [],
             tagValues : [],
@@ -62,8 +65,20 @@ class ItemContainer extends React.Component{
 
     componentDidMount() {
        this.loadData();
+       this.unsubscribe = store.subscribe(()=>{
+            let state = store.getState();
+            let count = state.refreshItemReducer ? state.refreshItemReducer.length : 0;
+            if(count > this.events.length){
+                this.events = state.refreshItemReducer;
+                this.loadData();
+            }
+       });
     }
 
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+    
     render(){
         return <div className='row'>
                                 <div className='small-6 columns'>
@@ -91,4 +106,9 @@ class ItemContainer extends React.Component{
     }
 }
 
+//ItemContainer.propTypes = {
+//    events : PropTypes.arrayOf(PropTypes.object),
+//    dispatchNoOp : PropTypes.func.isRequired
+//};
+//
 module.exports = ItemContainer;

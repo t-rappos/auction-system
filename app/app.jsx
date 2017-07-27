@@ -5,11 +5,10 @@ let LoginContainer = require('./components/loginContainer.jsx');
 let Header = require('./components/header.jsx');
 let PageContainer = require('./components/pageContainer.jsx');
 import {Provider} from 'react-redux';
-let redux = require('./reduxWrapper.jsx');
+let redux = require('./redux/wrapper.jsx');
 var $ = require('jquery');
 let ToastContainer = require('./components/toast/toastContainer.jsx');
-
-var store = redux.createStore();
+var store = redux.store;
 
 //load foundation
 require('style!css!foundation-sites/dist/css/foundation.min.css');

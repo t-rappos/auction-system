@@ -25,6 +25,7 @@ class ToastStore {
 
   // type : 'update' | 'warning' | 'error' | 'success' ;
   push(msg , time , type){ //(msg : string, time : number, popCallback : ()=>mixed){
+    time = time * 3;
     this.data.push({msg : msg, time : time, id : this.counter, type : type});
     let tc = this.counter;
     setTimeout(this.pop.bind(this,tc),time);

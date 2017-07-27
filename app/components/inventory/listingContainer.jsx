@@ -2,6 +2,7 @@ var React = require('react');
 let ListingInspector = require('../itemInspector/listingInspector.jsx');
 let ListingList = require('./listingList.jsx');
 var ServerApi = require('../../api/server.jsx');
+let store = require('../../redux/wrapper.jsx').store;
 import PropTypes from 'prop-types';
 
 class SearchForm extends React.Component{
@@ -28,6 +29,7 @@ SearchForm.propTypes = {
 class ListingContainer extends React.Component{
     constructor(props) {
         super(props);
+        this.events = [];
         this.state = {
             maxBids : [],
             listings : [],
@@ -45,7 +47,10 @@ class ListingContainer extends React.Component{
     getSelectedItemImage(){
         let url = null;
         if(this.state.selectedItemId != null){
+            let selectedItem =this.getSelectedItem();
+            if(selectedItem=== null){return null;}
             let imgId = this.getSelectedItem().imageId;
+
             this.state.images.map((img)=>{
                 if(img.id == imgId){
                     url = img.url;
@@ -127,6 +132,17 @@ class ListingContainer extends React.Component{
 
     componentDidMount(){
         this.loadData();
+        this.unsubscribe = store.subscribe(()=>{
+            let state = store.getState();
+            let count = state.refreshItemReducer ? state.refreshItemReducer.length : 0;
+            if(count > this.events.length){
+                this.events = state.refreshItemReducer;
+                this.loadData();
+            }
+       });
+    }
+    componentWillUnmount() {
+        this.unsubscribe();
     }
     /*    item : PropTypes.object,
     url : PropTypes.string,

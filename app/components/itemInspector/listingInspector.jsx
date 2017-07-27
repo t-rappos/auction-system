@@ -4,6 +4,8 @@ let SearchButtons = require('./searchButtons.jsx');
 let ItemView = require('./itemView.jsx');
 var ServerApi = require('../../api/server.jsx');
 let ToastStore = require('../toast/toastStore.jsx');
+let store = require('../../redux/wrapper.jsx').store;
+let actions = require('../../redux/actions.jsx');
 
 import PropTypes from 'prop-types';
 
@@ -20,6 +22,7 @@ class ListingInspector extends React.Component{
                     ToastStore.push('Couldnt cancel listing' + res.error, 5000, 'error');
                 } else {
                     ToastStore.push('listing successfully cancelled', 5000, 'success');
+                    store.dispatch(actions.refreshItems());
                 }
             }
         });
@@ -33,6 +36,7 @@ class ListingInspector extends React.Component{
                         ToastStore.push('Couldn\'t purchase listing' + res.error, 5000, 'error');
                     } else {
                         ToastStore.push('Listing purchased ! '+this.props.listing.item.name+' for ' + price, 5000, 'success');
+                        store.dispatch(actions.refreshItems());
                     }
                 }
             });
@@ -43,6 +47,7 @@ class ListingInspector extends React.Component{
                         ToastStore.push('Couldn\'t purchase listing' + res.error, 5000, 'error');
                     } else {
                         ToastStore.push('Listing purchased ! '+this.props.listing.item.name+' for ' + price, 5000, 'success');
+                        store.dispatch(actions.refreshItems());
                     }
                 }
             });

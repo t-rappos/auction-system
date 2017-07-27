@@ -3,11 +3,13 @@ var React = require('react');
 let ServerAPI = require('../../api/server.jsx');
 let MessageList = require('./messageList.jsx');
 let ToastStore = require('../toast/toastStore.jsx');
+let store = require('../../redux/wrapper.jsx').store;
 
 class MessageContainer extends React.Component{
     constructor(props) {
         super(props);
         this.state = {messages : []};
+        this.events = [];
     }
 
     getAccountId(username, callback){
@@ -35,6 +37,8 @@ class MessageContainer extends React.Component{
                     ToastStore.push("Couldn't delete message", 5000, 'error');
                 } else {
                     ToastStore.push("Message deleted", 5000, 'success'); 
+                    let newMessages = this.state.messages.filter((msg)=>{return msg.id != messageId;});
+                    this.setState({messages : newMessages});
                 }
             }
         });
@@ -45,6 +49,9 @@ class MessageContainer extends React.Component{
             if(res){
                 if(res.error){
                     ToastStore.push("Couldn't read message", 5000, 'error');
+                } else {
+                    this.state.messages.find((i)=>{return i.id == messageId;}).read = true;
+                    this.forceUpdate();
                 }
             }
         });
@@ -82,6 +89,18 @@ class MessageContainer extends React.Component{
 
     componentDidMount() {
        this.loadMessages();
+       this.unsubscribe = store.subscribe(()=>{
+         let state = store.getState();
+         let eventCount = state.refreshMessagesReducer ? state.refreshMessagesReducer.length : 0;
+         if(eventCount > this.events.length){
+             this.events = state.refreshMessagesReducer;
+             this.loadMessages();
+         }
+       });
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
     }
 
      render(){
