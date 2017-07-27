@@ -5,7 +5,38 @@ let ToastStore = require('./toast/toastStore.jsx');
 
 const buttonNoMarginStyle = {
     margin : 0,
-    width : '100%'
+    width: '50%',
+    borderRadius: '20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '25px',
+    display: 'block'
+};
+
+const loginFormStyle = {
+    padding : '10px',
+    borderRadius : '5px',
+    background : 'white',
+    boxShadow: '5px 5px 5px rgba(0,0,0,0.1)',
+    marginTop: '2vh'
+};
+
+const textStyleTop = {
+ padding:'10px',
+ paddingBottom: '20px',
+ textAlign: 'center'
+};
+
+const textStyle = {
+ fontSize:'0.8em',
+ paddingTop: '10px',
+ textAlign: 'center'
+};
+
+const inputStyles = {
+    maxWidth: '180px',    
+    marginLeft: 'auto',
+    marginRight: 'auto'
 };
 
 class LoginForm extends React.Component{
@@ -57,19 +88,25 @@ class LoginForm extends React.Component{
     }
     render(){
       return (
-        <div ref={node => this.node = node} id = 'loginForm' >
+        <div ref={node => this.node = node} id = 'loginForm' style={loginFormStyle}>
           <div className='expanded row' >
               <form onSubmit = {this.onSubmit.bind(this)}>
-                <label> Username
-                  <input id='username' type='text'
+                <div style = {textStyleTop}>
+                    Login to Auction System
+                </div>
+                <div style = {inputStyles}>
+                  <input id='username' type='text' placeholder = 'Username'
                       ref={(input) => this.username = input}/>
-                </label>
-                <label> Password
-                  <input id='password' type='password'
+
+
+                  <input id='password' type='password' placeholder = "Password"
                       ref={(input) => this.password = input}/>
-                </label>
+                </div>
                   <button className = "button success" style = {buttonNoMarginStyle} type="submit">Login</button>
               </form>
+              <div style = {textStyle}>
+              Don't have an account? <a href=""style = { {cursor: 'pointer' }} onClick = {()=>{browserHistory.push('/register');}}>Sign Up</a>
+              </div>
           </div>
       </div>
       );
