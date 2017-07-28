@@ -5,6 +5,7 @@ let LoginContainer = require('./components/loginContainer.jsx');
 
 let PageContainer = require('./components/pageContainer.jsx');
 import {Provider} from 'react-redux';
+import {StyleRoot} from 'radium';
 let redux = require('./redux/wrapper.jsx');
 var $ = require('jquery');
 let ToastContainer = require('./components/toast/toastContainer.jsx');
@@ -24,6 +25,7 @@ ReactDOM.render(
     
     <Provider store = {store}>
       <div>
+        <StyleRoot>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
         <Router history={browserHistory}>
           <Route path="/" component = {LoginContainer} mode = 'login'></Route>
@@ -31,6 +33,7 @@ ReactDOM.render(
           <Route path="/register" component={LoginContainer} mode = 'register'></Route>
         </Router>
         <ToastContainer/>
+        </StyleRoot>
       </div>
     </Provider>
 ,

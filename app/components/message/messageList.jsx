@@ -1,6 +1,7 @@
+import Radium from 'radium';
+import PropTypes from 'prop-types';
 
 var React = require('react');
-import PropTypes from 'prop-types';
 let MessageView = require('./messageView.jsx');
 let Modal = require('../modal.jsx');
 let MessageForm = require('./messageForm.jsx');
@@ -10,13 +11,13 @@ const exitMessageViewButtonStyle = {
 };
 
 const messageButtonStyle = {
-    maxWidth : 250,
     display : 'flex',
     margin: 0
 };
 
 const messageListStyle = {
-    margin: 0
+    margin: 0,
+    maxWidth : '250px'
 };
 
 const notificationLabelStyle = {    
@@ -33,6 +34,12 @@ const notificationAlertLabelStyle = {
     position: 'relative',
     left: '-27.6px',
     top: '13px',
+};
+
+const messageLabelStyle = {
+    cursor: 'pointer',
+    maxWidth : '225px',
+    overflow : 'hidden'
 };
 
 class MessageList extends React.Component{
@@ -111,7 +118,7 @@ class MessageList extends React.Component{
                                             this.props.setMessageRead(msg.id);
                                         }}
                                     className = 'open-modal'
-                                    style = { {cursor: 'pointer'} }>{labelText}</div>
+                                    style = {messageLabelStyle}>{labelText}</div>
                                 <MessageView 
                                     replyCallback = {this.replyCallback.bind(this)}
                                     forceCloseModal = {
@@ -144,18 +151,28 @@ class MessageList extends React.Component{
         let composeModal =  this.renderComposeButton();
 
         let relStyle = {position: 'relative', top: '20px'};
-        let absStyle = {position: 'absolute', maxWidth: '250px'};
+        let absStyle = {
+            position: 'absolute',
+            background: 'white',
+            borderRadius: '4px',
+            overflow: 'hidden',
+            boxShadow: 'rgba(0, 0, 0, 0.1) 0 0 8px 3px',
+            zIndex: 1,
+            '@media (min-width: 640px)':{
+                left: '-160px'
+            }
+        };
 
         let list = (this.state.open && this.props.messages)
             ? 
             <div style = {relStyle}>
                 <div style = {absStyle}>
-                <table style={messageListStyle}>
-                    <tbody>
-                        {messageList}
-                    </tbody>
-                </table>
-                {composeModal}
+                        <table style={messageListStyle}>
+                            <tbody>
+                                {messageList}
+                            </tbody>
+                        </table>
+                        {composeModal}
                 </div>
             </div> 
             : 
@@ -167,7 +184,10 @@ class MessageList extends React.Component{
         return (
             <div>
                 <div style = {messageButtonStyle} onClick={()=>{this.setState({open: !this.state.open});}}>
-                    <i className="fa fa-2x fa-envelope" aria-hidden="true"></i>
+                    <i  className={this.state.open ? 'fa fa-2x fa-envelope-open' : "fa fa-2x fa-envelope"} 
+                        aria-hidden="true"
+                        style = {this.state.open ? {position: 'relative',bottom: '2px'}: {} }>
+                    </i>
                     <span style={{width:'100%'}}>
                            <span style={{float:'left'}}>{readLabel}</span>
                     </span>
@@ -187,4 +207,4 @@ MessageList.propTypes = {
 };
 
 
-module.exports = MessageList;
+module.exports = Radium(MessageList);

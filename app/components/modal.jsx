@@ -31,6 +31,17 @@ a forceClose prop to the modal
 ^^ same for forceOpen prop but opposite
 */
 
+const customStyles = {
+  overlay :{
+    zIndex : 2,
+    background : 'rgba(255,255,255,0.0)'
+  },
+  content: {
+    border: '0px',
+    boxShadow: 'rgba(0, 0, 0, 0.05) 5px 5px 5px, rgba(0, 0, 0, 0.05) 0px 0px 5px'
+  }
+};
+
 class Modal extends React.Component {
   constructor () {
     super();
@@ -70,6 +81,7 @@ class Modal extends React.Component {
       <div>
         {button}
         <ReactModal 
+          style={customStyles}
            isOpen={(this.state.showModal && this.props.forceClosed !== true) || this.props.forceOpen}
            contentLabel={this.props.label}
            onRequestClose={this.handleCloseModal /*this allows esc to work*/}
