@@ -12,20 +12,28 @@ const exitMessageViewButtonStyle = {
 const messageButtonStyle = {
     maxWidth : 250,
     display : 'flex',
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 1,
     margin: 0
 };
 
 const messageListStyle = {
-    maxWidth : 250,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: 'lightGrey',
     margin: 0
 };
 
+const notificationLabelStyle = {    
+    borderRadius: '30px',
+    background: 'rgb(47, 148, 236)',
+    position: 'relative',
+    left: '-27.6px',
+    top: '13px',
+};
+
+const notificationAlertLabelStyle = {    
+    borderRadius: '30px',
+    background: '#3adb76',
+    position: 'relative',
+    left: '-27.6px',
+    top: '13px',
+};
 
 class MessageList extends React.Component{
     constructor(props) {
@@ -135,33 +143,33 @@ class MessageList extends React.Component{
         let messageList = this.renderMessageList();
         let composeModal =  this.renderComposeButton();
 
+        let relStyle = {position: 'relative', top: '20px'};
+        let absStyle = {position: 'absolute', maxWidth: '250px'};
+
         let list = (this.state.open && this.props.messages)
             ? 
-            <div>
+            <div style = {relStyle}>
+                <div style = {absStyle}>
                 <table style={messageListStyle}>
                     <tbody>
                         {messageList}
                     </tbody>
                 </table>
                 {composeModal}
+                </div>
             </div> 
             : 
             <div></div>;
         
-        let unreadLabel = <span style = {{borderRadius: '8px'}} className = 'label success round'>{unreadCount}</span>;
-        let readLabel = <span style = {{borderRadius: '8px', background: '#2f94ec'}} className = 'label round'>{this.props.messages.length}</span>;
-
-        let unreadLabel2 = unreadCount > 0 ? <span style={{float:'right'}}> {unreadLabel}  New </span> : '';
+        let labelStyle = (unreadCount > 0) ? notificationAlertLabelStyle : notificationLabelStyle;
+        let readLabel = <span className = 'label round'  style ={labelStyle}>{this.props.messages.length}</span>;
 
         return (
             <div>
-                <div className='button' 
-                    style = {messageButtonStyle}
-                    onClick={()=>{this.setState({open: !this.state.open});}}
-                >   
+                <div style = {messageButtonStyle} onClick={()=>{this.setState({open: !this.state.open});}}>
+                    <i className="fa fa-2x fa-envelope" aria-hidden="true"></i>
                     <span style={{width:'100%'}}>
-                        <span style={{float:'left'}}>{readLabel}   Messages</span>
-                        {unreadLabel2}
+                           <span style={{float:'left'}}>{readLabel}</span>
                     </span>
                 </div>
                 {list}

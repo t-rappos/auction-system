@@ -1,16 +1,17 @@
 let React = require('react');
 import { browserHistory } from 'react-router';
+let MessageContainer = require('./message/messageContainer.jsx');
 
 const topBarStyle = {
   background: 'white'
 };
 
-const imgMarginStyle = {
-  marginTop: '3px'
-};
-
 const noPaddingStyle = {
   padding : '0px'
+};
+
+const imgMarginStyle = {
+  marginTop: '3px'
 };
 
 class Header extends React.Component{
@@ -37,6 +38,9 @@ class Header extends React.Component{
                 </div>
                 <div className = 'top-bar-right' >
                   <ul className="menu" style = {topBarStyle}>
+                    <li >
+                      <MessageContainer/>
+                    </li>
                     <li className ="menu-text" style={{padding:'0px'}}>
                       <a href="https://github.com/t-rappos/auction-system/" style = {noPaddingStyle}>
                         <i style = {imgMarginStyle} className="fa fa-2x fa-github" aria-hidden="true"></i>
@@ -51,3 +55,4 @@ class Header extends React.Component{
 module.exports = Header;
 
 
+//<img src='./assets/GitHub-Mark-64px.png' alt="" style = {imgMarginStyle}/>

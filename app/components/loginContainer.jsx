@@ -4,6 +4,7 @@ var React = require('react');
 //var RegisterForm = require('./registerForm.jsx');
 var LoginForm = require('./LoginForm.jsx');
 var RegisterForm = require('./RegisterForm.jsx');
+let Header = require('./header.jsx');
 
 import PropTypes from 'prop-types';
 
@@ -22,23 +23,32 @@ const mainWindowStyle = {
 };
 
 const imageStyle={
-	maxWidth: '200px',
-  width: '20vh',
-  margin: '3vh auto 3vh auto',
-  display: 'block',
-  boxShadow: 'inset 0px 0px 8px 3px rgba(0, 0, 0, 0.05)',
-  borderRadius: '5px'
+    width: '22vh',
+    margin:' 3vh auto',
+    display:' table',
+    minWidth: '103px',
+    boxShadow: 'rgba(0, 0, 0, 0.05) 0px 0px 8px 3px inset',
+    borderRadius: '5px',
+    textAlign: 'center',
+    color: 'white',
+    textShadow: '0 0px 7px rgba(0, 0, 0, 0.2)',
+    padding:' 10px',
+    paddingRight: '4px'
 };
 
 class LoginContainer extends React.Component{
 
   render(){
+
     let form = this.props.route.mode==='login'?<LoginForm/> : <RegisterForm/>;
     return (
-      <div ref={node => this.node = node} style={appStyle}>
-        <img src="./assets/scales2.png" alt="" style = {imageStyle}/>
-        <div className='expanded row' style={mainWindowStyle} >
-          {form}
+      <div>
+        <Header/>
+        <div ref={node => this.node = node} style={appStyle}>
+          <i className="fa fa-5x fa-balance-scale" aria-hidden="true" style = {imageStyle}/>
+          <div className='expanded row' style={mainWindowStyle} >
+            {form}
+          </div>
         </div>
       </div>
     );
