@@ -65,6 +65,7 @@ class AccountContainer extends React.Component{
                     money = {this.state.money}
                     detailNames = {this.state.detailNames}
                     detailValues = {this.state.detailValues}
+                    sendAccountModifyRequest = {this.sendAccountModifyRequest.bind(this)}
                 />
             </div>
         );
