@@ -1,6 +1,8 @@
 let InventoryContainer = require('./inventory/inventoryContainer.jsx');
 let AccountContainer = require('./accountContainer.jsx');
 let Header = require('./headerInApp.jsx');
+let Flex = require('../flexStyles.js');
+import Radium from 'radium';
 
 var React = require('react');
 
@@ -12,23 +14,49 @@ const appStyle = {
   boxShadow: 'inset 0px 0px 8px 3px rgba(0, 0, 0, 0.09)'
 };
 
-const PageContainer = (props)=>{
-    return <div>
-                <Header/>
-                <div style = {appStyle}>
-                    <div className = 'row'>
-                        <div className = 'small-6 columns'>
+
+
+class PageContainer extends React.Component {
+
+    toggleAccount(){
+        this.setState({accountVisible : !this.state.accountVisible} );
+    }
+
+    toggleInventory(){
+        this.setState({inventoryVisible : !this.state.inventoryVisible} );
+    }
+
+    constructor(props){
+        super(props);
+        this.state = {accountVisible : false, inventoryVisible : true};
+    }
+
+    render(){
+    return (
+        <div>
+            <Header accountVisible = {this.state.accountVisible} 
+                    inventoryVisible = {this.state.inventoryVisible}
+                    toggleAccount = {this.toggleAccount.bind(this)}
+                    toggleInventory = {this.toggleInventory.bind(this)}/>
+            <div style = {appStyle}>
+                <div style ={Flex.flexContainerStyle}>
+                    
+                    {this.state.accountVisible?
+                        <div style = {Flex.flexChildPanelStyle}>
                             <AccountContainer/>
                         </div>
+                    :<div></div>}
 
+                    {this.state.inventoryVisible?
+                    <div style = {Flex.flexChildPanelStyle}>
+                        <InventoryContainer/>
                     </div>
-                    <div className = 'row'>
-                        <div className = 'small-12 columns'>
-                            <InventoryContainer/>
-                        </div>
-                    </div>
+                    :<div></div>}
+                    
                 </div>
-            </div>;
-};
+            </div>
+        </div>);
+    }
+}
 
-module.exports = PageContainer;
+module.exports = Radium(PageContainer);

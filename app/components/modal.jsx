@@ -1,7 +1,7 @@
 var React = require('react');
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
-
+import Radium from 'radium';
 /*Example usage here
 
                 <Modal label = 'test modal' >
@@ -34,11 +34,17 @@ a forceClose prop to the modal
 const customStyles = {
   overlay :{
     zIndex : 2,
-    background : 'rgba(255,255,255,0.0)'
+    background : 'rgba(0,0,0,0.2)'
   },
   content: {
     border: '0px',
-    boxShadow: 'rgba(0, 0, 0, 0.05) 5px 5px 5px, rgba(0, 0, 0, 0.05) 0px 0px 5px'
+    boxShadow: 'rgba(0, 0, 0, 0.05) 5px 5px 5px, rgba(0, 0, 0, 0.05) 0px 0px 5px',
+    top: '10vh',
+    left: '10vw',
+    right: '77vw',
+    bottom: '33vh',
+    minHeight: '500px',
+    minWidth: '250px'
   }
 };
 
@@ -101,4 +107,4 @@ Modal.propTypes = {
     forceOpen : React.PropTypes.bool
 };
 
-module.exports = Modal;
+module.exports = Radium(Modal);

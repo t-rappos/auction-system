@@ -1,32 +1,29 @@
 var React = require('react');
 import PropTypes from 'prop-types';
+import Radium from 'radium';
 
 const containerStyle = {
-    maxWidth : 1000
+
 };
 
 const tabContainerStyle = {
-    display : 'flex',
-    borderStyle: 'solid',
-    borderWidth: 1
+    display : 'flex'
 };
 
 const contentStyle = {
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: 'lightGrey',
     padding: '6px',
     paddingTop: '16px'
 };
 
-const buttonStyle = {
-    backgroundColor: '#e6e6e6',
+const baseButtonStyle = {
+    background: 'transparent',
     margin : 0,
-    color: 'black'
+    fontWeight: '700',
+    color: 'rgba(128, 128, 128, 0.5)'
 };
 
 const activeButtonStyle = {
-    margin : 0
+    color: 'black'
 };
 
 class Tab extends React.Component{
@@ -50,14 +47,14 @@ class TabContainer extends React.Component{
     render() {
         let tabs = this.props.children.map((child, i)=>{
             let active = i==this.state.activeTab;
-            return (<button 
+            return (<h5 
                 className = "button"
                 key = {i}
                 id = {child.props.name}
-                style = {active?activeButtonStyle:buttonStyle}
+                style = {active?[baseButtonStyle,activeButtonStyle]:baseButtonStyle}
                 onClick = {()=>{this.setState({activeTab : i});}}
             >{child.props.name}
-            </button>);
+            </h5>);
         });
         let contents = this.props.children.map((child, i)=>{
             let active = i==this.state.activeTab;
@@ -84,4 +81,4 @@ TabContainer.propTypes = {
     children: React.PropTypes.node
 };
 
-module.exports = {TabContainer : TabContainer ,Tab : Tab};
+module.exports = {TabContainer : Radium(TabContainer) ,Tab : Tab};

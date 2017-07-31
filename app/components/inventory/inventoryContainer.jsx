@@ -15,7 +15,7 @@ class InventoryContainer extends React.Component{
 
         return (
                     <TabContainer>
-                        <Tab name = 'Items'>
+                        <Tab name = 'My Items'>
                              <ItemContainer/>
                         </Tab>
                         <Tab name = 'My Listings'>

@@ -1,9 +1,7 @@
 var React = require('react');
-var TabContainer = require('./tabContainer.jsx').TabContainer;
-var Tab = require('./tabContainer.jsx').Tab;
 var ServerApi = require('../api/server.jsx');
 let AccountView = require('./accountView.jsx');
-let AccountModify = require('./accountModify.jsx');
+//let AccountModify = require('./accountModify.jsx');
 let ToastStore = require('./toast/toastStore.jsx');
 
 //gets account details from db
@@ -61,27 +59,13 @@ class AccountContainer extends React.Component{
     render(){
         return (
             <div>
-                <TabContainer>
-                    <Tab name = 'View'>
-                        <AccountView 
-                            username = {this.state.username}
-                            email = {this.state.email}
-                            money = {this.state.money}
-                            detailNames = {this.state.detailNames}
-                            detailValues = {this.state.detailValues}
-                        />
-                    </Tab>
-                    <Tab name = 'Modify'>
-                        <AccountModify
-                            username = {this.state.username}
-                            email = {this.state.email}
-                            money = {this.state.money}
-                            detailNames = {this.state.detailNames}
-                            detailValues = {this.state.detailValues}
-                            sendAccountModifyRequest = {this.sendAccountModifyRequest.bind(this)}
-                        />
-                    </Tab>
-                </TabContainer>
+                <AccountView 
+                    username = {this.state.username}
+                    email = {this.state.email}
+                    money = {this.state.money}
+                    detailNames = {this.state.detailNames}
+                    detailValues = {this.state.detailValues}
+                />
             </div>
         );
     }

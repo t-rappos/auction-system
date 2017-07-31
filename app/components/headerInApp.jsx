@@ -1,9 +1,24 @@
 let React = require('react');
 import { browserHistory } from 'react-router';
+import Radium from 'radium';
 let MessageContainer = require('./message/messageContainer.jsx');
+import PropTypes from 'prop-types';
 
 const topBarStyle = {
   background: 'white'
+};
+
+const accountPadding={
+  '@media (min-width: 640px)':{
+    borderStyle: 'solid',
+    borderTopWidth: '0px',
+    borderRightWidth: '0px',
+    borderBottomWidth: '0px',
+    borderLeftWidth: '1px',
+  },
+  '@media (max-width: 640px)':{
+    padding: 0
+  }
 };
 
 const noPaddingStyle = {
@@ -19,6 +34,10 @@ class Header extends React.Component{
         super(props);
     }
 
+    getHeaderToggleStyle(enabled){
+      return {cursor: 'pointer', color: enabled?'black':'rgba(128,128,128,0.5)'};
+    }
+
     render(){
         return (
             <div className = 'top-bar' style = {topBarStyle}>
@@ -32,6 +51,16 @@ class Header extends React.Component{
                     <li className ="menu-text" >
                       <div style = { {cursor: 'pointer'} } onClick = {()=>{browserHistory.push('#');}}>
                        Auction System
+                      </div>
+                    </li>
+                    <li className ="menu-text" style ={accountPadding}>
+                      <div style = { this.getHeaderToggleStyle(this.props.accountVisible) } onClick = {()=>{this.props.toggleAccount();}}>
+                       Account
+                      </div>
+                    </li>
+                    <li className ="menu-text" >
+                      <div style = { this.getHeaderToggleStyle(this.props.inventoryVisible) } onClick = {()=>{this.props.toggleInventory();}}>
+                       Inventory
                       </div>
                     </li>
                   </ul>
@@ -52,7 +81,14 @@ class Header extends React.Component{
     }
 }
 
-module.exports = Header;
+Header.propTypes = {
+  inventoryVisible : PropTypes.bool.isRequired,
+  accountVisible : PropTypes.bool.isRequired,
+  toggleInventory : PropTypes.func.isRequired,
+  toggleAccount : PropTypes.func.isRequired,
+};
+
+module.exports = Radium(Header);
 
 
 //<img src='./assets/GitHub-Mark-64px.png' alt="" style = {imgMarginStyle}/>

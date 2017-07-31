@@ -24,11 +24,12 @@ class ItemInspector extends React.Component{
             });
         }
     }
-
+//style = {{maxWidth : '70vw', width:'200px'}}
+//<div style={{textAlign: 'center'}}>No item selected</div>
     render(){
         let valid = this.props.item;
         return (
-            <div>{
+            <div >{
                 valid ?
                     <div>
                         <ItemView
@@ -44,7 +45,7 @@ class ItemInspector extends React.Component{
                         />
                     </div>
                 :
-                    <div>No item selected</div>
+                    false
                 }
                 
             </div>

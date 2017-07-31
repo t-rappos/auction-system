@@ -1,7 +1,7 @@
 var React = require('react');
 import PropTypes from 'prop-types';
 let ToastStore = require('../toast/toastStore.jsx');
-
+let ButtonStyle = require('./buttonStyle.js');
 class BidButtons extends React.Component{
     constructor(props){
         super(props);
@@ -24,7 +24,7 @@ class BidButtons extends React.Component{
         let buttonText = 'Bid';
 
         return (enabled)?(
-        <div>
+        <div style = {ButtonStyle.style}>
             <form onSubmit={this.onSubmit.bind(this)}>
                 <label> {bidLabel}
                         <input ref = {(input)=>{this.price = input;}} 

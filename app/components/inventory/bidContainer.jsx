@@ -2,6 +2,7 @@ var React = require('react');
 let BidInspector = require('../itemInspector/bidInspector.jsx');
 let BidList = require('./bidList.jsx');
 var ServerApi = require('../../api/server.jsx');
+let Flex = require('../../flexStyles.js');
 //import PropTypes from 'prop-types';
 
 
@@ -118,8 +119,8 @@ class BidContainer extends React.Component{
      render(){
         let selectedTagNameValues = this.getSelectedItemTagNamesAndValues();
         return (
-            <div className='row'>
-                    <div className='small-6 columns'>
+            <div style = {Flex.flexContainerStyle}>
+                    <div style = {Flex.flexChildStyle}>
                            <BidInspector 
                                 expired = {this.state.selectedExpired + ""}
                                 status = {this.state.selectedStatus}
@@ -130,7 +131,7 @@ class BidContainer extends React.Component{
                                 tagNames = {selectedTagNameValues[0]} 
                                 tagValues = {selectedTagNameValues[1]}/>
                     </div>
-                    <div className='small-6 columns'>
+                    <div style = {Flex.flexChildStyle}>
                            <BidList bids = {this.state.bids}
                                         maxBids = {this.state.maxBids}
                                         listings = {this.state.listings}

@@ -1,6 +1,13 @@
 var React = require('react');
 import PropTypes from 'prop-types';
 let ToastStore = require('../toast/toastStore.jsx');
+let ButtonStyle = require('../itemInspector/buttonStyle.js');
+import Radium from 'radium';
+
+const headingStyle = {
+    padding: '10px 10px 20px',
+    textAlign: 'center'
+};
 
 class ListItemForm extends React.Component{
     constructor(props) {
@@ -23,6 +30,8 @@ class ListItemForm extends React.Component{
 
     render(){
         return (
+            <div>
+                <div style = {headingStyle}>List item for sale</div>
             <form onSubmit = {this.onSubmit.bind(this)}>
                         <label>Listing Type</label>
                         <label htmlFor="listingTypeBid"><input ref={(input) => this.radioBid = input} type="radio" name="listingType" value="Bid" id="listingTypeBid"/>Bid</label>
@@ -38,11 +47,12 @@ class ListItemForm extends React.Component{
                         <label>Starting Price
                             <input ref={(input) => this.price = input} type="number" placeholder="0.05" required = {true} step='any' />
                         </label>
-                <div className = 'button-group'>
-                    <button className = 'button success' type="submit">Sell</button>
-                    <button className = 'button alert'  onClick = {()=>{this.props.forceCloseModal();}}>Cancel</button>
+                <div className = 'button-group' style = {{marginTop: '30px'}}>
+                    <button style = {ButtonStyle.leftStyle} className = 'button success' type="submit">Sell</button>
+                    <button style = {[ButtonStyle.rightStyle, {width: '49%'}]} className = 'button alert'  onClick = {()=>{this.props.forceCloseModal();}}>Cancel</button>
                 </div>
             </form>
+            </div>
         );
     }
 }
@@ -52,4 +62,4 @@ ListItemForm.propTypes = {
     sellItem : PropTypes.func.isRequired
 };
 
-module.exports = ListItemForm;
+module.exports = Radium(ListItemForm);

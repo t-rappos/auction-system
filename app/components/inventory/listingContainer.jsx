@@ -4,6 +4,7 @@ let ListingList = require('./listingList.jsx');
 var ServerApi = require('../../api/server.jsx');
 let store = require('../../redux/wrapper.jsx').store;
 import PropTypes from 'prop-types';
+let Flex = require('../../flexStyles.js');
 
 class SearchForm extends React.Component{
     constructor(props) {
@@ -151,8 +152,8 @@ class ListingContainer extends React.Component{
      render(){
         let selectedTagNameValues = this.getSelectedItemTagNamesAndValues();
         return (
-            <div className='row'>
-                    <div className='small-6 columns'>
+            <div style = {Flex.flexContainerStyle}>
+                    <div style = {Flex.flexChildStyle}>
                            <ListingInspector 
                                 displayOwnedListings = {!this.props.showAllListings}
                                 maxBid = {this.getSelectedMaxBid()}
@@ -162,7 +163,7 @@ class ListingContainer extends React.Component{
                                 tagNames = {selectedTagNameValues[0]} 
                                 tagValues = {selectedTagNameValues[1]}/>
                     </div>
-                    <div className='small-6 columns'>
+                    <div style = {Flex.flexChildStyle}>
                            <ListingList 
                                         maxBids = {this.state.maxBids}
                                         listings = {this.state.listings}

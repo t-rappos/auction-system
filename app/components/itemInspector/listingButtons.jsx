@@ -1,5 +1,6 @@
 var React = require('react');
 import PropTypes from 'prop-types';
+let ButtonStyle = require('./buttonStyle.js');
 
 class ListingButtons extends React.Component{
     constructor(props) {
@@ -7,7 +8,7 @@ class ListingButtons extends React.Component{
      }
     
     render(){
-        return <button className = 'button alert' onClick = {this.props.cancelListing}>Cancel Listing</button>;
+        return <div style = {ButtonStyle.style}><button className = 'button alert' onClick = {this.props.cancelListing}>Cancel Listing</button></div>;
     }
     
 }

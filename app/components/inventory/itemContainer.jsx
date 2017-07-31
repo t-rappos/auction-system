@@ -2,10 +2,8 @@ var React = require('react');
 let ItemInspector = require('../itemInspector/itemInspector.jsx');
 let ItemList = require('./itemList.jsx');
 var ServerApi = require('../../api/server.jsx');
-let TabContainer = require('../tabContainer.jsx').TabContainer;
-let Tab = require('../tabContainer.jsx').Tab;
-let ItemFormContainer = require('../forms/itemFormContainer.jsx');
 let store = require('../../redux/wrapper.jsx').store;
+let Flex = require('../../flexStyles.js');
 //import PropTypes from 'prop-types';
 
 class ItemContainer extends React.Component{
@@ -46,6 +44,7 @@ class ItemContainer extends React.Component{
     }
 
     selectItem(data){
+        if(data.itemId < 0){return;}
         let selectedItem = this.state.items.find((i)=>{return i.id == data.itemId;});
         this.updateSelectedItemData(selectedItem);
     }
@@ -80,22 +79,15 @@ class ItemContainer extends React.Component{
     }
     
     render(){
-        return <div className='row'>
-                                <div className='small-6 columns'>
-                                    <TabContainer>
-                                        <Tab name= 'View'>
+        return <div style={Flex.flexContainerStyle}>
+                                <div>
                                             <ItemInspector 
                                                 item={this.state.selectedItem} 
                                                 url={this.state.selectedItemImageUrl} 
                                                 tagNames = {this.state.selectedItemTagNames} 
                                                 tagValues = {this.state.selectedItemTagValues}/>
-                                        </Tab>
-                                        <Tab name = 'Create'>
-                                            <ItemFormContainer update={this.loadData.bind(this)}/>
-                                        </Tab>
-                                    </TabContainer>
                                 </div>
-                                <div className='small-6 columns'>
+                                <div style={Flex.flexChildStyle}>
                                     <ItemList
                                         selectItem = {this.selectItem.bind(this)}
                                         items = {this.state.items}

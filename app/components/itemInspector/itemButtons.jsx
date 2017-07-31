@@ -2,6 +2,8 @@ var React = require('react');
 import PropTypes from 'prop-types';
 let Modal = require('../modal.jsx');
 let ListItemFormContainer = require('../forms/listItemFormContainer.jsx');
+let ButtonStyle = require('./buttonStyle.js');
+
 class ItemButtons extends React.Component{
     constructor(props) {
         super(props);
@@ -10,21 +12,18 @@ class ItemButtons extends React.Component{
 
      render(){
         return (
-            <div className= 'button-group'>
+            <div className= 'button-group' style = {ButtonStyle.style}>
                 <Modal label = 'list item modal' forceClosed = {this.state.forceModalClosed}>
-                    <button style = {{'float' : 'left'}} 
+                    <button style = {ButtonStyle.leftStyle} 
                             className = 'button open-modal'
                             onClick = {()=>{this.setState({forceModalClosed : null});}}
                     >Sell</button>
                     <ListItemFormContainer 
                         item = {this.props.item}
                         forceCloseModal = {()=>{this.setState({forceModalClosed : true});}}/>
-                    <button className = 'button alert close-modal' 
-                            onClick ={()=>{this.setState({forceModalClosed : true});}}
-                            style = {{'float' : 'right'}}>x</button>
                 </Modal>
                 
-                <button className = 'button alert' onClick = {this.props.destroySelectedItem}>Destroy</button>
+                <button style = {ButtonStyle.rightStyle} className = 'button alert' onClick = {this.props.destroySelectedItem}>Destroy</button>
             </div>
         );
     }

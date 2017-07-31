@@ -14,6 +14,7 @@ class InventoryTable extends React.Component{
         return (
             <div>
                <ReactTable
+               style = {{maxHeight:'550px'}}
                getTdProps={(state, rowInfo, column, instance) => {
                 return {
                     onClick: e => {
