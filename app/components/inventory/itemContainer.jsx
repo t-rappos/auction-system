@@ -21,6 +21,8 @@ class ItemContainer extends React.Component{
             selectedItemTagValues : null,
             selectedItemImageUrl : null
         };
+        this.postLoadData = this.postLoadData.bind(this);
+        this.selectItem = this.selectItem.bind(this);
      }
 
     updateSelectedItemData(selectedItem){
@@ -51,17 +53,19 @@ class ItemContainer extends React.Component{
         this.updateSelectedItemData(selectedItem);
     }
 
+    postLoadData(res){
+        if(res.error == null){
+            this.setState({ items : res.items, 
+                            tagValues : res.tagValues,
+                            tags : res.tags,
+                            images : res.images});
+        } else {
+            alert('Account not found');
+        }
+    }
+
     loadData(){
-        ServerApi.sendInventoryViewRequest(function(res){
-                if(res.error == null){
-                    this.setState({ items : res.items, 
-                                    tagValues : res.tagValues,
-                                    tags : res.tags,
-                                    images : res.images});
-                } else {
-                    alert('Account not found');
-                }
-            }.bind(this));
+        ServerApi.sendInventoryViewRequest(this.postLoadData);
     }
 
     componentDidMount() {
@@ -97,7 +101,7 @@ class ItemContainer extends React.Component{
                                 </div>
                                 <div style={Flex.flexChildStyle}>
                                     <ItemList
-                                        selectItem = {this.selectItem.bind(this)}
+                                        selectItem = {this.selectItem}
                                         items = {this.state.items}
                                         tagValues = {this.state.tagValues}
                                         tags = {this.state.tags}/> 

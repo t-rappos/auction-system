@@ -9,6 +9,7 @@ let actions = require('../../redux/actions.jsx');
 class ListItemFormContainer extends React.Component{
     constructor(props) {
         super(props);
+        this.sellItem = this.sellItem.bind(this);
      }
     sellItem(type, amount, duration){
         if(this.props.item){
@@ -33,7 +34,7 @@ class ListItemFormContainer extends React.Component{
         return (
             <ListItemForm 
                 forceCloseModal = {this.props.forceCloseModal}
-                sellItem = {this.sellItem.bind(this)}/>
+                sellItem = {this.sellItem}/>
         );
     }
 }

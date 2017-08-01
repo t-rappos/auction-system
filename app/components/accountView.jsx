@@ -24,6 +24,8 @@ class AccountModify extends React.Component{
         this.state = {detailNames : detailNames, detailValues : detailValues};
         this.detailInputs = [];
         this.detailNameInputs = [];
+
+        this.onSubmit = this.onSubmit.bind(this);
      }
 
     onSubmit(e){
@@ -45,7 +47,7 @@ class AccountModify extends React.Component{
     render(){
         return (
             <div>
-                <form onSubmit = {this.onSubmit.bind(this)}>
+                <form onSubmit = {this.onSubmit}>
                     <table>
                         <tbody>
                             <tr>
@@ -129,6 +131,7 @@ class AccountView extends React.Component{
     constructor(props) {
         super(props);
         this.state = {modify : false};
+        this.toggleModify = this.toggleModify.bind(this);
      }
     
      toggleModify(){
@@ -153,7 +156,7 @@ class AccountView extends React.Component{
                         detailNames = {this.props.detailNames}
                         detailValues = {this.props.detailValues}
                         sendAccountModifyRequest = {this.props.sendAccountModifyRequest}
-                        toggleModify = {this.toggleModify.bind(this)}/>
+                        toggleModify = {this.toggleModify}/>
                 :
                 <table style = {{
                     boxShadow: '0px 0px 5px rgba(0,0,0,0.3)',

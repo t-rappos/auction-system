@@ -11,8 +11,13 @@ const ToastContainerStyle = {
 
 class ToastContainer extends React.Component{
   
+  constructor(props){
+    super(props);
+    this.updateState = this.updateState.bind(this);
+  }
+
   componentDidMount(){
-    ToastStore.setUpdateCallback(this.updateState.bind(this));
+    ToastStore.setUpdateCallback(this.updateState);
   }
 
   updateState()/* : any*/{

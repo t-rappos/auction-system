@@ -18,6 +18,13 @@ const appStyle = {
 
 class PageContainer extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {accountVisible : false, inventoryVisible : true};
+        this.toggleAccount = this.toggleAccount.bind(this);
+        this.toggleInventory = this.toggleInventory.bind(this);
+    }
+
     toggleAccount(){
         this.setState({accountVisible : !this.state.accountVisible} );
     }
@@ -26,18 +33,13 @@ class PageContainer extends React.Component {
         this.setState({inventoryVisible : !this.state.inventoryVisible} );
     }
 
-    constructor(props){
-        super(props);
-        this.state = {accountVisible : false, inventoryVisible : true};
-    }
-
     render(){
     return (
         <div>
             <Header accountVisible = {this.state.accountVisible} 
                     inventoryVisible = {this.state.inventoryVisible}
-                    toggleAccount = {this.toggleAccount.bind(this)}
-                    toggleInventory = {this.toggleInventory.bind(this)}/>
+                    toggleAccount = {this.toggleAccount}
+                    toggleInventory = {this.toggleInventory}/>
             <div style = {appStyle}>
                 <div style ={Flex.flexContainerStyle}>
                     

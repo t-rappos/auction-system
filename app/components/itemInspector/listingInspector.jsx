@@ -13,6 +13,8 @@ class ListingInspector extends React.Component{
     constructor(props) {
         super(props);
         this.state = {forceModalClosed : null};
+        this.cancelSelectedListing = this.cancelSelectedListing.bind(this);
+        this.purchaseListing = this.purchaseListing.bind(this);
      }
 
     cancelSelectedListing(){
@@ -75,11 +77,11 @@ class ListingInspector extends React.Component{
 
                         {this.props.displayOwnedListings 
                         ?
-                            <ListingButtons cancelListing = {this.cancelSelectedListing.bind(this)}/>
+                            <ListingButtons cancelListing = {this.cancelSelectedListing}/>
                             :
                             <SearchButtons listingTypeIsBid = {this.props.listing.type === 'bid'}
                                             listingMinPrice = {minPrice}
-                                            bidFunc = {this.purchaseListing.bind(this)}/>}
+                                            bidFunc = {this.purchaseListing}/>}
                         
                     </div>
                 :

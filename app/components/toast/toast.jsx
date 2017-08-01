@@ -27,6 +27,7 @@ class Toast extends React.Component{
   constructor(props /*: ToastProps*/){
     super(props);
     this.state = {style : toastIntroStyle};
+    this.switchStyle = this.switchStyle.bind(this);
   }
 
   switchStyle(){
@@ -34,7 +35,7 @@ class Toast extends React.Component{
   }
 
   componentDidMount(){
-    this.timeout = setTimeout(this.switchStyle.bind(this), this.props.data.time-500);
+    this.timeout = setTimeout(this.switchStyle, this.props.data.time-500);
   }
   
   componentWillUnmount(){

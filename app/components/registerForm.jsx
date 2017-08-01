@@ -45,6 +45,7 @@ class RegisterForm extends React.Component{
     constructor(props){
         super(props);
         this.state = {lastResultMessage: ''};
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(e){
@@ -77,7 +78,7 @@ class RegisterForm extends React.Component{
         return (
           <div ref={node => this.node = node} id = 'registerForm' style={loginFormStyle}>
             <div className='expanded row' >
-                <form onSubmit = {this.onSubmit.bind(this)}>
+                <form onSubmit = {this.onSubmit}>
                     <div style = {textStyleTop}>
                         Create an account
                     </div>

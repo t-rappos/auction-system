@@ -20,6 +20,9 @@ class MessageForm extends React.Component{
     constructor(props) {
         super(props);
         this.state = {recipientId : null};
+        this.recipientOnBlur = this.recipientOnBlur.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
     }
 
     onSubmit(e){
@@ -56,7 +59,7 @@ class MessageForm extends React.Component{
     }
 
     componentDidMount() {
-       this.recipient.onblur = this.recipientOnBlur.bind(this);
+       this.recipient.onblur = this.recipientOnBlur;
        if(this.recipient.value && this.recipient.value != ''){
             this.validateRecipient(this.recipient.value);
        }
@@ -70,7 +73,7 @@ class MessageForm extends React.Component{
 
         return(
             <div style = {msgViewContentsStyle}>
-                <form onSubmit = {this.onSubmit.bind(this)}>
+                <form onSubmit = {this.onSubmit}>
                 <table style = {messageViewTableStyle}>
                     <tbody>
                     <tr>
@@ -104,7 +107,7 @@ class MessageForm extends React.Component{
                 </form>
                 <div className = 'button-group'>
                     <button className = 'success button' 
-                            onClick = {this.sendMessage.bind(this)}
+                            onClick = {this.sendMessage}
                     >Send</button>
                     <button onClick = {()=>{this.props.forceCloseModal();}} className = 'alert button'>Discard</button>
                 </div>

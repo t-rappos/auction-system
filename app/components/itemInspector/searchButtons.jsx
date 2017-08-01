@@ -6,6 +6,7 @@ let ButtonStyle = require('./buttonStyle.js');
 class SearchButtons extends React.Component{
     constructor(props){
         super(props);
+        this.onSubmit = this.onSubmit.bind(this);
     }
     onSubmit(e){
         e.preventDefault();
@@ -21,7 +22,7 @@ class SearchButtons extends React.Component{
         let buttonText = this.props.listingTypeIsBid ? 'Place bid' : 'Purchase';
         return (
         <div style = {ButtonStyle.style}>
-            <form onSubmit={this.onSubmit.bind(this)}>
+            <form onSubmit={this.onSubmit}>
                 <label> {bidLabel}
                     {this.props.listingTypeIsBid 
                         ? <input ref = {(input)=>{this.price = input;}} 

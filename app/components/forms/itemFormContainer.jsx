@@ -3,7 +3,9 @@ var React = require('react');
 let ItemForm = require('./itemForm.jsx');
 let ServerAPI = require('../../api/server.jsx');
 let ToastStore = require('../toast/toastStore.jsx');
-import PropTypes from 'prop-types';
+let store = require('../../redux/wrapper.jsx').store;
+let actions = require('../../redux/actions.jsx');
+
 
 const containerStyle = {
     padding : '10px'
@@ -16,6 +18,8 @@ class ItemFormContainer extends React.Component{
         this.state = {selectedImageId : -1,
                     selectedImageUrl : '',
                     tags : []};
+        this.onImageSelection = this.onImageSelection.bind(this);
+        this.sendData = this.sendData.bind(this);
      }
      
      onImageSelection(id, url){
@@ -30,7 +34,7 @@ class ItemFormContainer extends React.Component{
                     return;
                 }
                 ToastStore.push('Item created successfully', 5000, 'success');
-                this.props.update();
+                store.dispatch(actions.refreshItems());
             }
         });
      }
@@ -61,15 +65,13 @@ class ItemFormContainer extends React.Component{
      render(){
         return (
             <div style = {containerStyle}>
-                <ItemForm onImageSelection = {this.onImageSelection.bind(this)} 
+                <ItemForm onImageSelection = {this.onImageSelection} 
                             image={this.state.selectedImageUrl}
                             tags={this.state.tags}
-                            sendData = {this.sendData.bind(this)}/>
+                            sendData = {this.sendData}/>
             </div>
         );
      }
 }
-ItemFormContainer.propTypes = {
-    update : PropTypes.func
-};
+
 module.exports = ItemFormContainer;

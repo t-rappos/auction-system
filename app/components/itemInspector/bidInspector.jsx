@@ -10,6 +10,7 @@ class BidInspector extends React.Component{
     constructor(props) {
         super(props);
         this.state = {forceModalClosed : null};
+        this.outbidListing = this.outbidListing.bind(this);
      }
 
     outbidListing(price){
@@ -42,7 +43,7 @@ class BidInspector extends React.Component{
                             tagValues = {this.props.tagValues}
                         />
                         <BidButtons listingMinPrice = {minPrice}
-                                    bidFunc = {this.outbidListing.bind(this)}
+                                    bidFunc = {this.outbidListing}
                                     status = {this.props.status}
                                     expired = {this.props.expired}/>
                         

@@ -39,6 +39,7 @@ class ListingContainer extends React.Component{
             images : [],
             selectedItemId : null
         };
+        this.selectListing = this.selectListing.bind(this);
      }
 
     selectListing(data){
@@ -169,7 +170,7 @@ class ListingContainer extends React.Component{
                                         listings = {this.state.listings}
                                         tags = {this.state.tags}
                                         tagValues = {this.state.tagValues}
-                                        selectItem = {this.selectListing.bind(this)}/>
+                                        selectItem = {this.selectListing}/>
                             <SearchForm submitFn = {(inp)=>{this.loadData(inp);}}/>
                     </div>
             </div>

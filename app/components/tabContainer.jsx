@@ -42,6 +42,7 @@ class TabContainer extends React.Component{
     constructor(props) {
         super(props);
         this.state = {activeTab: 0};
+        this.switchTab = this.switchTab.bind(this);
      }
     switchTab(num){
         this.setState({activeTab : num});
@@ -61,7 +62,7 @@ class TabContainer extends React.Component{
         let contents = this.props.children.map((child, i)=>{
             let active = i==this.state.activeTab;
             if(active){
-                let clonedChildContent = React.cloneElement(child.props.children,{key : i, switchTab : this.switchTab.bind(this)});
+                let clonedChildContent = React.cloneElement(child.props.children,{key : i, switchTab : this.switchTab});//this.switchTab.bind(this)});
                 return clonedChildContent;
             }
             return;

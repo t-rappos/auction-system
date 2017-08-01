@@ -12,6 +12,7 @@ const headingStyle = {
 class ListItemForm extends React.Component{
     constructor(props) {
         super(props);
+        this.onSubmit = this.onSubmit.bind(this);
      }
 
     onSubmit(e){
@@ -32,7 +33,7 @@ class ListItemForm extends React.Component{
         return (
             <div>
                 <div style = {headingStyle}>List item for sale</div>
-            <form onSubmit = {this.onSubmit.bind(this)}>
+            <form onSubmit = {this.onSubmit}>
                         <label>Listing Type</label>
                         <label htmlFor="listingTypeBid"><input ref={(input) => this.radioBid = input} type="radio" name="listingType" value="Bid" id="listingTypeBid"/>Bid</label>
                         <label htmlFor='listingTypeBuyout'><input ref={(input) => this.radioBuyout = input} type="radio" name="listingType" value="Buyout" id="listingTypeBuyout"/>Buyout</label>

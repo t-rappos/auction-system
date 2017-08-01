@@ -21,6 +21,7 @@ class BidContainer extends React.Component{
             selectedStatus : '',
             selectedExpired : 0
         };
+        this.selectListing = this.selectListing.bind(this);
      }
 
     selectListing(data){
@@ -137,7 +138,7 @@ class BidContainer extends React.Component{
                                         listings = {this.state.listings}
                                         tags = {this.state.tags}
                                         tagValues = {this.state.tagValues}
-                                        selectItem = {this.selectListing.bind(this)}/>
+                                        selectItem = {this.selectListing}/>
                     </div>
             </div>
         );

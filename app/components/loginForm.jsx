@@ -45,6 +45,7 @@ class LoginForm extends React.Component{
     constructor(props){
         super(props);
         this.state = {lastResultMessage: ''};
+        this.onSubmit = this.onSubmit.bind(this);
     }
     
     componentDidMount(){
@@ -92,7 +93,7 @@ class LoginForm extends React.Component{
       return (
         <div ref={node => this.node = node} id = 'loginForm' style={loginFormStyle}>
           <div className='expanded row' >
-              <form onSubmit = {this.onSubmit.bind(this)}>
+              <form onSubmit = {this.onSubmit}>
                 <div style = {textStyleTop}>
                     Login to Auction System
                 </div>

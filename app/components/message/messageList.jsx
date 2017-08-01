@@ -53,6 +53,7 @@ class MessageList extends React.Component{
                         replyContents: '',
                         replyRecipient : ''
                     };
+        this.replyCallback = this.replyCallback.bind(this);
     }
 
     replyCallback(messageId){
@@ -120,7 +121,7 @@ class MessageList extends React.Component{
                                     className = 'open-modal'
                                     style = {messageLabelStyle}>{labelText}</div>
                                 <MessageView 
-                                    replyCallback = {this.replyCallback.bind(this)}
+                                    replyCallback = {this.replyCallback}
                                     forceCloseModal = {
                                         ()=>{
                                             let fc = this.state.forceClosed; 

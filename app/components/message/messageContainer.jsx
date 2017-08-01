@@ -10,6 +10,10 @@ class MessageContainer extends React.Component{
         super(props);
         this.state = {messages : []};
         this.events = [];
+        this.sendMessage = this.sendMessage.bind(this);
+        this.setMessageRead = this.setMessageRead.bind(this);
+        this.deleteMessage = this.deleteMessage.bind(this);
+        this.getAccountId = this.getAccountId.bind(this);
     }
 
     getAccountId(username, callback){
@@ -106,11 +110,11 @@ class MessageContainer extends React.Component{
      render(){
         return (
             <MessageList 
-                sendMessage = {this.sendMessage.bind(this)} 
-                setMessageRead = {this.setMessageRead.bind(this)}
-                deleteMessage = {this.deleteMessage.bind(this)}
+                sendMessage = {this.sendMessage} 
+                setMessageRead = {this.setMessageRead}
+                deleteMessage = {this.deleteMessage}
                 messages = {this.state.messages}
-                getAccountId = {this.getAccountId.bind(this)}
+                getAccountId = {this.getAccountId}
             />
         );
      }

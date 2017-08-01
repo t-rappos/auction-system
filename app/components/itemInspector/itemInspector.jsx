@@ -10,6 +10,7 @@ let actions = require('../../redux/actions.jsx');
 class ItemInspector extends React.Component{
     constructor(props) {
         super(props);
+        this.destroySelectedItem = this.destroySelectedItem.bind(this);
      }
 
     destroySelectedItem(){
@@ -42,7 +43,7 @@ class ItemInspector extends React.Component{
                         />
                         <ItemButtons 
                             item = {this.props.item}
-                            destroySelectedItem = {this.destroySelectedItem.bind(this)}
+                            destroySelectedItem = {this.destroySelectedItem}
                         />
                     </div>
                 :
