@@ -46,5 +46,8 @@ module.exports = {
         failOnWarning: false,
         failOnError: true
     },
-  devtool : "#cheap-module-source-map"
+  devtool : "#cheap-module-source-map",
+  devServer: {
+      historyApiFallback: true
+  }
 };

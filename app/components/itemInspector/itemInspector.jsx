@@ -13,7 +13,8 @@ class ItemInspector extends React.Component{
      }
 
     destroySelectedItem(){
-        if(this.props.item){
+        let toDelete = confirm('Are you sure you want to delete this item?');
+        if(toDelete && this.props.item){
             ServerApi.sendDestroyItemRequest(this.props.item.id, (res)=>{
                 if(res.error == null){
                     ToastStore.push('Item destroyed successfully!', 5000, 'success');

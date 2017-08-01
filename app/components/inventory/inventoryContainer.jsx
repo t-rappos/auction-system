@@ -14,7 +14,8 @@ class InventoryContainer extends React.Component{
     render(){
 
         return (
-                    <TabContainer>
+                    <TabContainer containerStyle={{margin : '0px'}}
+                        contentStyle = {{margin : '0px', boxShadow: '0px -6px 10px 0px rgba(0, 0, 0, 0.05)'}}>
                         <Tab name = 'My Items'>
                              <ItemContainer/>
                         </Tab>
@@ -27,6 +28,7 @@ class InventoryContainer extends React.Component{
                         <Tab name = 'Search All Listings'>
                             <ListingContainer showAllListings = {true}/>
                         </Tab>
+
                     </TabContainer>
         );
     }

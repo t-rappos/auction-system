@@ -31,6 +31,9 @@ ReactDOM.render(
           <Route path="/" component = {LoginContainer} mode = 'login'></Route>
           <Route path="/account" component={PageContainer}></Route>
           <Route path="/register" component={LoginContainer} mode = 'register'></Route>
+          <Route path='*' component = {LoginContainer} mode = 'login'></Route>
+          <Route path='/*' component = {LoginContainer} mode = 'login'></Route>
+          <Route path='/404' component = {LoginContainer} mode = 'login'></Route>
         </Router>
         <ToastContainer/>
         </StyleRoot>

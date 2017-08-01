@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import Radium from 'radium';
 let MessageContainer = require('./message/messageContainer.jsx');
 import PropTypes from 'prop-types';
+let serverAPI = require('../api/server.jsx');
 
 const topBarStyle = {
   background: 'white'
@@ -44,12 +45,12 @@ class Header extends React.Component{
                 <div className = 'top-bar-left' >
                   <ul className="menu" style = {topBarStyle}>
                     <li className ="menu-text" style={{padding:'0px'}}>
-                      <div style = { {cursor: 'pointer'} } onClick = {()=>{browserHistory.push('#');}}>
+                      <div>
                         <i className="fa fa-2x fa-balance-scale" aria-hidden="true" style = {{color:'black'}}/>
                       </div>
                     </li>
                     <li className ="menu-text" >
-                      <div style = { {cursor: 'pointer'} } onClick = {()=>{browserHistory.push('#');}}>
+                      <div>
                        Auction System
                       </div>
                     </li>
@@ -67,6 +68,15 @@ class Header extends React.Component{
                 </div>
                 <div className = 'top-bar-right' >
                   <ul className="menu" style = {topBarStyle}>
+                    <li className ="menu-text">
+                      <div style = {{cursor: 'pointer'}} onClick = {()=>{
+                          serverAPI.sendUserLogoutRequest(()=>{
+                            browserHistory.push('#');
+                          });
+                        }}>
+                       Logout
+                      </div>
+                    </li>
                     <li >
                       <MessageContainer/>
                     </li>

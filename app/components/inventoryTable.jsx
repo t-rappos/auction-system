@@ -18,6 +18,7 @@ class InventoryTable extends React.Component{
                getTdProps={(state, rowInfo, column, instance) => {
                 return {
                     onClick: e => {
+                        if(rowInfo === undefined || rowInfo === null){return;}
                         /*
                             e.g. selectIdNames = [itemId,status,expired]
                             returns selectData = {itemId : 0, status: outbid, expired: -100.00}

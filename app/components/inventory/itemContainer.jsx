@@ -4,7 +4,9 @@ let ItemList = require('./itemList.jsx');
 var ServerApi = require('../../api/server.jsx');
 let store = require('../../redux/wrapper.jsx').store;
 let Flex = require('../../flexStyles.js');
-//import PropTypes from 'prop-types';
+let TabContainer = require('../tabContainer.jsx').TabContainer;
+let Tab = require('../tabContainer.jsx').Tab;
+let ItemFormContainer = require('../forms/itemFormContainer.jsx');
 
 class ItemContainer extends React.Component{
     constructor(props) {
@@ -79,13 +81,19 @@ class ItemContainer extends React.Component{
     }
     
     render(){
-        return <div style={Flex.flexContainerStyle}>
+        //this is a workaround for an error about tabContainer supplying unknown props to a div
+        const ReactDiv = ({ children = undefined }) => <div style={Flex.flexContainerStyle}>{children}</div>;
+
+        return (    
+                    <TabContainer>
+                        <Tab name = 'View Items'>
+                            <ReactDiv>
                                 <div>
-                                            <ItemInspector 
-                                                item={this.state.selectedItem} 
-                                                url={this.state.selectedItemImageUrl} 
-                                                tagNames = {this.state.selectedItemTagNames} 
-                                                tagValues = {this.state.selectedItemTagValues}/>
+                                    <ItemInspector 
+                                        item={this.state.selectedItem} 
+                                        url={this.state.selectedItemImageUrl} 
+                                        tagNames = {this.state.selectedItemTagNames} 
+                                        tagValues = {this.state.selectedItemTagValues}/>
                                 </div>
                                 <div style={Flex.flexChildStyle}>
                                     <ItemList
@@ -94,13 +102,14 @@ class ItemContainer extends React.Component{
                                         tagValues = {this.state.tagValues}
                                         tags = {this.state.tags}/> 
                                 </div>
-                            </div>;
+                            </ReactDiv>
+                        </Tab>
+                        <Tab name = 'Create Item'>
+                            <ItemFormContainer/>
+                        </Tab>
+                    </TabContainer>
+        );
     }
 }
 
-//ItemContainer.propTypes = {
-//    events : PropTypes.arrayOf(PropTypes.object),
-//    dispatchNoOp : PropTypes.func.isRequired
-//};
-//
 module.exports = ItemContainer;

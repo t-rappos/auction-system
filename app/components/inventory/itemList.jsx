@@ -45,7 +45,6 @@ class ItemList extends React.Component{
                 data.push(row);
             },this);
         }
-        data.push({name : '+', itemId : '-2'});
         return data;
     }
 

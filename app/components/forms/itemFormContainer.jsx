@@ -5,6 +5,10 @@ let ServerAPI = require('../../api/server.jsx');
 let ToastStore = require('../toast/toastStore.jsx');
 import PropTypes from 'prop-types';
 
+const containerStyle = {
+    padding : '10px'
+};
+
 //Container for item construction panel
 class ItemFormContainer extends React.Component{
     constructor(props) {
@@ -56,7 +60,7 @@ class ItemFormContainer extends React.Component{
 
      render(){
         return (
-            <div>
+            <div style = {containerStyle}>
                 <ItemForm onImageSelection = {this.onImageSelection.bind(this)} 
                             image={this.state.selectedImageUrl}
                             tags={this.state.tags}

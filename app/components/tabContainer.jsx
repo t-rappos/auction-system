@@ -11,8 +11,10 @@ const tabContainerStyle = {
 };
 
 const contentStyle = {
-    padding: '6px',
-    paddingTop: '16px'
+    //paddingTop: '16px',
+    //paddingLeft: '6px',
+    //paddingRight: '6px',
+    //paddingBottom: '6px'
 };
 
 const baseButtonStyle = {
@@ -65,11 +67,12 @@ class TabContainer extends React.Component{
             return;
         });
         return (
-        <div style = {containerStyle} ref={node => this.node = node} >
+        <div style = {this.props.containerStyle?[containerStyle,this.props.containerStyle]:containerStyle}
+         ref={node => this.node = node} >
             <div style = {tabContainerStyle}>
                 {tabs}
             </div>
-            <div style = {contentStyle}>
+            <div style = {this.props.contentStyle?[contentStyle, this.props.contentStyle]:contentStyle}>
                 {contents}
             </div>
         </div>
@@ -78,7 +81,9 @@ class TabContainer extends React.Component{
 }
 
 TabContainer.propTypes = {
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    containerStyle : PropTypes.object,
+    contentStyle : PropTypes.object
 };
 
 module.exports = {TabContainer : Radium(TabContainer) ,Tab : Tab};
