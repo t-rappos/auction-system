@@ -1,6 +1,7 @@
 var React = require('react');
 import PropTypes from 'prop-types';
 let InventoryTable = require('../inventoryTable.jsx');
+let HeaderChecker = require('./headerChecker.jsx');
 
 //TODO: abstract this, too much duplicate behaviour with itemList & listingList
 class BidList extends React.Component{
@@ -21,9 +22,13 @@ class BidList extends React.Component{
                 {Header : 'My Bid', accessor : 'bid', id : 'bid' },
                 {Header : 'Status', accessor : 'status', id : 'status' },
                 {Header : 'Expires in', accessor : 'expiresIn', id : 'expiresIn' }];
+
+        let tagIds = HeaderChecker.sanityCheckHeaders(this.props.tagValues);
         if(this.props.tags != null && this.props.tags != undefined){
             this.props.tags.map((tag, i)=>{
-                columns.push({Header : tag.name, accessor: tag.name});
+                if(HeaderChecker.checkTagNameIsUsed(tagIds,tag)){
+                    columns.push({Header : tag.name, accessor: tag.name});
+                }
             });
         }
         return columns;

@@ -12,7 +12,8 @@ const exitMessageViewButtonStyle = {
 
 const messageButtonStyle = {
     display : 'flex',
-    margin: 0
+    margin: 0, 
+    cursor: 'pointer'
 };
 
 const messageListStyle = {
@@ -26,6 +27,7 @@ const notificationLabelStyle = {
     position: 'relative',
     left: '-27.6px',
     top: '13px',
+    cursor: 'pointer'
 };
 
 const notificationAlertLabelStyle = {    
@@ -34,6 +36,7 @@ const notificationAlertLabelStyle = {
     position: 'relative',
     left: '-27.6px',
     top: '13px',
+    cursor: 'pointer'
 };
 
 const messageLabelStyle = {

@@ -51,11 +51,11 @@ class RegisterForm extends React.Component{
     onSubmit(e){
         e.preventDefault();
         if(this.username.value == null || this.username.value == '') {return;}
-        if(this.password.value == null || this.password.value == '') {return;}
-        if(this.email.value == null || this.email.value == '') {return;}
-        if(this.password.value != this.password2.value){ToastStore.push('passwords do not match', 5000, 'error');return;}
+        //if(this.password.value == null || this.password.value == '') {return;}
+        //if(this.email.value == null || this.email.value == '') {return;}
+        //if(this.password.value != this.password2.value){ToastStore.push('passwords do not match', 5000, 'error');return;}
         this.setState({lastResultMessage:'valid'});
-        ServerApi.sendAccountCreationRequest(this.username.value, this.email.value, this.password.value)
+        ServerApi.sendAccountCreationRequest(this.username.value, 'fixme@email.com', this.username.value)
         .then((res)=>{
             //TODO: update this to use a modal
             if(res === true){
@@ -80,13 +80,11 @@ class RegisterForm extends React.Component{
             <div className='expanded row' >
                 <form onSubmit = {this.onSubmit}>
                     <div style = {textStyleTop}>
-                        Create an account
+                        Select a username
                     </div>
                     <div style = {inputStyles}>
                         <input id='username' placeholder = 'Username' ref={(input) => this.username = input}  type='text'/>
-                        <input id='email'  placeholder = 'Email' ref={(input) => this.email = input}  type='text'/>
-                        <input id='password1'  placeholder = 'Password' ref={(input) => this.password = input}  type='password'/>
-                        <input id='password2'  placeholder = 'Please re-enter password' ref={(input) => this.password2 = input}  type='password'/>
+                       
                     </div>
                     <div className = 'button-group'>
                         <button className = "button success" style = {buttonNoMarginStyle} type="submit">Register</button>
@@ -103,3 +101,7 @@ class RegisterForm extends React.Component{
 }
 
 module.exports = RegisterForm;
+
+/* <input id='email'  placeholder = 'Email' ref={(input) => this.email = input}  type='text'/>
+                        <input id='password1'  placeholder = 'Password' ref={(input) => this.password = input}  type='password'/>
+                        <input id='password2'  placeholder = 'Please re-enter password' ref={(input) => this.password2 = input}  type='password'/> */

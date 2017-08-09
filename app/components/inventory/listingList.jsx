@@ -1,6 +1,7 @@
 var React = require('react');
 import PropTypes from 'prop-types';
 let InventoryTable = require('../inventoryTable.jsx');
+let HeaderChecker = require('./headerChecker.jsx');
 
 class ListingList extends React.Component{
     constructor(props) {
@@ -18,9 +19,13 @@ class ListingList extends React.Component{
                 {Header : 'Starting price', accessor : 'startingPrice', id : 'startingPrice' },
                 {Header : 'price', accessor : 'price', id : 'price' },
                 {Header : 'Expires in', accessor : 'expiresIn', id : 'expiresIn' }];
+
+        let tagIds = HeaderChecker.sanityCheckHeaders(this.props.tagValues);
         if(this.props.tags != null && this.props.tags != undefined){
             this.props.tags.map((tag, i)=>{
-                columns.push({Header : tag.name, accessor: tag.name});
+                if(HeaderChecker.checkTagNameIsUsed(tagIds,tag)){
+                    columns.push({Header : tag.name, accessor: tag.name});
+                }
             });
         }
         return columns;

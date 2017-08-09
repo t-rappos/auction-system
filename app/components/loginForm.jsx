@@ -66,12 +66,9 @@ class LoginForm extends React.Component{
             this.setState({lastResultMessage:'invalid'});
             return;
         }
-        if(this.password.value == null || this.password.value == '') {
-            this.setState({lastResultMessage:'invalid'});
-            return;
-        }
+      
         this.setState({lastResultMessage:'valid'});
-        ServerApi.sendUserLoginRequest(this.username.value, this.password.value)
+        ServerApi.sendUserLoginRequest(this.username.value, this.username.value)
         .then((res)=>{
             //TODO: update this to use a modal
             //{passwordValid : passwordValid, alreadyLoggedIn : alreadyLoggedIn}
@@ -102,8 +99,7 @@ class LoginForm extends React.Component{
                       ref={(input) => this.username = input}/>
 
 
-                  <input id='password' type='password' placeholder = "Password"
-                      ref={(input) => this.password = input}/>
+
                 </div>
                   <button className = "button success" style = {buttonNoMarginStyle} type="submit">Login</button>
               </form>
@@ -118,3 +114,6 @@ class LoginForm extends React.Component{
 }
 
 module.exports = LoginForm;
+
+/*                  <input id='password' type='password' placeholder = "Password"
+                      ref={(input) => this.password = input}/> */
