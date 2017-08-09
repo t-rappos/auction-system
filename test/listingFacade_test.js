@@ -51,17 +51,11 @@ describe('ListingFacade', function(){
     it('should be able to remove listings v2', function(done){
         ListingFacade.removeAllTransactions()
         .then(()=>{
-            return Promise.all([ListingFacade.getAllListings(),
-                ListingFacade.getAllListingsSimpleJoined(), 
-                ListingFacade.getAllListingsSimple()]);
+            return Promise.all([ListingFacade.getAllListings()]);
         })
-        .spread((l1, l2, l3)=>{
+        .spread((l1)=>{
             console.log('getAllListings',l1);
-            console.log('getSimpleJoined',l2);
-            console.log('getSimple',l3);
             expect(l1.length).toBe(0);
-            expect(l2.length).toBe(0);
-            expect(l3.length).toBe(0);
             done();
         })
         .catch((e)=>{
@@ -133,6 +127,8 @@ describe('ListingFacade', function(){
     it('should buyout listing', function(done){
         ListingFacade.buyoutListing(sellerAccount1.id, listing2.id)
         .then((transaction)=>{
+            console.log(transaction);
+            console.log('transaction amount :', transaction.amount);
             expect(transaction).toExist();
             expect(transaction.amount).toBe(1.00);
             expect(transaction.bidderId).toBe(sellerAccount1.id);
