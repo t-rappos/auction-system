@@ -45,9 +45,5 @@ module.exports = {
   eslint: {
         failOnWarning: false,
         failOnError: true
-    },
-  devtool : "#cheap-module-source-map",
-  devServer: {
-      historyApiFallback: true
-  }
+    }
 };
