@@ -126,7 +126,9 @@ describe('ListingFacade', function(){
 
     it('should buyout listing', function(done){
         ListingFacade.buyoutListing(sellerAccount1.id, listing2.id)
-        .then((transaction)=>{
+        .then((res)=>{
+            let transaction = res.transaction;
+            console.log(res);
             console.log(transaction);
             console.log('transaction amount :', transaction.amount);
             expect(transaction).toExist();

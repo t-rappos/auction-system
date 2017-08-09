@@ -23,7 +23,7 @@ describe("LoginForm", function(){
     let login = mount(<LoginForm/>);
     expect(login).toExist();
     changeInput('tom', 'input#username', login);
-    changeInput('tom2', 'input#password', login);
+    //changeInput('tom2', 'input#password', login);
     login.find('form').at(0).simulate('submit');
     expect(login.state('lastResultMessage')).toBe('valid');
     done();
