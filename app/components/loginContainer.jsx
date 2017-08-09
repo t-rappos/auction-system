@@ -2,8 +2,8 @@ var React = require('react');
 //var TabContainer = require('./tabContainer.jsx').TabContainer;
 //var Tab = require('./tabContainer.jsx').Tab;
 //var RegisterForm = require('./registerForm.jsx');
-var LoginForm = require('./LoginForm.jsx');
-var RegisterForm = require('./RegisterForm.jsx');
+var LoginForm = require('./loginForm.jsx');
+var RegisterForm = require('./registerForm.jsx');
 let Header = require('./header.jsx');
 
 import PropTypes from 'prop-types';
