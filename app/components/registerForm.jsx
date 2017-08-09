@@ -46,8 +46,56 @@ class RegisterForm extends React.Component{
         super(props);
         this.state = {lastResultMessage: ''};
         this.onSubmit = this.onSubmit.bind(this);
+        this.onSkip = this.onSkip.bind(this);
     }
 
+    sendDetails(username, email, password, callback){
+        ServerApi.sendAccountCreationRequest(username,email, password)
+        .then((res)=>{
+            //TODO: update this to use a modal
+            if(res === true){
+                this.setState({lastResultMessage:'success'});
+                ToastStore.push('Registration successful', 5000, 'success');
+                if(callback !== undefined){
+                    callback();
+                }else{
+                    browserHistory.push('/');
+                }
+                
+            } else {
+                this.setState({lastResultMessage:String(res)});
+                if(username === 'Guest'){
+                    callback();
+                }else{
+                    ToastStore.push(res, 5000, 'error');
+                }
+                
+            }
+            //TODO: trigger login functionality here
+        })
+        .catch((e)=>{
+            if(username === 'Guest'){
+                callback();
+            }else{
+                this.setState({lastResultMessage:'fail'});
+                ToastStore.push('sendAccountCreationRequest error', 5000, 'error');
+            }
+        });
+    }
+
+    onSkip(){
+        let guestUsername = 'Guest';
+        this.setState({lastResultMessage:'valid'});
+        this.sendDetails(guestUsername, 'fixme@email.com', guestUsername, ()=>{
+            ServerApi.sendUserLoginRequest(guestUsername, guestUsername)
+            .then((res)=>{
+                browserHistory.push('/account');
+            })
+            .catch((e)=>{
+                ToastStore.push('onSkip error', 5000, 'error');
+            });
+        });
+    }
     onSubmit(e){
         e.preventDefault();
         if(this.username.value == null || this.username.value == '') {return;}
@@ -55,23 +103,7 @@ class RegisterForm extends React.Component{
         //if(this.email.value == null || this.email.value == '') {return;}
         //if(this.password.value != this.password2.value){ToastStore.push('passwords do not match', 5000, 'error');return;}
         this.setState({lastResultMessage:'valid'});
-        ServerApi.sendAccountCreationRequest(this.username.value, 'fixme@email.com', this.username.value)
-        .then((res)=>{
-            //TODO: update this to use a modal
-            if(res === true){
-                this.setState({lastResultMessage:'success'});
-                ToastStore.push('Registration successful', 5000, 'success');
-                browserHistory.push('/');
-            } else {
-                this.setState({lastResultMessage:String(res)});
-                ToastStore.push(res, 5000, 'error');
-            }
-            //TODO: trigger login functionality here
-        })
-        .catch((e)=>{
-            this.setState({lastResultMessage:'fail'});
-            ToastStore.push('sendAccountCreationRequest error', 5000, 'error');
-        });
+        this.sendDetails(this.username.value, 'fixme@email.com', this.username.value);
     }
 
     render(){
@@ -92,7 +124,7 @@ class RegisterForm extends React.Component{
                 </form>
                 <div style = {textStyle}>
                     <Link to="/" style = {{clear: 'left'}}><span>Back</span></Link>
-                    <Link to="/guestLogin" style = {{float: 'right'}}><span>Skip</span></Link>
+                    <Link to="/" onClick = {this.onSkip} style = {{float: 'right'}}><span>Skip</span></Link>
                 </div>
             </div>
         </div>

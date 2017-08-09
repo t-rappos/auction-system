@@ -2,6 +2,8 @@ let InventoryContainer = require('./inventory/inventoryContainer.jsx');
 let AccountContainer = require('./accountContainer.jsx');
 let Header = require('./headerInApp.jsx');
 let Flex = require('../flexStyles.js');
+let Help = require('./help.jsx');
+
 import Radium from 'radium';
 
 var React = require('react');
@@ -20,9 +22,13 @@ class PageContainer extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {accountVisible : false, inventoryVisible : true};
+        this.state = {  accountVisible : false,
+                        inventoryVisible : true, 
+                        helpVisible : true};
+
         this.toggleAccount = this.toggleAccount.bind(this);
         this.toggleInventory = this.toggleInventory.bind(this);
+        this.toggleHelp = this.toggleHelp.bind(this);
     }
 
     toggleAccount(){
@@ -33,28 +39,40 @@ class PageContainer extends React.Component {
         this.setState({inventoryVisible : !this.state.inventoryVisible} );
     }
 
+    toggleHelp(){
+        this.setState({helpVisible : !this.state.helpVisible} );
+    }
+
     render(){
     return (
         <div>
             <Header accountVisible = {this.state.accountVisible} 
                     inventoryVisible = {this.state.inventoryVisible}
+                    helpVisible = {this.state.helpVisible}
                     toggleAccount = {this.toggleAccount}
-                    toggleInventory = {this.toggleInventory}/>
+                    toggleInventory = {this.toggleInventory}
+                    toggleHelp = {this.toggleHelp}/>
             <div style = {appStyle}>
                 <div style ={Flex.flexContainerStyle}>
+                    
+                    {this.state.helpVisible?
+                        <div style = {Flex.flexChildPanelStyle}>
+                            <Help/>
+                        </div>
+                        :<div></div>}
                     
                     {this.state.accountVisible?
                         <div style = {Flex.flexChildPanelStyle}>
                             <AccountContainer/>
                         </div>
-                    :<div></div>}
+                        :<div></div>}
 
                     {this.state.inventoryVisible?
-                    <div style = {Flex.flexChildPanelStyle}>
-                        <InventoryContainer/>
-                    </div>
-                    :<div></div>}
-                    
+                        <div style = {Flex.flexChildPanelStyle}>
+                            <InventoryContainer/>
+                        </div>
+                        :<div></div>}
+
                 </div>
             </div>
         </div>);

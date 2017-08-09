@@ -55,12 +55,20 @@ class Header extends React.Component{
                       </div>
                     </li>
                     <li className ="menu-text" style ={accountPadding}>
-                      <div style = { this.getHeaderToggleStyle(this.props.accountVisible) } onClick = {()=>{this.props.toggleAccount();}}>
+                      <div style = { this.getHeaderToggleStyle(this.props.helpVisible) }
+                           onClick = {()=>{this.props.toggleHelp();}}>
+                        <i className="fa fa-question-circle" aria-hidden="true" />
+                      </div>
+                    </li>
+                    <li className ="menu-text" >
+                      <div style = { this.getHeaderToggleStyle(this.props.accountVisible) }
+                           onClick = {()=>{this.props.toggleAccount();}}>
                        Account
                       </div>
                     </li>
                     <li className ="menu-text" >
-                      <div style = { this.getHeaderToggleStyle(this.props.inventoryVisible) } onClick = {()=>{this.props.toggleInventory();}}>
+                      <div style = { this.getHeaderToggleStyle(this.props.inventoryVisible) } 
+                           onClick = {()=>{this.props.toggleInventory();}}>
                        Inventory
                       </div>
                     </li>
@@ -94,8 +102,10 @@ class Header extends React.Component{
 Header.propTypes = {
   inventoryVisible : PropTypes.bool.isRequired,
   accountVisible : PropTypes.bool.isRequired,
+  helpVisible : PropTypes.bool.isRequired,
   toggleInventory : PropTypes.func.isRequired,
   toggleAccount : PropTypes.func.isRequired,
+  toggleHelp : PropTypes.func.isRequired
 };
 
 module.exports = Radium(Header);

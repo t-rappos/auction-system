@@ -67,9 +67,7 @@ class MessageForm extends React.Component{
 
     render(){
 
-        let recipientStatus = this.state.recipientId != null 
-        ? <p>✔</p>
-        : <p>x</p>;
+        let recipientStatus = <i className= {this.state.recipientId != null ? 'fa fa-check' : "fa fa-close"}></i>;
 
         return(
             <div style = {msgViewContentsStyle}>
