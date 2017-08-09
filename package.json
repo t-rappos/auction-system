@@ -8,7 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "babel lib -d dist",
+    "build": "babel lib -d dist && webpack",
     "test": " npm run test-server && npm run test-app",
     "test-app": "./node_modules/.bin/karma start",
     "test-server": "npm run es6-coverage",
